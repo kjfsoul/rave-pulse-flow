@@ -1,17 +1,54 @@
-
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BottomNavigation from "@/components/BottomNavigation";
-import FloatingSneakers from "@/components/FloatingSneakers";
 import EqualizerBars from "@/components/EqualizerBars";
-import NeonButton from "@/components/NeonButton";
-import PLUROrbsAnimation from "@/components/PLUROrbsAnimation";
-import ParticleBurstAnimation from "@/components/ParticleBurstAnimation";
+import LaserRaveBackground from "@/components/LaserRaveBackground";
+import ShuffleDancers from "@/components/ShuffleDancers";
+import VibePreview from "@/components/VibePreview";
 import ScrollHintArrow from "@/components/ScrollHintArrow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Play, Heart, Share2, TrendingUp } from "lucide-react";
 
+interface Archetype {
+  id: string;
+  name: string;
+  emoji: string;
+  color: string;
+  gradient: string;
+  description: string;
+  vibe: string;
+}
+
 const Index = () => {
+  const navigate = useNavigate();
+  const [showDancers, setShowDancers] = useState(false);
+  const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null);
+  const [showVibePreview, setShowVibePreview] = useState(false);
+  const [audioStarted, setAudioStarted] = useState(false);
+
+  const handleStartDancing = () => {
+    setAudioStarted(true);
+    setShowDancers(true);
+  };
+
+  const handleArchetypeSelect = (archetype: Archetype) => {
+    setSelectedArchetype(archetype);
+    setShowVibePreview(true);
+  };
+
+  const handleLockFlow = () => {
+    // Navigate to shuffle feed with selected archetype
+    navigate('/shuffle-feed');
+  };
+
+  const handleExploreMore = () => {
+    setShowVibePreview(false);
+    setSelectedArchetype(null);
+    // Could add reshuffle logic here
+  };
+
   const trendingClips = [
     { id: 1, title: "Fire Shuffle Combo", likes: "2.3K", trend: "+15%" },
     { id: 2, title: "Moonwalk Bass Drop", likes: "1.8K", trend: "+23%" },
@@ -28,8 +65,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-bass-dark relative pb-20">
-      {/* Enhanced Hero Section */}
+      {/* Enhanced Hero Section with Rave Drop */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        {/* Laser Rave Background */}
+        <LaserRaveBackground />
+
         {/* Animated Twilight Gradient Background */}
         <motion.div
           className="absolute inset-0"
@@ -44,24 +84,6 @@ const Index = () => {
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        {/* Wave-like Motion Overlay */}
-        <motion.div
-          className="absolute inset-0 opacity-20"
-          animate={{
-            background: [
-              "linear-gradient(45deg, transparent 0%, rgba(191, 90, 242, 0.1) 25%, transparent 50%, rgba(6, 255, 165, 0.1) 75%, transparent 100%)",
-              "linear-gradient(135deg, transparent 0%, rgba(6, 255, 165, 0.1) 25%, transparent 50%, rgba(191, 90, 242, 0.1) 75%, transparent 100%)",
-            ]
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {/* Particle Burst Animation */}
-        <ParticleBurstAnimation />
-
-        {/* Floating Sneakers with Enhanced Animation */}
-        <FloatingSneakers />
-        
         {/* Main Content Container */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -69,86 +91,160 @@ const Index = () => {
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="relative z-10"
         >
-          {/* Main Title */}
-          <motion.h1 
-            className="text-6xl md:text-8xl font-bold mb-6"
-            animate={{
-              textShadow: [
-                "0 0 20px rgba(191, 90, 242, 0.8)",
-                "0 0 40px rgba(6, 255, 165, 0.8)",
-                "0 0 20px rgba(191, 90, 242, 0.8)",
-              ]
-            }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <span className="text-white">EDM</span>
-            <span className="text-transparent bg-gradient-to-r from-neon-purple via-neon-cyan to-neon-purple bg-clip-text animate-shimmer">
-              Shuffle
-            </span>
-          </motion.h1>
+          {!showDancers ? (
+            <>
+              {/* Main Title */}
+              <motion.h1 
+                className="text-6xl md:text-8xl font-bold mb-6"
+                animate={{
+                  textShadow: [
+                    "0 0 20px rgba(191, 90, 242, 0.8)",
+                    "0 0 40px rgba(6, 255, 165, 0.8)",
+                    "0 0 20px rgba(191, 90, 242, 0.8)",
+                  ]
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <span className="text-white">EDM</span>
+                <span className="text-transparent bg-gradient-to-r from-neon-purple via-neon-cyan to-neon-purple bg-clip-text animate-shimmer">
+                  Shuffle
+                </span>
+              </motion.h1>
 
-          {/* Subtitle */}
-          <motion.p 
-            className="text-xl md:text-2xl text-slate-300 mb-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 1 }}
-          >
-            Find Your Beat • Master Your Flow • Join The Rave
-          </motion.p>
-          
-          {/* Enhanced Equalizer */}
-          <motion.div 
-            className="mb-16"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.8, duration: 1 }}
-          >
-            <EqualizerBars barCount={40} className="h-24" />
-          </motion.div>
-          
-          {/* PLUR CTA Section with Orbiting Elements */}
-          <div className="relative mb-12">
-            <PLUROrbsAnimation />
-            
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 1.2, duration: 1 }}
-              className="relative z-10"
-            >
-              <NeonButton 
-                size="lg" 
-                onClick={() => window.location.href = '/archetype-quiz'}
-                className="text-xl px-12 py-6 relative overflow-hidden group"
+              {/* New Tagline */}
+              <motion.p 
+                className="text-2xl md:text-3xl text-slate-300 mb-12"
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: 1,
+                  x: [0, 5, -5, 0],
+                }}
+                transition={{ 
+                  opacity: { delay: 0.5, duration: 1 },
+                  x: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                }}
+              >
+                🔥 Enter The Rave. Your Flow Will Find You.
+              </motion.p>
+              
+              {/* Enhanced Equalizer */}
+              <motion.div 
+                className="mb-16"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.8, duration: 1 }}
+              >
+                <EqualizerBars barCount={50} className="h-32" />
+              </motion.div>
+              
+              {/* Start Dancing CTA */}
+              <motion.button
+                onClick={handleStartDancing}
+                className="bg-gradient-to-r from-neon-purple to-neon-cyan text-white text-2xl px-16 py-6 rounded-full font-bold hover:shadow-2xl hover:shadow-neon-purple/50 transition-all duration-300 relative overflow-hidden group"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 1.2, duration: 1 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <motion.span
                   className="relative z-10 flex items-center"
-                  whileHover={{ scale: 1.05 }}
+                  animate={{
+                    y: [0, -2, 0],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
                 >
-                  🌈 Find Your Shuffle Archetype
+                  🎶 Start Dancing
                 </motion.span>
                 
-                {/* Enhanced Shimmer Effect */}
+                {/* Shimmer Effect */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
                   initial={{ x: "-100%" }}
                   animate={{ x: "100%" }}
                   transition={{
-                    duration: 2,
+                    duration: 3,
                     repeat: Infinity,
-                    repeatDelay: 3,
+                    repeatDelay: 2,
                     ease: "easeInOut"
                   }}
                 />
-              </NeonButton>
-            </motion.div>
-          </div>
-        </motion.div>
+              </motion.button>
+            </>
+          ) : (
+            <>
+              {/* Dancer Selection Mode */}
+              <motion.h2
+                className="text-4xl md:text-5xl font-bold text-white mb-4"
+                initial={{ opacity: 0, y: -30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                Choose Your Vibe
+              </motion.h2>
+              
+              <motion.p
+                className="text-xl text-slate-300 mb-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.8 }}
+              >
+                Feel the energy that calls to you
+              </motion.p>
 
-        {/* Scroll Hint Arrow */}
-        <ScrollHintArrow />
+              {/* Shuffle Dancers */}
+              <ShuffleDancers 
+                onArchetypeSelect={handleArchetypeSelect}
+                selectedArchetype={selectedArchetype}
+              />
+
+              {/* Audio Started Indicator */}
+              {audioStarted && (
+                <motion.div
+                  className="absolute top-4 left-4 bg-bass-medium/80 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1 }}
+                >
+                  <motion.div
+                    className="w-3 h-3 bg-neon-green rounded-full"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  />
+                  <span className="text-sm text-slate-300">Beat Drop Active</span>
+                </motion.div>
+              )}
+
+              {/* BPM Indicator */}
+              <motion.div
+                className="absolute top-4 right-4 bg-bass-medium/80 backdrop-blur-sm rounded-lg px-4 py-2"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.2 }}
+              >
+                <motion.span
+                  className="text-sm text-neon-cyan font-mono"
+                  animate={{ opacity: [0.7, 1, 0.7] }}
+                  transition={{ duration: 0.5, repeat: Infinity }}
+                >
+                  ♪ 128 BPM
+                </motion.span>
+              </motion.div>
+            </>
+          )}
+        </motion.div>
       </section>
+
+      {/* Vibe Preview Modal */}
+      <AnimatePresence>
+        {showVibePreview && selectedArchetype && (
+          <VibePreview
+            archetype={selectedArchetype}
+            onLockFlow={handleLockFlow}
+            onExploreMore={handleExploreMore}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Trending Shuffle Clips */}
       <section className="px-4 mb-12">
