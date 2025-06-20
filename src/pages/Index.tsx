@@ -4,6 +4,9 @@ import BottomNavigation from "@/components/BottomNavigation";
 import FloatingSneakers from "@/components/FloatingSneakers";
 import EqualizerBars from "@/components/EqualizerBars";
 import NeonButton from "@/components/NeonButton";
+import PLUROrbsAnimation from "@/components/PLUROrbsAnimation";
+import ParticleBurstAnimation from "@/components/ParticleBurstAnimation";
+import ScrollHintArrow from "@/components/ScrollHintArrow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Play, Heart, Share2, TrendingUp } from "lucide-react";
@@ -25,47 +28,126 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-bass-dark relative pb-20">
-      <FloatingSneakers />
-      
-      {/* Hero Section */}
+      {/* Enhanced Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        {/* Animated Twilight Gradient Background */}
         <motion.div
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0"
           animate={{
             background: [
-              "radial-gradient(circle at 30% 30%, rgba(191, 90, 242, 0.3) 0%, transparent 50%)",
-              "radial-gradient(circle at 70% 70%, rgba(6, 255, 165, 0.3) 0%, transparent 50%)",
-              "radial-gradient(circle at 50% 50%, rgba(30, 64, 175, 0.3) 0%, transparent 50%)",
+              "radial-gradient(circle at 20% 50%, rgba(191, 90, 242, 0.4) 0%, rgba(30, 64, 175, 0.2) 50%, rgba(2, 6, 23, 1) 100%)",
+              "radial-gradient(circle at 80% 50%, rgba(6, 255, 165, 0.4) 0%, rgba(191, 90, 242, 0.2) 50%, rgba(2, 6, 23, 1) 100%)",
+              "radial-gradient(circle at 50% 20%, rgba(30, 64, 175, 0.4) 0%, rgba(6, 255, 165, 0.2) 50%, rgba(2, 6, 23, 1) 100%)",
+              "radial-gradient(circle at 50% 80%, rgba(191, 90, 242, 0.4) 0%, rgba(30, 64, 175, 0.2) 50%, rgba(2, 6, 23, 1) 100%)",
             ]
           }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
+
+        {/* Wave-like Motion Overlay */}
+        <motion.div
+          className="absolute inset-0 opacity-20"
+          animate={{
+            background: [
+              "linear-gradient(45deg, transparent 0%, rgba(191, 90, 242, 0.1) 25%, transparent 50%, rgba(6, 255, 165, 0.1) 75%, transparent 100%)",
+              "linear-gradient(135deg, transparent 0%, rgba(6, 255, 165, 0.1) 25%, transparent 50%, rgba(191, 90, 242, 0.1) 75%, transparent 100%)",
+            ]
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        {/* Particle Burst Animation */}
+        <ParticleBurstAnimation />
+
+        {/* Floating Sneakers with Enhanced Animation */}
+        <FloatingSneakers />
         
+        {/* Main Content Container */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
           className="relative z-10"
         >
-          <h1 className="text-6xl md:text-8xl font-bold mb-4 neon-text">
-            EDM<span className="text-neon-cyan">Shuffle</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-slate-300 mb-8">
-            Find Your Beat • Master Your Flow • Join The Rave
-          </p>
-          
-          <div className="mb-12">
-            <EqualizerBars barCount={30} className="h-20" />
-          </div>
-          
-          <NeonButton 
-            size="lg" 
-            onClick={() => window.location.href = '/archetype-quiz'}
-            className="mb-8"
+          {/* Main Title */}
+          <motion.h1 
+            className="text-6xl md:text-8xl font-bold mb-6"
+            animate={{
+              textShadow: [
+                "0 0 20px rgba(191, 90, 242, 0.8)",
+                "0 0 40px rgba(6, 255, 165, 0.8)",
+                "0 0 20px rgba(191, 90, 242, 0.8)",
+              ]
+            }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
-            🎭 Find Your Shuffle Archetype
-          </NeonButton>
+            <span className="text-white">EDM</span>
+            <span className="text-transparent bg-gradient-to-r from-neon-purple via-neon-cyan to-neon-purple bg-clip-text animate-shimmer">
+              Shuffle
+            </span>
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.p 
+            className="text-xl md:text-2xl text-slate-300 mb-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 1 }}
+          >
+            Find Your Beat • Master Your Flow • Join The Rave
+          </motion.p>
+          
+          {/* Enhanced Equalizer */}
+          <motion.div 
+            className="mb-16"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.8, duration: 1 }}
+          >
+            <EqualizerBars barCount={40} className="h-24" />
+          </motion.div>
+          
+          {/* PLUR CTA Section with Orbiting Elements */}
+          <div className="relative mb-12">
+            <PLUROrbsAnimation />
+            
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 1.2, duration: 1 }}
+              className="relative z-10"
+            >
+              <NeonButton 
+                size="lg" 
+                onClick={() => window.location.href = '/archetype-quiz'}
+                className="text-xl px-12 py-6 relative overflow-hidden group"
+              >
+                <motion.span
+                  className="relative z-10 flex items-center"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  🌈 Find Your Shuffle Archetype
+                </motion.span>
+                
+                {/* Enhanced Shimmer Effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "100%" }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                    ease: "easeInOut"
+                  }}
+                />
+              </NeonButton>
+            </motion.div>
+          </div>
         </motion.div>
+
+        {/* Scroll Hint Arrow */}
+        <ScrollHintArrow />
       </section>
 
       {/* Trending Shuffle Clips */}
