@@ -1,4 +1,3 @@
-
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import BottomNavigation from "@/components/BottomNavigation";
@@ -7,6 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import NeonButton from "@/components/NeonButton";
 import EqualizerBars from "@/components/EqualizerBars";
 import { Volume2, VolumeX, Play, Users, Crown, Zap } from "lucide-react";
+import FestivalStageBackground from '@/components/VisualFX/FestivalStageBackground';
+import ArchetypeAuraSprite from '@/components/VisualFX/ArchetypeAuraSprite';
+import ShuffleDancers from '@/components/VisualFX/ShuffleDancers';
+import LightSyncPulse from '@/components/VisualFX/LightSyncPulse';
 
 const FestivalVotingStage = () => {
   const [selectedDJ, setSelectedDJ] = useState<number | null>(null);
@@ -27,6 +30,8 @@ const FestivalVotingStage = () => {
     "🎵 Best drop ever!",
     "⚡ Energy through the roof!"
   ]);
+  const [lightBurst, setLightBurst] = useState(false);
+  const [currentArchetype] = useState<'Firestorm' | 'FrostPulse' | 'MoonWaver'>('MoonWaver');
 
   const djs = [
     {
@@ -83,7 +88,11 @@ const FestivalVotingStage = () => {
       [djId]: prev[djId] + 1
     }));
     setShowConfetti(true);
-    setTimeout(() => setShowConfetti(false), 2000);
+    setLightBurst(true);
+    setTimeout(() => {
+      setShowConfetti(false);
+      setLightBurst(false);
+    }, 2000);
   };
 
   const handleTurntableInteraction = (action: string) => {
@@ -91,6 +100,8 @@ const FestivalVotingStage = () => {
     if (action === 'scratch') {
       setCurrentBPM(prev => prev + 5);
       setTimeout(() => setCurrentBPM(prev => prev - 5), 500);
+      setLightBurst(true);
+      setTimeout(() => setLightBurst(false), 1000);
     }
   };
 
@@ -107,8 +118,31 @@ const FestivalVotingStage = () => {
 
   return (
     <div className="min-h-screen bg-bass-dark relative pb-20 overflow-hidden">
+      {/* Visual FX Layers */}
+      <FestivalStageBackground 
+        archetype={currentArchetype} 
+        bpm={currentBPM} 
+        intensity="high" 
+      />
+      <LightSyncPulse 
+        bpm={currentBPM} 
+        intensity="intense" 
+        triggerBurst={lightBurst} 
+      />
+      <ShuffleDancers 
+        bpm={currentBPM} 
+        dancerCount={8} 
+        intensity="high" 
+      />
+      <ArchetypeAuraSprite 
+        archetype={currentArchetype} 
+        bpm={currentBPM} 
+        intensity={90} 
+        position="top-left" 
+      />
+
       {/* Festival Arena Background */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 opacity-30">
         {/* Crowd Silhouettes */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 to-transparent">
           <div className="absolute bottom-0 w-full h-16 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse" />

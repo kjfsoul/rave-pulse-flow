@@ -1,210 +1,209 @@
-
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Play, Pause, Settings, Headphones, Zap, Volume2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Crosshair, Shuffle, Headphones } from 'lucide-react';
 import { useAudioContext } from '@/contexts/AudioContext';
-import BpmAura from '@/components/audio-ui/BpmAura';
-import TrackSelectModal from '@/components/audio-ui/TrackSelectModal';
+import BottomNavigation from '@/components/BottomNavigation';
 import DJDeck from '@/components/audio-ui/DJDeck';
+import TrackSelectModal from '@/components/audio-ui/TrackSelectModal';
+import BpmAura from '@/components/audio-ui/BpmAura';
 import ConfettiBurst from '@/components/audio-ui/ConfettiBurst';
+import FestivalStageBackground from '@/components/VisualFX/FestivalStageBackground';
+import ArchetypeAuraSprite from '@/components/VisualFX/ArchetypeAuraSprite';
+import ShuffleDancers from '@/components/VisualFX/ShuffleDancers';
+import LightSyncPulse from '@/components/VisualFX/LightSyncPulse';
 import { Slider } from '@/components/ui/slider';
 
+// demo data – replace with real track list
 const mockTracks = [
   { id: '1', title: 'Festival Mix', bpm: 128, src: '/audio/festival_mix.mp3' },
   { id: '2', title: 'Deep House Vibes', bpm: 124, src: '/audio/deep_house.mp3' },
-  { id: '3', title: 'Techno Storm', bpm: 132, src: '/audio/techno_storm.mp3' },
-  { id: '4', title: 'Trance Odyssey', bpm: 136, src: '/audio/trance_odyssey.mp3' },
+  { id: '3', title: 'Techno Storm', bpm: 132, src: '/audio/techno_storm.mp3' }
 ];
 
-const DJMixStation: React.FC = () => {
-  const { isPlaying, bpm } = useAudioContext();
+const DJMixStation = () => {
+  const { bpm } = useAudioContext();
   const [crossfade, setCrossfade] = useState([50]);
-  const [bpmSync, setBpmSync] = useState(false);
-  const [showConfetti, setShowConfetti] = useState(false);
+  const [bpmSync, setBpmSync] = useState(true);
+  const [selectedDeck, setSelectedDeck] = useState<'A' | 'B' | null>(null);
   const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
-  const [activeDeck, setActiveDeck] = useState<'A' | 'B'>('A');
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [archetype] = useState<'Firestorm' | 'FrostPulse' | 'MoonWaver'>('Firestorm');
+  const [lightBurst, setLightBurst] = useState(false);
 
-  const handleDropSet = () => {
-    setShowConfetti(true);
-    setTimeout(() => setShowConfetti(false), 3000);
-  };
-
-  const openTrackModal = (deck: 'A' | 'B') => {
-    setActiveDeck(deck);
+  const handleTrackSelect = (deck: 'A' | 'B') => {
+    setSelectedDeck(deck);
     setIsTrackModalOpen(true);
   };
 
-  return (
-    <div className="min-h-screen bg-bass-dark relative overflow-hidden">
-      {/* Background Aura */}
-      <BpmAura className="fixed inset-0 -z-10" />
-      
-      {/* Animated Background */}
-      <div className="fixed inset-0 -z-20">
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-neon-purple/10 via-transparent to-neon-cyan/10"
-          animate={{ 
-            background: isPlaying 
-              ? ['radial-gradient(circle at 20% 80%, rgba(191,90,242,0.1) 0%, transparent 50%)', 
-                 'radial-gradient(circle at 80% 20%, rgba(6,255,165,0.1) 0%, transparent 50%)',
-                 'radial-gradient(circle at 20% 80%, rgba(191,90,242,0.1) 0%, transparent 50%)']
-              : 'radial-gradient(circle at 50% 50%, transparent 0%, transparent 100%)'
-          }}
-          transition={{ duration: 60/bpm, repeat: Infinity }}
-        />
-      </div>
+  const handleDropSet = () => {
+    setShowConfetti(true);
+    setLightBurst(true);
+    setTimeout(() => {
+      setShowConfetti(false);
+      setLightBurst(false);
+    }, 3000);
+  };
 
-      {/* Archetype Badge */}
-      <motion.div
-        className="fixed top-4 right-4 z-30 bg-bass-medium/80 backdrop-blur-md border border-neon-purple/30 rounded-lg p-3"
-        whileHover={{ scale: 1.05 }}
-        title="🔥 Firestorm gives you more reverb punch. PLUR level: 92%"
-      >
-        <div className="flex items-center gap-2">
-          <Zap className="w-4 h-4 text-neon-purple" />
-          <span className="text-neon-cyan font-bold text-sm">Firestorm</span>
-        </div>
-      </motion.div>
+  return (
+    <div className="min-h-screen bg-bass-dark relative pb-20 overflow-hidden">
+      {/* Visual FX Layers */}
+      <FestivalStageBackground 
+        archetype={archetype} 
+        useAudioBpm={true} 
+        intensity="high" 
+      />
+      <LightSyncPulse 
+        useAudioBpm={true} 
+        intensity="medium" 
+        triggerBurst={lightBurst} 
+      />
+      <ShuffleDancers 
+        useAudioBpm={true} 
+        dancerCount={4} 
+        intensity="medium" 
+      />
+      <ArchetypeAuraSprite 
+        archetype={archetype} 
+        useAudioBpm={true} 
+        intensity={85} 
+        position="top-right" 
+      />
 
       {/* Main DJ Interface */}
-      <div className="container mx-auto px-4 py-8">
-        <motion.h1
-          className="text-4xl md:text-6xl font-bold text-center mb-8 bg-gradient-to-r from-neon-purple to-neon-cyan bg-clip-text text-transparent"
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
+      <div className="relative z-30 p-4 pt-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-8"
         >
-          🎧 DJ MIX STATION
-        </motion.h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-2">
+            <span className="text-transparent bg-gradient-to-r from-neon-purple via-neon-cyan to-neon-purple bg-clip-text">
+              🎛️ DJ MIX STATION
+            </span>
+          </h1>
+          <p className="text-neon-cyan text-lg">Master the Decks • Create Your Flow</p>
+        </motion.div>
 
         {/* Deck Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto mb-8">
           {/* Deck A */}
           <DJDeck
             deckId="A"
-            onTrackSelect={() => openTrackModal('A')}
-            crossfadeValue={crossfade[0]}
+            onTrackSelect={() => handleTrackSelect('A')}
+            crossfadeValue={100 - crossfade[0]}
             bpmSync={bpmSync}
           />
-
-          {/* Center Mixer */}
-          <div className="bg-bass-medium/80 backdrop-blur-md border border-neon-purple/30 rounded-lg p-6">
-            <div className="space-y-6">
-              {/* Crossfade */}
-              <div className="text-center">
-                <label className="block text-neon-cyan text-sm font-medium mb-2">CROSSFADE</label>
-                <div className="relative">
-                  <Slider
-                    value={crossfade}
-                    onValueChange={setCrossfade}
-                    max={100}
-                    step={1}
-                    className="w-full"
-                  />
-                  <div className="flex justify-between text-xs text-slate-400 mt-1">
-                    <span>A</span>
-                    <span>B</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* BPM Sync */}
-              <motion.button
-                onClick={() => setBpmSync(!bpmSync)}
-                className={`w-full p-3 rounded-lg border transition-all ${
-                  bpmSync
-                    ? 'bg-neon-purple/30 border-neon-purple text-neon-purple'
-                    : 'bg-bass-dark border-slate-600 text-slate-400 hover:border-neon-purple/50'
-                }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="flex items-center justify-center gap-2">
-                  <Headphones className="w-4 h-4" />
-                  <span className="font-medium">BPM SYNC</span>
-                </div>
-                {bpmSync && (
-                  <motion.div
-                    className="text-xs mt-1"
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                  >
-                    LOCKED
-                  </motion.div>
-                )}
-              </motion.button>
-
-              {/* Drop Set Button */}
-              <motion.button
-                onClick={handleDropSet}
-                className="w-full bg-gradient-to-r from-neon-purple to-neon-cyan p-4 rounded-lg font-bold text-bass-dark text-lg relative overflow-hidden"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                animate={isPlaying ? { 
-                  boxShadow: [
-                    '0 0 20px rgba(191,90,242,0.5)',
-                    '0 0 40px rgba(191,90,242,0.8)',
-                    '0 0 20px rgba(191,90,242,0.5)'
-                  ]
-                } : {}}
-                transition={{ duration: 60/bpm/1000, repeat: Infinity }}
-              >
-                🔥 DROP MY SET
-                <motion.div
-                  className="absolute inset-0 bg-white/20"
-                  animate={{ x: ['-100%', '100%'] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                />
-              </motion.button>
-            </div>
-          </div>
 
           {/* Deck B */}
           <DJDeck
             deckId="B"
-            onTrackSelect={() => openTrackModal('B')}
-            crossfadeValue={100 - crossfade[0]}
+            onTrackSelect={() => handleTrackSelect('B')}
+            crossfadeValue={crossfade[0]}
             bpmSync={bpmSync}
           />
         </div>
-      </div>
 
-      {/* Bottom CTA Banner */}
-      <motion.div
-        className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-neon-purple/20 to-neon-cyan/20 backdrop-blur-md border-t border-neon-purple/30 p-4 z-20"
-        initial={{ y: 100 }}
-        animate={{ y: 0 }}
-        transition={{ delay: 1, type: 'spring', damping: 25 }}
-      >
-        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <motion.div
-            className="text-center md:text-left"
-            animate={{ y: [0, -2, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <p className="text-white font-medium">
-              🌟 Feeling your flow? Submit your mix & headline the Virtual Festival
-            </p>
-          </motion.div>
+        {/* Center Controls */}
+        <motion.div
+          className="max-w-md mx-auto bg-bass-medium/80 backdrop-blur-md border border-neon-purple/30 rounded-lg p-6 mb-8"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          {/* BPM Display */}
+          <div className="text-center mb-6">
+            <div className="text-neon-cyan text-sm font-medium mb-2">MASTER BPM</div>
+            <div className="text-3xl font-bold text-white">{bpm}</div>
+          </div>
+
+          {/* Crossfader */}
+          <div className="mb-6">
+            <label className="block text-neon-cyan text-sm font-medium mb-3 text-center">
+              <Crosshair className="w-4 h-4 inline mr-2" />
+              CROSSFADER
+            </label>
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-slate-400">A</span>
+              <Slider
+                value={crossfade}
+                onValueChange={setCrossfade}
+                max={100}
+                step={1}
+                className="flex-1"
+              />
+              <span className="text-sm text-slate-400">B</span>
+            </div>
+          </div>
+
+          {/* BPM Sync Toggle */}
           <motion.button
-            className="bg-neon-cyan text-bass-dark px-6 py-2 rounded-lg font-bold hover:bg-neon-cyan/90 transition-colors"
+            onClick={() => setBpmSync(!bpmSync)}
+            className={`w-full p-3 rounded-lg font-medium transition-all mb-4 ${
+              bpmSync
+                ? 'bg-neon-cyan text-bass-dark'
+                : 'bg-bass-dark border border-neon-purple/50 text-neon-purple hover:bg-neon-purple/10'
+            }`}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Shuffle className="w-4 h-4 mr-2 inline" />
+            BPM SYNC {bpmSync ? 'ON' : 'OFF'}
+          </motion.button>
+
+          {/* Drop Set Button */}
+          <motion.button
+            onClick={handleDropSet}
+            className="w-full p-4 rounded-lg font-bold text-lg bg-gradient-to-r from-neon-purple to-neon-cyan text-white hover:from-neon-purple/80 hover:to-neon-cyan/80 transition-all"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Subscribe
+            🔥 DROP MY SET 🔥
           </motion.button>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* Modals */}
+        {/* Subscribe Banner */}
+        <motion.div
+          className="fixed bottom-24 left-4 right-4 bg-gradient-to-r from-neon-purple/20 via-neon-cyan/20 to-neon-purple/20 backdrop-blur-md border border-neon-purple/30 rounded-lg p-4 text-center z-20"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+          whileHover={{ y: -5 }}
+        >
+          <div className="flex items-center justify-center gap-3">
+            <Headphones className="w-5 h-5 text-neon-cyan" />
+            <span className="text-white font-medium">
+              🌟 Feeling your flow? Submit your mix & headline the Virtual Festival
+            </span>
+            <motion.button
+              className="bg-neon-purple hover:bg-neon-purple/80 text-white px-4 py-2 rounded-full font-medium transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Subscribe
+            </motion.button>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Background Aura */}
+      <BpmAura className="fixed inset-0 -z-10" />
+
+      {/* Modals and Effects */}
       <TrackSelectModal
         tracks={mockTracks}
         isOpen={isTrackModalOpen}
-        onClose={() => setIsTrackModalOpen(false)}
+        onClose={() => {
+          setIsTrackModalOpen(false);
+          setSelectedDeck(null);
+        }}
       />
 
-      {/* Confetti */}
-      {showConfetti && <ConfettiBurst />}
+      <AnimatePresence>
+        {showConfetti && <ConfettiBurst />}
+      </AnimatePresence>
+
+      <BottomNavigation />
     </div>
   );
 };

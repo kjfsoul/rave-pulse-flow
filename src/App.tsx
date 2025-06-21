@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,7 @@ import ShuffleFeed from "./pages/ShuffleFeed";
 import MarketplaceGrid from "./pages/MarketplaceGrid";
 import FestivalVotingStage from "./pages/FestivalVotingStage";
 import NotFound from "./pages/NotFound";
+import DJMixStation from "./pages/DJMixStation";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +27,7 @@ const App = () => (
             <Route path="/shuffle-feed" element={<ShuffleFeed />} />
             <Route path="/marketplace" element={<MarketplaceGrid />} />
             <Route path="/festival" element={<FestivalVotingStage />} />
+            <Route path="/dj-mix" element={<DJMixStation />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
