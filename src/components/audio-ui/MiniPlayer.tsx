@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
@@ -6,7 +7,6 @@ import BpmAura from './BpmAura';
 import TrackSelectModal from './TrackSelectModal';
 
 // demo data – replace with real track list
-after build
 const mockTracks = [
   { id: '1', title: 'Festival Mix', bpm: 128, src: '/audio/festival_mix.mp3' },
   { id: '2', title: 'Deep House Vibes', bpm: 124, src: '/audio/deep_house.mp3' },
