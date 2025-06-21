@@ -1,22 +1,39 @@
 
 import { motion } from "framer-motion";
+import { useAudioContext } from "@/contexts/AudioContext";
 
 interface EqualizerLiveProps {
-  bpm: number;
+  bpm?: number;
   bars?: number;
   className?: string;
   height?: number;
+  useAudioBpm?: boolean;
 }
 
 const EqualizerLive = ({ 
   bpm, 
   bars = 12, 
   className = "", 
-  height = 60 
+  height = 60,
+  useAudioBpm = false
 }: EqualizerLiveProps) => {
+  let audioContext = null;
+  
+  // Only use audio context if explicitly requested and available
+  try {
+    if (useAudioBpm) {
+      audioContext = useAudioContext();
+    }
+  } catch {
+    // Audio context not available, continue with prop BPM
+  }
+
+  // Use audio BPM if available and requested, otherwise fall back to prop
+  const activeBpm = (useAudioBpm && audioContext) ? audioContext.bpm : (bpm || 128);
+  
   // Convert BPM to animation duration (beats per second)
   // 60 BPM = 1 beat/sec, 120 BPM = 2 beats/sec
-  const beatsPerSecond = bpm / 60;
+  const beatsPerSecond = activeBpm / 60;
   const animationDuration = 1 / beatsPerSecond; // Duration for one beat cycle
 
   return (
@@ -73,32 +90,33 @@ const EqualizerLive = ({
 
 export default EqualizerLive;
 
-// Usage Example:
+// Usage Examples:
 // <EqualizerLive bpm={120} bars={16} className="h-12" />
-// <EqualizerLive bpm={90} bars={8} height={40} className="w-32" />
+// <EqualizerLive useAudioBpm={true} bars={8} height={40} className="w-32" />
 // <EqualizerLive bpm={150} bars={20} height={80} className="mx-auto" />
 
 /* 
 Storybook Examples:
 
-// Slow track (90 BPM)
+// Using static BPM
 <EqualizerLive bpm={90} bars={10} height={50} className="mb-4" />
-
-// Standard house (120 BPM) 
 <EqualizerLive bpm={120} bars={15} height={60} className="mb-4" />
-
-// Fast hardstyle (150 BPM)
 <EqualizerLive bpm={150} bars={20} height={70} className="mb-4" />
+
+// Using audio context BPM
+<EqualizerLive useAudioBpm={true} bars={12} height={60} className="mb-4" />
 
 Key Features:
 - BPM-driven animation speed (90 BPM = slower, 150 BPM = faster)
+- Can sync to audio context BPM or use static prop BPM
 - Configurable bar count and height
-- Mathematical timing, no audio dependency
+- Mathematical timing, with optional audio dependency
 - Reusable across all views
 - Staggered bar animations for realistic effect
 - Responsive glow effects that scale with BPM
 
 File path: src/components/EqualizerLive.tsx
 Dependencies: framer-motion (already installed)
+New context dependency: AudioContext
 ESLint compatible: TypeScript interfaces, proper prop types
 */
