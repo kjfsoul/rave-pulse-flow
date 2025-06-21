@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAudioContext } from '@/contexts/AudioContext';
 
@@ -16,50 +15,46 @@ interface TrackSelectModalProps {
   onClose: () => void;
 }
 
-const TrackSelectModal: React.FC<TrackSelectModalProps> = ({
-  tracks,
-  isOpen,
-  onClose
-}) => {
-  const { play, setBpm } = useAudioContext();
+/**
+ * Keyboard‑navigable modal for choosing a track.
+ * ↑ / ↓ to move, Enter to select, Esc to dismiss.
+ */
+const TrackSelectModal: React.FC<TrackSelectModalProps> = ({ tracks, isOpen, onClose }) => {
+  const { currentSrc, play, setBpm } = useAudioContext();
   const [focusedIndex, setFocusedIndex] = useState(0);
-  const [selectedTrackId, setSelectedTrackId] = useState<string>('');
 
   const handleTrackSelect = async (track: Track) => {
-    setSelectedTrackId(track.id);
+    await play(track.src);
     setBpm(track.bpm);
-    await play();
     onClose();
   };
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (!isOpen) return;
-    
-    switch (e.key) {
-      case 'Escape':
-        onClose();
-        break;
-      case 'ArrowUp':
-        e.preventDefault();
-        setFocusedIndex(prev => (prev > 0 ? prev - 1 : tracks.length - 1));
-        break;
-      case 'ArrowDown':
-        e.preventDefault();
-        setFocusedIndex(prev => (prev < tracks.length - 1 ? prev + 1 : 0));
-        break;
-      case 'Enter':
-        e.preventDefault();
-        if (tracks[focusedIndex]) {
-          handleTrackSelect(tracks[focusedIndex]);
-        }
-        break;
-    }
-  };
-
+  // keyboard controls
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isOpen) return;
+      switch (e.key) {
+        case 'Escape':
+          onClose();
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          setFocusedIndex(prev => (prev > 0 ? prev - 1 : tracks.length - 1));
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          setFocusedIndex(prev => (prev < tracks.length - 1 ? prev + 1 : 0));
+          break;
+        case 'Enter':
+          e.preventDefault();
+          handleTrackSelect(tracks[focusedIndex]);
+          break;
+      }
+    };
+
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, focusedIndex, tracks]);
+  }, [isOpen, focusedIndex, tracks, onClose]);
 
   return (
     <AnimatePresence>
@@ -76,21 +71,20 @@ const TrackSelectModal: React.FC<TrackSelectModalProps> = ({
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             <h2 className="text-xl font-bold text-neon-cyan mb-4">Select Track</h2>
-            
+
             <div className="space-y-2">
               {tracks.map((track, index) => {
-                const isCurrentTrack = selectedTrackId === track.id;
+                const isCurrent = currentSrc === track.src;
                 const isFocused = index === focusedIndex;
-                
                 return (
                   <motion.button
                     key={track.id}
                     className={`w-full p-3 rounded-lg text-left transition-colors ${
-                      isCurrentTrack 
-                        ? 'bg-neon-purple/30 border border-neon-purple' 
+                      isCurrent
+                        ? 'bg-neon-purple/30 border border-neon-purple'
                         : isFocused
                         ? 'bg-bass-light border border-neon-cyan/50'
                         : 'bg-bass-light hover:bg-bass-light/80'
@@ -100,8 +94,8 @@ const TrackSelectModal: React.FC<TrackSelectModalProps> = ({
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-white">{track.title}</span>
-                      <span className="bg-neon-cyan/20 text-neon-cyan px-2 py-1 rounded text-sm">
+                      <span className="font-medium text-white truncate max-w-[60%]">{track.title}</span>
+                      <span className="bg-neon-cyan/20 text-neon-cyan px-2 py-1 rounded text-sm shrink-0">
                         {track.bpm} BPM
                       </span>
                     </div>
