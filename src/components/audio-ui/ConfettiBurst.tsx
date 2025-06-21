@@ -18,13 +18,13 @@ const ConfettiBurst: React.FC = () => {
           }}
           initial={{ 
             y: -10, 
-            rotation: 0,
+            rotate: 0,
             opacity: 1,
             scale: 1 
           }}
           animate={{ 
             y: window.innerHeight + 100,
-            rotation: 360 * (Math.random() > 0.5 ? 1 : -1),
+            rotate: 360 * (Math.random() > 0.5 ? 1 : -1),
             opacity: [1, 1, 0],
             scale: [1, 0.8, 0.6]
           }}

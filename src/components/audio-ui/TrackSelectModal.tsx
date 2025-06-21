@@ -20,11 +20,11 @@ interface TrackSelectModalProps {
  * ↑ / ↓ to move, Enter to select, Esc to dismiss.
  */
 const TrackSelectModal: React.FC<TrackSelectModalProps> = ({ tracks, isOpen, onClose }) => {
-  const { currentSrc, play, setBpm } = useAudioContext();
+  const { play, setBpm } = useAudioContext();
   const [focusedIndex, setFocusedIndex] = useState(0);
 
   const handleTrackSelect = async (track: Track) => {
-    await play(track.src);
+    await play();
     setBpm(track.bpm);
     onClose();
   };
@@ -77,15 +77,12 @@ const TrackSelectModal: React.FC<TrackSelectModalProps> = ({ tracks, isOpen, onC
 
             <div className="space-y-2">
               {tracks.map((track, index) => {
-                const isCurrent = currentSrc === track.src;
                 const isFocused = index === focusedIndex;
                 return (
                   <motion.button
                     key={track.id}
                     className={`w-full p-3 rounded-lg text-left transition-colors ${
-                      isCurrent
-                        ? 'bg-neon-purple/30 border border-neon-purple'
-                        : isFocused
+                      isFocused
                         ? 'bg-bass-light border border-neon-cyan/50'
                         : 'bg-bass-light hover:bg-bass-light/80'
                     }`}
