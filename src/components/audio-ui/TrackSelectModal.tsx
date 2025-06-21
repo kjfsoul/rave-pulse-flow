@@ -21,12 +21,14 @@ const TrackSelectModal: React.FC<TrackSelectModalProps> = ({
   isOpen,
   onClose
 }) => {
-  const { currentSrc, play, setBpm } = useAudioContext();
+  const { play, setBpm } = useAudioContext();
   const [focusedIndex, setFocusedIndex] = useState(0);
+  const [selectedTrackId, setSelectedTrackId] = useState<string>('');
 
   const handleTrackSelect = async (track: Track) => {
-    await play(track.src);
+    setSelectedTrackId(track.id);
     setBpm(track.bpm);
+    await play();
     onClose();
   };
 
@@ -80,7 +82,7 @@ const TrackSelectModal: React.FC<TrackSelectModalProps> = ({
             
             <div className="space-y-2">
               {tracks.map((track, index) => {
-                const isCurrentTrack = currentSrc === track.src;
+                const isCurrentTrack = selectedTrackId === track.id;
                 const isFocused = index === focusedIndex;
                 
                 return (
