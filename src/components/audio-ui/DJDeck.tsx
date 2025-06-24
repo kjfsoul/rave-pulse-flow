@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Play, Pause, Settings, Volume2 } from 'lucide-react';
 import { useAudioContext } from '@/contexts/AudioContext';
-import EqualizerLive from '@/components/EqualizerLive';
+import WaveformVisualizer from '@/components/audio-ui/WaveformVisualizer';
 import { Slider } from '@/components/ui/slider';
 
 interface Track {
@@ -28,6 +28,8 @@ interface DJDeckProps {
   bpmSync: boolean;
   deckState?: DeckState;
   onStateChange?: (state: DeckState) => void;
+  audioEngine?: any; // Real audio engine hook
+  waveformData?: Float32Array;
 }
 
 const DJDeck: React.FC<DJDeckProps> = ({ 
@@ -36,7 +38,9 @@ const DJDeck: React.FC<DJDeckProps> = ({
   crossfadeValue, 
   bpmSync,
   deckState,
-  onStateChange
+  onStateChange,
+  audioEngine,
+  waveformData
 }) => {
   const { bpm } = useAudioContext();
 
@@ -52,7 +56,15 @@ const DJDeck: React.FC<DJDeckProps> = ({
   const effectiveBpm = bpmSync ? bpm : currentState.track.bpm + (currentState.pitch * 0.2);
   const deckVolume = (crossfadeValue / 100) * (currentState.volume / 100);
 
-  const handlePlayPause = () => {
+  const handlePlayPause = async () => {
+    if (audioEngine) {
+      if (currentState.isPlaying) {
+        audioEngine.pauseDeck(deckId);
+      } else {
+        await audioEngine.playDeck(deckId);
+      }
+    }
+    
     if (onStateChange) {
       onStateChange({
         ...currentState,
@@ -62,24 +74,40 @@ const DJDeck: React.FC<DJDeckProps> = ({
   };
 
   const handlePitchChange = (newPitch: number[]) => {
+    const pitchValue = newPitch[0];
+    
+    if (audioEngine) {
+      audioEngine.setDeckPitch(deckId, pitchValue);
+    }
+
     if (onStateChange) {
       onStateChange({
         ...currentState,
-        pitch: newPitch[0]
+        pitch: pitchValue
       });
     }
   };
 
   const handleVolumeChange = (newVolume: number[]) => {
+    const volumeValue = newVolume[0];
+    
+    if (audioEngine) {
+      audioEngine.setDeckVolume(deckId, volumeValue);
+    }
+
     if (onStateChange) {
       onStateChange({
         ...currentState,
-        volume: newVolume[0]
+        volume: volumeValue
       });
     }
   };
 
   const handleEchoToggle = () => {
+    if (audioEngine) {
+      audioEngine.toggleDeckEcho(deckId);
+    }
+
     if (onStateChange) {
       onStateChange({
         ...currentState,
@@ -151,13 +179,13 @@ const DJDeck: React.FC<DJDeckProps> = ({
       </div>
 
       {/* Waveform Visualization */}
-      <div className="mb-4 h-16 bg-bass-dark rounded-lg p-2 flex items-end">
-        <EqualizerLive
-          bpm={effectiveBpm}
-          bars={20}
+      <div className="mb-4">
+        <WaveformVisualizer
+          waveformData={waveformData || new Float32Array(32)}
+          isPlaying={currentState.isPlaying}
+          color={deckId === 'A' ? '#06ffa5' : '#bf5af2'}
           height={48}
-          className="w-full"
-          useAudioBpm={false}
+          bars={32}
         />
       </div>
 

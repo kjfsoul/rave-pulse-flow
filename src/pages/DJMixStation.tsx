@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Crosshair, Shuffle, Headphones } from 'lucide-react';
+import { Crosshair, Shuffle, Headphones, Volume2, VolumeX } from 'lucide-react';
 import { useAudioContext } from '@/contexts/AudioContext';
+import { useAudioEngine } from '@/hooks/useAudioEngine';
 import BottomNavigation from '@/components/BottomNavigation';
 import DJDeck from '@/components/audio-ui/DJDeck';
 import TrackSelectModal from '@/components/audio-ui/TrackSelectModal';
@@ -24,9 +25,9 @@ const mockTracks = [
 
 const DJMixStation = () => {
   const { bpm } = useAudioContext();
+  const audioEngine = useAudioEngine();
   const { toast } = useToast();
-  const [crossfade, setCrossfade] = useState([50]);
-  const [bpmSync, setBpmSync] = useState(true);
+  
   const [selectedDeck, setSelectedDeck] = useState<'A' | 'B' | null>(null);
   const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -35,40 +36,46 @@ const DJMixStation = () => {
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [showFloatingEmojis, setShowFloatingEmojis] = useState(false);
   const [showDebugHUD, setShowDebugHUD] = useState(false);
+  const [bpmSync, setBpmSync] = useState(true);
+  const [isCrowdMuted, setIsCrowdMuted] = useState(false);
 
-  // Deck states
-  const [deckAState, setDeckAState] = useState({
-    track: mockTracks[0],
-    isPlaying: false,
-    volume: 75,
-    pitch: 0,
-    echoFX: false
-  });
+  // Crossfade state synchronized with audio engine
+  const [crossfade, setCrossfade] = useState([audioEngine.crossfadeValue]);
 
-  const [deckBState, setDeckBState] = useState({
-    track: mockTracks[1],
-    isPlaying: false,
-    volume: 75,
-    pitch: 0,
-    echoFX: false
-  });
+  // Update crossfade in audio engine when slider changes
+  useEffect(() => {
+    audioEngine.setCrossfade(crossfade[0]);
+  }, [crossfade, audioEngine]);
+
+  // Load default tracks on mount
+  useEffect(() => {
+    audioEngine.loadTrack('A', mockTracks[0]);
+    audioEngine.loadTrack('B', mockTracks[1]);
+  }, [audioEngine]);
+
+  // Get waveform data for visualization
+  const waveformDataA = audioEngine.getWaveformData('A');
+  const waveformDataB = audioEngine.getWaveformData('B');
 
   const handleTrackSelect = (deck: 'A' | 'B') => {
     setSelectedDeck(deck);
     setIsTrackModalOpen(true);
   };
 
-  const handleTrackSelectConfirm = (track: typeof mockTracks[0]) => {
-    if (selectedDeck === 'A') {
-      setDeckAState(prev => ({ ...prev, track }));
-    } else if (selectedDeck === 'B') {
-      setDeckBState(prev => ({ ...prev, track }));
+  const handleTrackSelectConfirm = async (track: typeof mockTracks[0]) => {
+    if (selectedDeck) {
+      await audioEngine.loadTrack(selectedDeck, track);
     }
     setIsTrackModalOpen(false);
     setSelectedDeck(null);
   };
 
   const handleDropSet = () => {
+    // Play crowd cheer if not muted
+    if (!isCrowdMuted) {
+      audioEngine.playDropEffect();
+    }
+
     setShowConfetti(true);
     setLightBurst(true);
     setShowFloatingEmojis(true);
@@ -126,11 +133,11 @@ const DJMixStation = () => {
       {showDebugHUD && (
         <div className="fixed top-4 left-4 bg-black/80 text-white p-4 rounded-lg text-sm font-mono z-50">
           <h3 className="text-neon-cyan mb-2">DEBUG HUD</h3>
-          <div>Deck A: {deckAState.track.title} | {deckAState.track.bpm} BPM | {deckAState.isPlaying ? 'PLAYING' : 'STOPPED'}</div>
-          <div>Deck B: {deckBState.track.title} | {deckBState.track.bpm} BPM | {deckBState.isPlaying ? 'PLAYING' : 'STOPPED'}</div>
-          <div>Echo A: {deckAState.echoFX ? 'ON' : 'OFF'} | Pitch A: {deckAState.pitch > 0 ? '+' : ''}{deckAState.pitch}%</div>
-          <div>Echo B: {deckBState.echoFX ? 'ON' : 'OFF'} | Pitch B: {deckBState.pitch > 0 ? '+' : ''}{deckBState.pitch}%</div>
-          <div>Volume A: {deckAState.volume}% | Volume B: {deckBState.volume}%</div>
+          <div>Deck A: {audioEngine.deckA.track?.title || 'No Track'} | {audioEngine.deckA.track?.bpm || 0} BPM | {audioEngine.deckA.isPlaying ? 'PLAYING' : 'STOPPED'}</div>
+          <div>Deck B: {audioEngine.deckB.track?.title || 'No Track'} | {audioEngine.deckB.track?.bpm || 0} BPM | {audioEngine.deckB.isPlaying ? 'PLAYING' : 'STOPPED'}</div>
+          <div>Echo A: {audioEngine.deckA.echoFX ? 'ON' : 'OFF'} | Pitch A: {audioEngine.deckA.pitch > 0 ? '+' : ''}{audioEngine.deckA.pitch}%</div>
+          <div>Echo B: {audioEngine.deckB.echoFX ? 'ON' : 'OFF'} | Pitch B: {audioEngine.deckB.pitch > 0 ? '+' : ''}{audioEngine.deckB.pitch}%</div>
+          <div>Volume A: {audioEngine.deckA.volume}% | Volume B: {audioEngine.deckB.volume}%</div>
           <div>Archetype: {archetype} | BPM Sync: {bpmSync ? 'ON' : 'OFF'}</div>
           <div>Crossfade: {crossfade[0]}% | Master BPM: {bpm}</div>
         </div>
@@ -142,6 +149,15 @@ const DJMixStation = () => {
         className="fixed top-4 right-20 bg-slate-700 text-white px-2 py-1 rounded text-xs z-50"
       >
         Debug
+      </button>
+
+      {/* Crowd Sound Toggle */}
+      <button
+        onClick={() => setIsCrowdMuted(!isCrowdMuted)}
+        className="fixed top-4 right-4 bg-slate-700 text-white p-2 rounded-lg text-xs z-50 flex items-center gap-1"
+        title={isCrowdMuted ? "Enable crowd effects" : "Mute crowd effects"}
+      >
+        {isCrowdMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
       </button>
 
       {/* Floating Emoji Reactions */}
@@ -161,7 +177,8 @@ const DJMixStation = () => {
                   y: [-100, -200], 
                   opacity: [1, 0], 
                   scale: [1, 1.5],
-                  x: [0, Math.random() * 100 - 50]
+                  x: [0, Math.random() * 100 - 50],
+                  rotate: [0, Math.random() * 360 - 180]
                 }}
                 exit={{ opacity: 0 }}
                 transition={{ 
@@ -201,8 +218,15 @@ const DJMixStation = () => {
             onTrackSelect={() => handleTrackSelect('A')}
             crossfadeValue={100 - crossfade[0]}
             bpmSync={bpmSync}
-            deckState={deckAState}
-            onStateChange={setDeckAState}
+            deckState={{
+              track: audioEngine.deckA.track || mockTracks[0],
+              isPlaying: audioEngine.deckA.isPlaying,
+              volume: audioEngine.deckA.volume,
+              pitch: audioEngine.deckA.pitch,
+              echoFX: audioEngine.deckA.echoFX
+            }}
+            audioEngine={audioEngine}
+            waveformData={waveformDataA}
           />
 
           {/* Deck B */}
@@ -211,8 +235,15 @@ const DJMixStation = () => {
             onTrackSelect={() => handleTrackSelect('B')}
             crossfadeValue={crossfade[0]}
             bpmSync={bpmSync}
-            deckState={deckBState}
-            onStateChange={setDeckBState}
+            deckState={{
+              track: audioEngine.deckB.track || mockTracks[1],
+              isPlaying: audioEngine.deckB.isPlaying,
+              volume: audioEngine.deckB.volume,
+              pitch: audioEngine.deckB.pitch,
+              echoFX: audioEngine.deckB.echoFX
+            }}
+            audioEngine={audioEngine}
+            waveformData={waveformDataB}
           />
         </div>
 
