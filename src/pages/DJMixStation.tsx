@@ -101,8 +101,11 @@ const DJMixStation = () => {
       description: "Thank you! Your mix has been submitted to headline the Virtual Festival.",
       duration: 4000,
     });
-    setTimeout(() => setShowSubscribeModal(false), 2000);
+    setTimeout(() => setShowSubscribeModal(false), 3000);
   };
+
+  // Determine active deck based on crossfade position
+  const activeDeck = crossfade[0] < 40 ? 'A' : crossfade[0] > 60 ? 'B' : null;
 
   return (
     <div className="min-h-screen bg-bass-dark relative pb-20 overflow-hidden">
@@ -129,17 +132,26 @@ const DJMixStation = () => {
         position="top-right" 
       />
 
+      {/* Audio Context Status */}
+      {!audioEngine.isAudioContextReady && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-yellow-500/20 border border-yellow-500 text-yellow-200 px-4 py-2 rounded-lg text-sm z-50">
+          ⚠️ Click anywhere to enable audio
+        </div>
+      )}
+
       {/* Debug HUD (Development Only) */}
       {showDebugHUD && (
-        <div className="fixed top-4 left-4 bg-black/80 text-white p-4 rounded-lg text-sm font-mono z-50">
+        <div className="fixed top-4 left-4 bg-black/80 text-white p-4 rounded-lg text-sm font-mono z-50 max-w-md">
           <h3 className="text-neon-cyan mb-2">DEBUG HUD</h3>
+          <div>Audio Context: {audioEngine.isAudioContextReady ? 'READY' : 'SUSPENDED'}</div>
           <div>Deck A: {audioEngine.deckA.track?.title || 'No Track'} | {audioEngine.deckA.track?.bpm || 0} BPM | {audioEngine.deckA.isPlaying ? 'PLAYING' : 'STOPPED'}</div>
           <div>Deck B: {audioEngine.deckB.track?.title || 'No Track'} | {audioEngine.deckB.track?.bpm || 0} BPM | {audioEngine.deckB.isPlaying ? 'PLAYING' : 'STOPPED'}</div>
           <div>Echo A: {audioEngine.deckA.echoFX ? 'ON' : 'OFF'} | Pitch A: {audioEngine.deckA.pitch > 0 ? '+' : ''}{audioEngine.deckA.pitch}%</div>
           <div>Echo B: {audioEngine.deckB.echoFX ? 'ON' : 'OFF'} | Pitch B: {audioEngine.deckB.pitch > 0 ? '+' : ''}{audioEngine.deckB.pitch}%</div>
-          <div>Volume A: {audioEngine.deckA.volume}% | Volume B: {audioEngine.deckB.volume}%</div>
-          <div>Archetype: {archetype} | BPM Sync: {bpmSync ? 'ON' : 'OFF'}</div>
-          <div>Crossfade: {crossfade[0]}% | Master BPM: {bpm}</div>
+          <div>Volume A: {audioEngine.deckA.volume}% {audioEngine.deckA.isMuted ? '(MUTED)' : ''}</div>
+          <div>Volume B: {audioEngine.deckB.volume}% {audioEngine.deckB.isMuted ? '(MUTED)' : ''}</div>
+          <div>Crossfade: {crossfade[0]}% | Active: {activeDeck || 'CENTER'}</div>
+          <div>Master BPM: {bpm} | BPM Sync: {bpmSync ? 'ON' : 'OFF'}</div>
         </div>
       )}
 
@@ -169,21 +181,21 @@ const DJMixStation = () => {
                 key={i}
                 className="absolute text-4xl"
                 style={{
-                  left: `${20 + i * 15}%`,
-                  top: '50%'
+                  left: `${Math.random() * 80 + 10}%`,
+                  top: `${Math.random() * 20 + 60}%`
                 }}
                 initial={{ y: 0, opacity: 1, scale: 1 }}
                 animate={{ 
-                  y: [-100, -200], 
+                  y: [-50, -200], 
                   opacity: [1, 0], 
                   scale: [1, 1.5],
-                  x: [0, Math.random() * 100 - 50],
-                  rotate: [0, Math.random() * 360 - 180]
+                  x: [0, Math.random() * 200 - 100],
+                  rotate: [0, Math.random() * 720 - 360]
                 }}
                 exit={{ opacity: 0 }}
                 transition={{ 
-                  duration: 2,
-                  delay: i * 0.2,
+                  duration: 2.5,
+                  delay: i * 0.3,
                   ease: "easeOut"
                 }}
               >
@@ -223,10 +235,12 @@ const DJMixStation = () => {
               isPlaying: audioEngine.deckA.isPlaying,
               volume: audioEngine.deckA.volume,
               pitch: audioEngine.deckA.pitch,
-              echoFX: audioEngine.deckA.echoFX
+              echoFX: audioEngine.deckA.echoFX,
+              isMuted: audioEngine.deckA.isMuted
             }}
             audioEngine={audioEngine}
             waveformData={waveformDataA}
+            isActive={activeDeck === 'A'}
           />
 
           {/* Deck B */}
@@ -240,10 +254,12 @@ const DJMixStation = () => {
               isPlaying: audioEngine.deckB.isPlaying,
               volume: audioEngine.deckB.volume,
               pitch: audioEngine.deckB.pitch,
-              echoFX: audioEngine.deckB.echoFX
+              echoFX: audioEngine.deckB.echoFX,
+              isMuted: audioEngine.deckB.isMuted
             }}
             audioEngine={audioEngine}
             waveformData={waveformDataB}
+            isActive={activeDeck === 'B'}
           />
         </div>
 
@@ -279,7 +295,7 @@ const DJMixStation = () => {
               CROSSFADER
             </label>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-slate-400">A</span>
+              <span className={`text-sm font-medium ${activeDeck === 'A' ? 'text-neon-cyan' : 'text-slate-400'}`}>A</span>
               <Slider
                 value={crossfade}
                 onValueChange={setCrossfade}
@@ -287,7 +303,10 @@ const DJMixStation = () => {
                 step={1}
                 className="flex-1"
               />
-              <span className="text-sm text-slate-400">B</span>
+              <span className={`text-sm font-medium ${activeDeck === 'B' ? 'text-neon-cyan' : 'text-slate-400'}`}>B</span>
+            </div>
+            <div className="text-center text-xs text-slate-400 mt-1">
+              {activeDeck ? `Deck ${activeDeck} Active` : 'Center Mix'}
             </div>
           </div>
 
@@ -370,14 +389,29 @@ const DJMixStation = () => {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-gradient-to-br from-neon-purple to-neon-cyan p-6 rounded-lg text-center text-white max-w-md mx-4"
+              className="bg-gradient-to-br from-neon-purple to-neon-cyan p-8 rounded-lg text-center text-white max-w-md mx-4"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
             >
-              <div className="text-4xl mb-4">🎉</div>
-              <h2 className="text-xl font-bold mb-2">Submission Received!</h2>
-              <p>Your mix is now in consideration for the Virtual Festival headline slot!</p>
+              <motion.div 
+                className="text-6xl mb-4"
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              >
+                🎉
+              </motion.div>
+              <h2 className="text-2xl font-bold mb-4">Submission Received!</h2>
+              <p className="text-lg mb-4">Your mix is now in consideration for the Virtual Festival headline slot!</p>
+              <motion.div
+                className="flex justify-center gap-2"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              >
+                <span className="text-2xl">🌟</span>
+                <span className="text-2xl">🎛️</span>
+                <span className="text-2xl">🔥</span>
+              </motion.div>
             </motion.div>
           </motion.div>
         )}

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Play, Pause, Settings, Volume2 } from 'lucide-react';
+import { Play, Pause, Settings, Volume2, VolumeX } from 'lucide-react';
 import { useAudioContext } from '@/contexts/AudioContext';
 import WaveformVisualizer from '@/components/audio-ui/WaveformVisualizer';
 import { Slider } from '@/components/ui/slider';
@@ -19,6 +19,7 @@ interface DeckState {
   volume: number;
   pitch: number;
   echoFX: boolean;
+  isMuted: boolean;
 }
 
 interface DJDeckProps {
@@ -28,8 +29,9 @@ interface DJDeckProps {
   bpmSync: boolean;
   deckState?: DeckState;
   onStateChange?: (state: DeckState) => void;
-  audioEngine?: any; // Real audio engine hook
+  audioEngine?: any;
   waveformData?: Float32Array;
+  isActive?: boolean;
 }
 
 const DJDeck: React.FC<DJDeckProps> = ({ 
@@ -40,7 +42,8 @@ const DJDeck: React.FC<DJDeckProps> = ({
   deckState,
   onStateChange,
   audioEngine,
-  waveformData
+  waveformData,
+  isActive = false
 }) => {
   const { bpm } = useAudioContext();
 
@@ -50,7 +53,8 @@ const DJDeck: React.FC<DJDeckProps> = ({
     isPlaying: false,
     volume: 75,
     pitch: 0,
-    echoFX: false
+    echoFX: false,
+    isMuted: false
   };
 
   const effectiveBpm = bpmSync ? bpm : currentState.track.bpm + (currentState.pitch * 0.2);
@@ -116,9 +120,26 @@ const DJDeck: React.FC<DJDeckProps> = ({
     }
   };
 
+  const handleMuteToggle = () => {
+    if (audioEngine) {
+      audioEngine.toggleDeckMute(deckId);
+    }
+
+    if (onStateChange) {
+      onStateChange({
+        ...currentState,
+        isMuted: !currentState.isMuted
+      });
+    }
+  };
+
   return (
     <motion.div
-      className="bg-bass-medium/80 backdrop-blur-md border border-neon-purple/30 rounded-lg p-6 relative overflow-hidden"
+      className={`bg-bass-medium/80 backdrop-blur-md border rounded-lg p-6 relative overflow-hidden ${
+        isActive 
+          ? 'border-neon-purple border-2 shadow-lg shadow-neon-purple/20' 
+          : 'border-neon-purple/30'
+      }`}
       whileHover={{ borderColor: 'rgba(191,90,242,0.6)' }}
       animate={currentState.isPlaying ? {
         boxShadow: [
@@ -141,14 +162,29 @@ const DJDeck: React.FC<DJDeckProps> = ({
           </motion.div>
           <span className="text-neon-cyan font-medium">DECK {deckId}</span>
         </div>
-        <motion.button
-          onClick={onTrackSelect}
-          className="text-slate-400 hover:text-neon-cyan p-1"
-          whileHover={{ scale: 1.1, color: '#06ffa5' }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <Settings className="w-4 h-4" />
-        </motion.button>
+        
+        {/* Status Indicators */}
+        <div className="flex items-center gap-2">
+          <div className="text-xs text-neon-cyan bg-bass-dark px-2 py-1 rounded">
+            {Math.round(effectiveBpm)} BPM
+          </div>
+          <div className="text-xs text-neon-cyan bg-bass-dark px-2 py-1 rounded">
+            {currentState.isMuted ? 'MUTED' : `${Math.round(deckVolume * 100)}%`}
+          </div>
+          {currentState.echoFX && (
+            <div className="text-xs text-neon-purple bg-bass-dark px-2 py-1 rounded animate-pulse">
+              ECHO
+            </div>
+          )}
+          <motion.button
+            onClick={onTrackSelect}
+            className="text-slate-400 hover:text-neon-cyan p-1"
+            whileHover={{ scale: 1.1, color: '#06ffa5' }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <Settings className="w-4 h-4" />
+          </motion.button>
+        </div>
       </div>
 
       {/* Track Info */}
@@ -163,16 +199,12 @@ const DJDeck: React.FC<DJDeckProps> = ({
           </motion.span>
           <span>•</span>
           <span>{Math.round(deckVolume * 100)}% VOL</span>
-          {currentState.echoFX && (
+          {currentState.pitch !== 0 && (
             <>
               <span>•</span>
-              <motion.span 
-                className="text-neon-purple"
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-              >
-                ECHO
-              </motion.span>
+              <span className="text-neon-cyan">
+                PITCH {currentState.pitch > 0 ? '+' : ''}{currentState.pitch}%
+              </span>
             </>
           )}
         </div>
@@ -182,7 +214,7 @@ const DJDeck: React.FC<DJDeckProps> = ({
       <div className="mb-4">
         <WaveformVisualizer
           waveformData={waveformData || new Float32Array(32)}
-          isPlaying={currentState.isPlaying}
+          isPlaying={currentState.isPlaying && !currentState.isMuted}
           color={deckId === 'A' ? '#06ffa5' : '#bf5af2'}
           height={48}
           bars={32}
@@ -191,22 +223,38 @@ const DJDeck: React.FC<DJDeckProps> = ({
 
       {/* Controls */}
       <div className="space-y-4">
-        {/* Play/Pause */}
-        <motion.button
-          onClick={handlePlayPause}
-          className={`w-full p-3 rounded-lg font-medium transition-all ${
-            currentState.isPlaying
-              ? 'bg-neon-cyan text-bass-dark'
-              : 'bg-bass-dark border border-neon-purple/50 text-neon-purple hover:bg-neon-purple/10'
-          }`}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <div className="flex items-center justify-center gap-2">
-            {currentState.isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-            <span>{currentState.isPlaying ? 'PAUSE' : 'PLAY'}</span>
-          </div>
-        </motion.button>
+        {/* Play/Pause & Mute */}
+        <div className="flex gap-2">
+          <motion.button
+            onClick={handlePlayPause}
+            className={`flex-1 p-3 rounded-lg font-medium transition-all ${
+              currentState.isPlaying
+                ? 'bg-neon-cyan text-bass-dark'
+                : 'bg-bass-dark border border-neon-purple/50 text-neon-purple hover:bg-neon-purple/10'
+            }`}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <div className="flex items-center justify-center gap-2">
+              {currentState.isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+              <span>{currentState.isPlaying ? 'PAUSE' : 'PLAY'}</span>
+            </div>
+          </motion.button>
+          
+          <motion.button
+            onClick={handleMuteToggle}
+            className={`p-3 rounded-lg font-medium transition-all ${
+              currentState.isMuted
+                ? 'bg-red-500 text-white'
+                : 'bg-bass-dark border border-slate-600 text-slate-400 hover:border-neon-purple/50'
+            }`}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            title={currentState.isMuted ? "Unmute" : "Mute"}
+          >
+            {currentState.isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+          </motion.button>
+        </div>
 
         {/* Pitch Control */}
         <div>
@@ -235,6 +283,7 @@ const DJDeck: React.FC<DJDeckProps> = ({
             max={100}
             step={1}
             className="w-full"
+            disabled={currentState.isMuted}
           />
         </div>
 
@@ -268,9 +317,13 @@ const DJDeck: React.FC<DJDeckProps> = ({
             <motion.div
               key={i}
               className={`w-2 h-3 rounded-sm ${
-                deckVolume > i * 0.2 ? 'bg-neon-cyan' : 'bg-slate-700'
+                currentState.isMuted 
+                  ? 'bg-red-500' 
+                  : deckVolume > i * 0.2 
+                    ? 'bg-neon-cyan' 
+                    : 'bg-slate-700'
               }`}
-              animate={currentState.isPlaying && deckVolume > i * 0.2 ? {
+              animate={currentState.isPlaying && deckVolume > i * 0.2 && !currentState.isMuted ? {
                 opacity: [0.5, 1, 0.5]
               } : {}}
               transition={{ 
