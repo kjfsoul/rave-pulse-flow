@@ -1,11 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Crosshair, Shuffle, Headphones, Volume2, VolumeX, Settings, Eye, EyeOff } from 'lucide-react';
 import { useAudioContext } from '@/contexts/AudioContext';
-import { useAudioEngine } from '@/hooks/useAudioEngine';
+import { useRealAudioEngine } from '@/hooks/useRealAudioEngine';
 import BottomNavigation from '@/components/BottomNavigation';
-import DJDeck from '@/components/audio-ui/DJDeck';
 import TrackSelectModal from '@/components/audio-ui/TrackSelectModal';
 import BpmAura from '@/components/audio-ui/BpmAura';
 import ConfettiBurst from '@/components/audio-ui/ConfettiBurst';
@@ -16,6 +14,9 @@ import LightSyncPulse from '@/components/VisualFX/LightSyncPulse';
 import { Slider } from '@/components/ui/slider';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
+import EnhancedDJDeck from '@/components/audio-ui/EnhancedDJDeck';
+import DebugHUD from '@/components/audio-ui/DebugHUD';
+import SubscribeModal from '@/components/audio-ui/SubscribeModal';
 
 // Mock track data
 const mockTracks = [
@@ -26,7 +27,7 @@ const mockTracks = [
 
 const DJMixStation = () => {
   const { bpm } = useAudioContext();
-  const audioEngine = useAudioEngine();
+  const audioEngine = useRealAudioEngine();
   const { toast } = useToast();
   
   const [selectedDeck, setSelectedDeck] = useState<'A' | 'B' | null>(null);
@@ -36,10 +37,10 @@ const DJMixStation = () => {
   const [lightBurst, setLightBurst] = useState(false);
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [showFloatingEmojis, setShowFloatingEmojis] = useState(false);
-  const [showDebugHUD, setShowDebugHUD] = useState(true); // Make visible by default
+  const [showDebugHUD, setShowDebugHUD] = useState(true);
   const [bpmSync, setBpmSync] = useState(true);
   const [isCrowdMuted, setIsCrowdMuted] = useState(false);
-  const [showSubscribeBanner, setShowSubscribeBanner] = useState(true); // Make banner visible
+  const [showSubscribeBanner, setShowSubscribeBanner] = useState(true);
 
   // Crossfade state synchronized with audio engine
   const [crossfade, setCrossfade] = useState([audioEngine.crossfadeValue]);
@@ -54,6 +55,28 @@ const DJMixStation = () => {
     audioEngine.loadTrack('A', mockTracks[0]);
     audioEngine.loadTrack('B', mockTracks[1]);
   }, [audioEngine]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'h' || e.key === 'H') {
+        setShowDebugHUD(!showDebugHUD);
+      }
+      if (e.key === ' ') {
+        e.preventDefault();
+        // Toggle active deck
+        const activeDeck = crossfade[0] < 50 ? 'A' : 'B';
+        if (audioEngine[`deck${activeDeck}`].isPlaying) {
+          audioEngine.pauseDeck(activeDeck);
+        } else {
+          audioEngine.playDeck(activeDeck);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [showDebugHUD, crossfade, audioEngine]);
 
   // Get waveform data for visualization
   const waveformDataA = audioEngine.getWaveformData('A');
@@ -107,12 +130,16 @@ const DJMixStation = () => {
 
   const handleSubscribe = () => {
     setShowSubscribeModal(true);
+  };
+
+  const handleSubscribeConfirm = () => {
+    setShowSubscribeModal(false);
     toast({
       title: "🌟 Submission Received!",
-      description: "Thank you! Your mix has been submitted to headline the Virtual Festival.",
+      description: "Your mix has been submitted to headline the Virtual Festival!",
       duration: 4000,
     });
-    setTimeout(() => setShowSubscribeModal(false), 3000);
+    setShowSubscribeBanner(false);
   };
 
   // Determine active deck based on crossfade position
@@ -120,7 +147,7 @@ const DJMixStation = () => {
 
   return (
     <div className="min-h-screen bg-bass-dark relative pb-20 overflow-hidden">
-      {/* Visual FX Layers - Always visible */}
+      {/* Visual FX Layers */}
       <FestivalStageBackground 
         archetype={archetype} 
         useAudioBpm={true} 
@@ -143,91 +170,67 @@ const DJMixStation = () => {
         position="top-right" 
       />
 
-      {/* Audio Context Status - Always visible */}
-      <div className="fixed top-4 left-4 bg-slate-800 text-white p-2 rounded text-xs z-50">
-        Audio Context: {audioEngine.isAudioContextReady ? '✅ READY' : '❌ SUSPENDED (Click to enable)'}
-      </div>
+      {/* Audio Context Status */}
+      <motion.div
+        className={`fixed top-4 left-4 px-3 py-2 rounded-lg text-sm font-mono z-50 cursor-pointer ${
+          audioEngine.audioContextState === 'running' 
+            ? 'bg-green-500/20 border border-green-500 text-green-300' 
+            : 'bg-yellow-500/20 border border-yellow-500 text-yellow-300'
+        }`}
+        onClick={audioEngine.resumeAudioContext}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        Audio: {audioEngine.audioContextState === 'running' ? '✅ READY' : '⚠️ CLICK TO ENABLE'}
+        {audioEngine.isSimulationMode && <span className="ml-2 text-orange-300">(SIM)</span>}
+      </motion.div>
 
-      {/* Debug HUD - Toggleable */}
-      <div className="fixed top-4 right-32 z-50">
-        <Button
-          onClick={() => setShowDebugHUD(!showDebugHUD)}
-          size="sm"
-          variant="outline"
-          className="mb-2"
-        >
-          {showDebugHUD ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-          Debug
-        </Button>
-      </div>
-
-      {showDebugHUD && (
-        <div className="fixed top-16 right-4 bg-black/90 text-white p-4 rounded-lg text-xs font-mono z-50 max-w-sm">
-          <h3 className="text-neon-cyan mb-2 font-bold">🧪 DEBUG HUD</h3>
-          <div className="space-y-1">
-            <div className="text-yellow-400">Audio Engine Status:</div>
-            <div>• Context: {audioEngine.isAudioContextReady ? 'READY' : 'SUSPENDED'}</div>
-            
-            <div className="text-yellow-400 mt-2">Deck A:</div>
-            <div>• Track: {audioEngine.deckA.track?.title || 'None'}</div>
-            <div>• BPM: {audioEngine.deckA.track?.bpm || 0}</div>
-            <div>• Playing: {audioEngine.deckA.isPlaying ? '▶️' : '⏸️'}</div>
-            <div>• Volume: {audioEngine.deckA.volume}% {audioEngine.deckA.isMuted ? '(MUTED)' : ''}</div>
-            <div>• Pitch: {audioEngine.deckA.pitch > 0 ? '+' : ''}{audioEngine.deckA.pitch}%</div>
-            <div>• Echo: {audioEngine.deckA.echoFX ? 'ON' : 'OFF'}</div>
-            
-            <div className="text-yellow-400 mt-2">Deck B:</div>
-            <div>• Track: {audioEngine.deckB.track?.title || 'None'}</div>
-            <div>• BPM: {audioEngine.deckB.track?.bpm || 0}</div>
-            <div>• Playing: {audioEngine.deckB.isPlaying ? '▶️' : '⏸️'}</div>
-            <div>• Volume: {audioEngine.deckB.volume}% {audioEngine.deckB.isMuted ? '(MUTED)' : ''}</div>
-            <div>• Pitch: {audioEngine.deckB.pitch > 0 ? '+' : ''}{audioEngine.deckB.pitch}%</div>
-            <div>• Echo: {audioEngine.deckB.echoFX ? 'ON' : 'OFF'}</div>
-            
-            <div className="text-yellow-400 mt-2">Master:</div>
-            <div>• Crossfade: {crossfade[0]}%</div>
-            <div>• Active Deck: {activeDeck || 'CENTER MIX'}</div>
-            <div>• BPM Sync: {bpmSync ? 'ON' : 'OFF'}</div>
-            <div>• Master BPM: {bpm}</div>
-            <div>• Crowd Audio: {isCrowdMuted ? 'MUTED' : 'ENABLED'}</div>
-          </div>
-        </div>
-      )}
+      {/* Debug HUD */}
+      <DebugHUD
+        isVisible={showDebugHUD}
+        onToggle={() => setShowDebugHUD(!showDebugHUD)}
+        audioEngine={audioEngine}
+        crossfadeValue={crossfade[0]}
+        bpmSync={bpmSync}
+        masterBpm={bpm}
+        activeDeck={activeDeck}
+        isSimulationMode={audioEngine.isSimulationMode}
+      />
 
       {/* Crowd Sound Toggle */}
       <button
         onClick={() => setIsCrowdMuted(!isCrowdMuted)}
-        className="fixed top-4 right-4 bg-slate-700 text-white p-2 rounded-lg text-xs z-50 flex items-center gap-1"
+        className="fixed top-4 right-20 bg-slate-700 text-white p-2 rounded-lg text-xs z-50 flex items-center gap-1"
         title={isCrowdMuted ? "Enable crowd effects" : "Mute crowd effects"}
       >
         {isCrowdMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
         Crowd
       </button>
 
-      {/* Floating Emoji Reactions - Always visible when triggered */}
+      {/* Floating Emoji Reactions */}
       <AnimatePresence>
         {showFloatingEmojis && (
           <div className="fixed inset-0 pointer-events-none z-40">
-            {['👏', '🔥', '❤️', '🙌', '💯', '🎉', '🚀', '⚡'].map((emoji, i) => (
+            {['👏', '🔥', '❤️', '🙌', '💯', '🎉', '🚀', '⚡', '🎵', '🌟'].map((emoji, i) => (
               <motion.div
                 key={i}
                 className="absolute text-4xl"
                 style={{
                   left: `${Math.random() * 80 + 10}%`,
-                  top: `${Math.random() * 20 + 70}%` // Start from bottom
+                  top: `${Math.random() * 20 + 70}%`
                 }}
                 initial={{ y: 0, opacity: 1, scale: 1 }}
                 animate={{ 
-                  y: [-100, -300], // Float upward
+                  y: [-100, -400],
                   opacity: [1, 1, 0], 
                   scale: [1, 1.5, 0.5],
-                  x: [0, (Math.random() - 0.5) * 400], // Random horizontal drift
+                  x: [0, (Math.random() - 0.5) * 600],
                   rotate: [0, Math.random() * 720 - 360]
                 }}
                 exit={{ opacity: 0 }}
                 transition={{ 
-                  duration: 3,
-                  delay: i * 0.2,
+                  duration: 4,
+                  delay: i * 0.15,
                   ease: "easeOut"
                 }}
               >
@@ -251,13 +254,18 @@ const DJMixStation = () => {
               🎛️ DJ MIX STATION
             </span>
           </h1>
-          <p className="text-neon-cyan text-lg">Master the Decks • Create Your Flow</p>
+          <p className="text-neon-cyan text-lg">Real Audio • Live Control • Epic Drops</p>
+          {audioEngine.isSimulationMode && (
+            <p className="text-yellow-400 text-sm mt-2">
+              ⚠️ Running in Simulation Mode - Enable audio for full experience
+            </p>
+          )}
         </motion.div>
 
-        {/* Deck Layout */}
+        {/* Enhanced Deck Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto mb-8">
-          {/* Deck A */}
-          <DJDeck
+          {/* Enhanced Deck A */}
+          <EnhancedDJDeck
             deckId="A"
             onTrackSelect={() => handleTrackSelect('A')}
             crossfadeValue={100 - crossfade[0]}
@@ -273,10 +281,11 @@ const DJMixStation = () => {
             audioEngine={audioEngine}
             waveformData={waveformDataA}
             isActive={activeDeck === 'A'}
+            isSimulationMode={audioEngine.isSimulationMode}
           />
 
-          {/* Deck B */}
-          <DJDeck
+          {/* Enhanced Deck B */}
+          <EnhancedDJDeck
             deckId="B"
             onTrackSelect={() => handleTrackSelect('B')}
             crossfadeValue={crossfade[0]}
@@ -292,12 +301,13 @@ const DJMixStation = () => {
             audioEngine={audioEngine}
             waveformData={waveformDataB}
             isActive={activeDeck === 'B'}
+            isSimulationMode={audioEngine.isSimulationMode}
           />
         </div>
 
-        {/* Center Controls */}
+        {/* Center Controls - Enhanced */}
         <motion.div
-          className="max-w-md mx-auto bg-bass-medium/80 backdrop-blur-md border border-neon-purple/30 rounded-lg p-6 mb-8"
+          className="max-w-md mx-auto bg-bass-medium/90 backdrop-blur-md border-2 border-neon-purple/50 rounded-xl p-6 mb-8"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -306,7 +316,7 @@ const DJMixStation = () => {
           <div className="text-center mb-6">
             <div className="text-neon-cyan text-sm font-medium mb-2">MASTER BPM</div>
             <motion.div 
-              className="text-3xl font-bold text-white"
+              className="text-4xl font-bold text-white"
               animate={{ 
                 scale: [1, 1.05, 1],
                 color: ['#ffffff', '#06ffa5', '#ffffff']
@@ -320,14 +330,14 @@ const DJMixStation = () => {
             </motion.div>
           </div>
 
-          {/* Crossfader */}
+          {/* Enhanced Crossfader */}
           <div className="mb-6">
             <label className="block text-neon-cyan text-sm font-medium mb-3 text-center">
               <Crosshair className="w-4 h-4 inline mr-2" />
               CROSSFADER ({crossfade[0]}%)
             </label>
             <div className="flex items-center gap-4">
-              <span className={`text-sm font-medium ${activeDeck === 'A' ? 'text-neon-cyan' : 'text-slate-400'}`}>A</span>
+              <span className={`text-sm font-bold ${activeDeck === 'A' ? 'text-neon-cyan' : 'text-slate-400'}`}>A</span>
               <Slider
                 value={crossfade}
                 onValueChange={setCrossfade}
@@ -335,20 +345,26 @@ const DJMixStation = () => {
                 step={1}
                 className="flex-1"
               />
-              <span className={`text-sm font-medium ${activeDeck === 'B' ? 'text-neon-cyan' : 'text-slate-400'}`}>B</span>
+              <span className={`text-sm font-bold ${activeDeck === 'B' ? 'text-neon-cyan' : 'text-slate-400'}`}>B</span>
             </div>
-            <div className="text-center text-xs text-slate-400 mt-1">
-              {activeDeck ? `Deck ${activeDeck} Active (${activeDeck === 'A' ? 100 - crossfade[0] : crossfade[0]}%)` : 'Center Mix (50/50)'}
+            <div className="text-center text-xs text-slate-400 mt-2">
+              {activeDeck ? (
+                <span className="text-neon-cyan">
+                  DECK {activeDeck} ACTIVE ({activeDeck === 'A' ? 100 - crossfade[0] : crossfade[0]}%)
+                </span>
+              ) : (
+                'CENTER MIX (50/50)'
+              )}
             </div>
           </div>
 
           {/* BPM Sync Toggle */}
           <motion.button
             onClick={() => setBpmSync(!bpmSync)}
-            className={`w-full p-3 rounded-lg font-medium transition-all mb-4 ${
+            className={`w-full p-3 rounded-lg font-bold transition-all mb-4 ${
               bpmSync
-                ? 'bg-neon-cyan text-bass-dark'
-                : 'bg-bass-dark border border-neon-purple/50 text-neon-purple hover:bg-neon-purple/10'
+                ? 'bg-neon-cyan text-bass-dark shadow-lg shadow-neon-cyan/30'
+                : 'bg-bass-dark border-2 border-neon-purple/50 text-neon-purple hover:bg-neon-purple/10'
             }`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -357,22 +373,35 @@ const DJMixStation = () => {
             BPM SYNC {bpmSync ? 'ON' : 'OFF'}
           </motion.button>
 
-          {/* Drop Set Button - Always visible and functional */}
+          {/* Enhanced Drop Set Button */}
           <motion.button
             onClick={handleDropSet}
-            className="w-full p-4 rounded-lg font-bold text-lg bg-gradient-to-r from-neon-purple to-neon-cyan text-white hover:from-neon-purple/80 hover:to-neon-cyan/80 transition-all"
+            className="w-full p-4 rounded-lg font-bold text-lg bg-gradient-to-r from-neon-purple to-neon-cyan text-white hover:from-neon-purple/80 hover:to-neon-cyan/80 transition-all relative overflow-hidden"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            animate={{
+              boxShadow: [
+                '0 0 20px rgba(191,90,242,0.3)',
+                '0 0 30px rgba(6,255,165,0.3)',
+                '0 0 20px rgba(191,90,242,0.3)'
+              ]
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
           >
-            🔥 DROP MY SET 🔥
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
+              animate={{ x: ['-100%', '100%'] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            />
+            <span className="relative z-10">🔥 DROP MY SET 🔥</span>
           </motion.button>
         </motion.div>
       </div>
 
-      {/* Subscribe Banner - Always visible */}
+      {/* Enhanced Subscribe Banner */}
       {showSubscribeBanner && (
         <motion.div
-          className="fixed bottom-24 left-4 right-4 bg-gradient-to-r from-neon-purple/20 via-neon-cyan/20 to-neon-purple/20 backdrop-blur-md border border-neon-purple/30 rounded-lg p-4 text-center z-20"
+          className="fixed bottom-24 left-4 right-4 bg-gradient-to-r from-neon-purple/20 via-neon-cyan/20 to-neon-purple/20 backdrop-blur-md border-2 border-neon-purple/30 rounded-xl p-4 text-center z-20"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
@@ -380,16 +409,24 @@ const DJMixStation = () => {
         >
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <Headphones className="w-5 h-5 text-neon-cyan" />
-            <span className="text-white font-medium">
-              🌟 Feeling your flow? Submit your mix & headline the Virtual Festival
+            <span className="text-white font-bold">
+              🌟 Ready to headline the Virtual Festival?
             </span>
             <motion.button
               onClick={handleSubscribe}
-              className="bg-neon-purple hover:bg-neon-purple/80 text-white px-4 py-2 rounded-full font-medium transition-all"
+              className="bg-gradient-to-r from-neon-purple to-neon-cyan text-white px-6 py-2 rounded-full font-bold transition-all"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              animate={{
+                boxShadow: [
+                  '0 0 15px rgba(191,90,242,0.3)',
+                  '0 0 25px rgba(6,255,165,0.3)',
+                  '0 0 15px rgba(191,90,242,0.3)'
+                ]
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
             >
-              Subscribe Now
+              Submit My Mix!
             </motion.button>
           </div>
         </motion.div>
@@ -409,47 +446,15 @@ const DJMixStation = () => {
         onTrackSelect={handleTrackSelectConfirm}
       />
 
+      <SubscribeModal
+        isOpen={showSubscribeModal}
+        onClose={() => setShowSubscribeModal(false)}
+        onConfirm={handleSubscribeConfirm}
+      />
+
       {/* Confetti Effect */}
       <AnimatePresence>
         {showConfetti && <ConfettiBurst />}
-      </AnimatePresence>
-
-      {/* Subscribe Success Modal */}
-      <AnimatePresence>
-        {showSubscribeModal && (
-          <motion.div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-gradient-to-br from-neon-purple to-neon-cyan p-8 rounded-lg text-center text-white max-w-md mx-4"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-            >
-              <motion.div 
-                className="text-6xl mb-4"
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              >
-                🎉
-              </motion.div>
-              <h2 className="text-2xl font-bold mb-4">Submission Received!</h2>
-              <p className="text-lg mb-4">Your mix is now in consideration for the Virtual Festival headline slot!</p>
-              <motion.div
-                className="flex justify-center gap-2"
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                <span className="text-2xl">🌟</span>
-                <span className="text-2xl">🎛️</span>
-                <span className="text-2xl">🔥</span>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        )}
       </AnimatePresence>
 
       <BottomNavigation />
