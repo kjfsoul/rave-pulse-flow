@@ -1,36 +1,98 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Play, Pause, Settings, Volume2 } from 'lucide-react';
 import { useAudioContext } from '@/contexts/AudioContext';
 import EqualizerLive from '@/components/EqualizerLive';
 import { Slider } from '@/components/ui/slider';
 
+interface Track {
+  id: string;
+  title: string;
+  bpm: number;
+  src: string;
+}
+
+interface DeckState {
+  track: Track;
+  isPlaying: boolean;
+  volume: number;
+  pitch: number;
+  echoFX: boolean;
+}
+
 interface DJDeckProps {
   deckId: 'A' | 'B';
   onTrackSelect: () => void;
   crossfadeValue: number;
   bpmSync: boolean;
+  deckState?: DeckState;
+  onStateChange?: (state: DeckState) => void;
 }
 
-const DJDeck: React.FC<DJDeckProps> = ({ deckId, onTrackSelect, crossfadeValue, bpmSync }) => {
-  const { isPlaying, play, pause, bpm } = useAudioContext();
-  const [pitch, setPitch] = useState([0]);
-  const [volume, setVolume] = useState([75]);
-  const [echoFX, setEchoFX] = useState(false);
+const DJDeck: React.FC<DJDeckProps> = ({ 
+  deckId, 
+  onTrackSelect, 
+  crossfadeValue, 
+  bpmSync,
+  deckState,
+  onStateChange
+}) => {
+  const { bpm } = useAudioContext();
 
-  const effectiveBpm = bpmSync ? bpm : bpm + (pitch[0] * 0.2);
-  const deckVolume = (crossfadeValue / 100) * (volume[0] / 100);
+  // Use passed state or fallback to default
+  const currentState = deckState || {
+    track: { id: '1', title: 'Festival Mix', bpm: 128, src: '/audio/festival_mix.mp3' },
+    isPlaying: false,
+    volume: 75,
+    pitch: 0,
+    echoFX: false
+  };
+
+  const effectiveBpm = bpmSync ? bpm : currentState.track.bpm + (currentState.pitch * 0.2);
+  const deckVolume = (crossfadeValue / 100) * (currentState.volume / 100);
 
   const handlePlayPause = () => {
-    isPlaying ? pause() : play();
+    if (onStateChange) {
+      onStateChange({
+        ...currentState,
+        isPlaying: !currentState.isPlaying
+      });
+    }
+  };
+
+  const handlePitchChange = (newPitch: number[]) => {
+    if (onStateChange) {
+      onStateChange({
+        ...currentState,
+        pitch: newPitch[0]
+      });
+    }
+  };
+
+  const handleVolumeChange = (newVolume: number[]) => {
+    if (onStateChange) {
+      onStateChange({
+        ...currentState,
+        volume: newVolume[0]
+      });
+    }
+  };
+
+  const handleEchoToggle = () => {
+    if (onStateChange) {
+      onStateChange({
+        ...currentState,
+        echoFX: !currentState.echoFX
+      });
+    }
   };
 
   return (
     <motion.div
       className="bg-bass-medium/80 backdrop-blur-md border border-neon-purple/30 rounded-lg p-6 relative overflow-hidden"
       whileHover={{ borderColor: 'rgba(191,90,242,0.6)' }}
-      animate={isPlaying ? {
+      animate={currentState.isPlaying ? {
         boxShadow: [
           '0 0 20px rgba(191,90,242,0.2)',
           '0 0 30px rgba(191,90,242,0.4)',
@@ -42,15 +104,19 @@ const DJDeck: React.FC<DJDeckProps> = ({ deckId, onTrackSelect, crossfadeValue, 
       {/* Deck Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-neon-purple rounded-full flex items-center justify-center font-bold text-bass-dark">
+          <motion.div 
+            className="w-8 h-8 bg-neon-purple rounded-full flex items-center justify-center font-bold text-bass-dark"
+            animate={currentState.isPlaying ? { scale: [1, 1.1, 1] } : {}}
+            transition={{ duration: 60/effectiveBpm/1000, repeat: Infinity }}
+          >
             {deckId}
-          </div>
+          </motion.div>
           <span className="text-neon-cyan font-medium">DECK {deckId}</span>
         </div>
         <motion.button
           onClick={onTrackSelect}
           className="text-slate-400 hover:text-neon-cyan p-1"
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.1, color: '#06ffa5' }}
           whileTap={{ scale: 0.9 }}
         >
           <Settings className="w-4 h-4" />
@@ -59,11 +125,28 @@ const DJDeck: React.FC<DJDeckProps> = ({ deckId, onTrackSelect, crossfadeValue, 
 
       {/* Track Info */}
       <div className="mb-4">
-        <h3 className="text-white font-medium truncate">Festival Mix</h3>
+        <h3 className="text-white font-medium truncate">{currentState.track.title}</h3>
         <div className="flex items-center gap-2 text-sm text-slate-400">
-          <span>{Math.round(effectiveBpm)} BPM</span>
+          <motion.span
+            animate={bpmSync ? { color: ['#06ffa5', '#bf5af2', '#06ffa5'] } : {}}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            {Math.round(effectiveBpm)} BPM
+          </motion.span>
           <span>•</span>
           <span>{Math.round(deckVolume * 100)}% VOL</span>
+          {currentState.echoFX && (
+            <>
+              <span>•</span>
+              <motion.span 
+                className="text-neon-purple"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 0.5, repeat: Infinity }}
+              >
+                ECHO
+              </motion.span>
+            </>
+          )}
         </div>
       </div>
 
@@ -84,7 +167,7 @@ const DJDeck: React.FC<DJDeckProps> = ({ deckId, onTrackSelect, crossfadeValue, 
         <motion.button
           onClick={handlePlayPause}
           className={`w-full p-3 rounded-lg font-medium transition-all ${
-            isPlaying
+            currentState.isPlaying
               ? 'bg-neon-cyan text-bass-dark'
               : 'bg-bass-dark border border-neon-purple/50 text-neon-purple hover:bg-neon-purple/10'
           }`}
@@ -92,19 +175,19 @@ const DJDeck: React.FC<DJDeckProps> = ({ deckId, onTrackSelect, crossfadeValue, 
           whileTap={{ scale: 0.98 }}
         >
           <div className="flex items-center justify-center gap-2">
-            {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-            <span>{isPlaying ? 'PAUSE' : 'PLAY'}</span>
+            {currentState.isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            <span>{currentState.isPlaying ? 'PAUSE' : 'PLAY'}</span>
           </div>
         </motion.button>
 
         {/* Pitch Control */}
         <div>
           <label className="block text-neon-cyan text-sm font-medium mb-2">
-            PITCH {pitch[0] > 0 ? '+' : ''}{pitch[0]}%
+            PITCH {currentState.pitch > 0 ? '+' : ''}{currentState.pitch}%
           </label>
           <Slider
-            value={pitch}
-            onValueChange={setPitch}
+            value={[currentState.pitch]}
+            onValueChange={handlePitchChange}
             min={-20}
             max={20}
             step={1}
@@ -116,11 +199,11 @@ const DJDeck: React.FC<DJDeckProps> = ({ deckId, onTrackSelect, crossfadeValue, 
         <div>
           <label className="block text-neon-cyan text-sm font-medium mb-2 flex items-center gap-2">
             <Volume2 className="w-4 h-4" />
-            VOLUME {volume[0]}%
+            VOLUME {currentState.volume}%
           </label>
           <Slider
-            value={volume}
-            onValueChange={setVolume}
+            value={[currentState.volume]}
+            onValueChange={handleVolumeChange}
             max={100}
             step={1}
             className="w-full"
@@ -129,15 +212,15 @@ const DJDeck: React.FC<DJDeckProps> = ({ deckId, onTrackSelect, crossfadeValue, 
 
         {/* Echo FX */}
         <motion.button
-          onClick={() => setEchoFX(!echoFX)}
+          onClick={handleEchoToggle}
           className={`w-full p-2 rounded-lg text-sm font-medium transition-all ${
-            echoFX
+            currentState.echoFX
               ? 'bg-neon-purple/30 border border-neon-purple text-neon-purple'
               : 'bg-bass-dark border border-slate-600 text-slate-400 hover:border-neon-purple/50'
           }`}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          animate={echoFX ? {
+          animate={currentState.echoFX ? {
             textShadow: [
               '0 0 5px rgba(191,90,242,0.5)',
               '0 0 10px rgba(191,90,242,0.8)',
@@ -146,7 +229,7 @@ const DJDeck: React.FC<DJDeckProps> = ({ deckId, onTrackSelect, crossfadeValue, 
           } : {}}
           transition={{ duration: 0.5, repeat: Infinity }}
         >
-          ECHO FX {echoFX ? 'ON' : 'OFF'}
+          ECHO FX {currentState.echoFX ? 'ON' : 'OFF'}
         </motion.button>
       </div>
 
@@ -159,7 +242,7 @@ const DJDeck: React.FC<DJDeckProps> = ({ deckId, onTrackSelect, crossfadeValue, 
               className={`w-2 h-3 rounded-sm ${
                 deckVolume > i * 0.2 ? 'bg-neon-cyan' : 'bg-slate-700'
               }`}
-              animate={isPlaying && deckVolume > i * 0.2 ? {
+              animate={currentState.isPlaying && deckVolume > i * 0.2 ? {
                 opacity: [0.5, 1, 0.5]
               } : {}}
               transition={{ 

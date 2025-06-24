@@ -1,6 +1,6 @@
+
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAudioContext } from '@/contexts/AudioContext';
 
 interface Track {
   id: string;
@@ -13,20 +13,27 @@ interface TrackSelectModalProps {
   tracks: Track[];
   isOpen: boolean;
   onClose: () => void;
+  onTrackSelect?: (track: Track) => void;
 }
 
 /**
  * Keyboard‑navigable modal for choosing a track.
  * ↑ / ↓ to move, Enter to select, Esc to dismiss.
  */
-const TrackSelectModal: React.FC<TrackSelectModalProps> = ({ tracks, isOpen, onClose }) => {
-  const { play, setBpm } = useAudioContext();
+const TrackSelectModal: React.FC<TrackSelectModalProps> = ({ 
+  tracks, 
+  isOpen, 
+  onClose, 
+  onTrackSelect 
+}) => {
   const [focusedIndex, setFocusedIndex] = useState(0);
 
-  const handleTrackSelect = async (track: Track) => {
-    await play();
-    setBpm(track.bpm);
-    onClose();
+  const handleTrackSelect = (track: Track) => {
+    if (onTrackSelect) {
+      onTrackSelect(track);
+    } else {
+      onClose();
+    }
   };
 
   // keyboard controls

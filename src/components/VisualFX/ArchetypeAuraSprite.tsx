@@ -6,48 +6,53 @@ import { useAudioContext } from '@/contexts/AudioContext';
 interface ArchetypeAuraSpriteProps {
   archetype: 'Firestorm' | 'FrostPulse' | 'MoonWaver';
   bpm?: number;
+  useAudioBpm?: boolean;
   intensity?: number; // 0-100
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
-  useAudioBpm?: boolean;
 }
 
 const ArchetypeAuraSprite: React.FC<ArchetypeAuraSpriteProps> = ({
   archetype,
   bpm: propBpm,
-  intensity = 80,
-  position = 'top-right',
-  useAudioBpm = false
+  useAudioBpm = false,
+  intensity = 50,
+  position = 'top-right'
 }) => {
   const { bpm: audioBpm } = useAudioContext();
   const effectiveBpm = useAudioBpm ? audioBpm : (propBpm || 128);
   const beatDuration = 60 / effectiveBpm;
-  const intensityFactor = intensity / 100;
 
-  const getArchetypeSprite = () => {
+  const getArchetypeConfig = () => {
     switch (archetype) {
       case 'Firestorm':
         return {
           emoji: '🔥',
-          colors: ['#ef4444', '#f97316', '#fbbf24'],
+          primaryColor: '#ef4444',
+          secondaryColor: '#f97316',
           glowColor: 'rgba(239, 68, 68, 0.6)',
-          name: 'Firestorm',
+          animation: 'aggressive'
         };
       case 'FrostPulse':
         return {
           emoji: '❄️',
-          colors: ['#38bdf8', '#0ea5e9', '#06b6d4'],
-          glowColor: 'rgba(56, 189, 248, 0.6)',
-          name: 'FrostPulse',
+          primaryColor: '#06b6d4',
+          secondaryColor: '#3b82f6',
+          glowColor: 'rgba(6, 182, 212, 0.6)',
+          animation: 'smooth'
         };
       case 'MoonWaver':
         return {
           emoji: '🌙',
-          colors: ['#a855f7', '#9333ea', '#ec4899'],
+          primaryColor: '#a855f7',
+          secondaryColor: '#ec4899',
           glowColor: 'rgba(168, 85, 247, 0.6)',
-          name: 'MoonWaver',
+          animation: 'dreamy'
         };
     }
   };
+
+  const config = getArchetypeConfig();
+  const intensityMultiplier = intensity / 100;
 
   const getPositionClasses = () => {
     switch (position) {
@@ -60,67 +65,71 @@ const ArchetypeAuraSprite: React.FC<ArchetypeAuraSpriteProps> = ({
       case 'bottom-right':
         return 'bottom-4 right-4';
       case 'center':
-        return 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
+        return 'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2';
       default:
         return 'top-4 right-4';
     }
   };
 
-  const sprite = getArchetypeSprite();
+  const getAnimationConfig = () => {
+    const baseScale = 1 + (intensityMultiplier * 0.3);
+    const pulseScale = baseScale + (intensityMultiplier * 0.2);
+
+    switch (config.animation) {
+      case 'aggressive':
+        return {
+          scale: [baseScale, pulseScale, baseScale],
+          rotate: [-5, 5, -5],
+          duration: beatDuration * 0.5
+        };
+      case 'smooth':
+        return {
+          scale: [baseScale, pulseScale * 0.8, baseScale],
+          rotate: [-2, 2, -2],
+          duration: beatDuration * 1.5
+        };
+      case 'dreamy':
+        return {
+          scale: [baseScale, pulseScale * 0.6, baseScale],
+          rotate: [-10, 10, -10],
+          duration: beatDuration * 2
+        };
+    }
+  };
+
+  const animConfig = getAnimationConfig();
 
   return (
-    <motion.div
-      className={`fixed ${getPositionClasses()} z-30 pointer-events-none`}
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0 }}
-    >
-      {/* Main Sprite Container */}
+    <div className={`fixed ${getPositionClasses()} z-30 pointer-events-none`}>
+      {/* Main Avatar */}
       <motion.div
-        className="relative flex flex-col items-center"
+        className="relative w-20 h-20 rounded-full flex items-center justify-center backdrop-blur-sm"
+        style={{
+          background: `linear-gradient(135deg, ${config.primaryColor}, ${config.secondaryColor})`,
+          boxShadow: `0 0 30px ${config.glowColor}`
+        }}
         animate={{
-          y: [0, -10 * intensityFactor, 0],
-          scale: [1, 1 + (0.1 * intensityFactor), 1]
+          scale: animConfig.scale,
+          rotate: animConfig.rotate,
+          boxShadow: [
+            `0 0 20px ${config.glowColor}`,
+            `0 0 40px ${config.glowColor}`,
+            `0 0 20px ${config.glowColor}`
+          ]
         }}
         transition={{
-          duration: beatDuration,
+          duration: animConfig.duration,
           repeat: Infinity,
           ease: "easeInOut"
         }}
       >
-        {/* Aura Glow */}
+        {/* Emoji */}
         <motion.div
-          className="absolute inset-0 rounded-full blur-lg"
-          style={{
-            background: `radial-gradient(circle, ${sprite.glowColor} 0%, transparent 70%)`,
-            width: '80px',
-            height: '80px',
-            transform: 'translate(-50%, -50%)',
-            left: '50%',
-            top: '50%',
-          }}
+          className="text-3xl"
           animate={{
-            opacity: [0.3, 0.8 * intensityFactor, 0.3],
-            scale: [0.8, 1.2, 0.8]
-          }}
-          transition={{
-            duration: beatDuration * 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-
-        {/* Sprite Avatar */}
-        <motion.div
-          className="relative z-10 w-12 h-12 rounded-full flex items-center justify-center text-2xl bg-bass-medium/80 backdrop-blur-sm border-2"
-          style={{ borderColor: sprite.colors[0] }}
-          animate={{
-            borderColor: sprite.colors,
-            boxShadow: [
-              `0 0 10px ${sprite.glowColor}`,
-              `0 0 20px ${sprite.glowColor}`,
-              `0 0 10px ${sprite.glowColor}`
-            ]
+            y: archetype === 'Firestorm' ? [-2, 2, -2] : 
+               archetype === 'FrostPulse' ? [-1, 1, -1] :
+               [-3, 0, -3]
           }}
           transition={{
             duration: beatDuration,
@@ -128,75 +137,66 @@ const ArchetypeAuraSprite: React.FC<ArchetypeAuraSpriteProps> = ({
             ease: "easeInOut"
           }}
         >
-          <motion.span
-            animate={{
-              scale: [1, 1.2, 1],
-              rotate: [0, 5, -5, 0]
-            }}
-            transition={{
-              duration: beatDuration * 0.5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            {sprite.emoji}
-          </motion.span>
+          {config.emoji}
         </motion.div>
 
-        {/* Archetype Name Badge */}
+        {/* Pulsing Ring */}
         <motion.div
-          className="mt-2 px-2 py-1 rounded-full text-xs font-medium bg-bass-dark/80 backdrop-blur-sm border"
-          style={{ 
-            borderColor: sprite.colors[0],
-            color: sprite.colors[0]
+          className="absolute inset-0 rounded-full border-2 opacity-60"
+          style={{ borderColor: config.primaryColor }}
+          animate={{
+            scale: [1, 1.4, 1],
+            opacity: [0.6, 0.2, 0.6]
+          }}
+          transition={{
+            duration: beatDuration * 2,
+            repeat: Infinity,
+            ease: "easeOut"
+          }}
+        />
+      </motion.div>
+
+      {/* Floating Particles */}
+      {Array.from({ length: 4 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 rounded-full opacity-80"
+          style={{
+            background: i % 2 === 0 ? config.primaryColor : config.secondaryColor,
+            left: `${30 + i * 15}%`,
+            top: `${20 + (i % 2) * 60}%`
           }}
           animate={{
-            opacity: [0.7, 1, 0.7]
+            y: [0, -15, 0],
+            opacity: [0, 1, 0],
+            scale: [0.5, 1, 0.5]
           }}
           transition={{
             duration: beatDuration * 3,
             repeat: Infinity,
+            delay: i * (beatDuration * 0.5),
             ease: "easeInOut"
           }}
-        >
-          {sprite.name}
-        </motion.div>
+        />
+      ))}
 
-        {/* Orbiting Particles */}
-        {Array.from({ length: 3 }).map((_, i) => (
-          <motion.div
-            key={`orbit-${i}`}
-            className="absolute w-2 h-2 rounded-full"
-            style={{
-              background: sprite.colors[i % sprite.colors.length],
-              boxShadow: `0 0 6px ${sprite.colors[i % sprite.colors.length]}`
-            }}
-            animate={{
-              rotate: [0, 360],
-              scale: [0.5, 1, 0.5]
-            }}
-            transition={{
-              rotate: {
-                duration: beatDuration * 4,
-                repeat: Infinity,
-                ease: "linear"
-              },
-              scale: {
-                duration: beatDuration,
-                repeat: Infinity,
-                delay: i * (beatDuration * 0.33),
-                ease: "easeInOut"
-              }
-            }}
-            style={{
-              transformOrigin: `0 ${30 + i * 10}px`,
-              left: '50%',
-              top: '50%'
-            }}
-          />
-        ))}
-      </motion.div>
-    </motion.div>
+      {/* Energy Trails */}
+      <motion.div
+        className="absolute inset-0 rounded-full"
+        style={{
+          background: `radial-gradient(circle, transparent 60%, ${config.glowColor} 100%)`
+        }}
+        animate={{
+          scale: [0.8, 1.2, 0.8],
+          opacity: [0.3, 0.1, 0.3]
+        }}
+        transition={{
+          duration: beatDuration * 4,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+    </div>
   );
 };
 
