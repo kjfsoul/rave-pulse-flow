@@ -148,7 +148,7 @@ const DebugHUD: React.FC<DebugHUDProps> = ({
                 <div className="text-orange-400 font-bold mb-1">Performance:</div>
                 <div className="ml-4 space-y-1">
                   <div>Render: {Math.round(performance.now() % 1000)}ms</div>
-                  <div>Memory: {navigator.deviceMemory ? `${navigator.deviceMemory}GB` : 'Unknown'}</div>
+                  <div>Memory: {(navigator as any).deviceMemory ? `${(navigator as any).deviceMemory}GB` : 'Unknown'}</div>
                   <div>Connection: {(navigator as any).connection?.effectiveType || 'Unknown'}</div>
                 </div>
               </div>
