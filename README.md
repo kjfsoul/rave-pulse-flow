@@ -1,73 +1,63 @@
-# Welcome to your Lovable project
+# EDM Shuffle
 
-## Project info
+Welcome to **EDM Shuffle** — the next-gen community-driven digital rave and festival platform.  
+This project is an open, transparent, and rigorously documented codebase, built with a focus on trust, verifiability, and collaboration across leading AI coding assistants (Claude Code, Gemini CLI, Roo Code, and more).
 
-**URL**: https://lovable.dev/projects/847543e3-4cb5-45ab-9516-fcec7174e117
+## 🚀 What is EDM Shuffle?
 
-## How can I edit this code?
+EDM Shuffle is a festival-inspired, interactive audio/visual experience for DJs, shufflers, and festival fans. The platform includes:
 
-There are several ways of editing your application.
+- Real-time DJ Mix Station with dual decks and authentic Web Audio API features
+- Live Festival Voting Stage for audience-driven lineups
+- Crowd engagement: Confetti bursts, emoji reactions, and interactive challenges
+- Dynamic Rave Marketplace (fashion, gear, and more)
+- Community leaderboard, PLUR power, and archetype-based game mechanics
+- Extensible for virtual events, merch drops, and user submissions
 
-**Use Lovable**
+## 🔍 Repository Structure
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/847543e3-4cb5-45ab-9516-fcec7174e117) and start prompting.
+- **All documentation is located in the root directory of this repo.**  
+- Major source code lives under `/src/`, with components, pages, and hooks logically organized.
 
-Changes made via Lovable will be committed automatically to this repo.
+## 📂 Documentation Index
 
-**Use your preferred IDE**
+See [`DOCUMENTATION_INDEX.md`](./DOCUMENTATION_INDEX.md) for a full, clickable list with descriptions.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+**Key Docs in Root Directory:**
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- `README.md` (this file)
+- `CLAUDE_INTEGRITY_RULES.md`
+- `IMPLEMENTATION_MICROTASKS.md`
+- `PRD.md` (Product Requirements)
+- `FRS.md` (Functional Requirements)
+- `MASTERPLAN.md` (Strategic Project Roadmap)
+- `AUDIO_UI_COMPONENTS.md`
+- `claudeupdate.md`
+- _...plus other live docs as they are created (see index)_
 
-Follow these steps:
+## 🛠️ Contributing
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- **Strictly adhere to** `CLAUDE_INTEGRITY_RULES.md` (no placeholder code, no fabricated claims).
+- **Work on one microtask at a time, in order, as defined in `IMPLEMENTATION_MICROTASKS.md`.**
+- Use `claudeupdate.md` for reporting progress and issues.
+- If blocked, escalate to human or next AI assistant as noted in the rules.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🧰 Tech Stack
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
+- React + TypeScript (Vite)
 - Tailwind CSS
+- Web Audio API
+- Supabase (planned)
+- Open, extensible for cloud/AI integrations (Gemini CLI, Claude Code, Roo Code, Kimi Dev, etc.)
 
-## How can I deploy this project?
+## 🎯 Core Principles
 
-Simply open [Lovable](https://lovable.dev/projects/847543e3-4cb5-45ab-9516-fcec7174e117) and click on Share -> Publish.
+- **Transparency:** Every commit, feature, and claim must be verifiable.
+- **Modularity:** Components and features are built independently and composably.
+- **Community-Driven:** Prioritizing user engagement, feedback, and collective energy.
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## 📄 See [`DOCUMENTATION_INDEX.md`](./DOCUMENTATION_INDEX.md) for full details on every doc and process
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Let the digital rave begin. ✨

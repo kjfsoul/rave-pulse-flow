@@ -1,0 +1,37 @@
+# Documentation Index
+
+- **1 Executive Summary Vision**: See `1-executive-summary-vision.md`
+- **1 Executive Summary**: See `1-executive-summary.md`
+- **2 Authoritative Project Roadmap Development Phases Milestones**: See `2-authoritative-project-roadmap-development-phases-milestones.md`
+- **2 Documentation Index**: See `2-documentation-index.md`
+- **3 Document Index Root Directory**: See `3-document-index-root-directory.md`
+- **3 Prd Product Requirements Document**: See `3-prd-product-requirements-document.md`
+- **4 Frs Functional Requirements Specification**: See `4-frs-functional-requirements-specification.md`
+- **4 Prompt Catalog**: See `4-prompt-catalog.md`
+- **5 Feature Gap Analysis**: See `5-feature-gap-analysis.md`
+- **5 Implementation Roadmap**: See `5-implementation-roadmap.md`
+- **6 Phase By Phase Features Prompts Tasks**: See `6-phase-by-phase-features-prompts-tasks.md`
+- **7 Admin Docs**: See `7-admin-docs.md`
+- **7 Feature Matrix Gap Analysis**: See `7-feature-matrix-gap-analysis.md`
+- **8 Built In Marketing Framework**: See `8-built-in-marketing-framework.md`
+- **8 Change Log Claudeupdate Md**: See `8-change-log-claudeupdate-md.md`
+- **Agent Hand Off Notes**: See `agent-hand-off-notes.md`
+- **Changelog Recent History**: See `changelog-recent-history.md`
+- **Claude**: See `claude.md`
+- **Claude_Integrity_Rules**: See `claude_integrity_rules.md`
+- **Current Overall Status**: See `current-overall-status.md`
+- **Edm Shuffle Development Manual Master Blueprint**: See `edm-shuffle-development-manual-master-blueprint.md`
+- **Edm Shuffle Professional Development Manual**: See `edm-shuffle-professional-development-manual.md`
+- **How To Use This File**: See `how-to-use-this-file.md`
+- **Memory Context Note For Next Llm**: See `memory-context-note-for-next-llm.md`
+- **Phase 1 Core Infrastructure Theming Initial Scaffolding User Authentication**: See `phase-1-core-infrastructure-theming-initial-scaffolding-user-authentication.md`
+- **Phase 1 User Authentication Account System Full User Journey**: See `phase-1-user-authentication-account-system-full-user-journey.md`
+- **Phase 1 User Authentication Account System**: See `phase-1-user-authentication-account-system.md`
+- **Phase 2 Audio Engine Mix Station**: See `phase-2-audio-engine-mix-station.md`
+- **Phase 3 Voting Festival Scheduling**: See `phase-3-voting-festival-scheduling.md`
+- **Phase 4 Challenges Social**: See `phase-4-challenges-social.md`
+- **Phase 5 Marketplace**: See `phase-5-marketplace.md`
+- **Phase 6 Community Crews**: See `phase-6-community-crews.md`
+- **Phase 7 Admin Docs**: See `phase-7-admin-docs.md`
+- **Phase 8 Built In Marketing Framework**: See `phase-8-built-in-marketing-framework.md`
+- **Reality Audit Placeholder Disclosure**: See `reality-audit-placeholder-disclosure.md`

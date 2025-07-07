@@ -1,0 +1,4 @@
+<!-- LLM/Claude Context: Section = 1. Executive Summary -->
+
+EDM Shuffle is a next-generation cultural-tech platform designed for Gen Z and millennial electronic dance music (EDM) fans, shuffle dancers, DJs, and festival-goers. Its core mission is to empower creators, dancers, DJs, and fans to express themselves through personalized archetypes, immersive digital tools, and a community-driven festival ecosystem. The platform aims to be the definitive digital destination for EDM lovers, blending creative tools, virtual identity, curated content, and commerce into a gamified, expressive experience.
+The project is undergoing a rebuild from scratch, prioritizing functionality, AI integration from day one, deep personalization, and archetype-based UI and content, moving past previous iterations with simulated features. EDM Shuffle seeks to unite music, dance, fashion, and event culture into one cohesive system driven by autonomous agents and user-centric personalization.

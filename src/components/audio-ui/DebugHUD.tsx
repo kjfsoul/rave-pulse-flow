@@ -1,8 +1,21 @@
-
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Eye, EyeOff, Activity, Volume2, Zap, Radio } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Eye,
+  EyeOff,
+  Activity,
+  Volume2,
+  Zap,
+  Radio,
+  Pause,
+  Play,
+  Space,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { exit } from "process";
+import { size } from "zod/v4";
+import { ms } from "zod/v4/locales";
+import { Toggle } from "../ui/toggle";
 
 interface DebugHUDProps {
   isVisible: boolean;
@@ -11,7 +24,7 @@ interface DebugHUDProps {
   crossfadeValue: number;
   bpmSync: boolean;
   masterBpm: number;
-  activeDeck: 'A' | 'B' | null;
+  activeDeck: "A" | "B" | null;
   isSimulationMode: boolean;
 }
 
@@ -23,23 +36,31 @@ const DebugHUD: React.FC<DebugHUDProps> = ({
   bpmSync,
   masterBpm,
   activeDeck,
-  isSimulationMode
+  isSimulationMode,
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'running': return 'text-green-400';
-      case 'suspended': return 'text-yellow-400';
-      case 'error': return 'text-red-400';
-      default: return 'text-gray-400';
+      case "running":
+        return "text-green-400";
+      case "suspended":
+        return "text-yellow-400";
+      case "error":
+        return "text-red-400";
+      default:
+        return "text-gray-400";
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'running': return '✅';
-      case 'suspended': return '⏸️';
-      case 'error': return '❌';
-      default: return '⚪';
+      case "running":
+        return "✅";
+      case "suspended":
+        return "⏸️";
+      case "error":
+        return "❌";
+      default:
+        return "⚪";
     }
   };
 
@@ -53,7 +74,11 @@ const DebugHUD: React.FC<DebugHUDProps> = ({
           variant="outline"
           className="bg-black/80 border-neon-purple/50 text-neon-cyan hover:bg-neon-purple/20"
         >
-          {isVisible ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          {isVisible ? (
+            <EyeOff className="w-4 h-4" />
+          ) : (
+            <Eye className="w-4 h-4" />
+          )}
           Debug
         </Button>
       </div>
@@ -85,12 +110,16 @@ const DebugHUD: React.FC<DebugHUDProps> = ({
                   Audio System:
                 </div>
                 <div className="ml-4 space-y-1">
-                  <div className={`flex items-center gap-2 ${getStatusColor(audioEngine.audioContextState)}`}>
+                  <div
+                    className={`flex items-center gap-2 ${getStatusColor(
+                      audioEngine.audioContextState
+                    )}`}
+                  >
                     <span>{getStatusIcon(audioEngine.audioContextState)}</span>
                     Context: {audioEngine.audioContextState.toUpperCase()}
                   </div>
                   <div className="text-gray-300">
-                    Mode: {isSimulationMode ? 'SIMULATION' : 'REAL AUDIO'}
+                    Mode: {isSimulationMode ? "SIMULATION" : "REAL AUDIO"}
                   </div>
                 </div>
               </div>
@@ -102,13 +131,25 @@ const DebugHUD: React.FC<DebugHUDProps> = ({
                   Deck A:
                 </div>
                 <div className="ml-4 space-y-1">
-                  <div>Track: {audioEngine.deckA.track?.title || 'None'}</div>
+                  <div>Track: {audioEngine.deckA.track?.title || "None"}</div>
                   <div>BPM: {audioEngine.deckA.track?.bpm || 0}</div>
-                  <div>Status: {audioEngine.deckA.isPlaying ? '▶️ PLAYING' : '⏸️ PAUSED'}</div>
-                  <div>Volume: {audioEngine.deckA.volume}% {audioEngine.deckA.isMuted ? '(MUTED)' : ''}</div>
-                  <div>Pitch: {audioEngine.deckA.pitch > 0 ? '+' : ''}{audioEngine.deckA.pitch}%</div>
-                  <div>Echo: {audioEngine.deckA.echoFX ? 'ON 🔊' : 'OFF'}</div>
-                  <div>Nodes: {audioEngine.deckA.gainNode ? '✅' : '❌'} Audio Graph</div>
+                  <div>
+                    Status:{" "}
+                    {audioEngine.deckA.isPlaying ? "▶️ PLAYING" : "⏸️ PAUSED"}
+                  </div>
+                  <div>
+                    Volume: {audioEngine.deckA.volume}%{" "}
+                    {audioEngine.deckA.isMuted ? "(MUTED)" : ""}
+                  </div>
+                  <div>
+                    Pitch: {audioEngine.deckA.pitch > 0 ? "+" : ""}
+                    {audioEngine.deckA.pitch}%
+                  </div>
+                  <div>Echo: {audioEngine.deckA.echoFX ? "ON 🔊" : "OFF"}</div>
+                  <div>
+                    Nodes: {audioEngine.deckA.gainNode ? "✅" : "❌"} Audio
+                    Graph
+                  </div>
                 </div>
               </div>
 
@@ -119,13 +160,25 @@ const DebugHUD: React.FC<DebugHUDProps> = ({
                   Deck B:
                 </div>
                 <div className="ml-4 space-y-1">
-                  <div>Track: {audioEngine.deckB.track?.title || 'None'}</div>
+                  <div>Track: {audioEngine.deckB.track?.title || "None"}</div>
                   <div>BPM: {audioEngine.deckB.track?.bpm || 0}</div>
-                  <div>Status: {audioEngine.deckB.isPlaying ? '▶️ PLAYING' : '⏸️ PAUSED'}</div>
-                  <div>Volume: {audioEngine.deckB.volume}% {audioEngine.deckB.isMuted ? '(MUTED)' : ''}</div>
-                  <div>Pitch: {audioEngine.deckB.pitch > 0 ? '+' : ''}{audioEngine.deckB.pitch}%</div>
-                  <div>Echo: {audioEngine.deckB.echoFX ? 'ON 🔊' : 'OFF'}</div>
-                  <div>Nodes: {audioEngine.deckB.gainNode ? '✅' : '❌'} Audio Graph</div>
+                  <div>
+                    Status:{" "}
+                    {audioEngine.deckB.isPlaying ? "▶️ PLAYING" : "⏸️ PAUSED"}
+                  </div>
+                  <div>
+                    Volume: {audioEngine.deckB.volume}%{" "}
+                    {audioEngine.deckB.isMuted ? "(MUTED)" : ""}
+                  </div>
+                  <div>
+                    Pitch: {audioEngine.deckB.pitch > 0 ? "+" : ""}
+                    {audioEngine.deckB.pitch}%
+                  </div>
+                  <div>Echo: {audioEngine.deckB.echoFX ? "ON 🔊" : "OFF"}</div>
+                  <div>
+                    Nodes: {audioEngine.deckB.gainNode ? "✅" : "❌"} Audio
+                    Graph
+                  </div>
                 </div>
               </div>
 
@@ -137,19 +190,37 @@ const DebugHUD: React.FC<DebugHUDProps> = ({
                 </div>
                 <div className="ml-4 space-y-1">
                   <div>Crossfade: {crossfadeValue}%</div>
-                  <div>Active Deck: {activeDeck ? `DECK ${activeDeck}` : 'CENTER MIX'}</div>
-                  <div>BPM Sync: {bpmSync ? 'ON 🎵' : 'OFF'}</div>
+                  <div>
+                    Active Deck:{" "}
+                    {activeDeck ? `DECK ${activeDeck}` : "CENTER MIX"}
+                  </div>
+                  <div>BPM Sync: {bpmSync ? "ON 🎵" : "OFF"}</div>
                   <div>Master BPM: {masterBpm}</div>
                 </div>
               </div>
 
               {/* Performance Metrics */}
               <div>
-                <div className="text-orange-400 font-bold mb-1">Performance:</div>
+                <div className="text-orange-400 font-bold mb-1">
+                  Performance:
+                </div>
                 <div className="ml-4 space-y-1">
                   <div>Render: {Math.round(performance.now() % 1000)}ms</div>
+<<<<<<< HEAD
                   <div>Memory: {(navigator as any).deviceMemory ? `${(navigator as any).deviceMemory}GB` : 'Unknown'}</div>
                   <div>Connection: {(navigator as any).connection?.effectiveType || 'Unknown'}</div>
+=======
+                  <div>
+                    Memory:{" "}
+                    {(navigator as any).deviceMemory
+                      ? `${(navigator as any).deviceMemory}GB`
+                      : "Unknown"}
+                  </div>
+                  <div>
+                    Connection:{" "}
+                    {(navigator as any).connection?.effectiveType || "Unknown"}
+                  </div>
+>>>>>>> 25d84cc (claudeready)
                 </div>
               </div>
 
