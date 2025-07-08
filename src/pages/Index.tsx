@@ -7,6 +7,7 @@ import LaserRaveBackground from "@/components/LaserRaveBackground";
 import ShuffleDancers from "@/components/ShuffleDancers";
 import VibePreview from "@/components/VibePreview";
 import ScrollHintArrow from "@/components/ScrollHintArrow";
+import RSSFeedStreamer from "@/components/RSSFeedStreamer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Play, Heart, Share2, TrendingUp } from "lucide-react";
@@ -65,6 +66,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-bass-dark relative pb-20">
+      {/* RSS Feed Streamer */}
+      <RSSFeedStreamer />
+      
       {/* Enhanced Hero Section with Rave Drop */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
         {/* Laser Rave Background */}
