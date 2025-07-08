@@ -16,7 +16,7 @@ import EnhancedDJDeck from '@/components/audio-ui/EnhancedDJDeck';
 import DebugHUD from '@/components/audio-ui/DebugHUD';
 import SubscribeModal from '@/components/audio-ui/SubscribeModal';
 import Crossfader from '@/components/audio-ui/Crossfader';
-import CrowdFXLayer from '@/components/audio-ui/CrowdFXLayer';
+import CrowdFXLayer, { CrowdFXLayerRef } from '@/components/audio-ui/CrowdFXLayer';
 import SubscribeBanner from '@/components/audio-ui/SubscribeBanner';
 
 // Mock track data
@@ -30,7 +30,7 @@ const DJMixStation = () => {
   const { bpm } = useAudioContext();
   const audioEngine = useRealAudioEngine();
   const { toast } = useToast();
-  const crowdFXRef = useRef<{ triggerEffects: () => void }>(null);
+  const crowdFXRef = useRef<CrowdFXLayerRef>(null);
   
   const [selectedDeck, setSelectedDeck] = useState<'A' | 'B' | null>(null);
   const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);

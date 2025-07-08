@@ -12,10 +12,6 @@ import {
   Space,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { exit } from "process";
-import { size } from "zod/v4";
-import { ms } from "zod/v4/locales";
-import { Toggle } from "../ui/toggle";
 
 interface DebugHUDProps {
   isVisible: boolean;
@@ -206,10 +202,6 @@ const DebugHUD: React.FC<DebugHUDProps> = ({
                 </div>
                 <div className="ml-4 space-y-1">
                   <div>Render: {Math.round(performance.now() % 1000)}ms</div>
-<<<<<<< HEAD
-                  <div>Memory: {(navigator as any).deviceMemory ? `${(navigator as any).deviceMemory}GB` : 'Unknown'}</div>
-                  <div>Connection: {(navigator as any).connection?.effectiveType || 'Unknown'}</div>
-=======
                   <div>
                     Memory:{" "}
                     {(navigator as any).deviceMemory
@@ -220,7 +212,6 @@ const DebugHUD: React.FC<DebugHUDProps> = ({
                     Connection:{" "}
                     {(navigator as any).connection?.effectiveType || "Unknown"}
                   </div>
->>>>>>> 25d84cc (claudeready)
                 </div>
               </div>
 

@@ -9,11 +9,15 @@ interface CrowdFXLayerProps {
   audioContext?: AudioContext;
 }
 
-const CrowdFXLayer: React.FC<CrowdFXLayerProps> = ({
+export interface CrowdFXLayerRef {
+  triggerEffects: () => void;
+}
+
+const CrowdFXLayer = React.forwardRef<CrowdFXLayerRef, CrowdFXLayerProps>(({
   isEnabled,
   onToggle,
   audioContext
-}) => {
+}, ref) => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showFloatingEmojis, setShowFloatingEmojis] = useState(false);
   const [crowdAudio, setCrowdAudio] = useState<HTMLAudioElement | null>(null);
@@ -105,7 +109,7 @@ const CrowdFXLayer: React.FC<CrowdFXLayerProps> = ({
   }, [playCheerSound]);
 
   // Expose trigger function to parent
-  React.useImperativeHandle(React.useRef(), () => ({
+  React.useImperativeHandle(ref, () => ({
     triggerEffects: triggerAllEffects
   }));
 
@@ -176,6 +180,6 @@ const CrowdFXLayer: React.FC<CrowdFXLayerProps> = ({
       )}
     </>
   );
-};
+});
 
 export default CrowdFXLayer;
