@@ -14,10 +14,14 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import EnhancedDJDeck from '@/components/audio-ui/EnhancedDJDeck';
 import DebugHUD from '@/components/audio-ui/DebugHUD';
+import EnhancedDebugHUD from '@/components/audio-ui/EnhancedDebugHUD';
+import VoiceControlPanel from '@/components/audio-ui/VoiceControlPanel';
 import SubscribeModal from '@/components/audio-ui/SubscribeModal';
 import Crossfader from '@/components/audio-ui/Crossfader';
 import CrowdFXLayer, { CrowdFXLayerRef } from '@/components/audio-ui/CrowdFXLayer';
 import SubscribeBanner from '@/components/audio-ui/SubscribeBanner';
+import { useFestivalAnnouncer } from '@/hooks/useTTS';
+import { useVoiceCommands } from '@/hooks/useVoiceCommands';
 
 // Mock track data
 const mockTracks = [
@@ -38,9 +42,14 @@ const DJMixStation = () => {
   const [lightBurst, setLightBurst] = useState(false);
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [showDebugHUD, setShowDebugHUD] = useState(true);
+  const [showVoicePanel, setShowVoicePanel] = useState(false);
   const [bpmSync, setBpmSync] = useState(true);
   const [isCrowdEnabled, setIsCrowdEnabled] = useState(true);
   const [showSubscribeBanner, setShowSubscribeBanner] = useState(true);
+  
+  // Audio and speech integration
+  const announcer = useFestivalAnnouncer();
+  const voiceCommands = useVoiceCommands();
 
   // Crossfade state synchronized with audio engine
   const [crossfade, setCrossfade] = useState(audioEngine.crossfadeValue);
@@ -189,8 +198,8 @@ const DJMixStation = () => {
         audioContext={undefined}
       />
 
-      {/* Debug HUD */}
-      <DebugHUD
+      {/* Enhanced Debug HUD */}
+      <EnhancedDebugHUD
         isVisible={showDebugHUD}
         onToggle={() => setShowDebugHUD(!showDebugHUD)}
         audioEngine={audioEngine}
@@ -199,6 +208,19 @@ const DJMixStation = () => {
         masterBpm={bpm}
         activeDeck={activeDeck}
         isSimulationMode={audioEngine.isSimulationMode}
+        ttsState={announcer.state}
+        speechState={voiceCommands.state}
+      />
+
+      {/* Voice Control Panel */}
+      <VoiceControlPanel
+        isVisible={showVoicePanel}
+        onToggle={() => setShowVoicePanel(!showVoicePanel)}
+        onVoiceCommand={(command) => {
+          // Handle voice commands
+          console.log('Voice command received:', command);
+          // TODO: Implement voice command routing
+        }}
       />
 
       {/* Main DJ Interface */}
