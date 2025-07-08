@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Anaconda
+.anaconda
+anaconda3/
+*/anaconda3/*
