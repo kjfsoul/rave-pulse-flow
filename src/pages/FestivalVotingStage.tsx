@@ -1,5 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { festivalOperations } from "@/lib/database";
+import { toast } from "sonner";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import BottomNavigation from "@/components/BottomNavigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +16,7 @@ import ShuffleDancers from '@/components/VisualFX/ShuffleDancers';
 import LightSyncPulse from '@/components/VisualFX/LightSyncPulse';
 
 const FestivalVotingStage = () => {
+  const { user, profile } = useAuth();
   const [selectedDJ, setSelectedDJ] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -22,6 +27,8 @@ const FestivalVotingStage = () => {
     3: 635,
     4: 420
   });
+  const [userVotes, setUserVotes] = useState<string[]>([]);
+  const [isVoting, setIsVoting] = useState(false);
   const [headliner, setHeadliner] = useState<number | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [crowdReactions, setCrowdReactions] = useState<string[]>([
@@ -31,7 +38,7 @@ const FestivalVotingStage = () => {
     "⚡ Energy through the roof!"
   ]);
   const [lightBurst, setLightBurst] = useState(false);
-  const [currentArchetype] = useState<'Firestorm' | 'FrostPulse' | 'MoonWaver'>('MoonWaver');
+  const currentArchetype = (profile?.archetype || 'MoonWaver') as 'Firestorm' | 'FrostPulse' | 'MoonWaver';
 
   const djs = [
     {
@@ -82,17 +89,58 @@ const FestivalVotingStage = () => {
     setIsPlaying(true);
   };
 
-  const handleVote = (djId: number) => {
-    setVotes(prev => ({
-      ...prev,
-      [djId]: prev[djId] + 1
-    }));
-    setShowConfetti(true);
-    setLightBurst(true);
-    setTimeout(() => {
-      setShowConfetti(false);
-      setLightBurst(false);
-    }, 2000);
+  const handleVote = async (djId: number) => {
+    if (!user) {
+      toast.error("Please sign in to vote!");
+      return;
+    }
+    
+    const djData = djs.find(dj => dj.id === djId);
+    if (!djData) return;
+    
+    // Check if user already voted for this DJ
+    if (userVotes.includes(djData.name)) {
+      toast.error(`You already voted for ${djData.name}!`);
+      return;
+    }
+    
+    setIsVoting(true);
+    try {
+      // Submit vote to Supabase
+      const voteWeight = profile?.archetype === djData.archetype ? 2 : 1;
+      const success = await festivalOperations.submitVote(user.id, djData.name, voteWeight);
+      
+      if (success) {
+        // Update local state
+        setVotes(prev => ({
+          ...prev,
+          [djId]: prev[djId] + voteWeight
+        }));
+        setUserVotes(prev => [...prev, djData.name]);
+        
+        // Visual feedback
+        setShowConfetti(true);
+        setLightBurst(true);
+        setTimeout(() => {
+          setShowConfetti(false);
+          setLightBurst(false);
+        }, 2000);
+        
+        // Show success message
+        if (voteWeight === 2) {
+          toast.success(`Double vote for ${djData.name}! Archetype match bonus!`, {
+            icon: "⚡"
+          });
+        } else {
+          toast.success(`Voted for ${djData.name}!`);
+        }
+      }
+    } catch (error) {
+      console.error('Error voting:', error);
+      toast.error('Failed to submit vote');
+    } finally {
+      setIsVoting(false);
+    }
   };
 
   const handleTurntableInteraction = (action: string) => {
@@ -104,6 +152,47 @@ const FestivalVotingStage = () => {
       setTimeout(() => setLightBurst(false), 1000);
     }
   };
+
+  // Load user's existing votes
+  useEffect(() => {
+    const loadUserVotes = async () => {
+      if (!user) return;
+      
+      try {
+        const votes = await festivalOperations.getUserVotes(user.id);
+        setUserVotes(votes.map(v => v.artist_id));
+      } catch (error) {
+        console.error('Error loading user votes:', error);
+      }
+    };
+    
+    loadUserVotes();
+  }, [user]);
+
+  // Load real-time vote counts for each DJ
+  useEffect(() => {
+    const loadVoteCounts = async () => {
+      const newVotes: {[key: number]: number} = {};
+      
+      for (const dj of djs) {
+        try {
+          const stats = await festivalOperations.getVotingStats(dj.name);
+          newVotes[dj.id] = stats.totalWeight + (votes[dj.id] || 0); // Add to existing base votes
+        } catch (error) {
+          console.error(`Error loading votes for ${dj.name}:`, error);
+          newVotes[dj.id] = votes[dj.id] || 0;
+        }
+      }
+      
+      setVotes(prev => ({ ...prev, ...newVotes }));
+    };
+    
+    // Load on mount and refresh every 10 seconds
+    loadVoteCounts();
+    const interval = setInterval(loadVoteCounts, 10000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     // Check for headliner after votes
@@ -117,7 +206,8 @@ const FestivalVotingStage = () => {
   const selectedDJData = djs.find(dj => dj.id === selectedDJ);
 
   return (
-    <div className="min-h-screen bg-bass-dark relative pb-20 overflow-hidden">
+    <ProtectedRoute>
+      <div className="min-h-screen bg-bass-dark relative pb-20 overflow-hidden">
       {/* Visual FX Layers */}
       <FestivalStageBackground 
         archetype={currentArchetype} 
@@ -216,8 +306,14 @@ const FestivalVotingStage = () => {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
         >
-          <div className="text-sm text-neon-cyan">🎴 BlazeTech Crew</div>
-          <div className="text-xs text-slate-400">Festival Supporter</div>
+          <div className="text-sm text-neon-cyan">
+            {profile?.archetype === 'Firestorm' ? '🔥' : 
+             profile?.archetype === 'FrostPulse' ? '❄️' : 
+             profile?.archetype === 'MoonWaver' ? '🌙' : '🎴'} {profile?.username || 'Raver'}
+          </div>
+          <div className="text-xs text-slate-400">
+            {profile?.archetype || 'Festival Supporter'} • Level {profile?.level || 1}
+          </div>
         </motion.div>
 
         {/* DJ Stage */}
@@ -294,13 +390,25 @@ const FestivalVotingStage = () => {
                             🎧 Preview
                           </NeonButton>
                           <NeonButton
-                            variant="secondary"
+                            variant={userVotes.includes(dj.name) ? "outline" : "secondary"}
                             size="sm"
                             onClick={() => handleVote(dj.id)}
                             className="w-full text-xs"
+                            disabled={isVoting || userVotes.includes(dj.name)}
                           >
-                            🔥 Vote ({votes[dj.id]})
+                            {userVotes.includes(dj.name) ? (
+                              <>✓ Voted ({votes[dj.id]})</>
+                            ) : (
+                              <>🔥 Vote ({votes[dj.id]})</>
+                            )}
                           </NeonButton>
+                          
+                          {/* Show bonus indicator for archetype match */}
+                          {profile?.archetype === dj.archetype && !userVotes.includes(dj.name) && (
+                            <div className="text-xs text-neon-cyan mt-1">
+                              ⚡ 2x Vote Power (Archetype Match)
+                            </div>
+                          )}
                         </div>
                       </div>
                     </CardContent>
@@ -431,7 +539,8 @@ const FestivalVotingStage = () => {
       </div>
 
       <BottomNavigation />
-    </div>
+      </div>
+    </ProtectedRoute>
   );
 };
 

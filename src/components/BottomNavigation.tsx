@@ -1,11 +1,13 @@
 
 import { motion } from "framer-motion";
-import { Home, Zap, ShoppingBag, Music, Dna } from "lucide-react";
+import { Home, Zap, ShoppingBag, Music, Dna, User } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const BottomNavigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const navItems = [
     { icon: Home, label: "Explore", path: "/" },
@@ -13,6 +15,7 @@ const BottomNavigation = () => {
     { icon: ShoppingBag, label: "Marketplace", path: "/marketplace" },
     { icon: Music, label: "Festival", path: "/festival" },
     { icon: Dna, label: "Archetype", path: "/archetype-quiz" },
+    { icon: User, label: "Profile", path: "/profile" },
   ];
 
   return (
@@ -48,6 +51,14 @@ const BottomNavigation = () => {
                       : "text-slate-400 hover:text-neon-cyan"
                   }`}
                 />
+                {item.label === "Profile" && user && (
+                  <motion.div
+                    className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-bass-dark"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.2 }}
+                  />
+                )}
               </motion.div>
               <span 
                 className={`text-xs transition-colors duration-300 ${

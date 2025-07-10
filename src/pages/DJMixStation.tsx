@@ -2,6 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shuffle } from 'lucide-react';
 import { useAudioContext } from '@/contexts/AudioContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { djOperations } from '@/lib/database';
+import { toast } from 'sonner';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { useRealAudioEngine } from '@/hooks/useRealAudioEngine';
 import BottomNavigation from '@/components/BottomNavigation';
 import TrackSelectModal from '@/components/audio-ui/TrackSelectModal';
@@ -22,9 +26,17 @@ import CrowdFXLayer, { CrowdFXLayerRef } from '@/components/audio-ui/CrowdFXLaye
 import SubscribeBanner from '@/components/audio-ui/SubscribeBanner';
 import { useFestivalAnnouncer } from '@/hooks/useTTS';
 import { useVoiceCommands } from '@/hooks/useVoiceCommands';
+import { generateDefaultTracks, generateCrowdCheer, GeneratedTrack } from '@/utils/audioGenerator';
 
-// Mock track data
-const mockTracks = [
+interface AudioTrack {
+  id: string;
+  title: string;
+  bpm: number;
+  src: string;
+}
+
+// Initial mock tracks (will be replaced with generated audio)
+const initialMockTracks: AudioTrack[] = [
   { id: '1', title: 'Festival Mix', bpm: 128, src: '/audio/festival_mix.mp3' },
   { id: '2', title: 'Deep House Vibes', bpm: 124, src: '/audio/deep_house.mp3' },
   { id: '3', title: 'Techno Storm', bpm: 132, src: '/audio/techno_storm.mp3' }
@@ -32,13 +44,13 @@ const mockTracks = [
 
 const DJMixStation = () => {
   const { bpm } = useAudioContext();
+  const { user, profile } = useAuth();
   const audioEngine = useRealAudioEngine();
-  const { toast } = useToast();
   const crowdFXRef = useRef<CrowdFXLayerRef>(null);
   
   const [selectedDeck, setSelectedDeck] = useState<'A' | 'B' | null>(null);
   const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
-  const [archetype] = useState<'Firestorm' | 'FrostPulse' | 'MoonWaver'>('Firestorm');
+  const [archetype] = useState<'Firestorm' | 'FrostPulse' | 'MoonWaver'>(profile?.archetype as any || 'Firestorm');
   const [lightBurst, setLightBurst] = useState(false);
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [showDebugHUD, setShowDebugHUD] = useState(true);
@@ -46,10 +58,64 @@ const DJMixStation = () => {
   const [bpmSync, setBpmSync] = useState(true);
   const [isCrowdEnabled, setIsCrowdEnabled] = useState(true);
   const [showSubscribeBanner, setShowSubscribeBanner] = useState(true);
+  const [settingsLoaded, setSettingsLoaded] = useState(false);
+  
+  // Audio generation state
+  const [availableTracks, setAvailableTracks] = useState<AudioTrack[]>(initialMockTracks);
+  const [audioInitialized, setAudioInitialized] = useState(false);
+  const [audioInitError, setAudioInitError] = useState<string | null>(null);
   
   // Audio and speech integration
   const announcer = useFestivalAnnouncer();
   const voiceCommands = useVoiceCommands();
+
+  // Load DJ settings from database
+  useEffect(() => {
+    const loadSettings = async () => {
+      if (!user) return;
+      
+      try {
+        const settings = await djOperations.getDJSettings(user.id);
+        if (settings?.settings) {
+          setBpmSync(settings.settings.bpmSync ?? true);
+          setIsCrowdEnabled(settings.settings.isCrowdEnabled ?? true);
+          setShowDebugHUD(settings.settings.showDebugHUD ?? true);
+          setShowVoicePanel(settings.settings.showVoicePanel ?? false);
+          setShowSubscribeBanner(settings.settings.showSubscribeBanner ?? true);
+        }
+        setSettingsLoaded(true);
+      } catch (error) {
+        console.error('Error loading DJ settings:', error);
+        setSettingsLoaded(true);
+      }
+    };
+    
+    loadSettings();
+  }, [user]);
+
+  // Save settings when they change
+  useEffect(() => {
+    const saveSettings = async () => {
+      if (!user || !settingsLoaded) return;
+      
+      const settings = {
+        bpmSync,
+        isCrowdEnabled,
+        showDebugHUD,
+        showVoicePanel,
+        showSubscribeBanner
+      };
+      
+      try {
+        await djOperations.saveDJSettings(user.id, settings);
+      } catch (error) {
+        console.error('Error saving DJ settings:', error);
+      }
+    };
+    
+    const debounceTimer = setTimeout(saveSettings, 1000);
+    return () => clearTimeout(debounceTimer);
+  }, [user, settingsLoaded, bpmSync, isCrowdEnabled, showDebugHUD, showVoicePanel, showSubscribeBanner]);
 
   // Crossfade state synchronized with audio engine
   const [crossfade, setCrossfade] = useState(audioEngine.crossfadeValue);
@@ -59,11 +125,68 @@ const DJMixStation = () => {
     audioEngine.setCrossfade(crossfade);
   }, [crossfade, audioEngine]);
 
-  // Load default tracks on mount
+  // Initialize audio tracks on mount
   useEffect(() => {
-    audioEngine.loadTrack('A', mockTracks[0]);
-    audioEngine.loadTrack('B', mockTracks[1]);
-  }, [audioEngine]);
+    const initializeAudio = async () => {
+      try {
+        console.log('🎵 Initializing DJ audio system...');
+        
+        // Check if files exist first, if not generate test audio
+        const testAudio = new Audio(initialMockTracks[0].src);
+        
+        testAudio.onerror = async () => {
+          console.log('📁 Audio files not found, generating test tracks...');
+          try {
+            const generatedTracks = await generateDefaultTracks();
+            const convertedTracks: AudioTrack[] = generatedTracks.map(track => ({
+              id: track.id,
+              title: track.title,
+              bpm: track.bpm,
+              src: track.url
+            }));
+            
+            setAvailableTracks(convertedTracks);
+            setAudioInitialized(true);
+            
+            // Load generated tracks into decks
+            await audioEngine.loadTrack('A', convertedTracks[0]);
+            await audioEngine.loadTrack('B', convertedTracks[1]);
+            
+            toast.success('🎵 Test audio tracks generated! Click play to hear audio.');
+            
+          } catch (genError) {
+            console.error('❌ Failed to generate audio:', genError);
+            setAudioInitError('Failed to generate test audio. Audio features disabled.');
+            toast.error('Audio generation failed. Using silent mode.');
+          }
+        };
+        
+        testAudio.oncanplaythrough = async () => {
+          console.log('✅ Real audio files found');
+          setAvailableTracks(initialMockTracks);
+          setAudioInitialized(true);
+          
+          // Load real tracks into decks  
+          await audioEngine.loadTrack('A', initialMockTracks[0]);
+          await audioEngine.loadTrack('B', initialMockTracks[1]);
+          
+          toast.success('🎵 Audio tracks loaded! Ready to mix.');
+        };
+        
+        // Test load the first track
+        testAudio.load();
+        
+      } catch (error) {
+        console.error('❌ Audio initialization failed:', error);
+        setAudioInitError('Audio system failed to initialize.');
+        toast.error('Audio system failed to initialize.');
+      }
+    };
+    
+    if (!audioInitialized) {
+      initializeAudio();
+    }
+  }, [audioEngine, audioInitialized]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -151,7 +274,8 @@ const DJMixStation = () => {
   const activeDeck = crossfade < 40 ? 'A' : crossfade > 60 ? 'B' : null;
 
   return (
-    <div className="min-h-screen bg-bass-dark relative pb-20 overflow-hidden">
+    <ProtectedRoute>
+      <div className="min-h-screen bg-bass-dark relative pb-20 overflow-hidden">
       {/* Visual FX Layers */}
       <FestivalStageBackground 
         archetype={archetype} 
@@ -253,7 +377,7 @@ const DJMixStation = () => {
             crossfadeValue={100 - crossfade}
             bpmSync={bpmSync}
             deckState={{
-              track: audioEngine.deckA.track || mockTracks[0],
+              track: audioEngine.deckA.track || availableTracks[0],
               isPlaying: audioEngine.deckA.isPlaying,
               volume: audioEngine.deckA.volume,
               pitch: audioEngine.deckA.pitch,
@@ -273,7 +397,7 @@ const DJMixStation = () => {
             crossfadeValue={crossfade}
             bpmSync={bpmSync}
             deckState={{
-              track: audioEngine.deckB.track || mockTracks[1],
+              track: audioEngine.deckB.track || availableTracks[1],
               isPlaying: audioEngine.deckB.isPlaying,
               volume: audioEngine.deckB.volume,
               pitch: audioEngine.deckB.pitch,
@@ -378,7 +502,7 @@ const DJMixStation = () => {
 
       {/* Modals and Effects */}
       <TrackSelectModal
-        tracks={mockTracks}
+        tracks={availableTracks}
         isOpen={isTrackModalOpen}
         onClose={() => {
           setIsTrackModalOpen(false);
@@ -395,7 +519,8 @@ const DJMixStation = () => {
 
 
       <BottomNavigation />
-    </div>
+      </div>
+    </ProtectedRoute>
   );
 };
 

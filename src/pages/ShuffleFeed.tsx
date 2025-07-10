@@ -1,6 +1,10 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { challengeOperations, profileOperations, plurCrewOperations, activityOperations } from "@/lib/database";
+import { toast } from "sonner";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import BottomNavigation from "@/components/BottomNavigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -29,19 +33,19 @@ interface PLURcrewMember {
 }
 
 const ShuffleFeed = () => {
+  const { user, profile, updateProfile } = useAuth();
   const [crewSidebarOpen, setCrewSidebarOpen] = useState(false);
   const [summonModalOpen, setSummonModalOpen] = useState(false);
   const [newAvatar, setNewAvatar] = useState<any>(null);
-  const [streak, setStreak] = useState(7);
-  const [plurMeter, setPlurMeter] = useState(65);
+  const [streak, setStreak] = useState(profile?.streak || 0);
+  const [plurMeter, setPlurMeter] = useState(profile?.plur_points || 0);
   const [showCrewOverlay, setShowCrewOverlay] = useState(false);
   const [pulsingCard, setPulsingCard] = useState<number | null>(null);
-
-  const [plurCrew, setPlurCrew] = useState<PLURcrewMember[]>([
-    { id: "1", name: "BlazeTech", archetype: "Firestorm", power: 85, mood: 90, avatar: "🔥" },
-    { id: "2", name: "CrystalFlow", archetype: "FrostPulse", power: 72, mood: 80, avatar: "❄️" },
-    { id: "3", name: "VoidDancer", archetype: "MoonWaver", power: 68, mood: 95, avatar: "🌙" },
-  ]);
+  const [isLoadingChallenges, setIsLoadingChallenges] = useState(false);
+  const [completedChallenges, setCompletedChallenges] = useState<string[]>([]);
+  const [activeChallenges, setActiveChallenges] = useState<string[]>([]);
+  
+  const [plurCrew, setPlurCrew] = useState<PLURcrewMember[]>([]);
 
   const challenges: Challenge[] = [
     { 
@@ -107,16 +111,82 @@ const ShuffleFeed = () => {
     }
   };
 
-  const handleCardInteraction = (challenge: Challenge) => {
+  const handleCardInteraction = async (challenge: Challenge) => {
+    if (!user) {
+      toast.error("Please sign in to complete challenges!");
+      return;
+    }
+    
+    // Check if challenge is already completed
+    if (completedChallenges.includes(challenge.title)) {
+      toast.info("You've already completed this challenge!");
+      return;
+    }
+    
+    // Check if challenge is already active
+    if (activeChallenges.includes(challenge.title)) {
+      // Complete the challenge
+      try {
+        const activeChallenge = await challengeOperations.getUserChallenges(user.id);
+        const challengeToComplete = activeChallenge.find(c => c.challenge_type === challenge.title && c.status === 'pending');
+        
+        if (challengeToComplete) {
+          await challengeOperations.completeChallenge(challengeToComplete.id, challenge.plurPower);
+          
+          // Update PLUR points
+          const newPlurPoints = plurMeter + challenge.plurPower;
+          await updateProfile({ plur_points: newPlurPoints });
+          setPlurMeter(newPlurPoints);
+          
+          // Update streak
+          const newStreak = streak + 1;
+          await updateProfile({ streak: newStreak });
+          setStreak(newStreak);
+          
+          // Update local state
+          setCompletedChallenges(prev => [...prev, challenge.title]);
+          setActiveChallenges(prev => prev.filter(c => c !== challenge.title));
+          
+          toast.success(`Challenge completed! +${challenge.plurPower} PLUR points!`, {
+            icon: "🎉"
+          });
+          
+          // Log activity
+          await activityOperations.logActivity(user.id, 'challenge_completed', {
+            challenge: challenge.title,
+            points_earned: challenge.plurPower,
+            archetype: challenge.archetype
+          });
+        }
+      } catch (error) {
+        console.error('Error completing challenge:', error);
+        toast.error('Failed to complete challenge');
+      }
+    } else {
+      // Start new challenge
+      try {
+        await challengeOperations.createChallenge(user.id, challenge.title);
+        setActiveChallenges(prev => [...prev, challenge.title]);
+        
+        toast.info(`Challenge "${challenge.title}" started!`);
+        
+        // Log activity
+        await activityOperations.logActivity(user.id, 'challenge_started', {
+          challenge: challenge.title,
+          archetype: challenge.archetype
+        });
+      } catch (error) {
+        console.error('Error starting challenge:', error);
+        toast.error('Failed to start challenge');
+      }
+    }
+    
     // Simulate BPM pulse
     setPulsingCard(challenge.id);
     setTimeout(() => setPulsingCard(null), 2000);
 
-    // Increase PLUR meter
-    setPlurMeter(prev => Math.min(100, prev + 5));
-
     // Random chance to summon new avatar (20% chance)
-    if (Math.random() < 0.2) {
+    if (Math.random() < 0.2 && completedChallenges.includes(challenge.title)) {
       const avatars = ["🎭", "🦄", "🔮", "⚡", "🌟", "🎪", "🎨", "🎯"];
       const names = ["VibeMaster", "FlowQueen", "BeatKing", "RaveAngel", "NeonSoul", "BassHero"];
       const archetypes: ("Firestorm" | "FrostPulse" | "MoonWaver")[] = ["Firestorm", "FrostPulse", "MoonWaver"];
@@ -146,6 +216,66 @@ const ShuffleFeed = () => {
     setNewAvatar(null);
   };
 
+  // Load user's crew from database
+  useEffect(() => {
+    const loadUserCrew = async () => {
+      if (!user) return;
+      
+      try {
+        const crewData = await plurCrewOperations.getUserCrew(user.id);
+        const formattedCrew: PLURcrewMember[] = crewData.map(member => ({
+          id: member.crew_member_id,
+          name: member.crew_member?.username || 'Anonymous',
+          archetype: member.crew_member?.archetype || 'MoonWaver',
+          power: Math.floor(Math.random() * 30) + 70,
+          mood: Math.floor(Math.random() * 30) + 70,
+          avatar: member.crew_member?.archetype === 'Firestorm' ? '🔥' : 
+                  member.crew_member?.archetype === 'FrostPulse' ? '❄️' : '🌙'
+        }));
+        setPlurCrew(formattedCrew);
+      } catch (error) {
+        console.error('Error loading crew:', error);
+      }
+    };
+    
+    loadUserCrew();
+  }, [user]);
+
+  // Load user's challenge history
+  useEffect(() => {
+    const loadChallengeHistory = async () => {
+      if (!user) return;
+      
+      setIsLoadingChallenges(true);
+      try {
+        const userChallenges = await challengeOperations.getUserChallenges(user.id);
+        const completed = userChallenges
+          .filter(c => c.status === 'completed')
+          .map(c => c.challenge_type);
+        const active = userChallenges
+          .filter(c => c.status === 'pending')
+          .map(c => c.challenge_type);
+          
+        setCompletedChallenges(completed);
+        setActiveChallenges(active);
+      } catch (error) {
+        console.error('Error loading challenges:', error);
+      } finally {
+        setIsLoadingChallenges(false);
+      }
+    };
+    
+    loadChallengeHistory();
+  }, [user]);
+
+  // Update local state when profile changes
+  useEffect(() => {
+    if (profile) {
+      setStreak(profile.streak || 0);
+      setPlurMeter(profile.plur_points || 0);
+    }
+  }, [profile]);
+
   // Simulate BPM pulsing animation
   useEffect(() => {
     const interval = setInterval(() => {
@@ -160,9 +290,35 @@ const ShuffleFeed = () => {
   }, [pulsingCard]);
 
   return (
-    <div className="min-h-screen bg-bass-dark relative pb-20">
+    <ProtectedRoute>
+      <div className="min-h-screen bg-bass-dark relative pb-20">
       <PLURstreakMeter streak={streak} plurMeter={plurMeter} />
       
+      {/* User Stats */}
+      {profile && (
+        <motion.div
+          className="fixed top-4 left-4 z-30 bg-bass-medium/90 backdrop-blur-sm rounded-lg p-3 border border-neon-purple/30"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="text-2xl">
+              {profile.archetype === 'Firestorm' ? '🔥' : 
+               profile.archetype === 'FrostPulse' ? '❄️' : 
+               profile.archetype === 'MoonWaver' ? '🌙' : '🎭'}
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-neon-cyan">
+                {profile.username || 'Anonymous Raver'}
+              </div>
+              <div className="text-xs text-slate-400">
+                Level {profile.level} • {profile.archetype || 'Unassigned'}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
       {/* Crew Overlay Toggle */}
       <div className="fixed top-4 right-4 z-30">
         <Button
@@ -253,6 +409,16 @@ const ShuffleFeed = () => {
                           <Badge variant="outline" className="border-neon-purple text-neon-purple">
                             PLURpower +{challenge.plurPower}%
                           </Badge>
+                          {completedChallenges.includes(challenge.title) && (
+                            <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                              ✓ Completed
+                            </Badge>
+                          )}
+                          {activeChallenges.includes(challenge.title) && (
+                            <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30 animate-pulse">
+                              ⚡ Active
+                            </Badge>
+                          )}
                         </div>
                         
                         <div className="flex items-center gap-4 mb-3">
@@ -277,9 +443,11 @@ const ShuffleFeed = () => {
                             onClick={() => handleCardInteraction(challenge)}
                             className="bg-neon-cyan/20 hover:bg-neon-cyan/40 text-neon-cyan border-neon-cyan/50 flex items-center gap-1"
                             variant="outline"
+                            disabled={isLoadingChallenges}
                           >
                             <Gamepad2 className="w-3 h-3" />
-                            Remix This
+                            {completedChallenges.includes(challenge.title) ? 'Completed' : 
+                             activeChallenges.includes(challenge.title) ? 'Complete' : 'Start'}
                           </Button>
                           <Button
                             size="sm"
@@ -344,7 +512,8 @@ const ShuffleFeed = () => {
       />
 
       <BottomNavigation />
-    </div>
+      </div>
+    </ProtectedRoute>
   );
 };
 
