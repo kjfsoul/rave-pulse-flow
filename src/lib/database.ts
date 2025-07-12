@@ -219,7 +219,8 @@ export const djOperations = {
       .from('dj_settings')
       .upsert({
         user_id: userId,
-        settings: settings
+        settings: settings,
+        updated_at: new Date().toISOString()
       })
     
     if (error) {
@@ -228,6 +229,18 @@ export const djOperations = {
     }
     
     return true
+  },
+
+  // Helper function to get default DJ settings with Archetype FX
+  getDefaultDJSettings() {
+    return {
+      showBPMSync: true,
+      showCrowdFX: true,
+      showDebugHUD: false,
+      showArchetypeFX: false,
+      volume: 75,
+      crossfade: 50
+    }
   }
 }
 

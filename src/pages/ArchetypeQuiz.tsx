@@ -88,11 +88,14 @@ const ArchetypeQuiz = () => {
       if (user) {
         setIsSaving(true);
         try {
+          console.log('Attempting to save archetype:', winner, 'for user:', user.id);
           await updateProfile({ archetype: winner });
+          console.log('Archetype saved successfully');
           toast.success(`Archetype "${winner}" saved to your profile!`);
         } catch (error) {
           console.error('Error saving archetype:', error);
-          toast.error('Failed to save archetype to profile');
+          console.error('Error details:', JSON.stringify(error, null, 2));
+          toast.error(`Failed to save archetype: ${error.message || 'Unknown error'}`);
         } finally {
           setIsSaving(false);
         }

@@ -6,7 +6,8 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Loader2, Mail, Lock, User } from 'lucide-react'
+import { Loader2, Mail, Lock, User, ArrowLeft } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 interface AuthFormProps {
   onSuccess?: () => void
@@ -14,7 +15,9 @@ interface AuthFormProps {
 
 export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
   const { signIn, signUp, loading } = useAuth()
+  const navigate = useNavigate()
   const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin')
 
   const [formData, setFormData] = useState({
@@ -29,38 +32,94 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
       [e.target.name]: e.target.value,
     }))
     setError(null)
+    setSuccess(null)
+  }
+
+  const validateForm = () => {
+    if (!formData.email || !formData.password) {
+      setError('Please fill in all required fields')
+      return false
+    }
+    
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long')
+      return false
+    }
+    
+    if (!formData.email.includes('@')) {
+      setError('Please enter a valid email address')
+      return false
+    }
+    
+    return true
   }
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!validateForm()) return
+    
     try {
       await signIn(formData.email, formData.password)
-      onSuccess?.()
+      setSuccess('Successfully signed in! Redirecting...')
+      setError(null)
+      // Immediate navigation after successful sign in
+      if (onSuccess) {
+        onSuccess()
+      } else {
+        navigate('/')
+      }
     } catch (error: any) {
+      console.error('Sign in error:', error)
       setError(error.message || 'Failed to sign in')
+      setSuccess(null)
     }
   }
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!validateForm()) return
+    
     try {
       await signUp(formData.email, formData.password, formData.username)
-      onSuccess?.()
+      setSuccess('Account created successfully! Welcome to EDM Shuffle!')
+      setError(null)
+      // Navigate immediately after successful signup
+      if (onSuccess) {
+        onSuccess()
+      } else {
+        navigate('/')
+      }
     } catch (error: any) {
+      console.error('Sign up error:', error)
       setError(error.message || 'Failed to sign up')
+      setSuccess(null)
     }
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-black/80 border-purple-500/30 backdrop-blur-lg">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-          Welcome to EDM Shuffle
-        </CardTitle>
-        <CardDescription className="text-gray-300">
-          Join the digital rave experience
-        </CardDescription>
-      </CardHeader>
+    <div className="w-full max-w-md mx-auto">
+      {/* Escape Banner */}
+      <div className="mb-4 p-3 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 rounded-lg">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate('/')}
+          className="w-full text-gray-300 hover:text-white hover:bg-purple-600/20 transition-colors"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Continue to EDM Shuffle without signing in
+        </Button>
+      </div>
+
+      <Card className="bg-black/80 border-purple-500/30 backdrop-blur-lg">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Welcome to EDM Shuffle
+          </CardTitle>
+          <CardDescription className="text-gray-300">
+            Join the digital rave experience
+          </CardDescription>
+        </CardHeader>
       <CardContent>
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'signin' | 'signup')}>
           <TabsList className="grid w-full grid-cols-2 bg-gray-800/50">
@@ -115,6 +174,12 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
               {error && (
                 <Alert className="bg-red-900/50 border-red-500 text-red-200">
                   <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+              
+              {success && (
+                <Alert className="bg-green-900/50 border-green-500 text-green-200">
+                  <AlertDescription>{success}</AlertDescription>
                 </Alert>
               )}
               
@@ -199,6 +264,12 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                 </Alert>
               )}
               
+              {success && (
+                <Alert className="bg-green-900/50 border-green-500 text-green-200">
+                  <AlertDescription>{success}</AlertDescription>
+                </Alert>
+              )}
+              
               <Button
                 type="submit"
                 disabled={loading}
@@ -218,5 +289,6 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
         </Tabs>
       </CardContent>
     </Card>
+    </div>
   )
 }

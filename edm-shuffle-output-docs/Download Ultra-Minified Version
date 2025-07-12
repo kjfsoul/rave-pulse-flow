@@ -1,0 +1,191 @@
+### EDM Shuffle: Professional Development Manual
+#### 1. Executive Summary
+#### 2. Authoritative Project Roadmap: Development Phases & Milestones
+Goal: Establish the foundational UI, visual theme, and core user authentication.
+Goal: Implement a true Web Audio API engine for the DJ Mix Station with real playback, mixing, effects, and synchronized visualizations.
+Goal: Establish real-time festival scheduling, event management, and a robust, rate-limited voting system for DJs/performers, culminating in a headliner selection.
+Goal: Transform the Shuffle Feed into an interactive remix dojo with dynamic challenges, user submissions, and a gamified PLUR/crew system.
+Goal: Build a functional e-commerce marketplace for ravewear, digital collectibles, and eventually peer-to-peer resale, integrated with payment processing.
+Goal: Implement robust social features, including live chat, squad/fam groups, and enhanced user interactions, to foster community.
+Goal: Develop an internal admin dashboard for content and user management, and ensure all project documentation is comprehensive, accurate, and maintained.
+Goal: Create an in-app marketing suite for campaign management, copy generation, and direct automation handoff to external platforms (n8n, Printify, social media).
+#### 3. Document Index (Root Directory)
+CLAUDE_INTEGRITY_RULES.md: Core code-of-conduct and workflow constraints for all LLM contributors, ensuring real features and no placeholders. Status: Done.
+IMPLEMENTATION_MICROTASKS.md: Exhaustive, sequenced roadmap of every sub-task required for EDM Shuffle, divided by phase. Status: Done.
+PRD.md: Product Requirements Document. Business goals, audience, feature list, MVP/launch scope. Status: Done (Rewritten).
+FRS.md: Functional Requirements Spec. Technical feature breakdown, user stories, acceptance criteria. Status: Done.
+MASTERPLAN.md: High-level architectural masterplan and project vision. Status: Done (Exists, can be refined based on latest phases).
+claudeupdate.md: Living status ledger and changelog for every microtask/commit, used for cross-LLM accountability. Status: Done.
+AUDIO_UI_COMPONENTS.md: Outline or description of key Audio UI components to be built/verified. Status: Done (Exists, can be refined).
+README.md: Entry-point for new contributors (setup, rules, tooling, context for LLM+human handoff). Status: Done.
+project_overview.md: One-page project intro/summary for quick onboarding. Status: Done.
+technical_architecture.md: High-level technical architecture, stack, workflow, key components, LLM/CLI integration points. Status: Done.
+UI_UX_STRUCTURE.md: Component layout, navigation flows, interaction notes. Status: Done.
+CrowdFXLayer.md: Documentation for crowd effects (confetti, emoji FX, cheer audio). Status: Done.
+SubscribeModal.md: Documentation for the subscribe CTA and modals. Status: Done.
+DOCUMENTATION_INDEX.md: Table of contents for all docs. Status: Pending (To be generated last, when all other docs are finalized).
+FEATURE_REALITY_MATRIX.md: Simple markdown doc showing current vs. real feature status, updated after each sprint/turn. Status: Pending (Proposed new doc).
+USER JOURNEY MAP.md: Shows actual possible journeys and where they break due to missing functionality. Status: Pending (Proposed new doc).
+MVP_DEFINITION.md: Clarifies the minimum viable product boundary. Status: Pending (Proposed new doc).
+#### 4. Prompt Catalog
+#### 5. Feature & Gap Analysis
+### EDM Shuffle Development Manual: Master Blueprint
+### 1. Executive Summary & Vision
+### 2. Documentation Index
+### 3. PRD (Product Requirements Document)
+1. Introduction
+2. Goals
+Core Goal: Deliver tangible, verifiable functionality over elaborate, simulated features.
+MVP Goal: Establish a fully functional user journey for core experiences (login, music playback, basic interaction/voting) that proves the core value proposition.
+Monetization Goal: Lay the foundation for future revenue streams (marketplace, premium features) based on real user engagement.
+Integrity Goal: Maintain absolute transparency regarding feature status (real vs. simulated/placeholder) throughout development.
+3. Target Audience
+4. Core Features
+5. Non-Functional Requirements
+6. Release Phases (High-Level)
+7. Testing & Validation Protocols
+8. Future Considerations
+### 4. FRS (Functional Requirements Specification)
+1. User Authentication & Account System
+1.1 User Registration (Email/Password)
+1.2 User Login (Email/Password)
+1.3 Password Reset (Email)
+1.4 Profile Management (Placeholder-Free)
+2. Audio Engine & Mix Station
+2.1 True Web Audio API Engine
+2.2 Deck A/B Real Playback, Crossfade, Pitch, Echo FX
+2.3 Real-time Waveform + BPM Visualization
+3. Voting & Festival Scheduling
+3.1 Real Voting Logic (Rate-Limited, Unique per User)
+3.2 Festival Schedule UI + Backend Data Model
+3.3 Event Creation/Joining, Headliner Logic, Live Leaderboard
+4. Challenges & Social
+4.1 Challenge Feed – Backend/API & Frontend Integration
+4.2 Challenge Submission Flow
+4.3 PLUR Leaderboard & Gamification
+5. Marketplace
+5.1 Stripe/Payments Integration
+5.2 Real Product Listings (No Placeholders)
+5.3 Order Confirmation & Digital Download/Gift Flows
+6. Community & Crews
+6.1 Live Chat, Squad/Fam Features, and Commenting
+6.2 Avatar, “Crew” Management, User-to-User Interactions
+7. Admin + Docs
+7.1 Admin Dashboard for Event/Product/Content Management
+7.2 Documentation Pipeline: Root Directory + Microtask Enforcement
+7.3 Integrity & Compliance Automation
+7.4 Periodic Masterplan & FRS Review
+8. Built-in Marketing Framework
+8.1 Marketing Dashboard (Campaign Management & Automation Handoff)
+8.2 Content Generation & Library
+8.3 Best Practices, Failsafes, & Innovation
+### 5. Implementation Roadmap
+### 6. Phase-by-phase Features/Prompts/Tasks
+#### PHASE 1: User Authentication & Account System
+1.1 User Registration & Login (Supabase)
+1.2 Email Password Reset (Supabase)
+1.3 User Profile Management (View & Update)
+#### PHASE 2: Audio Engine & Mix Station
+2.1 Core Web Audio API Engine & Deck Architecture
+2.2 Real-time Crossfader, Pitch & Echo FX
+2.3 Real-time Waveform + BPM Visualization
+#### PHASE 3: Voting & Festival Scheduling
+3.1 Real Voting Logic (Rate-Limited, Unique per User)
+3.2 Festival Schedule UI + Backend Data Model
+3.3 Event Creation/Joining, Headliner Logic, Live Leaderboard
+#### PHASE 4: Challenges & Social
+4.1 Challenge Feed – Backend/API & Frontend Integration
+4.2 Challenge Submission Flow
+4.3 PLUR Leaderboard & Gamification
+#### PHASE 5: Marketplace
+5.1 Stripe/Payments Integration
+5.2 Real Product Listings (No Placeholders)
+5.3 Order Confirmation & Digital Download/Gift Flows
+#### PHASE 6: Community & Crews
+6.1 Live Chat, Squad/Fam Features, and Commenting
+6.2 Avatar, “Crew” Management, User-to-User Interactions
+### 7. Admin + Docs
+7.1 Admin Dashboard for Event/Product/Content Management
+7.2 Documentation Pipeline: Root Directory + Microtask Enforcement
+7.3 Integrity & Compliance Automation
+7.4 Periodic Masterplan & FRS Review
+### 8. Built-in Marketing Framework
+8.1 Marketing Dashboard (Campaign Management & Automation Handoff)
+8.2 Content Generation & Library
+8.3 Best Practices, Failsafes, & Innovation
+### 7. Feature Matrix/Gap Analysis
+### 8. Change Log (claudeupdate.md)
+#### HOW TO USE THIS FILE
+#### CURRENT OVERALL STATUS
+Current Phase: Implementation of core features (User Auth, Audio Engine) with rigorous validation. Total Microtasks: See IMPLEMENTATION_MICROTASKS.md. Integrity Status: High vigilance required. LLMs must adhere to CLAUDE_INTEGRITY_RULES.md to prevent fabrication.
+#### AGENT HAND-OFF NOTES
+#### REALITY AUDIT / PLACEHOLDER DISCLOSURE
+- DJMixStation.tsx - Crossfader - Claimed ✅ but found ⚠️: Visual only, no audible effect. Rolled back status to In Progress. // TODO: Implement real Web Audio API GainNode routing.
+#### CHANGELOG (Recent History)
+### Memory & Context Note for Next LLM:
+### PHASE 1: User Authentication & Account System (Full User Journey)
+1.1 User Registration & Login (Supabase)
+Current Status: ❌ Missing/Non-functional. There is no signup or login functionality on the live site. While a Supabase schema exists, it is not connected to any functional features.
+1.2 OAuth Integration (Google/Discord)
+Current Status: ❌ Missing/Non-functional. OAuth integration for social logins is currently not implemented.
+1.3 Email: Password Reset (Forgot Password)
+Current Status: ❌ Missing/Non-functional. There is no password reset flow available.
+1.4 Profile Management: Update Display Name, Email, Password
+Current Status: ❌ Missing/Non-functional. There are no persistent user profiles where users can manage their details.
+1.5 Account Deletion & Data Export
+Current Status: ❌ Missing/Non-functional. This feature has not been mentioned or implemented.
+### PHASE 2: Audio Engine & Mix Station
+2.1 Core Audio Engine (Web Audio API)
+Current Status: ❌ Missing/Non-functional. Despite claims of "Real Audio Features" and "Web Audio API Integration", your direct observation confirms "no sound" and "no real music" on the site. The forensic audit found no actual <audio> elements or src attributes for playing MP3s. Audio context infrastructure exists but doesn't consistently start sound.
+2.2 DJ Deck Controls (Play/Pause, Volume, Pitch, Crossfader, Echo FX)
+Current Status: ⚠️ Partially Implemented (Cosmetic). The UI for turntables and controls is present. However, your review notes that "scratch" and "echo" buttons only "animate visually but do nothing". The "Drop My Set" button triggers confetti but lacks true dual-track mixing. While Lovable claimed real crossfading, pitch shifting, and echo effects, the forensic audit indicates that turntables only "tweak a number" without real audio effects or drag functionality.
+2.3 Waveform & BPM Visualization
+Current Status: ❌ Missing/Non-functional. While "Enhanced Equalizer" and "Real-time BPM Display" were claimed, the equalizer bar is not wired to BPM and is likely static. Your review confirmed a graphic "looks like bars that are playing something there is no sound".
+2.4 Track Loading & Management (local files first, streaming caveats)
+Current Status: ❌ Missing/Non-functional. The app primarily uses hardcoded tracks or placeholder URLs. While "Real Track Loading" was claimed, the system for loading different audio files is not truly implemented, and the goal of integrating with streaming apps like Spotify is blocked by API constraints (no direct audio access).
+2.5 Innovative Audio Enhancements (Dynamic EQ, Visual Feedback, Headphone Cueing, etc.)
+Current Status: ⚠️ Partially Implemented (Visual Feedback Only). Visual feedback on controls exists. Other enhancements like Dynamic EQ or Headphone Cueing are not yet implemented or detailed.
+### PHASE 3: Voting & Festival Scheduling
+3.1 Festival Voting Logic & Live Leaderboard
+Current Status: ⚠️ Partially Implemented (Cosmetic/Spammable). The Festival Voting Stage visually displays DJ cards and vote counters, and the voting button "works" but has no limits or validation, allowing users to spam votes. The leaderboard is visual only and not based on real, live data. The headliner crowning is simulated.
+3.2 Festival Schedule UI + Backend Data Model
+Current Status: ❌ Missing/Non-functional. The current site lacks a comprehensive festival calendar; event data is static.
+3.3 Event Creation/Joining & Headliner Logic
+Current Status: ❌ Missing/Non-functional. There is no functionality for users to create or join events, and the headliner logic is purely simulated.
+### PHASE 4: Challenges & Social
+4.1 Dynamic Challenge Feed (Backend/API & Frontend Integration)
+Current Status: ❌ Missing/Non-functional. The ShuffleFeed page exists visually with elements like "trending shuffle clips" and "challenge tags", and video tiles show visual enhancements. However, there is no actual content feed, and actions like "Remix This" are "just buttons" without underlying logic. A forensic audit found no ShuffleFeed components in the provided files.
+4.2 Challenge Submission Flow (File Upload, Caption, Squad Tagging)
+Current Status: ❌ Missing/Non-functional. There is no actual mechanism for users to upload files, add captions, or tag squads for challenge submissions.
+4.3 PLUR Leaderboard & Challenge Winners
+Current Status: ⚠️ Partially Implemented (Visual Only). A "PLURstreak System" and a visual leaderboard are present. However, this is not based on real data or gamification logic.
+### PHASE 5: Marketplace
+5.1 Payments Integration (Stripe/Other)
+Current Status: ❌ Missing/Non-functional. Despite claims in documentation, the "Harsh Reality" assessment and your review explicitly state "no payment processing despite Stripe integration claims" and "no Stripe payment integration at all".
+5.2 Product Listings & Inventory Management
+Current Status: ⚠️ Partially Implemented (Static). "Gear Drops of the Day" carousel and product boxes are visually present with fake items. While user-submitted outfit galleries exist on the old site, the new project has no actual marketplace functionality.
+5.3 Order Confirmation, Digital Downloads, Gift Flows
+Current Status: ❌ Missing/Non-functional. These post-purchase functionalities are not implemented.
+### PHASE 6: Community & Crews
+6.1 Live Chat System (Real-Time Messaging)
+Current Status: ⚠️ Partially Implemented (Fake). A "Festival Lounge" with a "fake chat feed" of pre-seeded messages is visually present.
+6.2 Squad/Fam Features (Creation, Management, Invites)
+Current Status: ⚠️ Partially Implemented (Placeholder/Visual). A "PLURcrew Builder Sidebar" with visual avatar cards and slots exists. The Archetype Quiz is meant to tie into this, but the crew system is a placeholder and not interactive. The "Avatar Summon System" is client-side only.
+6.3 Commenting System
+Current Status: ⚠️ Partially Implemented (Fake). Your review notes "just comments that are kind of feeding through probably presumably people Commenting".
+### PHASE 7: Admin + Docs
+7.1 Integrated Admin Dashboard
+Current Status: ❌ Missing/Non-functional. An admin dashboard is not implemented.
+7.2 Documentation Pipeline: Root Directory + Microtask Enforcement
+Current Status: ⚠️ Partially Implemented (Needs Update). Various documentation files exist (e.g., project_overview.md, technical_architecture.md). However, maintaining consistency and accuracy between claims and reality has been a recurring issue.
+7.3 Integrity & Compliance Automation
+Current Status: ⚠️ Partially Implemented (Conceptual). Integrity rules for LLMs (e.g., no placeholders without labels) have been defined, and tools like Gemini CLI are planned for validation. However, the automated enforcement of these principles is not yet fully in place.
+7.4 Periodic Masterplan & FRS Review
+Current Status: ❌ Missing/Non-functional. The Product Requirements Document (PRD) and Functional Requirements Spec (FRS) are high-priority but were noted as "NOT YET WRITTEN".
+### PHASE 8: Built-in Marketing Framework
+8.1 Integrated Marketing Dashboard
+Current Status: ❌ Missing/Non-functional. A marketing dashboard is not implemented.
+8.2 Content Generation & Library
+Current Status: ❌ Missing/Non-functional. While AI-generated content and autonomous content curation are part of the vision, the autonomous agents designed to deliver this are not deployed live and only produce fake output.
+8.3 Marketing Best Practices, Failsafes, & Innovation
+Current Status: ❌ Missing/Non-functional. While marketing strategies are outlined, the implementation of automation (n8n), approval workflows, and analytics integration within the platform itself is missing.

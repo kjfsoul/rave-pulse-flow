@@ -138,7 +138,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string, username?: string) => {
     setLoading(true)
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -147,6 +147,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           },
         },
       })
+      
       if (error) {
         // Convert Supabase errors to user-friendly messages
         let userMessage = error.message
@@ -165,6 +166,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         friendlyError.name = 'AuthError'
         throw friendlyError
       }
+
+      // If signup successful and user is immediately signed in (no email confirmation required)
+      if (data.user && data.session) {
+        setSession(data.session)
+        setUser(data.user)
+        // Profile will be created automatically via auth state change listener
+      }
+      
     } catch (error: any) {
       console.error('Error signing up:', error)
       throw error
@@ -176,10 +185,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signIn = async (email: string, password: string) => {
     setLoading(true)
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
+      
       if (error) {
         // Convert Supabase errors to user-friendly messages
         let userMessage = error.message
@@ -200,6 +210,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         friendlyError.name = 'AuthError'
         throw friendlyError
       }
+
+      // Successfully signed in
+      if (data.user && data.session) {
+        setSession(data.session)
+        setUser(data.user)
+        // Profile will be fetched via auth state change listener
+        console.log('Successfully signed in:', data.user.email)
+      }
+      
     } catch (error: any) {
       console.error('Error signing in:', error)
       throw error

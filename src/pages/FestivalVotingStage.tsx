@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { festivalOperations } from "@/lib/database";
 import { toast } from "sonner";
@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import NeonButton from "@/components/NeonButton";
 import EqualizerBars from "@/components/EqualizerBars";
-import { Volume2, VolumeX, Play, Users, Crown, Zap } from "lucide-react";
+import { Volume2, VolumeX, Play, Users, Crown, Zap, Pause } from "lucide-react";
 import FestivalStageBackground from '@/components/VisualFX/FestivalStageBackground';
 import ArchetypeAuraSprite from '@/components/VisualFX/ArchetypeAuraSprite';
 import ShuffleDancers from '@/components/VisualFX/ShuffleDancers';
@@ -39,6 +39,11 @@ const FestivalVotingStage = () => {
   ]);
   const [lightBurst, setLightBurst] = useState(false);
   const currentArchetype = (profile?.archetype || 'MoonWaver') as 'Firestorm' | 'FrostPulse' | 'MoonWaver';
+  
+  // Audio contexts and refs
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const currentTrackRef = useRef<{ source: AudioBufferSourceNode; gainNode: GainNode } | null>(null);
+  const turntableIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const djs = [
     {
@@ -83,10 +88,122 @@ const FestivalVotingStage = () => {
     }
   ];
 
-  const handleDJPreview = (dj: typeof djs[0]) => {
-    setSelectedDJ(dj.id);
-    setCurrentBPM(dj.bpm);
-    setIsPlaying(true);
+  // Initialize audio context
+  const initAudioContext = () => {
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return audioContextRef.current;
+  };
+
+  // Generate beat pattern for DJ preview
+  const generateDJBeat = async (dj: typeof djs[0]) => {
+    const audioContext = initAudioContext();
+    const duration = 8; // 8 seconds of audio
+    const sampleRate = audioContext.sampleRate;
+    const beatLength = 60 / dj.bpm; // seconds per beat
+    const buffer = audioContext.createBuffer(2, duration * sampleRate, sampleRate);
+    
+    for (let channel = 0; channel < 2; channel++) {
+      const channelData = buffer.getChannelData(channel);
+      
+      for (let i = 0; i < channelData.length; i++) {
+        const time = i / sampleRate;
+        const beatTime = (time % beatLength) / beatLength;
+        
+        let sample = 0;
+        
+        // Different beat patterns based on archetype
+        if (dj.archetype === 'Firestorm') {
+          // Hard dance style - aggressive kick pattern
+          const kickPattern = beatTime < 0.1 ? Math.exp(-beatTime * 50) : 0;
+          const hihat = (beatTime % 0.25 < 0.05) ? Math.random() * 0.3 : 0;
+          sample = kickPattern * 0.8 + hihat;
+          
+          // Add some distortion
+          if (Math.abs(sample) > 0.5) {
+            sample = Math.sign(sample) * (0.5 + Math.abs(sample - 0.5) * 0.3);
+          }
+        } else if (dj.archetype === 'FrostPulse') {
+          // Future bass style - smoother, with wobbles
+          const wobbleFreq = 2 + Math.sin(time * 0.5) * 1;
+          const wobble = Math.sin(time * wobbleFreq * 2 * Math.PI) * 0.3;
+          const kick = beatTime < 0.15 ? Math.exp(-beatTime * 30) : 0;
+          sample = kick * 0.6 + wobble * 0.4;
+        } else {
+          // MoonWaver - ambient trance style
+          const ambient = Math.sin(time * 110 * 2 * Math.PI) * 0.2;
+          const reverb = Math.sin(time * 55 * 2 * Math.PI) * 0.1;
+          const kick = beatTime < 0.2 ? Math.exp(-beatTime * 20) : 0;
+          sample = kick * 0.4 + ambient + reverb;
+        }
+        
+        channelData[i] = sample * 0.5; // Reduce volume
+      }
+    }
+    
+    return buffer;
+  };
+
+  // Play DJ preview
+  const handleDJPreview = async (dj: typeof djs[0]) => {
+    try {
+      // Stop current track if playing
+      if (currentTrackRef.current) {
+        currentTrackRef.current.source.stop();
+        currentTrackRef.current = null;
+      }
+
+      const audioContext = initAudioContext();
+      if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+      }
+
+      // Generate and play beat
+      const buffer = await generateDJBeat(dj);
+      const source = audioContext.createBufferSource();
+      const gainNode = audioContext.createGain();
+      
+      source.buffer = buffer;
+      source.loop = true;
+      source.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      gainNode.gain.value = isMuted ? 0 : 0.3;
+      
+      source.start();
+      currentTrackRef.current = { source, gainNode };
+      
+      setSelectedDJ(dj.id);
+      setCurrentBPM(dj.bpm);
+      setIsPlaying(true);
+      
+      toast.success(`🎵 Now playing: ${dj.track} by ${dj.name}`);
+    } catch (error) {
+      console.error('Error playing DJ preview:', error);
+      toast.error('Failed to play preview');
+    }
+  };
+
+  // Stop current track
+  const stopCurrentTrack = () => {
+    if (currentTrackRef.current) {
+      currentTrackRef.current.source.stop();
+      currentTrackRef.current = null;
+    }
+    setIsPlaying(false);
+    setSelectedDJ(null);
+  };
+
+  // Toggle play/pause
+  const togglePlayback = () => {
+    if (isPlaying) {
+      stopCurrentTrack();
+    } else if (selectedDJ) {
+      const dj = djs.find(d => d.id === selectedDJ);
+      if (dj) {
+        handleDJPreview(dj);
+      }
+    }
   };
 
   const handleVote = async (djId: number) => {
@@ -143,15 +260,92 @@ const FestivalVotingStage = () => {
     }
   };
 
-  const handleTurntableInteraction = (action: string) => {
-    // Simulate turntable effects
+  // Generate turntable sound effects
+  const generateTurntableEffect = async (type: 'scratch' | 'echo') => {
+    try {
+      const audioContext = initAudioContext();
+      if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+      }
+
+      const duration = type === 'scratch' ? 0.5 : 1.0;
+      const buffer = audioContext.createBuffer(2, duration * audioContext.sampleRate, audioContext.sampleRate);
+      
+      for (let channel = 0; channel < 2; channel++) {
+        const channelData = buffer.getChannelData(channel);
+        
+        for (let i = 0; i < channelData.length; i++) {
+          const time = i / audioContext.sampleRate;
+          let sample = 0;
+          
+          if (type === 'scratch') {
+            // Scratch sound - noise with pitch bend
+            const pitch = 200 + Math.sin(time * 50) * 100;
+            const noise = (Math.random() - 0.5) * 0.5;
+            const tone = Math.sin(time * pitch * 2 * Math.PI) * 0.3;
+            sample = (noise + tone) * Math.exp(-time * 3);
+          } else {
+            // Echo effect - repeating tone
+            const baseFreq = 110;
+            const echo1 = Math.sin(time * baseFreq * 2 * Math.PI) * Math.exp(-time * 2);
+            const echo2 = Math.sin((time - 0.2) * baseFreq * 2 * Math.PI) * Math.exp(-(time - 0.2) * 2) * 0.5;
+            const echo3 = Math.sin((time - 0.4) * baseFreq * 2 * Math.PI) * Math.exp(-(time - 0.4) * 2) * 0.25;
+            sample = (echo1 + (time > 0.2 ? echo2 : 0) + (time > 0.4 ? echo3 : 0)) * 0.3;
+          }
+          
+          channelData[i] = sample;
+        }
+      }
+      
+      // Play the effect
+      const source = audioContext.createBufferSource();
+      const gainNode = audioContext.createGain();
+      source.buffer = buffer;
+      source.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      gainNode.gain.value = isMuted ? 0 : 0.5;
+      source.start();
+      
+    } catch (error) {
+      console.error('Error generating turntable effect:', error);
+    }
+  };
+
+  const handleTurntableInteraction = async (action: 'scratch' | 'echo') => {
+    // Generate sound effect
+    await generateTurntableEffect(action);
+    
+    // Visual effects
     if (action === 'scratch') {
       setCurrentBPM(prev => prev + 5);
       setTimeout(() => setCurrentBPM(prev => prev - 5), 500);
-      setLightBurst(true);
-      setTimeout(() => setLightBurst(false), 1000);
+      toast.success('🎛️ Scratch!');
+    } else {
+      toast.success('🔊 Echo effect!');
     }
+    
+    setLightBurst(true);
+    setTimeout(() => setLightBurst(false), 1000);
   };
+
+  // Update volume when mute changes
+  useEffect(() => {
+    if (currentTrackRef.current) {
+      currentTrackRef.current.gainNode.gain.value = isMuted ? 0 : 0.3;
+    }
+  }, [isMuted]);
+
+  // Cleanup audio on unmount
+  useEffect(() => {
+    return () => {
+      if (currentTrackRef.current) {
+        currentTrackRef.current.source.stop();
+      }
+      if (turntableIntervalRef.current) {
+        clearInterval(turntableIntervalRef.current);
+      }
+    };
+  }, []);
 
   // Load user's existing votes
   useEffect(() => {
@@ -292,12 +486,20 @@ const FestivalVotingStage = () => {
             </div>
             <div className="text-neon-cyan">{currentBPM} BPM</div>
           </div>
-          <button
-            onClick={() => setIsMuted(!isMuted)}
-            className="text-neon-purple hover:text-neon-cyan transition-colors"
-          >
-            {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={togglePlayback}
+              className="text-neon-purple hover:text-neon-cyan transition-colors"
+            >
+              {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+            </button>
+            <button
+              onClick={() => setIsMuted(!isMuted)}
+              className="text-neon-purple hover:text-neon-cyan transition-colors"
+            >
+              {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+            </button>
+          </div>
         </motion.div>
 
         {/* PLURcrew Corner */}
@@ -386,8 +588,9 @@ const FestivalVotingStage = () => {
                             size="sm"
                             onClick={() => handleDJPreview(dj)}
                             className="w-full text-xs"
+                            variant={selectedDJ === dj.id ? "secondary" : "outline"}
                           >
-                            🎧 Preview
+                            {selectedDJ === dj.id && isPlaying ? "🔊 Playing" : "🎧 Preview"}
                           </NeonButton>
                           <NeonButton
                             variant={userVotes.includes(dj.name) ? "outline" : "secondary"}

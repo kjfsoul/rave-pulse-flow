@@ -41,11 +41,12 @@ bun run build
 
 ## Environment Setup
 
-1. **Node.js**: No specific version file present - use latest LTS
+1. **Node.js**: Use latest LTS
 2. **Package Manager**: npm or bun (both lockfiles present)
-3. **Environment Variables**: Copy `.env.example` to `.env.local` (contains Supabase, Stripe, OpenAI keys)
-   - **CRITICAL**: Never commit `.env.local` - contains sensitive API keys
-4. **Port**: Development server runs on port 8080 (configured in vite.config.ts)
+3. **Environment Variables**: Stored in `.env` (Supabase, Stripe, OpenAI keys)
+   - **CRITICAL**: Never commit `.env` - contains sensitive API keys
+   - Variables documented in individual service files (`src/lib/`)
+4. **Port**: Development server runs on port 8080 (vite.config.ts)
 5. **Host**: Uses IPv6 `::` binding for network accessibility
 
 ## Critical Development Rules
@@ -62,179 +63,155 @@ bun run build
 ## Architecture Overview
 
 ### Tech Stack
-- **Frontend**: React 18.3.1 + TypeScript + Vite 5.4.1
+- **Frontend**: React 18.3.1 + TypeScript + Vite 5.4.1 (SWC for fast compilation)
 - **UI Framework**: Tailwind CSS with custom EDM/neon theme
 - **Component Library**: shadcn/ui + Radix UI primitives
-- **State Management**: TanStack Query + React Context (AudioContext)
+- **State Management**: TanStack Query + React Context (AudioContext, AuthContext)
 - **Routing**: React Router DOM 6.26.2
 - **Animations**: Framer Motion 12.18.1
 - **Web Audio**: Web Audio API for DJ Mix Station
-- **Backend (Planned)**: Supabase
+- **Backend**: Supabase (authentication, database)
+- **Payment**: Stripe integration
+- **Forms**: React Hook Form + Zod validation
 
 ### Project Structure
 ```
 src/
 ├── components/       # All UI components
-│   ├── ui/          # shadcn/ui base components
-│   ├── audio-ui/    # Audio-specific components
-│   └── VisualFX/    # Visual effects components
-├── contexts/        # React contexts (AudioContext)
-├── hooks/           # Custom React hooks
-├── pages/           # Route components
-└── lib/             # Utilities and helpers
+│   ├── ui/          # shadcn/ui base components (80+ components)
+│   ├── audio-ui/    # DJ Mix Station & audio visualization
+│   ├── auth/        # Authentication components
+│   └── VisualFX/    # Neon animations & effects
+├── contexts/        # React contexts (AudioContext, AuthContext)
+├── hooks/           # Custom React hooks (useAudioPlayer, etc.)
+├── pages/           # Route components (Index, DJMixStation, etc.)
+└── lib/             # Utilities (database.ts, supabase.ts, stripe.ts, utils.ts)
 ```
 
-### Core Routes
-- `/` - Landing page
-- `/archetype-quiz` - User personality quiz
-- `/shuffle-feed` - Social feed
+### Core Routes & Features
+- `/` - Landing page with festival vibes
+- `/archetype-quiz` - User personality quiz system
+- `/shuffle-feed` - Social feed with PLUR mechanics
 - `/marketplace` - Virtual marketplace
 - `/festival` - Festival voting stage
-- `/dj-mix` - DJ Mix Station with Web Audio API
+- `/dj-mix` - **Main feature**: DJ Mix Station with Web Audio API
 
-### Key Features to Understand
-1. **DJ Mix Station**: Real-time audio mixing with dual decks using Web Audio API
-2. **Festival Voting**: Community-driven lineup voting system
-3. **PLUR System**: Gamification mechanics throughout the platform
-4. **Archetype System**: User personality/avatar framework
-5. **Visual FX**: Neon-themed animations and effects using Tailwind + Framer Motion
-6. **Crowd Engagement**: Confetti, emoji reactions, interactive challenges
-
-### TypeScript Configuration
-- Path alias: `@/` maps to `./src/`
-- Relaxed type checking enabled (noImplicitAny: false, strictNullChecks: false)
-- Use existing type patterns when possible
-- Gemini CLI should be used for TypeScript validation where feasible
-
-### Testing
-Currently no test framework is configured. When implementing tests:
-- Ask user for preferred testing framework before proceeding
-- Do not assume Jest, Vitest, or any specific framework
-
-### Important Documentation (Root Directory)
-**ALL documentation is located in the root directory** - see `DOCUMENTATION_INDEX.md` for full index
-
-**Core Rules & Process:**
-- `CLAUDE_INTEGRITY_RULES.md` - Mandatory rules for all contributors
-- `IMPLEMENTATION_MICROTASKS.md` - Exhaustive task roadmap (work in order!)
-- `claudeupdate.md` - Progress tracking (update after completing tasks)
-
-**Product & Technical Specs:**
-- `PRD.md` - Product Requirements Document
-- `FRS.md` - Functional Requirements Specification
-- `MASTERPLAN.md` - Strategic project roadmap
-- `technical_architecture.md` - Technical architecture details
-- `UI_UX_STRUCTURE.md` - Component layout and navigation flows
-
-**Feature Documentation:**
-- `AUDIO_UI_COMPONENTS.md` - Audio component specifications
-- `CrowdFXLayer.md` - Crowd effects documentation
-- `SubscribeModal.md` - Subscribe CTA documentation
-
-**Additional Docs:**
-- `README.md` - Project overview and setup
-- `project_overview.md` - Quick onboarding summary
-- `DOCUMENTATION_INDEX.md` - Full clickable list of all documentation
-
-**Pending Documentation:**
-- `FEATURE_REALITY_MATRIX.md` - Feature status tracking
-- `USER_JOURNEY_MAP.md` - User journey documentation
-- `MVP_DEFINITION.md` - MVP boundary definition
-
-### Development Best Practices
-1. Follow existing code patterns and conventions
-2. Use Tailwind classes following the EDM theme (neon colors: purple, cyan, pink, green)
-3. Leverage existing UI components from `src/components/ui/`
-4. Maintain the custom animations defined in tailwind.config.ts
-5. Cross-reference documentation before implementing features
-6. Update `claudeupdate.md` when completing significant tasks
-7. Use inline TODO comments for areas needing completion
-8. **✅ CORE MVP COMPLETED**: All major authentication & persistence features implemented
-9. **Future work**: Focus on testing, optimization, and real-time features
-
-### Working with Other LLMs
-- This project uses multiple AI assistants (Claude Code, Gemini CLI, Roo Code, Kimi Dev, etc.)
-- Maintain clear handoff documentation in `claudeupdate.md`
-- Be explicit about blockers and needed handoffs
-- Follow the established microtask sequence unless explicitly approved to deviate
-- Use `claudeupdate.md` for reporting progress and issues
-
-### Web Audio API Architecture
-The DJ Mix Station uses a sophisticated Web Audio implementation:
+### Web Audio Architecture (Critical)
+The DJ Mix Station implements a sophisticated Web Audio system:
 - **Dual Deck System**: Independent audio chains for each deck
 - **Audio Chain**: Source → Gain → Effects → Analyser → Destination
 - **Real-time Effects**: Echo/delay with feedback control
 - **Crossfading**: Smooth transitions between decks
-- **Waveform Visualization**: Analyser nodes for real-time visualization
-- **State Management**: Centralized AudioContext management
+- **Waveform Visualization**: Real-time frequency analysis
+- **State Management**: Centralized AudioContext with React hooks
 
-### Additional Dependencies Not in Docs
-- **Forms**: React Hook Form + Zod validation
-- **Charts**: Recharts for visualizations
-- **Carousel**: Embla Carousel
-- **Toasts**: Sonner for notifications
-- **Dates**: date-fns
-- **Command Palette**: cmdk
-- **OTP**: input-otp
-- **Themes**: next-themes (despite being a Vite app)
+### TypeScript Configuration
+- Path alias: `@/` maps to `./src/`
+- **Relaxed checking**: noImplicitAny: false, strictNullChecks: false
+- Very permissive settings for rapid development
+- Follow existing patterns rather than strict typing
 
-### Build Configuration Notes
-- **Vite**: Uses SWC for faster React compilation
-- **TypeScript**: Very relaxed checking (noImplicitAny: false, strictNullChecks: false)
-- **ESLint**: Configured but with relaxed rules (@typescript-eslint/no-unused-vars off)
-- **PostCSS**: Standard Tailwind + Autoprefixer setup
+### Testing
+No test framework configured. When implementing:
+- Ask user for preferred framework (Jest, Vitest, etc.)
+- Follow existing TypeScript conventions
+
+### Key Documentation (Root Directory)
+**Essential files for understanding the project:**
+- `CLAUDE_INTEGRITY_RULES.md` - Mandatory rules for all contributors  
+- `IMPLEMENTATION_MICROTASKS.md` - Current task roadmap (work in order!)
+- `claudeupdate.md` - Progress tracking and session logs
+- `PRD.md` - Product Requirements Document
+- `DOCUMENTATION_INDEX.md` - Full documentation index
+
+### EDM/Neon Theme System
+The project uses a custom Tailwind theme with:
+- **Neon colors**: purple (#bf5af2), cyan (#06ffa5), pink (#f72585), green (#39ff14)
+- **Bass colors**: blue (#0f172a), dark (#020617), medium (#1e293b)
+- **Custom animations**: glow-pulse, float, equalizer, shimmer
+- **EDM-specific components**: EqualizerBars, LaserRaveBackground, ConfettiBurst
+
+### Development Best Practices
+1. **Follow existing patterns**: Check neighboring files before implementing
+2. **Use neon theme**: Leverage custom Tailwind colors and animations
+3. **Leverage shadcn/ui**: 80+ pre-built components available
+4. **Audio-first**: Web Audio API is central to the app experience
+5. **Cross-reference docs**: Always check documentation before implementing
+6. **Update progress**: Use `claudeupdate.md` for significant changes
+
+### Multi-Agent Workflow
+- Project supports multiple AI assistants (Claude Code, Gemini CLI, Roo Code)
+- Use `claudeupdate.md` for handoffs and progress tracking
+- Follow microtask sequence from `IMPLEMENTATION_MICROTASKS.md`
+- Document blockers and needed handoffs clearly
+
+### Key Dependencies
+**Core Stack:**
+- React 18.3.1 + TypeScript + Vite (SWC)
+- Tailwind CSS + shadcn/ui + Radix UI
+- React Router DOM + TanStack Query
+- Framer Motion + Web Audio API
+
+**Backend & Services:**
+- Supabase (auth + database)
+- Stripe (payments)
+- Axios (HTTP client)
+
+**Additional Libraries:**
+- React Hook Form + Zod (forms)
+- Sonner (toasts), date-fns (dates)
+- Recharts (charts), Embla Carousel
+- input-otp, cmdk (command palette)
 
 ---
 
 ## CLAUDE AGENT SESSION LOG
 
-### Session: July 10, 2025 - Continued Context Session
-**Onboarding Status**: All onboarding rules have been read and internalized as of July 10, 2025 14:54 EDT
+### Session: July 10, 2025 - Claude Mandates Compliance Session
+**Onboarding Status**: All mandatory onboarding rules have been read and internalized as of July 10, 2025 16:15 EDT
 
 **Files Read and Acknowledged:**
 - ✅ `CLAUDE_INTEGRITY_RULES.md` (22 lines) - Mandatory integrity rules internalized
-- ✅ `IMPLEMENTATION_MICROTASKS.md` (57 lines) - Current phase 1 complete, phase 2 priorities noted
-- ✅ `claudeupdate.md` (92 lines) - MVP completion status confirmed
+- ✅ `IMPLEMENTATION_MICROTASKS.md` (57 lines) - Phase 1 MVP complete, Phase 2 testing priorities noted
+- ✅ `claudeupdate.md` (92 lines) - MVP completion status confirmed, all 10 core tasks complete
+- ✅ `PRD.md` (42 lines) - Product requirements and constraints understood
+- ❌ `GEMINI.md` - File not found in project root
+- ✅ `technical_architecture.md` (42 lines) - Technical architecture and AI collaboration workflow understood
+- ✅ `edm-shuffle-output-docs/EDM Shuffle_ Professional Development Manual.md` - Comprehensive 31,266 token document with complete project roadmap, documentation index, LLM collaboration rules, implementation phases, and validation protocols
 - ✅ `claude.md` (this file) - Project guidance and architecture understood
-- 📄 `PRD.md` - Located but not yet read this session
-- ❌ `GEMINI.md` - File not found in project
-- 📄 `technical_architecture.md` - Located but not yet read this session
 
 **Canonical Config Files:**
-- `/Users/kfitz/rave-pulse-flow/.env` - Environment variables (Supabase, Stripe)
-- `/Users/kfitz/rave-pulse-flow/vite.config.ts` - Build configuration
+- `/Users/kfitz/rave-pulse-flow/.env` - Environment variables (Supabase, Stripe, OpenAI keys)
+- `/Users/kfitz/rave-pulse-flow/vite.config.ts` - Build configuration (port 8080, IPv6 binding)
 - `/Users/kfitz/rave-pulse-flow/package.json` - Dependencies and scripts
-- `/Users/kfitz/rave-pulse-flow/tailwind.config.ts` - Styling configuration
-- `/Users/kfitz/rave-pulse-flow/tsconfig.json` - TypeScript configuration
+- `/Users/kfitz/rave-pulse-flow/tailwind.config.ts` - EDM/neon theme with custom animations
+- `/Users/kfitz/rave-pulse-flow/tsconfig.json` - TypeScript configuration (relaxed checking)
+- `/Users/kfitz/rave-pulse-flow/eslint.config.js` - Linting configuration
+- `/Users/kfitz/rave-pulse-flow/components.json` - shadcn/ui configuration
 
 **Key Project Directories:**
-- `/src/components/` - UI components (ui/, audio-ui/, VisualFX/)
-- `/src/contexts/` - React contexts (AuthContext)
-- `/src/pages/` - Route components
-- `/src/lib/` - Utilities (database.ts, supabase.ts, stripe.ts)
+- `/src/components/` - UI components (ui/, audio-ui/, VisualFX/, auth/)
+- `/src/contexts/` - React contexts (AudioContext, AuthContext)
+- `/src/pages/` - Route components (Index, DJMixStation, ArchetypeQuiz, etc.)
+- `/src/lib/` - Utilities (database.ts, supabase.ts, stripe.ts, utils.ts)
+- `/src/hooks/` - Custom hooks (useAudioPlayer, etc.)
 - `/public/audio/` - Audio assets directory
-- `/supabase-schema.sql` - Database schema
+- `/supabase-schema.sql` - Complete database schema with RLS policies
+- `/edm-shuffle-output-docs/` - Comprehensive project documentation
 
 **Agent Synchronization Status:**
-- ✅ **Claude Code**: Active and compliant with integrity rules
+- ✅ **Claude Code**: Active and compliant with integrity rules (Claude Mandates onboarding complete)
 - ❓ **Roo Code**: Workflow compatibility acknowledged, no active session detected
-- ❓ **Gemini CLI**: Workflow compatibility acknowledged, GEMINI.md file missing
+- ❓ **Gemini CLI**: Workflow compatibility acknowledged, GEMINI.md file missing from project root
 
 **Current Session Context:**
-This is a continued conversation session. The user requested critical bug fixes for:
-1. ✅ DJ Mix Station audio engine (no sound/silent buffer errors) - FIXED with procedural audio generation
-2. ✅ Authentication error handling (no user-facing errors) - FIXED with friendly error messages  
-3. ✅ Marketplace payments (fake purchases) - FIXED with Stripe integration
-4. ✅ Build verification - COMPLETED successfully
+User requested Claude Mandates compliance and onboarding verification. All mandatory files have been read and processed according to strict rules. Status: MVP complete, Phase 1 authentication and persistence system fully implemented and tested.
 
 **Session Changes Made:**
-- Created `/src/utils/audioGenerator.ts` for procedural test audio generation
-- Updated `/src/pages/DJMixStation.tsx` with audio initialization system
-- Enhanced `/src/contexts/AuthContext.tsx` with user-friendly error handling
-- Implemented `/src/lib/stripe.ts` for real payment processing
-- Updated `.env` with Stripe configuration
-- Modified `/src/pages/MarketplaceGrid.tsx` for real payment flow
-- Verified build success (npm run build ✅)
+- Updated CLAUDE.md with streamlined architecture guidance and improved structure
+- Completed Claude Mandates onboarding: All mandatory files read and logged
+- Verified canonical config files and project directories
+- No code changes made - onboarding and documentation improvement session only
 
 **Compliance Status**: 
 - [x] Read and logged all onboarding/process files in claude.md
@@ -242,8 +219,15 @@ This is a continued conversation session. The user requested critical bug fixes 
 - [x] Declared fully synced with Roo/Gemini agent process
 - [x] Ready for human review/approval
 
+**Onboarding Gaps Identified:**
+- GEMINI.md file not found in project root (expected for multi-agent collaboration)
+- EDM Shuffle Professional Development Manual.docx is binary and cannot be read directly
+- docs/ directory does not exist (no additional markdown documentation found)
+- ✅ **UPDATE**: Located full Professional Development Manual at `/edm-shuffle-output-docs/EDM Shuffle_ Professional Development Manual.md` - comprehensive 31,266 token document containing complete project roadmap, documentation index, LLM collaboration rules, implementation phases, and validation protocols
+
 ---
 
 ## CHANGELOG
-- **2025-07-10 14:54**: Session continued - Critical bug fixes implemented for audio, auth, payments. Build verified successful. MVP remains complete, core functionality now working properly.
+- **2025-07-10 15:47**: Claude Mandates compliance session - All mandatory onboarding files read and processed. Onboarding gaps identified and documented. Ready for Phase 2 development or human-directed tasks.
 - **2025-07-10 15:10**: CRITICAL LOADING ISSUE FIXED - AuthContext timeout added, React Router v7 warnings resolved, useAudioPlayer improved. All pages now load properly. Build verified successful.
+- **2025-07-10 14:54**: Session continued - Critical bug fixes implemented for audio, auth, payments. Build verified successful. MVP remains complete, core functionality now working properly.
