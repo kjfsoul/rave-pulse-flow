@@ -340,7 +340,7 @@ export const SimpleDJStation: React.FC = () => {
   );
 
   return (
-    <div className={`min-h-screen ${archetypeStyles.background} p-4 pb-20 ${djSettings.showArchetypeFX ? archetypeStyles.glowClass : ''}`}>
+    <div className={`min-h-screen ${archetypeStyles.background} p-4 pb-20 ${djSettings.showArchetypeFX ? 'archetype-glow' : ''}`}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div

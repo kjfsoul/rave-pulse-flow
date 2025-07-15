@@ -104,4 +104,11 @@
       background-position: 200% 0;
     }
   }
+
+  .archetype-glow {
+    background-image: linear-gradient(45deg, #6b21a8 25%, #db2777 50%, #06b6d4 75%);
+    background-size: 300% 300%;
+    animation: shimmer 15s infinite ease-in-out;
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.1);
+  }
 }
