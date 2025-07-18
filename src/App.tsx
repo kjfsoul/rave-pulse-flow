@@ -13,6 +13,7 @@ import FestivalVotingStage from "./pages/FestivalVotingStage";
 import NotFound from "./pages/NotFound";
 import DJMixStation from "./pages/DJMixStation";
 import Profile from "./pages/Profile";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
             v7_startTransition: true,
             v7_relativeSplatPath: true 
           }}>
+            <ScrollToTop />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/archetype-quiz" element={<ArchetypeQuiz />} />

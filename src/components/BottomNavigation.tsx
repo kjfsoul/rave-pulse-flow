@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { Home, Zap, ShoppingBag, Music, Dna, User } from "lucide-react";
+import { Home, Zap, ShoppingBag, Music, Dna, User, Headphones } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -11,7 +11,7 @@ const BottomNavigation = () => {
 
   const navItems = [
     { icon: Home, label: "Explore", path: "/" },
-    { icon: Zap, label: "Challenges", path: "/shuffle-feed" },
+    { icon: Headphones, label: "Studio", path: "/dj-mix" },
     { icon: ShoppingBag, label: "Marketplace", path: "/marketplace" },
     { icon: Music, label: "Festival", path: "/festival" },
     { icon: Dna, label: "Archetype", path: "/archetype-quiz" },

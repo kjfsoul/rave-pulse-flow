@@ -28,3 +28,4 @@ dist-ssr
 anaconda3/*
 */anaconda3/*
 **/anaconda3/**
+.venv/

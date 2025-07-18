@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import BottomNavigation from "@/components/BottomNavigation";
 import EqualizerBars from "@/components/EqualizerBars";
 import LaserRaveBackground from "@/components/LaserRaveBackground";
@@ -10,7 +11,8 @@ import ScrollHintArrow from "@/components/ScrollHintArrow";
 import RSSFeedStreamer from "@/components/RSSFeedStreamer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Play, Heart, Share2, TrendingUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Play, Heart, Share2, TrendingUp, LogIn, UserPlus } from "lucide-react";
 
 interface Archetype {
   id: string;
@@ -24,6 +26,7 @@ interface Archetype {
 
 const Index = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [showDancers, setShowDancers] = useState(false);
   const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null);
   const [showVibePreview, setShowVibePreview] = useState(false);
@@ -68,6 +71,34 @@ const Index = () => {
     <div className="min-h-screen bg-bass-dark relative pb-20">
       {/* RSS Feed Streamer */}
       <RSSFeedStreamer />
+      
+      {/* Authentication Buttons - Top Right */}
+      {!user && (
+        <motion.div
+          className="absolute top-4 right-4 flex gap-2 z-50"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Button
+            onClick={() => navigate('/profile')}
+            variant="outline"
+            size="sm"
+            className="bg-bass-medium/80 backdrop-blur-sm border-purple-500/30 text-white hover:bg-purple-600/20 hover:border-purple-400"
+          >
+            <LogIn className="w-4 h-4 mr-1" />
+            Sign In
+          </Button>
+          <Button
+            onClick={() => navigate('/profile')}
+            size="sm"
+            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+          >
+            <UserPlus className="w-4 h-4 mr-1" />
+            Sign Up
+          </Button>
+        </motion.div>
+      )}
       
       {/* Enhanced Hero Section with Rave Drop */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">

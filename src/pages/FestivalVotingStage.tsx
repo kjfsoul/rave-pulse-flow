@@ -9,11 +9,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import NeonButton from "@/components/NeonButton";
 import EqualizerBars from "@/components/EqualizerBars";
-import { Volume2, VolumeX, Play, Users, Crown, Zap, Pause } from "lucide-react";
+import { Volume2, VolumeX, Play, Users, Crown, Zap, Pause, Send } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import FestivalStageBackground from '@/components/VisualFX/FestivalStageBackground';
 import ArchetypeAuraSprite from '@/components/VisualFX/ArchetypeAuraSprite';
 import ShuffleDancers from '@/components/VisualFX/ShuffleDancers';
 import LightSyncPulse from '@/components/VisualFX/LightSyncPulse';
+import DroneFormations from '@/components/VisualFX/DroneFormations';
+import FestivalEnvironment from '@/components/VisualFX/FestivalEnvironment';
 
 const FestivalVotingStage = () => {
   const { user, profile } = useAuth();
@@ -31,12 +34,8 @@ const FestivalVotingStage = () => {
   const [isVoting, setIsVoting] = useState(false);
   const [headliner, setHeadliner] = useState<number | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [crowdReactions, setCrowdReactions] = useState<string[]>([
-    "🔥 This beat is insane!",
-    "💃 Can't stop dancing!",
-    "🎵 Best drop ever!",
-    "⚡ Energy through the roof!"
-  ]);
+  const [chatMessages, setChatMessages] = useState<Array<{id: string, username: string, message: string, timestamp: Date}>>([]);
+  const [newMessage, setNewMessage] = useState("");
   const [lightBurst, setLightBurst] = useState(false);
   const currentArchetype = (profile?.archetype || 'MoonWaver') as 'Firestorm' | 'FrostPulse' | 'MoonWaver';
   
@@ -54,7 +53,12 @@ const FestivalVotingStage = () => {
       track: "Digital Inferno",
       bpm: 140,
       gradient: "from-red-500 via-orange-500 to-yellow-500",
-      color: "text-red-400"
+      color: "text-red-400",
+      status: "🔴 LIVE",
+      followers: "12.3K",
+      setTime: "60 min",
+      location: "Miami, FL",
+      achievements: ["🏆 Ultra Rising Star", "🎵 Beatport #1"]
     },
     {
       id: 2,
@@ -64,7 +68,12 @@ const FestivalVotingStage = () => {
       track: "Glacial Waves",
       bpm: 110,
       gradient: "from-cyan-400 via-blue-500 to-purple-500",
-      color: "text-cyan-400"
+      color: "text-cyan-400",
+      status: "🟡 UP NEXT",
+      followers: "8.7K",
+      setTime: "45 min",
+      location: "Berlin, DE",
+      achievements: ["🌊 Bass Pioneer", "❄️ Arctic Vibes"]
     },
     {
       id: 3,
@@ -74,7 +83,12 @@ const FestivalVotingStage = () => {
       track: "Cosmic Dreams",
       bpm: 126,
       gradient: "from-purple-500 via-pink-500 to-indigo-500",
-      color: "text-purple-400"
+      color: "text-purple-400",
+      status: "⏰ LATER",
+      followers: "15.9K",
+      setTime: "75 min",
+      location: "Ibiza, ES",
+      achievements: ["🌙 Moonbeam Master", "🪐 Cosmic Journey"]
     },
     {
       id: 4,
@@ -84,7 +98,12 @@ const FestivalVotingStage = () => {
       track: "Solar Flare",
       bpm: 132,
       gradient: "from-orange-500 via-red-500 to-pink-500",
-      color: "text-orange-400"
+      color: "text-orange-400",
+      status: "🟢 STANDBY",
+      followers: "21.1K",
+      setTime: "90 min",
+      location: "Tomorrowland",
+      achievements: ["🔥 Phoenix Legend", "🎪 Festival Favorite"]
     }
   ];
 
@@ -203,7 +222,26 @@ const FestivalVotingStage = () => {
       if (dj) {
         handleDJPreview(dj);
       }
+    } else {
+      // If no DJ selected, start with the first DJ
+      handleDJPreview(djs[0]);
     }
+  };
+
+  // Send chat message
+  const sendMessage = () => {
+    if (!newMessage.trim() || !user) return;
+    
+    const message = {
+      id: Date.now().toString(),
+      username: profile?.username || 'Anonymous Raver',
+      message: newMessage.trim(),
+      timestamp: new Date()
+    };
+    
+    setChatMessages(prev => [...prev.slice(-9), message]); // Keep last 10 messages
+    setNewMessage("");
+    toast.success('🎤 Shout-out sent!');
   };
 
   const handleVote = async (djId: number) => {
@@ -403,6 +441,10 @@ const FestivalVotingStage = () => {
     <ProtectedRoute>
       <div className="min-h-screen bg-bass-dark relative pb-20 overflow-hidden">
       {/* Visual FX Layers */}
+      <FestivalEnvironment 
+        currentArchetype={currentArchetype}
+        className="z-0"
+      />
       <FestivalStageBackground 
         archetype={currentArchetype} 
         bpm={currentBPM} 
@@ -455,6 +497,12 @@ const FestivalVotingStage = () => {
             transition={{ duration: 8 + i, repeat: Infinity, ease: "linear" }}
           />
         ))}
+        
+        {/* Drone Formations */}
+        <DroneFormations 
+          isActive={true}
+          className="z-5"
+        />
       </div>
 
       {/* Festival Content */}
@@ -475,7 +523,7 @@ const FestivalVotingStage = () => {
 
         {/* Music Controller */}
         <motion.div
-          className="fixed top-4 right-4 bg-bass-medium/80 backdrop-blur-sm rounded-lg p-3 flex items-center gap-3 z-20"
+          className="fixed top-4 right-4 bg-bass-medium/90 backdrop-blur-sm rounded-lg p-3 flex items-center gap-3 z-30 border border-neon-purple/20"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
         >
@@ -504,7 +552,7 @@ const FestivalVotingStage = () => {
 
         {/* PLURcrew Corner */}
         <motion.div
-          className="fixed top-4 left-4 bg-bass-medium/80 backdrop-blur-sm rounded-lg p-3 z-20"
+          className="fixed top-4 left-4 bg-bass-medium/90 backdrop-blur-sm rounded-lg p-3 z-30 border border-neon-purple/20"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
         >
@@ -529,19 +577,27 @@ const FestivalVotingStage = () => {
             }}
           >
             <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-white mb-2">🎤 Live on Stage</h2>
+              <h2 className="text-3xl font-bold text-white mb-2">🎤 Featured Artists</h2>
+              <p className="text-slate-300 mb-4">Discover up-and-coming DJs and live performers</p>
               {headliner && (
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   className="mb-4"
                 >
-                  <Badge className="bg-neon-cyan text-bass-dark px-4 py-2 text-lg">
+                  <Badge className="bg-gradient-to-r from-neon-purple to-neon-cyan text-white px-4 py-2 text-lg">
                     <Crown className="w-4 h-4 mr-2" />
                     Headliner: {djs.find(d => d.id === headliner)?.name}
                   </Badge>
                 </motion.div>
               )}
+              
+              {/* Live Stats */}
+              <div className="flex justify-center gap-6 text-sm text-slate-400">
+                <div>🔴 <span className="text-red-400">1</span> Live</div>
+                <div>👥 <span className="text-neon-cyan">47.2K</span> Watching</div>
+                <div>🎵 <span className="text-neon-purple">{chatMessages.length}</span> Messages</div>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -553,11 +609,14 @@ const FestivalVotingStage = () => {
                   transition={{ delay: index * 0.1 }}
                   className="relative"
                 >
-                  <Card className={`cursor-pointer transition-all duration-300 ${
-                    selectedDJ === dj.id 
-                      ? 'ring-2 ring-white ring-opacity-50 scale-105' 
-                      : 'hover:scale-102'
-                  }`}>
+                  <Card 
+                    className={`cursor-pointer transition-all duration-300 ${
+                      selectedDJ === dj.id 
+                        ? 'ring-2 ring-white ring-opacity-50 scale-105' 
+                        : 'hover:scale-102'
+                    }`}
+                    onClick={() => handleDJPreview(dj)}
+                  >
                     <CardContent className="p-4 text-center">
                       {/* Spotlight Effect */}
                       {selectedDJ === dj.id && (
@@ -572,16 +631,39 @@ const FestivalVotingStage = () => {
                       )}
                       
                       <div className="relative z-10">
+                        {/* Status Badge */}
+                        <div className="absolute -top-2 -right-2 text-xs bg-bass-dark/80 px-2 py-1 rounded-full border border-neon-purple/30">
+                          {dj.status}
+                        </div>
+                        
                         <div className="text-4xl mb-2">
                           {dj.archetype === 'Firestorm' ? '🔥' : 
                            dj.archetype === 'FrostPulse' ? '❄️' : '🌙'}
                         </div>
                         <h3 className={`font-bold ${dj.color} mb-1`}>{dj.name}</h3>
+                        <div className="text-xs text-slate-300 mb-1">{dj.location}</div>
                         <Badge className="mb-2 text-xs">{dj.archetype}</Badge>
-                        <div className="text-xs text-slate-400 mb-2">
-                          {dj.genre} • {dj.bpm} BPM
+                        
+                        {/* Performance Stats */}
+                        <div className="text-xs text-slate-400 mb-2 space-y-1">
+                          <div>{dj.genre} • {dj.bpm} BPM</div>
+                          <div className="flex justify-between">
+                            <span>👥 {dj.followers}</span>
+                            <span>⏱️ {dj.setTime}</span>
+                          </div>
                         </div>
-                        <div className="text-sm text-white mb-3">{dj.track}</div>
+                        
+                        {/* Current Track */}
+                        <div className="text-sm text-white mb-2 font-medium">{dj.track}</div>
+                        
+                        {/* Achievements */}
+                        <div className="text-xs mb-3">
+                          {dj.achievements.slice(0, 1).map((achievement, i) => (
+                            <div key={i} className="text-neon-cyan bg-neon-cyan/20 px-2 py-1 rounded-full inline-block">
+                              {achievement}
+                            </div>
+                          ))}
+                        </div>
                         
                         <div className="space-y-2">
                           <NeonButton
@@ -622,93 +704,90 @@ const FestivalVotingStage = () => {
           </motion.div>
         </div>
 
-        {/* Interactive Turntables */}
+        {/* Festival Celebration */}
         <motion.div
-          className="mb-8"
+          className="mb-8 text-center"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <div className="bg-bass-medium/50 rounded-2xl p-6">
-            <h3 className="text-xl font-bold text-neon-cyan text-center mb-6">🎛️ Interactive Turntables</h3>
-            
-            <div className="flex justify-center items-center gap-8">
-              {/* Left Turntable */}
-              <motion.div
-                className="relative"
-                whileHover={{ scale: 1.05 }}
-                onClick={() => handleTurntableInteraction('scratch')}
-              >
-                <div className="w-32 h-32 rounded-full bg-gradient-to-r from-neon-purple to-neon-cyan p-1 cursor-pointer">
-                  <motion.div
-                    className="w-full h-full rounded-full bg-bass-dark flex items-center justify-center"
-                    animate={{ rotate: isPlaying ? [0, 360] : 0 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  >
-                    <div className="w-4 h-4 bg-neon-purple rounded-full" />
-                  </motion.div>
-                </div>
-                <div className="text-center mt-2 text-sm text-slate-400">Scratch</div>
-              </motion.div>
-
-              {/* Center Hype Button */}
-              <motion.button
-                className="bg-gradient-to-r from-neon-purple to-neon-cyan text-white px-6 py-3 rounded-full font-bold"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => {
-                  setShowConfetti(true);
-                  setTimeout(() => setShowConfetti(false), 2000);
-                }}
-              >
-                <Zap className="w-5 h-5 mr-2 inline" />
-                Hype Up The Crowd
-              </motion.button>
-
-              {/* Right Turntable */}
-              <motion.div
-                className="relative"
-                whileHover={{ scale: 1.05 }}
-                onClick={() => handleTurntableInteraction('echo')}
-              >
-                <div className="w-32 h-32 rounded-full bg-gradient-to-r from-neon-cyan to-neon-purple p-1 cursor-pointer">
-                  <motion.div
-                    className="w-full h-full rounded-full bg-bass-dark flex items-center justify-center"
-                    animate={{ rotate: isPlaying ? [0, -360] : 0 }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                  >
-                    <div className="w-4 h-4 bg-neon-cyan rounded-full" />
-                  </motion.div>
-                </div>
-                <div className="text-center mt-2 text-sm text-slate-400">Echo</div>
-              </motion.div>
-            </div>
-          </div>
+          <motion.button
+            className="bg-gradient-to-r from-neon-purple to-neon-cyan text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg"
+            whileHover={{ scale: 1.1, boxShadow: "0 0 30px rgba(191, 90, 242, 0.6)" }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => {
+              setShowConfetti(true);
+              setLightBurst(true);
+              setTimeout(() => {
+                setShowConfetti(false);
+                setLightBurst(false);
+              }, 2000);
+              toast.success('🎉 Festival vibes activated!');
+            }}
+          >
+            <Zap className="w-6 h-6 mr-2 inline" />
+            Hype Up The Crowd
+          </motion.button>
         </motion.div>
 
-        {/* Festival Lounge */}
+        {/* Festival Chat */}
         <motion.div
-          className="fixed bottom-24 right-4 bg-bass-medium/80 backdrop-blur-sm rounded-lg p-3 max-w-64 z-20"
+          className="fixed bottom-24 right-4 bg-bass-medium/90 backdrop-blur-sm rounded-lg p-3 max-w-72 z-30 border border-neon-purple/20"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
         >
           <div className="flex items-center gap-2 mb-2">
             <Users className="w-4 h-4 text-neon-purple" />
-            <span className="text-sm text-neon-purple font-semibold">🪩 Festival Lounge</span>
+            <span className="text-sm text-neon-purple font-semibold">🪩 Festival Chat</span>
           </div>
-          <div className="space-y-1 max-h-20 overflow-hidden">
-            {crowdReactions.map((reaction, i) => (
-              <motion.div
-                key={i}
-                className="text-xs text-slate-300"
-                animate={{ y: [0, -20] }}
-                transition={{ duration: 4, delay: i * 1, repeat: Infinity }}
+          
+          {/* Chat Messages */}
+          <div className="space-y-1 max-h-32 overflow-y-auto mb-2">
+            {chatMessages.length === 0 ? (
+              <div className="text-xs text-slate-400 italic">
+                Be the first to hype up the crowd! 🎉
+              </div>
+            ) : (
+              chatMessages.map((msg) => (
+                <motion.div
+                  key={msg.id}
+                  className="text-xs"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <span className="text-neon-cyan font-semibold">{msg.username}: </span>
+                  <span className="text-slate-300">{msg.message}</span>
+                </motion.div>
+              ))
+            )}
+          </div>
+          
+          {/* Message Input */}
+          {user ? (
+            <div className="flex gap-1">
+              <Input
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Send a shout-out..."
+                className="flex-1 h-6 text-xs bg-bass-dark/50 border-neon-purple/30 text-white placeholder-slate-400"
+                onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                maxLength={100}
+              />
+              <button
+                onClick={sendMessage}
+                disabled={!newMessage.trim()}
+                className="px-2 py-1 bg-neon-purple/20 hover:bg-neon-purple/40 rounded text-neon-purple disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                {reaction}
-              </motion.div>
-            ))}
-          </div>
+                <Send className="w-3 h-3" />
+              </button>
+            </div>
+          ) : (
+            <div className="text-xs text-slate-400 text-center">
+              Sign in to join the chat! 💬
+            </div>
+          )}
         </motion.div>
 
         {/* Confetti Animation */}

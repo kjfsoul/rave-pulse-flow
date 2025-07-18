@@ -9,6 +9,7 @@ interface AuthContextType {
   loading: boolean
   signUp: (email: string, password: string, username?: string) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
+  signInWithGoogle: () => Promise<void>
   signOut: () => Promise<void>
   updateProfile: (updates: Partial<Profile>) => Promise<void>
   refreshProfile: () => Promise<void>
@@ -174,7 +175,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Profile will be created automatically via auth state change listener
       }
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error signing up:', error)
       throw error
     } finally {
@@ -219,7 +220,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.log('Successfully signed in:', data.user.email)
       }
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error signing in:', error)
       throw error
     } finally {
@@ -267,6 +268,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await fetchProfile(user.id)
   }
 
+  const signInWithGoogle = async () => {
+    setLoading(true)
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        },
+      })
+      
+      if (error) {
+        let userMessage = 'Failed to sign in with Google'
+        
+        if (error.message.includes('rate limit')) {
+          userMessage = 'Too many attempts. Please wait a moment and try again'
+        } else if (error.message.includes('network')) {
+          userMessage = 'Connection error. Please check your internet and try again'
+        }
+        
+        const friendlyError = new Error(userMessage)
+        friendlyError.name = 'AuthError'
+        throw friendlyError
+      }
+      
+      // Google OAuth will redirect, so we don't need to handle the response here
+    } catch (error: unknown) {
+      console.error('Error signing in with Google:', error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const value: AuthContextType = {
     user,
     profile,
@@ -274,6 +312,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading,
     signUp,
     signIn,
+    signInWithGoogle,
     signOut,
     updateProfile,
     refreshProfile,
