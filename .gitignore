@@ -30,6 +30,10 @@ anaconda3/*
 **/anaconda3/**
 .venv/
 .env.local
+.env.crew
 .env*
 env*
 venv_crewai/*
+production_checklist.md
+.env.crew
+.env*
