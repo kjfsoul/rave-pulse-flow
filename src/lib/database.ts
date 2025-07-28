@@ -375,3 +375,112 @@ export const plurCrewOperations = {
     return true
   }
 }
+
+// Sound Pack Operations
+export const soundPackOperations = {
+  async getSavedSounds(userId: string): Promise<any> {
+    const { data, error } = await supabase
+      .from('dj_settings')
+      .select('sound_selections')
+      .eq('user_id', userId)
+      .single()
+    
+    if (error) {
+      console.warn('No saved sounds found:', error)
+      return { deckA: null, deckB: null }
+    }
+    
+    return data?.sound_selections || { deckA: null, deckB: null }
+  },
+
+  async saveSoundSelection(userId: string, deckId: 'A' | 'B', stemData: any): Promise<boolean> {
+    try {
+      // First, get current sound selections
+      const currentSelections = await this.getSavedSounds(userId)
+      
+      // Update the specific deck
+      const updatedSelections = {
+        ...currentSelections,
+        [`deck${deckId}`]: {
+          stemId: stemData.id,
+          stemName: stemData.name,
+          packId: stemData.packId || 'unknown',
+          bpm: stemData.bpm,
+          key: stemData.key,
+          type: stemData.type,
+          savedAt: new Date().toISOString()
+        }
+      }
+
+      // Upsert to dj_settings table
+      const { error } = await supabase
+        .from('dj_settings')
+        .upsert({
+          user_id: userId,
+          sound_selections: updatedSelections,
+          updated_at: new Date().toISOString()
+        }, {
+          onConflict: 'user_id'
+        })
+      
+      if (error) {
+        console.error('Error saving sound selection:', error)
+        return false
+      }
+      
+      return true
+    } catch (error) {
+      console.error('Error in saveSoundSelection:', error)
+      return false
+    }
+  },
+
+  async clearSoundSelection(userId: string, deckId: 'A' | 'B'): Promise<boolean> {
+    try {
+      const currentSelections = await this.getSavedSounds(userId)
+      
+      const updatedSelections = {
+        ...currentSelections,
+        [`deck${deckId}`]: null
+      }
+
+      const { error } = await supabase
+        .from('dj_settings')
+        .upsert({
+          user_id: userId,
+          sound_selections: updatedSelections,
+          updated_at: new Date().toISOString()
+        }, {
+          onConflict: 'user_id'
+        })
+      
+      if (error) {
+        console.error('Error clearing sound selection:', error)
+        return false
+      }
+      
+      return true
+    } catch (error) {
+      console.error('Error in clearSoundSelection:', error)
+      return false
+    }
+  },
+
+  async getSoundPackUsageStats(userId: string): Promise<any> {
+    const { data, error } = await supabase
+      .from('dj_settings')
+      .select('sound_selections')
+      .eq('user_id', userId)
+    
+    if (error || !data) {
+      return { totalUses: 0, favoritePacks: [], recentSelections: [] }
+    }
+    
+    // This could be expanded to track more detailed analytics
+    return {
+      totalUses: data.length,
+      favoritePacks: [],
+      recentSelections: data.slice(0, 10)
+    }
+  }
+}

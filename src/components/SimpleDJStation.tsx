@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Play, Pause, Volume2, Settings, Sparkles } from 'lucide-react';
+import { Play, Pause, Volume2, Settings, Sparkles, GraduationCap, Trophy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
-import { djOperations, profileOperations } from '@/lib/database';
+import { djOperations, profileOperations, soundPackOperations } from '@/lib/database';
+import LiveEqualizer from '@/components/LiveEqualizer';
+import SoundPackLoader from '@/components/SoundPackLoader';
+import DJExpertAgent from '@/components/DJExpertAgent';
+import ShuffleChallenge from '@/components/ShuffleChallenge';
 
 interface SimpleDeck {
   id: 'A' | 'B';
@@ -18,6 +22,9 @@ interface SimpleDeck {
   oscillator: OscillatorNode | null;
   gainNode: GainNode | null;
   color: string;
+  audioBuffer: AudioBuffer | null;
+  sourceNode: AudioBufferSourceNode | null;
+  assignedStem: any | null;
 }
 
 export const SimpleDJStation: React.FC = () => {
@@ -26,6 +33,10 @@ export const SimpleDJStation: React.FC = () => {
   const [audioReady, setAudioReady] = useState(false);
   const [crossfade, setCrossfade] = useState(50);
   const [showSettings, setShowSettings] = useState(false);
+  const [masterEqualizerNode, setMasterEqualizerNode] = useState<AudioNode | null>(null);
+  const masterMixerRef = useRef<GainNode | null>(null);
+  const [showDJCoach, setShowDJCoach] = useState(false);
+  const [showChallenges, setShowChallenges] = useState(false);
   
   
   // DJ Settings state
@@ -40,7 +51,10 @@ export const SimpleDJStation: React.FC = () => {
     volume: 75,
     oscillator: null,
     gainNode: null,
-    color: 'from-purple-500 to-pink-500'
+    color: 'from-purple-500 to-pink-500',
+    audioBuffer: null,
+    sourceNode: null,
+    assignedStem: null
   });
 
   const [deckB, setDeckB] = useState<SimpleDeck>({
@@ -51,7 +65,10 @@ export const SimpleDJStation: React.FC = () => {
     volume: 75,
     oscillator: null,
     gainNode: null,
-    color: 'from-cyan-500 to-blue-500'
+    color: 'from-cyan-500 to-blue-500',
+    audioBuffer: null,
+    sourceNode: null,
+    assignedStem: null
   });
 
   // Load DJ settings from database
@@ -64,7 +81,9 @@ export const SimpleDJStation: React.FC = () => {
         setDjSettings({ ...djOperations.getDefaultDJSettings(), ...settings.settings });
       }
     } catch (error) {
-      console.error('Failed to load DJ settings:', error);
+      console.warn('DJ settings not found, using defaults:', error);
+      // Use default settings if none found
+      setDjSettings(djOperations.getDefaultDJSettings());
     }
   };
 
@@ -97,24 +116,96 @@ export const SimpleDJStation: React.FC = () => {
   // Initialize Web Audio API
   const initAudio = async () => {
     try {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      console.log('Initializing audio...');
+      audioContextRef.current = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       
       if (audioContextRef.current.state === 'suspended') {
+        console.log('Resuming suspended audio context...');
         await audioContextRef.current.resume();
       }
       
+      // Create master mixer node
+      masterMixerRef.current = audioContextRef.current.createGain();
+      masterMixerRef.current.gain.setValueAtTime(1, audioContextRef.current.currentTime);
+      
+      console.log('Audio context initialized:', audioContextRef.current.state);
       setAudioReady(true);
-      toast.success('🎵 Audio system ready! Click play to hear sound.');
+      toast.success('🎵 Audio system ready!');
     } catch (error) {
       console.error('Audio initialization failed:', error);
-      toast.error('Audio not available in this browser');
+      toast.error('Audio initialization failed: ' + error.message);
     }
   };
 
-  // Load settings on component mount
+  // Load saved sound selections
+  const loadSavedSounds = async () => {
+    if (!user?.id) return;
+    
+    try {
+      const savedSounds = await soundPackOperations.getSavedSounds(user.id);
+      
+      // This would need to be implemented to reload the actual audio buffers
+      // For now, just store the metadata
+      if (savedSounds.deckA) {
+        setDeckA(prev => ({ 
+          ...prev, 
+          assignedStem: savedSounds.deckA,
+          name: savedSounds.deckA.stemName 
+        }));
+      }
+      
+      if (savedSounds.deckB) {
+        setDeckB(prev => ({ 
+          ...prev, 
+          assignedStem: savedSounds.deckB,
+          name: savedSounds.deckB.stemName 
+        }));
+      }
+    } catch (error) {
+      console.warn('Failed to load saved sounds:', error);
+    }
+  };
+
+  // Handle stem assignment from SoundPackLoader
+  const handleStemAssign = async (deckId: 'A' | 'B', stem: any, audioBuffer: AudioBuffer) => {
+    const setDeck = deckId === 'A' ? setDeckA : setDeckB;
+    
+    // Stop current playback if active
+    const currentDeck = deckId === 'A' ? deckA : deckB;
+    if (currentDeck.isPlaying) {
+      if (currentDeck.sourceNode) {
+        currentDeck.sourceNode.stop();
+      }
+      if (currentDeck.oscillator) {
+        currentDeck.oscillator.stop();
+      }
+    }
+    
+    // Update deck with new stem and audio buffer
+    setDeck(prev => ({
+      ...prev,
+      name: stem.name,
+      audioBuffer,
+      assignedStem: stem,
+      isPlaying: false,
+      sourceNode: null,
+      oscillator: null
+    }));
+    
+    // Save to database
+    if (user?.id) {
+      await soundPackOperations.saveSoundSelection(user.id, deckId, {
+        ...stem,
+        packId: stem.packId || 'unknown'
+      });
+    }
+  };
+
+  // Load settings and sounds on component mount
   useEffect(() => {
     loadDJSettings();
-  }, [user?.id]); // loadDJSettings is stable since it only depends on user?.id
+    loadSavedSounds();
+  }, [user?.id]);
 
   // Get archetype-based styling
   const getArchetypeStyles = () => {
@@ -193,7 +284,11 @@ export const SimpleDJStation: React.FC = () => {
   const toggleDeck = async (deckId: 'A' | 'B') => {
     if (!audioContextRef.current || !audioReady) {
       await initAudio();
-      return;
+      // After initializing audio, try again
+      if (!audioContextRef.current) {
+        toast.error('Failed to initialize audio');
+        return;
+      }
     }
 
     const deck = deckId === 'A' ? deckA : deckB;
@@ -201,6 +296,9 @@ export const SimpleDJStation: React.FC = () => {
 
     if (deck.isPlaying) {
       // Stop audio
+      if (deck.sourceNode) {
+        deck.sourceNode.stop();
+      }
       if (deck.oscillator) {
         deck.oscillator.stop();
       }
@@ -208,47 +306,78 @@ export const SimpleDJStation: React.FC = () => {
         ...prev, 
         isPlaying: false, 
         oscillator: null, 
+        sourceNode: null,
         gainNode: null 
       }));
       toast(`⏸️ Deck ${deckId} stopped`);
     } else {
       // Start audio
-      const oscillator = audioContextRef.current.createOscillator();
-      const gainNode = audioContextRef.current.createGain();
-      
-      // Create a more interesting sound with multiple frequencies
-      oscillator.type = 'sawtooth';
-      oscillator.frequency.setValueAtTime(deck.frequency, audioContextRef.current.currentTime);
-      
-      // Add some modulation for more interesting sound
-      const lfo = audioContextRef.current.createOscillator();
-      const lfoGain = audioContextRef.current.createGain();
-      lfo.frequency.setValueAtTime(4, audioContextRef.current.currentTime);
-      lfoGain.gain.setValueAtTime(50, audioContextRef.current.currentTime);
-      
-      lfo.connect(lfoGain);
-      lfoGain.connect(oscillator.frequency);
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContextRef.current.destination);
-      
-      // Set initial volume based on crossfade
-      const volume = deckId === 'A' 
-        ? ((100 - crossfade) / 100) * (deck.volume / 100) * 0.1
-        : (crossfade / 100) * (deck.volume / 100) * 0.1;
-      gainNode.gain.setValueAtTime(volume, audioContextRef.current.currentTime);
-      
-      oscillator.start();
-      lfo.start();
-      
-      setDeck(prev => ({ 
-        ...prev, 
-        isPlaying: true, 
-        oscillator, 
-        gainNode 
-      }));
-      
-      toast(`▶️ Deck ${deckId} playing ${deck.name}`);
+      try {
+        console.log(`Starting deck ${deckId}, context state:`, audioContextRef.current.state);
+        
+        const gainNode = audioContextRef.current.createGain();
+        let sourceNode: AudioBufferSourceNode | null = null;
+        let oscillator: OscillatorNode | null = null;
+
+        if (deck.audioBuffer) {
+          // Use assigned audio buffer (from sound pack)
+          sourceNode = audioContextRef.current.createBufferSource();
+          sourceNode.buffer = deck.audioBuffer;
+          sourceNode.loop = true;
+          
+          // Add error handling for source node
+          sourceNode.onended = () => {
+            console.log(`Deck ${deckId} source ended`);
+          };
+          
+          sourceNode.connect(gainNode);
+          console.log('Using audio buffer:', deck.assignedStem?.name);
+        } else {
+          // Fallback to generated oscillator (simplified)
+          oscillator = audioContextRef.current.createOscillator();
+          oscillator.type = 'sawtooth';
+          oscillator.frequency.setValueAtTime(deck.frequency, audioContextRef.current.currentTime);
+          oscillator.connect(gainNode);
+          
+          console.log('Using generated oscillator for deck', deckId);
+        }
+        
+        // Connect to master mixer
+        if (masterMixerRef.current) {
+          console.log('Connecting to master mixer');
+          gainNode.connect(masterMixerRef.current);
+        } else {
+          console.log('Connecting directly to destination');
+          gainNode.connect(audioContextRef.current.destination);
+        }
+        
+        // Set initial volume based on crossfade
+        const volume = deckId === 'A' 
+          ? ((100 - crossfade) / 100) * (deck.volume / 100) * 0.3
+          : (crossfade / 100) * (deck.volume / 100) * 0.3;
+        gainNode.gain.setValueAtTime(volume, audioContextRef.current.currentTime);
+        
+        // Start the audio source
+        if (sourceNode) {
+          sourceNode.start();
+        } else if (oscillator) {
+          oscillator.start();
+        }
+        
+        setDeck(prev => ({ 
+          ...prev, 
+          isPlaying: true, 
+          oscillator,
+          sourceNode,
+          gainNode 
+        }));
+        
+        console.log(`Deck ${deckId} started successfully`);
+        toast(`▶️ Deck ${deckId} playing ${deck.name}`);
+      } catch (error) {
+        console.error(`Failed to start deck ${deckId}:`, error);
+        toast.error(`Failed to start Deck ${deckId}: ${error.message}`);
+      }
     }
   };
 
@@ -355,7 +484,25 @@ export const SimpleDJStation: React.FC = () => {
                 🎛️ SIMPLE DJ STATION
               </span>
             </h1>
-            <div className="flex-1 flex justify-end">
+            <div className="flex-1 flex justify-end gap-2">
+              <Button
+                onClick={() => setShowChallenges(true)}
+                variant="outline"
+                size="sm"
+                className="text-white border-yellow-500/30 hover:bg-yellow-600/20 hover:border-yellow-400"
+              >
+                <Trophy className="w-4 h-4 mr-1" />
+                Challenges
+              </Button>
+              <Button
+                onClick={() => setShowDJCoach(true)}
+                variant="outline"
+                size="sm"
+                className="text-white border-cyan-500/30 hover:bg-cyan-600/20 hover:border-cyan-400"
+              >
+                <GraduationCap className="w-4 h-4 mr-1" />
+                DJ Coach
+              </Button>
               <Button
                 onClick={() => setShowSettings(!showSettings)}
                 variant="outline"
@@ -366,7 +513,7 @@ export const SimpleDJStation: React.FC = () => {
               </Button>
             </div>
           </div>
-          <p className="text-cyan-400 text-lg">Real Web Audio • Working Controls • Actual Sound!</p>
+          <p className="text-cyan-400 text-lg">Real Web Audio • Working Controls • Actual Sound! • Now with EQ & Sound Packs!</p>
           {profile?.archetype && djSettings.showArchetypeFX && (
             <p className="text-white/80 text-sm mt-2">
               ✨ Archetype FX Active: {profile.archetype.replace('_', ' ').toUpperCase()}
@@ -432,6 +579,62 @@ export const SimpleDJStation: React.FC = () => {
           />
         </div>
 
+        {/* Master Equalizer */}
+        {audioReady && audioContextRef.current && masterMixerRef.current ? (
+          <div className="mb-8">
+            <LiveEqualizer
+              audioContext={audioContextRef.current}
+              sourceNode={masterMixerRef.current}
+              onEqualizerNodeReady={(equalizerNode) => {
+                setMasterEqualizerNode(equalizerNode);
+                // Connect equalizer output to destination
+                equalizerNode.connect(audioContextRef.current!.destination);
+              }}
+            />
+          </div>
+        ) : (
+          <div className="mb-8">
+            <div className="relative p-6 bg-gradient-to-t from-gray-900/90 to-gray-800/90 backdrop-blur-lg rounded-2xl border border-cyan-500/30 shadow-2xl">
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-cyan-400 font-mono tracking-wider mb-4">
+                  LIVE EQUALIZER
+                </h3>
+                <div className="text-gray-400 text-sm">
+                  🎵 Click any deck's play button to enable the equalizer
+                </div>
+                <div className="grid grid-cols-5 md:grid-cols-10 gap-4 mt-6 opacity-50">
+                  {['32Hz', '64Hz', '125Hz', '250Hz', '500Hz', '1kHz', '2kHz', '4kHz', '8kHz', '16kHz'].map((freq) => (
+                    <div key={freq} className="flex flex-col items-center space-y-2">
+                      <div className="text-xs font-mono text-cyan-300 bg-black/50 px-2 py-1 rounded min-w-[60px] text-center">
+                        0.0dB
+                      </div>
+                      <div className="relative h-48 w-8 bg-gray-800 rounded-full border border-cyan-500/30">
+                        <div className="absolute left-0 right-0 h-0.5 bg-cyan-400 top-1/2 transform -translate-y-0.5" />
+                        <div className="absolute w-full h-4 bg-gradient-to-r from-cyan-400 to-blue-500 top-1/2 transform -translate-y-1/2" />
+                      </div>
+                      <div className="text-xs font-mono text-gray-300 text-center min-w-[60px]">
+                        {freq}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Sound Pack Loader */}
+        <div className="mb-8">
+          <SoundPackLoader
+            audioContext={audioContextRef.current}
+            onStemAssign={handleStemAssign}
+            assignedStems={{
+              A: deckA.assignedStem,
+              B: deckB.assignedStem
+            }}
+          />
+        </div>
+
         {/* Center Controls */}
         <div className="max-w-lg mx-auto space-y-6">
           {/* Crossfader */}
@@ -492,6 +695,41 @@ export const SimpleDJStation: React.FC = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* DJ Expert Agent */}
+        <DJExpertAgent
+          isActive={showDJCoach}
+          djStationState={{
+            deckAPlaying: deckA.isPlaying,
+            deckBPlaying: deckB.isPlaying,
+            crossfadePosition: crossfade,
+            equalizerActive: masterEqualizerNode !== null,
+            assignedStems: {
+              A: deckA.assignedStem,
+              B: deckB.assignedStem
+            }
+          }}
+          onLevelSelect={(level) => {
+            console.log('Selected DJ tutorial level:', level);
+            toast.success(`Starting ${level.name} tutorial!`);
+          }}
+          onClose={() => setShowDJCoach(false)}
+        />
+
+        {/* Shuffle Challenges */}
+        {showChallenges && (
+          <ShuffleChallenge
+            onClose={() => setShowChallenges(false)}
+            djStationState={{
+              deckAPlaying: deckA.isPlaying,
+              deckBPlaying: deckB.isPlaying,
+              crossfadePosition: crossfade,
+              equalizerActive: masterEqualizerNode !== null,
+              currentBPM: deckA.isPlaying ? 128 : undefined, // Default BPM for testing
+              currentKey: deckA.assignedStem?.key || deckB.assignedStem?.key
+            }}
+          />
+        )}
       </div>
     </div>
   );

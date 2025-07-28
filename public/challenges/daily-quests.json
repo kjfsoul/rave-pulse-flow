@@ -1,0 +1,249 @@
+{
+  "questCategories": {
+    "mixing": {
+      "name": "Mixing Mastery",
+      "icon": "🎛️",
+      "color": "from-purple-500 to-pink-500"
+    },
+    "production": {
+      "name": "Production Pro",
+      "icon": "🎵",
+      "color": "from-cyan-500 to-blue-500"
+    },
+    "performance": {
+      "name": "Performance Power",
+      "icon": "🎪",
+      "color": "from-green-500 to-emerald-500"
+    },
+    "creativity": {
+      "name": "Creative Flow",
+      "icon": "✨",
+      "color": "from-yellow-500 to-orange-500"
+    }
+  },
+  "dailyQuests": [
+    {
+      "id": "bpm_drop_128",
+      "title": "BPM Master",
+      "description": "Drop a perfect 128 BPM track",
+      "category": "mixing",
+      "difficulty": "beginner",
+      "xpReward": 100,
+      "streakBonus": 25,
+      "requirements": {
+        "bpm": 128,
+        "action": "drop",
+        "duration": 30
+      },
+      "existsMetrics": {
+        "event": "bpm_mastery",
+        "properties": {"target_bpm": 128}
+      }
+    },
+    {
+      "id": "remix_c_minor",
+      "title": "Harmonic Wizard",
+      "description": "Create a remix in C Minor key",
+      "category": "production",
+      "difficulty": "intermediate",
+      "xpReward": 250,
+      "streakBonus": 50,
+      "requirements": {
+        "key": "C Minor",
+        "action": "remix",
+        "stems": 2
+      },
+      "existsMetrics": {
+        "event": "harmonic_mixing",
+        "properties": {"key": "c_minor", "complexity": "intermediate"}
+      }
+    },
+    {
+      "id": "crossfade_master",
+      "title": "Transition Ninja",
+      "description": "Execute 5 smooth crossfader transitions",
+      "category": "mixing",
+      "difficulty": "beginner",
+      "xpReward": 150,
+      "streakBonus": 30,
+      "requirements": {
+        "crossfades": 5,
+        "smoothness": 80,
+        "action": "transition"
+      },
+      "existsMetrics": {
+        "event": "crossfade_mastery",
+        "properties": {"transitions": 5, "skill_level": "beginner"}
+      }
+    },
+    {
+      "id": "eq_sculpting",
+      "title": "EQ Sculptor",
+      "description": "Use 8+ EQ bands to shape your mix",
+      "category": "production",
+      "difficulty": "intermediate",
+      "xpReward": 200,
+      "streakBonus": 40,
+      "requirements": {
+        "eqBands": 8,
+        "action": "sculpt",
+        "changes": 10
+      },
+      "existsMetrics": {
+        "event": "eq_mastery",
+        "properties": {"bands_used": 8, "complexity": "intermediate"}
+      }
+    },
+    {
+      "id": "festival_performance",
+      "title": "Festival Headliner",
+      "description": "Perform a 5-minute continuous set",
+      "category": "performance",
+      "difficulty": "advanced",
+      "xpReward": 500,
+      "streakBonus": 100,
+      "requirements": {
+        "duration": 300,
+        "action": "perform",
+        "continuous": true
+      },
+      "existsMetrics": {
+        "event": "extended_performance",
+        "properties": {"duration": 300, "skill_level": "advanced"}
+      }
+    },
+    {
+      "id": "bass_drop_combo",
+      "title": "Bass Drop Champion",
+      "description": "Chain 3 bass drops with perfect timing",
+      "category": "creativity",
+      "difficulty": "intermediate",
+      "xpReward": 300,
+      "streakBonus": 60,
+      "requirements": {
+        "bassDrops": 3,
+        "timing": 95,
+        "action": "chain"
+      },
+      "existsMetrics": {
+        "event": "bass_drop_mastery",
+        "properties": {"drops": 3, "precision": 95}
+      }
+    },
+    {
+      "id": "vocal_chop_master",
+      "title": "Vocal Virtuoso",
+      "description": "Create a track using vocal chops",
+      "category": "production",
+      "difficulty": "beginner",
+      "xpReward": 175,
+      "streakBonus": 35,
+      "requirements": {
+        "vocalChops": 1,
+        "action": "create",
+        "integration": "seamless"
+      },
+      "existsMetrics": {
+        "event": "vocal_production",
+        "properties": {"technique": "chops", "skill_level": "beginner"}
+      }
+    },
+    {
+      "id": "tempo_sync_master",
+      "title": "Sync Surgeon",
+      "description": "Perfectly sync tracks with different BPMs",
+      "category": "mixing",
+      "difficulty": "advanced",
+      "xpReward": 400,
+      "streakBonus": 80,
+      "requirements": {
+        "tracks": 2,
+        "bpmDifference": 10,
+        "action": "sync",
+        "precision": 98
+      },
+      "existsMetrics": {
+        "event": "tempo_mastery",
+        "properties": {"bpm_variance": 10, "precision": 98}
+      }
+    },
+    {
+      "id": "archetype_enhancement",
+      "title": "Archetype Amplifier",
+      "description": "Use your DJ archetype's signature style",
+      "category": "creativity",
+      "difficulty": "beginner",
+      "xpReward": 125,
+      "streakBonus": 25,
+      "requirements": {
+        "archetypeBonus": true,
+        "action": "enhance",
+        "stylePoints": 3
+      },
+      "existsMetrics": {
+        "event": "archetype_usage",
+        "properties": {"style_amplification": true}
+      }
+    },
+    {
+      "id": "sound_pack_explorer",
+      "title": "Sound Explorer",
+      "description": "Use stems from 3 different sound packs",
+      "category": "creativity",
+      "difficulty": "intermediate",
+      "xpReward": 225,
+      "streakBonus": 45,
+      "requirements": {
+        "soundPacks": 3,
+        "action": "explore",
+        "diversity": true
+      },
+      "existsMetrics": {
+        "event": "sound_exploration",
+        "properties": {"packs_used": 3, "diversity_score": "high"}
+      }
+    }
+  ],
+  "weeklyQuests": [
+    {
+      "id": "consistency_king",
+      "title": "Consistency King",
+      "description": "Complete daily quests for 7 consecutive days",
+      "difficulty": "advanced",
+      "xpReward": 1000,
+      "requirements": {
+        "dailyStreak": 7,
+        "action": "maintain"
+      }
+    },
+    {
+      "id": "genre_hopper",
+      "title": "Genre Hopper",
+      "description": "Create mixes in 5 different EDM subgenres",
+      "difficulty": "intermediate",
+      "xpReward": 750,
+      "requirements": {
+        "genres": 5,
+        "action": "diversify"
+      }
+    }
+  ],
+  "specialEvents": [
+    {
+      "id": "festival_weekend",
+      "title": "Festival Weekend",
+      "description": "Special weekend challenges with 2x XP",
+      "multiplier": 2,
+      "duration": "weekend",
+      "quests": ["festival_performance", "bass_drop_combo", "tempo_sync_master"]
+    },
+    {
+      "id": "producer_bootcamp",
+      "title": "Producer Bootcamp",
+      "description": "Focus week on production skills",
+      "multiplier": 1.5,
+      "duration": "week",
+      "quests": ["remix_c_minor", "eq_sculpting", "vocal_chop_master"]
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import FestivalVotingStage from "./pages/FestivalVotingStage";
 import NotFound from "./pages/NotFound";
 import DJMixStation from "./pages/DJMixStation";
 import Profile from "./pages/Profile";
+import ShuffleChallengePage from "./pages/ShuffleChallengePage";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/marketplace" element={<MarketplaceGrid />} />
               <Route path="/festival" element={<FestivalVotingStage />} />
               <Route path="/dj-mix" element={<DJMixStation />} />
+              <Route path="/shuffle-challenge" element={<ShuffleChallengePage />} />
               <Route path="/profile" element={<Profile />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

@@ -29,3 +29,7 @@ anaconda3/*
 */anaconda3/*
 **/anaconda3/**
 .venv/
+.env.local
+.env*
+env*
+venv_crewai/*

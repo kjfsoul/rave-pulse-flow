@@ -12,7 +12,7 @@ import RSSFeedStreamer from "@/components/RSSFeedStreamer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Play, Heart, Share2, TrendingUp, LogIn, UserPlus } from "lucide-react";
+import { Play, Heart, Share2, TrendingUp, LogIn, UserPlus, Trophy } from "lucide-react";
 
 interface Archetype {
   id: string;
@@ -72,33 +72,61 @@ const Index = () => {
       {/* RSS Feed Streamer */}
       <RSSFeedStreamer />
       
-      {/* Authentication Buttons - Top Right */}
-      {!user && (
-        <motion.div
-          className="absolute top-4 right-4 flex gap-2 z-50"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Button
-            onClick={() => navigate('/profile')}
-            variant="outline"
-            size="sm"
-            className="bg-bass-medium/80 backdrop-blur-sm border-purple-500/30 text-white hover:bg-purple-600/20 hover:border-purple-400"
-          >
-            <LogIn className="w-4 h-4 mr-1" />
-            Sign In
-          </Button>
-          <Button
-            onClick={() => navigate('/profile')}
-            size="sm"
-            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
-          >
-            <UserPlus className="w-4 h-4 mr-1" />
-            Sign Up
-          </Button>
-        </motion.div>
-      )}
+      {/* Top Right Buttons */}
+      <motion.div
+        className="absolute top-4 right-4 flex gap-2 z-50"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {!user ? (
+          <>
+            <Button
+              onClick={() => navigate('/profile')}
+              variant="outline"
+              size="sm"
+              className="bg-bass-medium/80 backdrop-blur-sm border-purple-500/30 text-white hover:bg-purple-600/20 hover:border-purple-400"
+            >
+              <LogIn className="w-4 h-4 mr-1" />
+              Sign In
+            </Button>
+            <Button
+              onClick={() => navigate('/profile')}
+              size="sm"
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+            >
+              <UserPlus className="w-4 h-4 mr-1" />
+              Sign Up
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              onClick={() => navigate('/dj-mix')}
+              size="sm"
+              className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
+            >
+              🎛️ DJ Studio
+            </Button>
+            <Button
+              onClick={() => navigate('/shuffle-challenge')}
+              size="sm"
+              className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white"
+            >
+              <Trophy className="w-4 h-4 mr-1" />
+              Challenges
+            </Button>
+            <Button
+              onClick={() => navigate('/profile')}
+              variant="outline"
+              size="sm"
+              className="bg-bass-medium/80 backdrop-blur-sm border-cyan-500/30 text-white hover:bg-cyan-600/20 hover:border-cyan-400"
+            >
+              Profile
+            </Button>
+          </>
+        )}
+      </motion.div>
       
       {/* Enhanced Hero Section with Rave Drop */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
@@ -172,39 +200,75 @@ const Index = () => {
                 <EqualizerBars barCount={50} className="h-32" />
               </motion.div>
               
-              {/* Start Dancing CTA */}
-              <motion.button
-                onClick={handleStartDancing}
-                className="bg-gradient-to-r from-neon-purple to-neon-cyan text-white text-2xl px-16 py-6 rounded-full font-bold hover:shadow-2xl hover:shadow-neon-purple/50 transition-all duration-300 relative overflow-hidden group"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 1.2, duration: 1 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <motion.span
-                  className="relative z-10 flex items-center"
-                  animate={{
-                    y: [0, -2, 0],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
+              {/* Action Buttons */}
+              <div className="flex gap-6 flex-col sm:flex-row">
+                <motion.button
+                  onClick={handleStartDancing}
+                  className="bg-gradient-to-r from-neon-purple to-neon-cyan text-white text-2xl px-16 py-6 rounded-full font-bold hover:shadow-2xl hover:shadow-neon-purple/50 transition-all duration-300 relative overflow-hidden group"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 1.2, duration: 1 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  🎶 Start Dancing
-                </motion.span>
-                
-                {/* Shimmer Effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                  initial={{ x: "-100%" }}
-                  animate={{ x: "100%" }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    repeatDelay: 2,
-                    ease: "easeInOut"
-                  }}
-                />
-              </motion.button>
+                  <motion.span
+                    className="relative z-10 flex items-center"
+                    animate={{
+                      y: [0, -2, 0],
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    🎶 Start Dancing
+                  </motion.span>
+                  
+                  {/* Shimmer Effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "100%" }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      repeatDelay: 2,
+                      ease: "easeInOut"
+                    }}
+                  />
+                </motion.button>
+
+                {/* DJ Mix Studio Button */}
+                <motion.button
+                  onClick={() => navigate('/dj-mix')}
+                  className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xl px-12 py-6 rounded-full font-bold hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 relative overflow-hidden group"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 1.4, duration: 1 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <motion.span
+                    className="relative z-10 flex items-center"
+                    animate={{
+                      y: [0, -2, 0],
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                  >
+                    🎛️ DJ Studio
+                  </motion.span>
+                  
+                  {/* Shimmer Effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "100%" }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      repeatDelay: 3,
+                      ease: "easeInOut"
+                    }}
+                  />
+                </motion.button>
+              </div>
             </>
           ) : (
             <>

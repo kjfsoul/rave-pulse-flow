@@ -1,0 +1,98 @@
+{
+  "soundPacks": [
+    {
+      "id": "edm-essentials",
+      "name": "EDM Essentials",
+      "description": "Core electronic dance music sounds",
+      "genre": "EDM",
+      "stems": [
+        {
+          "id": "kick-808",
+          "name": "808 Kick",
+          "file": "edm-essentials/kick-808.mp3",
+          "bpm": 128,
+          "key": "C",
+          "duration": 4.5,
+          "type": "kick",
+          "tags": ["bass", "kick", "808"]
+        },
+        {
+          "id": "synth-lead",
+          "name": "Synth Lead",
+          "file": "edm-essentials/synth-lead.mp3",
+          "bpm": 128,
+          "key": "Am",
+          "duration": 8.0,
+          "type": "lead",
+          "tags": ["synth", "lead", "melody"]
+        },
+        {
+          "id": "hihat-loop",
+          "name": "Hi-Hat Loop",
+          "file": "edm-essentials/hihat-loop.mp3",
+          "bpm": 128,
+          "key": "N/A",
+          "duration": 2.0,
+          "type": "percussion",
+          "tags": ["hihat", "loop", "rhythm"]
+        }
+      ]
+    },
+    {
+      "id": "bass-drops",
+      "name": "Bass Drops",
+      "description": "Heavy bass and drop sounds",
+      "genre": "Bass",
+      "stems": [
+        {
+          "id": "wobble-bass",
+          "name": "Wobble Bass",
+          "file": "bass-drops/wobble-bass.mp3",
+          "bpm": 140,
+          "key": "Dm",
+          "duration": 6.0,
+          "type": "bass",
+          "tags": ["wobble", "bass", "drop"]
+        },
+        {
+          "id": "sub-bass",
+          "name": "Sub Bass",
+          "file": "bass-drops/sub-bass.mp3",
+          "bpm": 140,
+          "key": "F",
+          "duration": 4.0,
+          "type": "bass",
+          "tags": ["sub", "bass", "low"]
+        }
+      ]
+    },
+    {
+      "id": "house-vibes",
+      "name": "House Vibes",
+      "description": "Classic house music elements",
+      "genre": "House",
+      "stems": [
+        {
+          "id": "house-piano",
+          "name": "House Piano",
+          "file": "house-vibes/house-piano.mp3",
+          "bpm": 124,
+          "key": "G",
+          "duration": 8.0,
+          "type": "keys",
+          "tags": ["piano", "house", "chords"]
+        },
+        {
+          "id": "vocal-chop",
+          "name": "Vocal Chop",
+          "file": "house-vibes/vocal-chop.mp3",
+          "bpm": 124,
+          "key": "G",
+          "duration": 2.0,
+          "type": "vocal",
+          "tags": ["vocal", "chop", "sample"]
+        }
+      ]
+    }
+  ]
+}

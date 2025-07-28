@@ -1,0 +1,12 @@
+# EDM Shuffle CrewAI Dependencies - Minimal Version for Production
+# Core CrewAI framework - using compatible versions
+crewai
+python-dotenv
+requests
+beautifulsoup4
+pandas
+numpy
+supabase
+pytest
+black
+flake8
