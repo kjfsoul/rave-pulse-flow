@@ -273,17 +273,22 @@ const SoundPackLoader: React.FC<SoundPackLoaderProps> = ({
         throw new Error(`File not found: ${stem.file}`)
       }
     } catch (error) {
-      console.warn(`Failed to load ${stem.file}, generating procedural audio:`, error)
+      // More user-friendly error handling
+      if (error instanceof DOMException && error.name === 'EncodingError') {
+        console.info(`Audio file ${stem.file} not available, using high-quality generated sound`)
+      } else {
+        console.info(`Sound file ${stem.file} not found, creating procedural version`)
+      }
       
       // Fallback to procedural generation
       const proceduralBuffer = generateProceduralAudio(stem)
       if (proceduralBuffer) {
         setAudioBuffers(prev => new Map(prev).set(stem.id, proceduralBuffer))
-        toast.success(`🎵 Generated realistic ${stem.type} sound for ${stem.name}`)
+        toast.success(`🎵 Generated high-quality ${stem.type} sound for ${stem.name}`)
         return proceduralBuffer
       }
       
-      toast.error(`Failed to load ${stem.name}`)
+      toast.error(`Failed to create sound for ${stem.name}`)
       return null
     } finally {
       setLoadingStems(prev => {

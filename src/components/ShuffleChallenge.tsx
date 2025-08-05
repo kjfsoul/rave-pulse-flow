@@ -43,39 +43,84 @@ const ShuffleChallenge: React.FC<ShuffleChallengeProps> = ({
     const initChallenges = async () => {
       setLoading(true)
       
-      const initialized = await challengeSystem.initialize()
-      if (!initialized) {
-        toast.error('Failed to load challenges')
-        return
-      }
+      try {
+        const initialized = await challengeSystem.initialize()
+        if (!initialized) {
+          toast.error('Failed to load challenges - using offline mode')
+        }
 
-      if (user?.id) {
-        const stats = await challengeSystem.getUserChallengeStats(user.id)
-        setUserStats(stats)
-        
-        const quests = challengeSystem.getDailyQuests()
-        
-        // Load quest progress for each quest
-        const questsWithProgress = await Promise.all(
-          quests.map(async (quest) => {
-            const progress = await challengeSystem.getQuestProgress(user.id!, quest.id)
-            return {
+        if (user?.id) {
+          try {
+            const stats = await challengeSystem.getUserChallengeStats(user.id)
+            setUserStats(stats)
+            
+            const quests = challengeSystem.getDailyQuests()
+            
+            // Load quest progress for each quest
+            const questsWithProgress = await Promise.all(
+              quests.map(async (quest) => {
+                try {
+                  const progress = await challengeSystem.getQuestProgress(user.id!, quest.id)
+                  return {
+                    ...quest,
+                    completed: progress?.completed || false,
+                    progress: progress?.progress || 0,
+                    maxProgress: quest.requirements.duration || quest.requirements.crossfades || quest.requirements.eqBands || 1
+                  }
+                } catch (error) {
+                  console.warn('Failed to load progress for quest:', quest.id, error)
+                  return {
+                    ...quest,
+                    completed: false,
+                    progress: 0,
+                    maxProgress: quest.requirements.duration || quest.requirements.crossfades || quest.requirements.eqBands || 1
+                  }
+                }
+              })
+            )
+            
+            setDailyQuests(questsWithProgress)
+            setFestivalStages(challengeSystem.getFestivalStages())
+          } catch (error) {
+            console.error('Failed to load user challenge data:', error)
+            toast.error('Failed to load your progress - using offline mode')
+            
+            // Fallback to basic quests without progress
+            const basicQuests = challengeSystem.getDailyQuests().map(quest => ({
               ...quest,
-              completed: progress?.completed || false,
-              progress: progress?.progress || 0,
+              completed: false,
+              progress: 0,
               maxProgress: quest.requirements.duration || quest.requirements.crossfades || quest.requirements.eqBands || 1
-            }
-          })
-        )
-        
-        setDailyQuests(questsWithProgress)
-        setFestivalStages(challengeSystem.getFestivalStages())
+            }))
+            
+            setDailyQuests(basicQuests)
+            setFestivalStages(challengeSystem.getFestivalStages())
+          }
+        }
+      } catch (error) {
+        console.error('Critical error initializing challenges:', error)
+        toast.error('Challenge system unavailable')
+      } finally {
+        setLoading(false)
       }
-      
-      setLoading(false)
     }
 
-    initChallenges()
+    // Add timeout to prevent indefinite loading
+    const timeoutId = setTimeout(() => {
+      if (loading) {
+        console.warn('Challenge initialization timed out')
+        setLoading(false)
+        toast.error('Challenge system loading timed out')
+      }
+    }, 10000) // 10 second timeout
+
+    initChallenges().finally(() => {
+      clearTimeout(timeoutId)
+    })
+
+    return () => {
+      clearTimeout(timeoutId)
+    }
   }, [user?.id])
 
   // Monitor DJ station state for quest progress

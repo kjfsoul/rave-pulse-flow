@@ -109,6 +109,13 @@ const Index = () => {
               🎛️ DJ Studio
             </Button>
             <Button
+              onClick={() => navigate('/pro-dj-station')}
+              size="sm"
+              className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white"
+            >
+              🏢 Pro Studio
+            </Button>
+            <Button
               onClick={() => navigate('/shuffle-challenge')}
               size="sm"
               className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white"

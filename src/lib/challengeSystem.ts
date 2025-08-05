@@ -56,15 +56,107 @@ export class ChallengeSystem {
   async initialize() {
     try {
       const response = await fetch('/challenges/daily-quests.json')
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
       const data = await response.json()
       
       this.quests = data.dailyQuests
       this.questCategories = data.questCategories
       
+      console.log('✅ Challenge system initialized with', this.quests.length, 'quests')
       return true
     } catch (error) {
       console.error('Failed to load quest data:', error)
-      return false
+      
+      // Fallback to hardcoded quests to prevent blocking
+      this.loadFallbackQuests()
+      console.log('🔄 Using fallback quest data')
+      return true
+    }
+  }
+  
+  private loadFallbackQuests() {
+    this.quests = [
+      {
+        id: "bpm_drop_128",
+        title: "BPM Master",
+        description: "Drop a perfect 128 BPM track",
+        category: "mixing",
+        difficulty: "beginner" as const,
+        xpReward: 100,
+        streakBonus: 25,
+        requirements: {
+          bpm: 128,
+          action: "drop",
+          duration: 30
+        },
+        existsMetrics: {
+          event: "bpm_mastery",
+          properties: {"target_bpm": 128}
+        }
+      },
+      {
+        id: "crossfade_master",
+        title: "Transition Ninja",
+        description: "Execute 5 smooth crossfader transitions",
+        category: "mixing",
+        difficulty: "beginner" as const,
+        xpReward: 150,
+        streakBonus: 30,
+        requirements: {
+          crossfades: 5,
+          smoothness: 80,
+          action: "transition"
+        },
+        existsMetrics: {
+          event: "crossfade_mastery",
+          properties: {"transitions": 5, "skill_level": "beginner"}
+        }
+      },
+      {
+        id: "eq_sculpting",
+        title: "EQ Sculptor",
+        description: "Use 8+ EQ bands to shape your mix",
+        category: "production",
+        difficulty: "intermediate" as const,
+        xpReward: 200,
+        streakBonus: 40,
+        requirements: {
+          eqBands: 8,
+          action: "sculpt",
+          changes: 10
+        },
+        existsMetrics: {
+          event: "eq_mastery",
+          properties: {"bands_used": 8, "complexity": "intermediate"}
+        }
+      }
+    ]
+    
+    this.questCategories = {
+      "mixing": {
+        "name": "Mixing Mastery",
+        "icon": "🎛️",
+        "color": "from-purple-500 to-pink-500"
+      },
+      "production": {
+        "name": "Production Pro",
+        "icon": "🎵",
+        "color": "from-cyan-500 to-blue-500"
+      },
+      "performance": {
+        "name": "Performance Power",
+        "icon": "🎪",
+        "color": "from-green-500 to-emerald-500"
+      },
+      "creativity": {
+        "name": "Creative Flow",
+        "icon": "✨",
+        "color": "from-yellow-500 to-orange-500"
+      }
     }
   }
 

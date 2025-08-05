@@ -170,14 +170,23 @@ export const SimpleDJStation: React.FC = () => {
   const handleStemAssign = async (deckId: 'A' | 'B', stem: any, audioBuffer: AudioBuffer) => {
     const setDeck = deckId === 'A' ? setDeckA : setDeckB;
     
-    // Stop current playback if active
+    // Stop current playback if active with proper cleanup
     const currentDeck = deckId === 'A' ? deckA : deckB;
     if (currentDeck.isPlaying) {
-      if (currentDeck.sourceNode) {
-        currentDeck.sourceNode.stop();
-      }
-      if (currentDeck.oscillator) {
-        currentDeck.oscillator.stop();
+      try {
+        if (currentDeck.sourceNode) {
+          currentDeck.sourceNode.stop();
+          currentDeck.sourceNode.disconnect();
+        }
+        if (currentDeck.oscillator) {
+          currentDeck.oscillator.stop();
+          currentDeck.oscillator.disconnect();
+        }
+        if (currentDeck.gainNode) {
+          currentDeck.gainNode.disconnect();
+        }
+      } catch (error) {
+        console.warn(`Error stopping deck ${deckId} during stem assignment:`, error);
       }
     }
     
@@ -189,15 +198,22 @@ export const SimpleDJStation: React.FC = () => {
       assignedStem: stem,
       isPlaying: false,
       sourceNode: null,
-      oscillator: null
+      oscillator: null,
+      gainNode: null
     }));
+    
+    toast.success(`🎵 ${stem.name} assigned to Deck ${deckId}`);
     
     // Save to database
     if (user?.id) {
-      await soundPackOperations.saveSoundSelection(user.id, deckId, {
-        ...stem,
-        packId: stem.packId || 'unknown'
-      });
+      try {
+        await soundPackOperations.saveSoundSelection(user.id, deckId, {
+          ...stem,
+          packId: stem.packId || 'unknown'
+        });
+      } catch (error) {
+        console.warn('Failed to save sound selection:', error);
+      }
     }
   };
 
@@ -206,6 +222,52 @@ export const SimpleDJStation: React.FC = () => {
     loadDJSettings();
     loadSavedSounds();
   }, [user?.id]);
+
+  // Cleanup audio on component unmount
+  useEffect(() => {
+    return () => {
+      // Stop all audio when component unmounts
+      try {
+        if (deckA.isPlaying) {
+          if (deckA.sourceNode) {
+            deckA.sourceNode.stop();
+            deckA.sourceNode.disconnect();
+          }
+          if (deckA.oscillator) {
+            deckA.oscillator.stop();
+            deckA.oscillator.disconnect();
+          }
+          if (deckA.gainNode) {
+            deckA.gainNode.disconnect();
+          }
+        }
+        
+        if (deckB.isPlaying) {
+          if (deckB.sourceNode) {
+            deckB.sourceNode.stop();
+            deckB.sourceNode.disconnect();
+          }
+          if (deckB.oscillator) {
+            deckB.oscillator.stop();
+            deckB.oscillator.disconnect();
+          }
+          if (deckB.gainNode) {
+            deckB.gainNode.disconnect();
+          }
+        }
+        
+        // Clear timeout
+        if (settingsTimeoutRef.current) {
+          clearTimeout(settingsTimeoutRef.current);
+        }
+        
+        console.log('SimpleDJStation: Audio cleanup completed');
+      } catch (error) {
+        console.warn('Error during audio cleanup:', error);
+      }
+    };
+  }, [deckA.isPlaying, deckA.sourceNode, deckA.oscillator, deckA.gainNode, 
+      deckB.isPlaying, deckB.sourceNode, deckB.oscillator, deckB.gainNode]);
 
   // Get archetype-based styling
   const getArchetypeStyles = () => {
@@ -266,20 +328,24 @@ export const SimpleDJStation: React.FC = () => {
     setDeckB(prev => ({ ...prev, color: archetypeStyles.deckBColor }));
   }, [archetypeStyles.deckAColor, archetypeStyles.deckBColor]);
 
-  // Update crossfade volumes
+  // Update crossfade volumes with better control
   useEffect(() => {
     if (!audioContextRef.current || !audioReady) return;
 
-    const deckAVolume = ((100 - crossfade) / 100) * (deckA.volume / 100) * 0.1; // Reduced volume
-    const deckBVolume = (crossfade / 100) * (deckB.volume / 100) * 0.1; // Reduced volume
+    const deckAVolume = ((100 - crossfade) / 100) * (deckA.volume / 100) * 0.3; // Better volume level
+    const deckBVolume = (crossfade / 100) * (deckB.volume / 100) * 0.3; // Better volume level
 
-    if (deckA.gainNode) {
-      deckA.gainNode.gain.setValueAtTime(deckAVolume, audioContextRef.current.currentTime);
+    try {
+      if (deckA.gainNode && deckA.isPlaying) {
+        deckA.gainNode.gain.setTargetAtTime(deckAVolume, audioContextRef.current.currentTime, 0.1);
+      }
+      if (deckB.gainNode && deckB.isPlaying) {
+        deckB.gainNode.gain.setTargetAtTime(deckBVolume, audioContextRef.current.currentTime, 0.1);
+      }
+    } catch (error) {
+      console.warn('Error updating volumes:', error);
     }
-    if (deckB.gainNode) {
-      deckB.gainNode.gain.setValueAtTime(deckBVolume, audioContextRef.current.currentTime);
-    }
-  }, [crossfade, deckA.volume, deckB.volume, audioReady]);
+  }, [crossfade, deckA.volume, deckB.volume, deckA.isPlaying, deckB.isPlaying, audioReady]);
 
   const toggleDeck = async (deckId: 'A' | 'B') => {
     if (!audioContextRef.current || !audioReady) {
@@ -295,13 +361,23 @@ export const SimpleDJStation: React.FC = () => {
     const setDeck = deckId === 'A' ? setDeckA : setDeckB;
 
     if (deck.isPlaying) {
-      // Stop audio
-      if (deck.sourceNode) {
-        deck.sourceNode.stop();
+      // Stop audio with proper cleanup
+      try {
+        if (deck.sourceNode) {
+          deck.sourceNode.stop();
+          deck.sourceNode.disconnect();
+        }
+        if (deck.oscillator) {
+          deck.oscillator.stop();
+          deck.oscillator.disconnect();
+        }
+        if (deck.gainNode) {
+          deck.gainNode.disconnect();
+        }
+      } catch (error) {
+        console.warn(`Error stopping deck ${deckId}:`, error);
       }
-      if (deck.oscillator) {
-        deck.oscillator.stop();
-      }
+      
       setDeck(prev => ({ 
         ...prev, 
         isPlaying: false, 
@@ -393,8 +469,40 @@ export const SimpleDJStation: React.FC = () => {
   };
 
   const updateVolume = (deckId: 'A' | 'B', newVolume: number) => {
+    const deck = deckId === 'A' ? deckA : deckB;
     const setDeck = deckId === 'A' ? setDeckA : setDeckB;
+    
+    // Update volume immediately if deck is playing
+    if (deck.gainNode && deck.isPlaying && audioContextRef.current) {
+      try {
+        const crossfadeMultiplier = deckId === 'A' 
+          ? (100 - crossfade) / 100 
+          : crossfade / 100;
+        const finalVolume = crossfadeMultiplier * (newVolume / 100) * 0.3;
+        deck.gainNode.gain.setTargetAtTime(finalVolume, audioContextRef.current.currentTime, 0.1);
+      } catch (error) {
+        console.warn(`Error updating volume for deck ${deckId}:`, error);
+      }
+    }
+    
     setDeck(prev => ({ ...prev, volume: newVolume }));
+  };
+
+  // Emergency stop all audio function
+  const stopAllAudio = () => {
+    try {
+      // Stop both decks
+      if (deckA.isPlaying) {
+        toggleDeck('A');
+      }
+      if (deckB.isPlaying) {
+        toggleDeck('B');
+      }
+      toast('🛑 All audio stopped');
+    } catch (error) {
+      console.error('Error stopping all audio:', error);
+      toast.error('Error stopping audio');
+    }
   };
 
   const dropSet = () => {
@@ -485,6 +593,16 @@ export const SimpleDJStation: React.FC = () => {
               </span>
             </h1>
             <div className="flex-1 flex justify-end gap-2">
+              {(deckA.isPlaying || deckB.isPlaying) && (
+                <Button
+                  onClick={stopAllAudio}
+                  variant="destructive"
+                  size="sm"
+                  className="bg-red-600 hover:bg-red-700 text-white border-red-500"
+                >
+                  🛑 Stop All
+                </Button>
+              )}
               <Button
                 onClick={() => setShowChallenges(true)}
                 variant="outline"
