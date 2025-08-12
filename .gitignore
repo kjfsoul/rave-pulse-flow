@@ -37,3 +37,4 @@ venv_crewai/*
 production_checklist.md
 .env.crew
 .env*
+.vercel
