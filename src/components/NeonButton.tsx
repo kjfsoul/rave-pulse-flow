@@ -8,6 +8,7 @@ interface NeonButtonProps {
   variant?: "primary" | "secondary";
   size?: "sm" | "md" | "lg";
   className?: string;
+  disabled?: boolean;
 }
 
 const NeonButton = ({ 
@@ -15,7 +16,8 @@ const NeonButton = ({
   onClick, 
   variant = "primary", 
   size = "md",
-  className = "" 
+  className = "",
+  disabled = false
 }: NeonButtonProps) => {
   const baseClasses = "relative font-semibold rounded-lg transition-all duration-300 overflow-hidden";
   
@@ -30,12 +32,15 @@ const NeonButton = ({
     lg: "px-8 py-4 text-lg"
   };
 
+  const disabledClasses = disabled ? "opacity-50 cursor-not-allowed" : "";
+
   return (
     <motion.button
-      className={`${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`}
-      onClick={onClick}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      className={`${baseClasses} ${variants[variant]} ${sizes[size]} ${disabledClasses} ${className}`}
+      onClick={disabled ? undefined : onClick}
+      disabled={disabled}
+      whileHover={disabled ? {} : { scale: 1.05 }}
+      whileTap={disabled ? {} : { scale: 0.95 }}
     >
       <motion.div
         className="absolute inset-0 shimmer-bg"

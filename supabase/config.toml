@@ -19,8 +19,6 @@ max_rows = 1000
 port = 54322
 # Optional database major version to use (defaults to the latest Postgres version supported by Supabase)
 major_version = 15
-# The database schema to use when resetting the database.
-schema = "public"
 
 [db.pooler]
 enabled = false

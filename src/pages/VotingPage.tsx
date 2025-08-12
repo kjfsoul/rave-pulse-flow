@@ -322,7 +322,7 @@ const VotingPage: React.FC = () => {
                   </div>
                   <div className="flex items-center space-x-2">
                     <Users className="w-4 h-4 text-blue-400" />
-                    <span className="text-sm">Encourage friends to vote for artists you want to seespan>
+                    <span className="text-sm">Encourage friends to vote for artists you want to see</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Clock className="w-4 h-4 text-green-400" />
@@ -344,7 +344,7 @@ const VotingPage: React.FC = () => {
       >
         <div className="container mx-auto px-4 text-center text-gray-400">
           <p>Every vote shapes the festival experience. Vote responsibly and make your voice heard!</p>
-          <p className="mt-2 text-sm">The artist with the highest total weight at the end of voting becomes the festival headlinerp>
+          <p className="mt-2 text-sm">The artist with the highest total weight at the end of voting becomes the festival headliner</p>
         </div>
       </motion.footer>
     </div>

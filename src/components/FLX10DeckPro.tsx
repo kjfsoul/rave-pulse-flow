@@ -903,8 +903,7 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
                     ? `bg-gradient-to-br ${cue.color} border-white/50 text-white shadow-lg`
                     : `bg-gray-800/60 border-gray-600 text-gray-400 hover:border-${accentColor}-500/50 hover:text-${accentColor}-300`
                 }`}
-                whilePressed={{ scale: 0.95 }}
-                whileTap={{ scale: 0.9 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => onHotCueTrigger(index, cue.active ? 'trigger' : 'set')}
                 onContextMenu={(e) => {
                   e.preventDefault()
@@ -969,7 +968,7 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
                     value={controls.pitch}
                     onChange={(e) => onControlChange('pitch', parseFloat(e.target.value))}
                     className={`writing-mode-vertical-lr h-full w-6 bg-gray-800 rounded-full appearance-none cursor-pointer slider-${accentColor}`}
-                    style={{ writingMode: 'bt-lr' }}
+                    style={{ writingMode: 'vertical-lr' }}
                   />
                 </div>
               </div>
@@ -1001,8 +1000,7 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
                 ? `bg-gradient-to-br from-red-600 to-red-800 border-red-400 text-white shadow-lg shadow-red-500/50`
                 : `bg-gradient-to-br from-green-600 to-green-800 border-green-400 text-white shadow-lg shadow-green-500/50`
             }`}
-            whilePressed={{ scale: 0.95 }}
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => handleTransportControl(controls.isPlaying ? 'pause' : 'play')}
           >
             <div className="flex items-center space-x-2">
@@ -1017,8 +1015,7 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
                 ? `bg-gradient-to-br from-${accentColor}-600 to-${accentColor}-800 border-${accentColor}-400 text-white shadow-lg`
                 : 'bg-gray-700 border-gray-500 text-gray-300 hover:bg-gray-600'
             }`}
-            whilePressed={{ scale: 0.95 }}
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => onControlChange('isCued', !controls.isCued)}
           >
             <div className="flex items-center space-x-2">
@@ -1033,8 +1030,7 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
                 ? 'bg-gradient-to-br from-yellow-600 to-yellow-800 border-yellow-400 text-white shadow-lg shadow-yellow-500/50'
                 : 'bg-gray-700 border-gray-500 text-gray-300 hover:bg-gray-600'
             }`}
-            whilePressed={{ scale: 0.95 }}
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => onControlChange('isSync', !controls.isSync)}
           >
             <div className="flex items-center space-x-2">

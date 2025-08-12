@@ -2,8 +2,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { festivalOperations } from "@/lib/database";
+import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
-import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import BottomNavigation from "@/components/BottomNavigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -30,7 +30,7 @@ const FestivalVotingStage = () => {
     3: 635,
     4: 420
   });
-  const [userVotes, setUserVotes] = useState<string[]>([]);
+  const [userVotes, setUserVotes] = useState<Set<string>>(new Set());
   const [isVoting, setIsVoting] = useState(false);
   const [headliner, setHeadliner] = useState<number | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -254,24 +254,20 @@ const FestivalVotingStage = () => {
     if (!djData) return;
     
     // Check if user already voted for this DJ
-    if (userVotes.includes(djData.name)) {
+    if (userVotes.has(djData.name)) {
       toast.error(`You already voted for ${djData.name}!`);
       return;
     }
     
     setIsVoting(true);
     try {
-      // Submit vote to Supabase
+      // Submit vote using the new Edge Function
       const voteWeight = profile?.archetype === djData.archetype ? 2 : 1;
-      const success = await festivalOperations.submitVote(user.id, djData.name, voteWeight);
+      const result = await festivalOperations.submitVote(user.id, djData.name, voteWeight);
       
-      if (success) {
-        // Update local state
-        setVotes(prev => ({
-          ...prev,
-          [djId]: prev[djId] + voteWeight
-        }));
-        setUserVotes(prev => [...prev, djData.name]);
+      if (result.success) {
+        // Add to user votes set (real-time updates will handle vote counts)
+        setUserVotes(prev => new Set([...prev, djData.name]));
         
         // Visual feedback
         setShowConfetti(true);
@@ -288,6 +284,16 @@ const FestivalVotingStage = () => {
           });
         } else {
           toast.success(`Voted for ${djData.name}!`);
+        }
+      } else {
+        // Handle specific error cases
+        if (result.error?.includes('24 hours') || result.error?.includes('frequently')) {
+          toast.error(`⏰ ${result.error}`, {
+            description: result.nextVoteAllowed ? `Try again after ${new Date(result.nextVoteAllowed).toLocaleString()}` : undefined,
+            duration: 5000
+          });
+        } else {
+          toast.error(result.error || 'Failed to submit vote');
         }
       }
     } catch (error) {
@@ -392,7 +398,7 @@ const FestivalVotingStage = () => {
       
       try {
         const votes = await festivalOperations.getUserVotes(user.id);
-        setUserVotes(votes.map(v => v.artist_id));
+        setUserVotes(new Set(votes.map(v => v.artist_id)));
       } catch (error) {
         console.error('Error loading user votes:', error);
       }
@@ -401,7 +407,7 @@ const FestivalVotingStage = () => {
     loadUserVotes();
   }, [user]);
 
-  // Load real-time vote counts for each DJ
+  // Load real-time vote counts for each DJ and set up real-time subscription
   useEffect(() => {
     const loadVoteCounts = async () => {
       const newVotes: {[key: number]: number} = {};
@@ -409,21 +415,30 @@ const FestivalVotingStage = () => {
       for (const dj of djs) {
         try {
           const stats = await festivalOperations.getVotingStats(dj.name);
-          newVotes[dj.id] = stats.totalWeight + (votes[dj.id] || 0); // Add to existing base votes
+          newVotes[dj.id] = stats.totalWeight;
         } catch (error) {
           console.error(`Error loading votes for ${dj.name}:`, error);
-          newVotes[dj.id] = votes[dj.id] || 0;
+          newVotes[dj.id] = 0;
         }
       }
       
-      setVotes(prev => ({ ...prev, ...newVotes }));
+      setVotes(newVotes);
     };
-    
-    // Load on mount and refresh every 10 seconds
+
+    // Load initial vote counts
     loadVoteCounts();
-    const interval = setInterval(loadVoteCounts, 10000);
+
+    // Set up real-time subscription for all vote updates
+    const channel = festivalOperations.subscribeToAllVotes((payload) => {
+      console.log('Real-time vote update:', payload);
+      
+      // Reload vote counts when any vote changes
+      loadVoteCounts();
+    });
     
-    return () => clearInterval(interval);
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   useEffect(() => {
@@ -438,7 +453,6 @@ const FestivalVotingStage = () => {
   const selectedDJData = djs.find(dj => dj.id === selectedDJ);
 
   return (
-    <ProtectedRoute>
       <div className="min-h-screen bg-bass-dark relative pb-20 overflow-hidden">
       {/* Visual FX Layers */}
       <FestivalEnvironment 
@@ -670,26 +684,26 @@ const FestivalVotingStage = () => {
                             size="sm"
                             onClick={() => handleDJPreview(dj)}
                             className="w-full text-xs"
-                            variant={selectedDJ === dj.id ? "secondary" : "outline"}
+                            variant={selectedDJ === dj.id ? "primary" : "secondary"}
                           >
                             {selectedDJ === dj.id && isPlaying ? "🔊 Playing" : "🎧 Preview"}
                           </NeonButton>
                           <NeonButton
-                            variant={userVotes.includes(dj.name) ? "outline" : "secondary"}
+                            variant={userVotes.has(dj.name) ? "secondary" : "primary"}
                             size="sm"
                             onClick={() => handleVote(dj.id)}
                             className="w-full text-xs"
-                            disabled={isVoting || userVotes.includes(dj.name)}
+                            disabled={isVoting || userVotes.has(dj.name)}
                           >
-                            {userVotes.includes(dj.name) ? (
-                              <>✓ Voted ({votes[dj.id]})</>
+                            {userVotes.has(dj.name) ? (
+                              <>✓ Voted ({votes[dj.id] || 0})</>
                             ) : (
-                              <>🔥 Vote ({votes[dj.id]})</>
+                              <>🔥 Vote ({votes[dj.id] || 0})</>
                             )}
                           </NeonButton>
                           
                           {/* Show bonus indicator for archetype match */}
-                          {profile?.archetype === dj.archetype && !userVotes.includes(dj.name) && (
+                          {profile?.archetype === dj.archetype && !userVotes.has(dj.name) && (
                             <div className="text-xs text-neon-cyan mt-1">
                               ⚡ 2x Vote Power (Archetype Match)
                             </div>
@@ -822,7 +836,6 @@ const FestivalVotingStage = () => {
 
       <BottomNavigation />
       </div>
-    </ProtectedRoute>
   );
 };
 

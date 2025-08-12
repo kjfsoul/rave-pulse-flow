@@ -18,6 +18,9 @@ import Profile from "./pages/Profile";
 import ShuffleChallengePage from "./pages/ShuffleChallengePage";
 import ProfessionalDJStationPage from "./pages/ProfessionalDJStationPage";
 import ScrollToTop from "./components/ScrollToTop";
+// import AudioTestComponent from "./components/audio-ui/AudioTestComponent";
+
+const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -43,6 +46,7 @@ const App = () => (
                 <Route path="/pro-dj-station" element={<ProfessionalDJStationPage />} />
                 <Route path="/shuffle-challenge" element={<ShuffleChallengePage />} />
                 <Route path="/profile" element={<Profile />} />
+{/* <Route path="/audio-test" element={<AudioTestComponent />} /> */}
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
@@ -51,8 +55,6 @@ const App = () => (
         </AudioProvider>
       </VotingProvider>
     </AuthProvider>
-  </QueryClientProvider>
-);
   </QueryClientProvider>
 );
 

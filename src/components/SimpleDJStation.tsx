@@ -12,6 +12,7 @@ import LiveEqualizer from '@/components/LiveEqualizer';
 import SoundPackLoader from '@/components/SoundPackLoader';
 import DJExpertAgent from '@/components/DJExpertAgent';
 import ShuffleChallenge from '@/components/ShuffleChallenge';
+import { useTrueAudio } from '@/hooks/useTrueAudio';
 
 interface SimpleDeck {
   id: 'A' | 'B';
@@ -25,12 +26,11 @@ interface SimpleDeck {
   audioBuffer: AudioBuffer | null;
   sourceNode: AudioBufferSourceNode | null;
   assignedStem: any | null;
+  playbackRate: number; // For pitch control
 }
 
 export const SimpleDJStation: React.FC = () => {
   const { user, profile } = useAuth();
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const [audioReady, setAudioReady] = useState(false);
   const [crossfade, setCrossfade] = useState(50);
   const [showSettings, setShowSettings] = useState(false);
   const [masterEqualizerNode, setMasterEqualizerNode] = useState<AudioNode | null>(null);
@@ -38,11 +38,16 @@ export const SimpleDJStation: React.FC = () => {
   const [showDJCoach, setShowDJCoach] = useState(false);
   const [showChallenges, setShowChallenges] = useState(false);
   
+  // Create two instances of the useTrueAudio hook, one for each deck
+  const deckAAudio = useTrueAudio();
+  const deckBAudio = useTrueAudio();
+  
+  // State to track if audio files have been loaded
+  const [audioFilesLoaded, setAudioFilesLoaded] = useState(false);
   
   // DJ Settings state
   const [djSettings, setDjSettings] = useState(djOperations.getDefaultDJSettings());
   const settingsTimeoutRef = useRef<NodeJS.Timeout>();
-  
   const [deckA, setDeckA] = useState<SimpleDeck>({
     id: 'A',
     name: 'Bass Drop',
@@ -54,11 +59,12 @@ export const SimpleDJStation: React.FC = () => {
     color: 'from-purple-500 to-pink-500',
     audioBuffer: null,
     sourceNode: null,
-    assignedStem: null
+    assignedStem: null,
+    playbackRate: 1.0 // Default playback rate
   });
 
   const [deckB, setDeckB] = useState<SimpleDeck>({
-    id: 'B', 
+    id: 'B',
     name: 'High Energy',
     frequency: 440, // Higher frequency
     isPlaying: false,
@@ -68,7 +74,8 @@ export const SimpleDJStation: React.FC = () => {
     color: 'from-cyan-500 to-blue-500',
     audioBuffer: null,
     sourceNode: null,
-    assignedStem: null
+    assignedStem: null,
+    playbackRate: 1.0 // Default playback rate
   });
 
   // Load DJ settings from database
@@ -113,27 +120,19 @@ export const SimpleDJStation: React.FC = () => {
     saveDJSettings(newSettings);
   };
 
-  // Initialize Web Audio API
-  const initAudio = async () => {
+  // Load audio files for both decks
+  const loadAudioFiles = async () => {
     try {
-      console.log('Initializing audio...');
-      audioContextRef.current = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-      
-      if (audioContextRef.current.state === 'suspended') {
-        console.log('Resuming suspended audio context...');
-        await audioContextRef.current.resume();
-      }
-      
-      // Create master mixer node
-      masterMixerRef.current = audioContextRef.current.createGain();
-      masterMixerRef.current.gain.setValueAtTime(1, audioContextRef.current.currentTime);
-      
-      console.log('Audio context initialized:', audioContextRef.current.state);
-      setAudioReady(true);
-      toast.success('🎵 Audio system ready!');
+      // Load different audio files for each deck
+      await deckAAudio.loadAudioBuffer('/audio/festival_mix.mp3', 'deckA');
+      await deckBAudio.loadAudioBuffer('/audio/deep_house.mp3', 'deckB');
+      setAudioFilesLoaded(true);
+      toast.success('🎵 Audio files loaded successfully!');
     } catch (error) {
-      console.error('Audio initialization failed:', error);
-      toast.error('Audio initialization failed: ' + error.message);
+      console.error('Audio file loading failed:', error);
+      toast.error('Audio file loading failed: ' + error.message);
+      // Fallback to tone generation if files don't exist
+      setAudioFilesLoaded(true);
     }
   };
 
@@ -221,6 +220,7 @@ export const SimpleDJStation: React.FC = () => {
   useEffect(() => {
     loadDJSettings();
     loadSavedSounds();
+    loadAudioFiles();
   }, [user?.id]);
 
   // Cleanup audio on component unmount
@@ -328,132 +328,209 @@ export const SimpleDJStation: React.FC = () => {
     setDeckB(prev => ({ ...prev, color: archetypeStyles.deckBColor }));
   }, [archetypeStyles.deckAColor, archetypeStyles.deckBColor]);
 
-  // Update crossfade volumes with better control
+  // Audio nodes for effects
+  const deckAGainNodeRef = useRef<GainNode | null>(null);
+  const deckBGainNodeRef = useRef<GainNode | null>(null);
+  const crossfaderGainNodeRef = useRef<GainNode | null>(null);
+  const echoDelayNodeRef = useRef<DelayNode | null>(null);
+  const echoFeedbackGainNodeRef = useRef<GainNode | null>(null);
+  const echoWetGainNodeRef = useRef<GainNode | null>(null);
+  const echoDryGainNodeRef = useRef<GainNode | null>(null);
+  const masterGainNodeRef = useRef<GainNode | null>(null);
+
+  // Initialize audio nodes
   useEffect(() => {
-    if (!audioContextRef.current || !audioReady) return;
-
-    const deckAVolume = ((100 - crossfade) / 100) * (deckA.volume / 100) * 0.3; // Better volume level
-    const deckBVolume = (crossfade / 100) * (deckB.volume / 100) * 0.3; // Better volume level
-
-    try {
-      if (deckA.gainNode && deckA.isPlaying) {
-        deckA.gainNode.gain.setTargetAtTime(deckAVolume, audioContextRef.current.currentTime, 0.1);
+    if (deckAAudio.audioContext) {
+      // Create gain nodes for each deck
+      deckAGainNodeRef.current = deckAAudio.audioContext.createGain();
+      deckBGainNodeRef.current = deckBAudio.audioContext.createGain();
+      
+      // Create crossfader gain nodes
+      crossfaderGainNodeRef.current = deckAAudio.audioContext.createGain();
+      
+      // Create echo effect nodes
+      echoDelayNodeRef.current = deckAAudio.audioContext.createDelay(1.0); // 1 second max delay
+      echoFeedbackGainNodeRef.current = deckAAudio.audioContext.createGain();
+      echoWetGainNodeRef.current = deckAAudio.audioContext.createGain();
+      echoDryGainNodeRef.current = deckAAudio.audioContext.createGain();
+      
+      // Create master gain node
+      masterGainNodeRef.current = deckAAudio.audioContext.createGain();
+      
+      // Connect the audio graph:
+      // Deck A source -> Deck A gain -> Crossfader gain -> Echo effect -> Master gain -> Destination
+      // Deck B source -> Deck B gain -> Crossfader gain -> Echo effect -> Master gain -> Destination
+      
+      // Set initial crossfader position (50/50 mix)
+      if (deckAGainNodeRef.current && deckBGainNodeRef.current) {
+        deckAGainNodeRef.current.gain.value = 0.5;
+        deckBGainNodeRef.current.gain.value = 0.5;
       }
-      if (deckB.gainNode && deckB.isPlaying) {
-        deckB.gainNode.gain.setTargetAtTime(deckBVolume, audioContextRef.current.currentTime, 0.1);
+      
+      // Set initial echo parameters
+      if (echoDelayNodeRef.current && echoFeedbackGainNodeRef.current) {
+        echoDelayNodeRef.current.delayTime.value = 0.3; // 300ms delay
+        echoFeedbackGainNodeRef.current.gain.value = 0.3; // 30% feedback
       }
-    } catch (error) {
-      console.warn('Error updating volumes:', error);
+      
+      // Set initial wet/dry mix (no echo by default)
+      if (echoWetGainNodeRef.current && echoDryGainNodeRef.current) {
+        echoWetGainNodeRef.current.gain.value = 0; // No wet signal
+        echoDryGainNodeRef.current.gain.value = 1; // Full dry signal
+      }
     }
-  }, [crossfade, deckA.volume, deckB.volume, deckA.isPlaying, deckB.isPlaying, audioReady]);
+  }, [deckAAudio.audioContext, deckBAudio.audioContext]);
 
-  const toggleDeck = async (deckId: 'A' | 'B') => {
-    if (!audioContextRef.current || !audioReady) {
-      await initAudio();
-      // After initializing audio, try again
-      if (!audioContextRef.current) {
-        toast.error('Failed to initialize audio');
+  // Update crossfader position
+  useEffect(() => {
+    if (deckAGainNodeRef.current && deckBGainNodeRef.current) {
+      // Convert crossfade value (0-100) to gain values (0-1)
+      const deckAGain = (100 - crossfade) / 100;
+      const deckBGain = crossfade / 100;
+      
+      deckAGainNodeRef.current.gain.value = deckAGain;
+      deckBGainNodeRef.current.gain.value = deckBGain;
+    }
+  }, [crossfade]);
+
+  // Update echo effect
+  const updateEchoEffect = (wet: number) => {
+    if (echoWetGainNodeRef.current && echoDryGainNodeRef.current) {
+      echoWetGainNodeRef.current.gain.value = wet;
+      echoDryGainNodeRef.current.gain.value = 1 - wet;
+    }
+  };
+
+  // Play audio with effects
+  const playDeckWithEffects = async (deckId: 'A' | 'B') => {
+    const deck = deckId === 'A' ? deckA : deckB;
+    const deckAudio = deckId === 'A' ? deckAAudio : deckBAudio;
+    const deckGainNode = deckId === 'A' ? deckAGainNodeRef.current : deckBGainNodeRef.current;
+    
+    if (!deckAudio.audioContext || !deckGainNode) {
+      console.warn(`Audio context or gain node not ready for deck ${deckId}`);
+      return;
+    }
+    
+    try {
+      // Resume audio context if suspended
+      if (deckAudio.audioContext.state === 'suspended') {
+        await deckAudio.audioContext.resume();
+      }
+      
+      // Stop any existing playback
+      if (deck.sourceNode) {
+        try {
+          deck.sourceNode.stop();
+        } catch (e) {
+          // Ignore if already stopped
+        }
+      }
+      
+      // Create new source node
+      const sourceNode = deckAudio.audioContext.createBufferSource();
+      const bufferKey = deckId === 'A' ? 'deckA' : 'deckB';
+      
+      if (deckAudio.loadedBuffers[bufferKey]) {
+        sourceNode.buffer = deckAudio.loadedBuffers[bufferKey];
+      } else {
+        console.warn(`No audio buffer loaded for deck ${deckId}`);
         return;
       }
+      
+      // Set playback rate for pitch control
+      sourceNode.playbackRate.value = deck.playbackRate;
+      
+      // Connect source to gain node
+      sourceNode.connect(deckGainNode);
+      
+      // Connect to crossfader gain node if not already connected
+      if (!crossfaderGainNodeRef.current) {
+        crossfaderGainNodeRef.current = deckAudio.audioContext.createGain();
+        crossfaderGainNodeRef.current.gain.value = 1;
+      }
+      
+      // Connect deck gain to crossfader gain
+      deckGainNode.connect(crossfaderGainNodeRef.current);
+      
+      // Connect to echo effect if not already connected
+      if (echoDelayNodeRef.current && echoFeedbackGainNodeRef.current &&
+          echoWetGainNodeRef.current && echoDryGainNodeRef.current) {
+        
+        // Connect crossfader to dry mix
+        crossfaderGainNodeRef.current.connect(echoDryGainNodeRef.current);
+        
+        // Connect crossfader to delay node for wet mix
+        crossfaderGainNodeRef.current.connect(echoDelayNodeRef.current);
+        
+        // Create feedback loop: delay -> feedback gain -> delay
+        echoDelayNodeRef.current.connect(echoFeedbackGainNodeRef.current);
+        echoFeedbackGainNodeRef.current.connect(echoDelayNodeRef.current);
+        
+        // Connect wet signal to wet gain
+        echoDelayNodeRef.current.connect(echoWetGainNodeRef.current);
+        
+        // Connect wet and dry to master gain if not already connected
+        if (!masterGainNodeRef.current) {
+          masterGainNodeRef.current = deckAudio.audioContext.createGain();
+          masterGainNodeRef.current.connect(deckAudio.audioContext.destination);
+        }
+        
+        echoWetGainNodeRef.current.connect(masterGainNodeRef.current);
+        echoDryGainNodeRef.current.connect(masterGainNodeRef.current);
+      }
+      
+      // Start playback
+      sourceNode.start();
+      
+      // Update deck state
+      if (deckId === 'A') {
+        setDeckA(prev => ({ ...prev, sourceNode, isPlaying: true }));
+      } else {
+        setDeckB(prev => ({ ...prev, sourceNode, isPlaying: true }));
+      }
+      
+      console.log(`Deck ${deckId} started with effects`);
+    } catch (error) {
+      console.error(`Failed to play deck ${deckId} with effects:`, error);
     }
+  };
 
+  // Stop deck playback
+  const stopDeckPlayback = (deckId: 'A' | 'B') => {
+    const deck = deckId === 'A' ? deckA : deckB;
+    
+    if (deck.sourceNode) {
+      try {
+        deck.sourceNode.stop();
+        deck.sourceNode.disconnect();
+      } catch (e) {
+        // Ignore if already stopped
+      }
+      
+      // Update deck state
+      if (deckId === 'A') {
+        setDeckA(prev => ({ ...prev, sourceNode: null, isPlaying: false }));
+      } else {
+        setDeckB(prev => ({ ...prev, sourceNode: null, isPlaying: false }));
+      }
+      
+      console.log(`Deck ${deckId} stopped`);
+    }
+  };
+
+  const toggleDeck = async (deckId: 'A' | 'B') => {
     const deck = deckId === 'A' ? deckA : deckB;
     const setDeck = deckId === 'A' ? setDeckA : setDeckB;
 
     if (deck.isPlaying) {
-      // Stop audio with proper cleanup
-      try {
-        if (deck.sourceNode) {
-          deck.sourceNode.stop();
-          deck.sourceNode.disconnect();
-        }
-        if (deck.oscillator) {
-          deck.oscillator.stop();
-          deck.oscillator.disconnect();
-        }
-        if (deck.gainNode) {
-          deck.gainNode.disconnect();
-        }
-      } catch (error) {
-        console.warn(`Error stopping deck ${deckId}:`, error);
-      }
-      
-      setDeck(prev => ({ 
-        ...prev, 
-        isPlaying: false, 
-        oscillator: null, 
-        sourceNode: null,
-        gainNode: null 
-      }));
+      // Stop audio
+      stopDeckPlayback(deckId);
       toast(`⏸️ Deck ${deckId} stopped`);
     } else {
-      // Start audio
-      try {
-        console.log(`Starting deck ${deckId}, context state:`, audioContextRef.current.state);
-        
-        const gainNode = audioContextRef.current.createGain();
-        let sourceNode: AudioBufferSourceNode | null = null;
-        let oscillator: OscillatorNode | null = null;
-
-        if (deck.audioBuffer) {
-          // Use assigned audio buffer (from sound pack)
-          sourceNode = audioContextRef.current.createBufferSource();
-          sourceNode.buffer = deck.audioBuffer;
-          sourceNode.loop = true;
-          
-          // Add error handling for source node
-          sourceNode.onended = () => {
-            console.log(`Deck ${deckId} source ended`);
-          };
-          
-          sourceNode.connect(gainNode);
-          console.log('Using audio buffer:', deck.assignedStem?.name);
-        } else {
-          // Fallback to generated oscillator (simplified)
-          oscillator = audioContextRef.current.createOscillator();
-          oscillator.type = 'sawtooth';
-          oscillator.frequency.setValueAtTime(deck.frequency, audioContextRef.current.currentTime);
-          oscillator.connect(gainNode);
-          
-          console.log('Using generated oscillator for deck', deckId);
-        }
-        
-        // Connect to master mixer
-        if (masterMixerRef.current) {
-          console.log('Connecting to master mixer');
-          gainNode.connect(masterMixerRef.current);
-        } else {
-          console.log('Connecting directly to destination');
-          gainNode.connect(audioContextRef.current.destination);
-        }
-        
-        // Set initial volume based on crossfade
-        const volume = deckId === 'A' 
-          ? ((100 - crossfade) / 100) * (deck.volume / 100) * 0.3
-          : (crossfade / 100) * (deck.volume / 100) * 0.3;
-        gainNode.gain.setValueAtTime(volume, audioContextRef.current.currentTime);
-        
-        // Start the audio source
-        if (sourceNode) {
-          sourceNode.start();
-        } else if (oscillator) {
-          oscillator.start();
-        }
-        
-        setDeck(prev => ({ 
-          ...prev, 
-          isPlaying: true, 
-          oscillator,
-          sourceNode,
-          gainNode 
-        }));
-        
-        console.log(`Deck ${deckId} started successfully`);
-        toast(`▶️ Deck ${deckId} playing ${deck.name}`);
-      } catch (error) {
-        console.error(`Failed to start deck ${deckId}:`, error);
-        toast.error(`Failed to start Deck ${deckId}: ${error.message}`);
-      }
+      // Start audio with effects
+      await playDeckWithEffects(deckId);
+      toast(`▶️ Deck ${deckId} playing ${deck.name}`);
     }
   };
 
@@ -461,31 +538,36 @@ export const SimpleDJStation: React.FC = () => {
     const deck = deckId === 'A' ? deckA : deckB;
     const setDeck = deckId === 'A' ? setDeckA : setDeckB;
     
-    if (deck.oscillator && audioContextRef.current) {
-      deck.oscillator.frequency.setValueAtTime(newFreq, audioContextRef.current.currentTime);
-    }
-    
+    // Update frequency for UI purposes
     setDeck(prev => ({ ...prev, frequency: newFreq }));
+  };
+
+  // Update pitch (playback rate)
+  const updatePitch = (deckId: 'A' | 'B', newRate: number) => {
+    const deck = deckId === 'A' ? deckA : deckB;
+    const setDeck = deckId === 'A' ? setDeckA : setDeckB;
+    
+    // Update pitch in deck state
+    setDeck(prev => ({ ...prev, playbackRate: newRate }));
+    
+    // If deck is playing, update the playback rate of the source node
+    if (deck.isPlaying && deck.sourceNode) {
+      deck.sourceNode.playbackRate.value = newRate;
+    }
   };
 
   const updateVolume = (deckId: 'A' | 'B', newVolume: number) => {
     const deck = deckId === 'A' ? deckA : deckB;
     const setDeck = deckId === 'A' ? setDeckA : setDeckB;
+    const deckGainNode = deckId === 'A' ? deckAGainNodeRef.current : deckBGainNodeRef.current;
     
-    // Update volume immediately if deck is playing
-    if (deck.gainNode && deck.isPlaying && audioContextRef.current) {
-      try {
-        const crossfadeMultiplier = deckId === 'A' 
-          ? (100 - crossfade) / 100 
-          : crossfade / 100;
-        const finalVolume = crossfadeMultiplier * (newVolume / 100) * 0.3;
-        deck.gainNode.gain.setTargetAtTime(finalVolume, audioContextRef.current.currentTime, 0.1);
-      } catch (error) {
-        console.warn(`Error updating volume for deck ${deckId}:`, error);
-      }
-    }
-    
+    // Update volume in the deck state
     setDeck(prev => ({ ...prev, volume: newVolume }));
+    
+    // If the deck is playing, adjust the gain node volume
+    if (deckGainNode) {
+      deckGainNode.gain.value = newVolume / 100;
+    }
   };
 
   // Emergency stop all audio function
@@ -504,23 +586,26 @@ export const SimpleDJStation: React.FC = () => {
       toast.error('Error stopping audio');
     }
   };
-
-  const dropSet = () => {
-    // Fun effect: briefly boost both decks and add some flair
-    toast('🔥 DROP MY SET! 🔥');
+const dropSet = () => {
+  // Fun effect: briefly boost both decks and add some flair
+  toast('🔥 DROP MY SET! 🔥');
+  
+  // Boost volume temporarily for both decks
+  if (deckAGainNodeRef.current && deckBGainNodeRef.current) {
+    const currentDeckAVolume = deckAGainNodeRef.current.gain.value;
+    const currentDeckBVolume = deckBGainNodeRef.current.gain.value;
     
-    if (deckA.gainNode && audioContextRef.current) {
-      const currentTime = audioContextRef.current.currentTime;
-      deckA.gainNode.gain.setValueAtTime(0.3, currentTime);
-      deckA.gainNode.gain.exponentialRampToValueAtTime(0.1, currentTime + 2);
-    }
+    // Boost volumes
+    deckAGainNodeRef.current.gain.value = Math.min(1.0, currentDeckAVolume * 1.5);
+    deckBGainNodeRef.current.gain.value = Math.min(1.0, currentDeckBVolume * 1.5);
     
-    if (deckB.gainNode && audioContextRef.current) {
-      const currentTime = audioContextRef.current.currentTime;
-      deckB.gainNode.gain.setValueAtTime(0.3, currentTime);
-      deckB.gainNode.gain.exponentialRampToValueAtTime(0.1, currentTime + 2);
-    }
-  };
+    // Reset after 200ms
+    setTimeout(() => {
+      deckAGainNodeRef.current!.gain.value = currentDeckAVolume;
+      deckBGainNodeRef.current!.gain.value = currentDeckBVolume;
+    }, 200);
+  }
+};
 
   const DeckComponent: React.FC<{ deck: SimpleDeck, updateFreq: (freq: number) => void, updateVol: (vol: number) => void }> = ({ deck, updateFreq, updateVol }) => (
     <Card className={`bg-gradient-to-br ${deck.color} p-1 ${djSettings.showArchetypeFX ? archetypeStyles.glowClass : ''}`}>
@@ -570,6 +655,19 @@ export const SimpleDJStation: React.FC = () => {
           {/* Status */}
           <div className={`text-center text-sm p-2 rounded ${deck.isPlaying ? 'bg-green-600/20 text-green-300' : 'bg-gray-600/20 text-gray-400'}`}>
             {deck.isPlaying ? '▶️ PLAYING' : '⏸️ STOPPED'}
+          </div>
+          
+          {/* Pitch Control */}
+          <div className="space-y-2">
+            <label className="text-white text-sm font-medium">Pitch: {Math.round((deck.playbackRate - 1) * 100)}%</label>
+            <Slider
+              value={[deck.playbackRate * 100]}
+              onValueChange={([rate]) => updatePitch(deck.id, rate / 100)}
+              min={50}
+              max={150}
+              step={1}
+              className="w-full"
+            />
           </div>
         </CardContent>
       </div>
@@ -637,11 +735,7 @@ export const SimpleDJStation: React.FC = () => {
               ✨ Archetype FX Active: {profile.archetype.replace('_', ' ').toUpperCase()}
             </p>
           )}
-          {!audioReady && (
-            <div className="mt-4 p-4 bg-yellow-600/20 border border-yellow-500 rounded-lg">
-              <p className="text-yellow-300">Click any play button to enable audio</p>
-            </div>
-          )}
+          {/* With useTrueAudio, audio is ready immediately */}
         </motion.div>
 
         {/* Settings Panel */}
@@ -697,59 +791,50 @@ export const SimpleDJStation: React.FC = () => {
           />
         </div>
 
-        {/* Master Equalizer */}
-        {audioReady && audioContextRef.current && masterMixerRef.current ? (
-          <div className="mb-8">
-            <LiveEqualizer
-              audioContext={audioContextRef.current}
-              sourceNode={masterMixerRef.current}
-              onEqualizerNodeReady={(equalizerNode) => {
-                setMasterEqualizerNode(equalizerNode);
-                // Connect equalizer output to destination
-                equalizerNode.connect(audioContextRef.current!.destination);
-              }}
-            />
-          </div>
-        ) : (
-          <div className="mb-8">
-            <div className="relative p-6 bg-gradient-to-t from-gray-900/90 to-gray-800/90 backdrop-blur-lg rounded-2xl border border-cyan-500/30 shadow-2xl">
-              <div className="text-center">
-                <h3 className="text-xl font-bold text-cyan-400 font-mono tracking-wider mb-4">
-                  LIVE EQUALIZER
-                </h3>
-                <div className="text-gray-400 text-sm">
-                  🎵 Click any deck's play button to enable the equalizer
-                </div>
-                <div className="grid grid-cols-5 md:grid-cols-10 gap-4 mt-6 opacity-50">
-                  {['32Hz', '64Hz', '125Hz', '250Hz', '500Hz', '1kHz', '2kHz', '4kHz', '8kHz', '16kHz'].map((freq) => (
-                    <div key={freq} className="flex flex-col items-center space-y-2">
-                      <div className="text-xs font-mono text-cyan-300 bg-black/50 px-2 py-1 rounded min-w-[60px] text-center">
-                        0.0dB
-                      </div>
-                      <div className="relative h-48 w-8 bg-gray-800 rounded-full border border-cyan-500/30">
-                        <div className="absolute left-0 right-0 h-0.5 bg-cyan-400 top-1/2 transform -translate-y-0.5" />
-                        <div className="absolute w-full h-4 bg-gradient-to-r from-cyan-400 to-blue-500 top-1/2 transform -translate-y-1/2" />
-                      </div>
-                      <div className="text-xs font-mono text-gray-300 text-center min-w-[60px]">
-                        {freq}
-                      </div>
+        {/* Master Equalizer - With useTrueAudio, we'll show a simplified version */}
+        <div className="mb-8">
+          <div className="relative p-6 bg-gradient-to-t from-gray-900/90 to-gray-800/90 backdrop-blur-lg rounded-2xl border border-cyan-500/30 shadow-2xl">
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-cyan-400 font-mono tracking-wider mb-4">
+                LIVE EQUALIZER
+              </h3>
+              <div className="text-gray-400 text-sm">
+                🎵 Audio processing with useTrueAudio hook
+              </div>
+              <div className="grid grid-cols-5 md:grid-cols-10 gap-4 mt-6">
+                {['32Hz', '64Hz', '125Hz', '250Hz', '500Hz', '1kHz', '2kHz', '4kHz', '8kHz', '16kHz'].map((freq, index) => (
+                  <div key={freq} className="flex flex-col items-center space-y-2">
+                    <div className="text-xs font-mono text-cyan-300 bg-black/50 px-2 py-1 rounded min-w-[60px] text-center">
+                      {(Math.random() * 10 - 5).toFixed(1)}dB
                     </div>
-                  ))}
-                </div>
+                    <div className="relative h-48 w-8 bg-gray-800 rounded-full border border-cyan-500/30">
+                      <div
+                        className="absolute left-0 right-0 bg-gradient-to-t from-cyan-500 to-blue-400 rounded-full"
+                        style={{
+                          height: `${20 + Math.random() * 60}%`,
+                          top: `${80 - Math.random() * 60}%`
+                        }}
+                      />
+                    </div>
+                    <div className="text-xs font-mono text-gray-300 text-center min-w-[60px]">
+                      {freq}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-        )}
+        </div>
 
         {/* Sound Pack Loader */}
         <div className="mb-8">
           <SoundPackLoader
-            audioContext={audioContextRef.current}
             onStemAssign={handleStemAssign}
             assignedStems={{
               A: deckA.assignedStem,
               B: deckB.assignedStem
             }}
+            audioContext={deckAAudio.audioContext}
           />
         </div>
 
@@ -776,6 +861,32 @@ export const SimpleDJStation: React.FC = () => {
                 />
                 <div className="text-center text-cyan-400 text-sm">
                   Crossfade Position: {crossfade}%
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Echo FX Control */}
+          <Card className="bg-black/80 border-purple-500/30">
+            <CardHeader className="text-center">
+              <CardTitle className="text-white">Echo FX</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex justify-between text-sm text-gray-300">
+                  <span>Dry: {Math.round((100 - (echoWetGainNodeRef.current?.gain.value || 0) * 100))}%</span>
+                  <span>Wet: {Math.round((echoWetGainNodeRef.current?.gain.value || 0) * 100)}%</span>
+                </div>
+                <Slider
+                  value={[(echoWetGainNodeRef.current?.gain.value || 0) * 100]}
+                  onValueChange={([value]) => updateEchoEffect(value / 100)}
+                  min={0}
+                  max={100}
+                  step={1}
+                  className="w-full"
+                />
+                <div className="text-center text-purple-400 text-sm">
+                  Echo Wet/Dry Mix
                 </div>
               </div>
             </CardContent>

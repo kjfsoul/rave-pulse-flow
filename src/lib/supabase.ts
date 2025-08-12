@@ -58,21 +58,21 @@ export type Database = {
         Row: {
           id: string
           user_id: string
-          artist_id: string
+          dj_id: string
           created_at: string
           vote_weight: number
         }
         Insert: {
           id?: string
           user_id: string
-          artist_id: string
+          dj_id: string
           created_at?: string
           vote_weight?: number
         }
         Update: {
           id?: string
           user_id?: string
-          artist_id?: string
+          dj_id?: string
           created_at?: string
           vote_weight?: number
         }

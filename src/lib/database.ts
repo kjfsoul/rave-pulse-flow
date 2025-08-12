@@ -92,29 +92,58 @@ export const festivalOperations = {
     return data || []
   },
 
-  async submitVote(userId: string, artistId: string, weight: number = 1): Promise<boolean> {
-    const { error } = await supabase
-      .from('festival_votes')
-      .upsert({
-        user_id: userId,
-        artist_id: artistId,
-        vote_weight: weight
+  async submitVote(userId: string, djId: string, weight: number = 1): Promise<{ success: boolean, error?: string, nextVoteAllowed?: string }> {
+    try {
+      // Get the current session for authentication
+      const { data: { session }, error: authError } = await supabase.auth.getSession()
+      
+      if (authError || !session) {
+        return { success: false, error: 'Authentication required' }
+      }
+
+      // Call the submit-vote Edge Function
+      const { data, error } = await supabase.functions.invoke('submit-vote', {
+        body: {
+          dj_id: djId,
+          vote_weight: weight
+        },
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`
+        }
       })
-    
-    if (error) {
+
+      if (error) {
+        console.error('Error calling submit-vote function:', error)
+        
+        // Handle specific error types
+        if (error.message?.includes('429')) {
+          return { success: false, error: 'You can only vote for each DJ once per 24 hours' }
+        }
+        
+        return { success: false, error: error.message || 'Failed to submit vote' }
+      }
+
+      if (!data.success) {
+        return { 
+          success: false, 
+          error: data.error || data.message,
+          nextVoteAllowed: data.next_vote_allowed_at
+        }
+      }
+
+      return { success: true }
+    } catch (error) {
       console.error('Error submitting vote:', error)
-      return false
+      return { success: false, error: 'Failed to submit vote' }
     }
-    
-    return true
   },
 
-  async removeVote(userId: string, artistId: string): Promise<boolean> {
+  async removeVote(userId: string, djId: string): Promise<boolean> {
     const { error } = await supabase
       .from('festival_votes')
       .delete()
       .eq('user_id', userId)
-      .eq('artist_id', artistId)
+      .eq('artist_id', djId)
     
     if (error) {
       console.error('Error removing vote:', error)
@@ -124,11 +153,11 @@ export const festivalOperations = {
     return true
   },
 
-  async getVotingStats(artistId: string): Promise<{ totalVotes: number, totalWeight: number }> {
+  async getVotingStats(djId: string): Promise<{ totalVotes: number, totalWeight: number }> {
     const { data, error } = await supabase
       .from('festival_votes')
       .select('vote_weight')
-      .eq('artist_id', artistId)
+      .eq('artist_id', djId)
     
     if (error) {
       console.error('Error fetching voting stats:', error)
@@ -139,6 +168,43 @@ export const festivalOperations = {
     const totalWeight = data?.reduce((sum, vote) => sum + vote.vote_weight, 0) || 0
     
     return { totalVotes, totalWeight }
+  },
+
+  // Real-time vote tracking
+  subscribeToVoteUpdates(djId: string, onUpdate: (payload: any) => void) {
+    const channel = supabase
+      .channel(`festival_votes_${djId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'festival_votes',
+          filter: `dj_id=eq.${djId}`
+        },
+        onUpdate
+      )
+      .subscribe()
+
+    return channel
+  },
+
+  // Subscribe to all vote updates
+  subscribeToAllVotes(onUpdate: (payload: any) => void) {
+    const channel = supabase
+      .channel('all_festival_votes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'festival_votes'
+        },
+        onUpdate
+      )
+      .subscribe()
+
+    return channel
   }
 }
 
