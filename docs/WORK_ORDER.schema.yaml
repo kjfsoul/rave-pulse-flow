@@ -1,0 +1,423 @@
+# EDM Shuffle - Work Order Schema Definition
+# Schema for YAML work orders used by agentic tooling
+
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "EDM Shuffle Work Order"
+description: "Schema for defining work orders for agentic implementation"
+type: "object"
+required:
+  - "id"
+  - "branch"
+  - "target_files"
+  - "objective"
+  - "acceptance_criteria"
+  - "constraints"
+
+properties:
+  # Core Identification
+  id:
+    type: "string"
+    pattern: "^[a-z0-9]+-[a-z0-9]+-[0-9]{3}$"
+    description: "Unique work order identifier (format: type-name-001)"
+    example: "audio-latency-fix-001"
+    
+  title:
+    type: "string"
+    minLength: 10
+    maxLength: 100
+    description: "Human-readable title for the work order"
+    example: "Fix Mobile Audio Latency Issues"
+    
+  description:
+    type: "string"
+    minLength: 50
+    maxLength: 500
+    description: "Detailed description of the work to be performed"
+    example: "Address mobile audio latency issues in the Web Audio Engine to ensure smooth playback on iOS and Android devices."
+    
+  # Branch and File Management
+  branch:
+    type: "string"
+    pattern: "^(feature|bugfix|hotfix)\/[a-z0-9-]+$"
+    description: "Git branch name for implementation"
+    example: "feature/audio-latency-fix"
+    
+  target_files:
+    type: "array"
+    items:
+      type: "string"
+      pattern: "^(src|public|supabase)\/.*$"
+    minItems: 1
+    maxItems: 10
+    description: "List of files or directories to be modified"
+    examples:
+      - "src/components/audio-ui/"
+      - "src/hooks/useAudioEngine.ts"
+      - "src/lib/audioEngine.ts"
+      
+  excluded_files:
+    type: "array"
+    items:
+      type: "string"
+    minItems: 0
+    maxItems: 20
+    description: "Files that should not be modified during implementation"
+    example: ["src/components/ui/", "node_modules/"]
+    
+  # Work Definition
+  objective:
+    type: "string"
+    minLength: 20
+    maxLength: 200
+    description: "Primary objective of the work order"
+    example: "Reduce mobile audio latency to under 100ms while maintaining cross-browser compatibility"
+    
+  acceptance_criteria:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        criterion:
+          type: "string"
+          minLength: 10
+          maxLength: 150
+          description: "Specific acceptance criterion"
+          example: "Mobile audio latency must be under 100ms"
+        measurable:
+          type: "boolean"
+          description: "Whether this criterion can be measured objectively"
+          default: true
+        priority:
+          type: "string"
+          enum: ["low", "medium", "high", "critical"]
+          default: "medium"
+        testable:
+          type: "boolean"
+          description: "Whether this criterion can be tested automatically"
+          default: true
+      required: ["criterion"]
+    minItems: 3
+    maxItems: 10
+    description: "List of acceptance criteria that must be met"
+    
+  constraints:
+    type: "object"
+    properties:
+      max_file_changes:
+        type: "integer"
+        minimum: 1
+        maximum: 20
+        default: 5
+        description: "Maximum number of files that can be modified"
+        
+      max_lines_per_file:
+        type: "integer"
+        minimum: 10
+        maximum: 500
+        default: 100
+        description: "Maximum number of lines that can be changed per file"
+        
+      max_execution_time:
+        type: "integer"
+        minimum: 300
+        maximum: 7200
+        default: 1800
+        description: "Maximum execution time in seconds"
+        
+      require_test_coverage:
+        type: "boolean"
+        default: true
+        description: "Whether test coverage is required"
+        
+      test_coverage_threshold:
+        type: "number"
+        minimum: 50
+        maximum: 100
+        default: 80
+        description: "Minimum test coverage percentage required"
+        
+      require_performance_validation:
+        type: "boolean"
+        default: true
+        description: "Whether performance validation is required"
+        
+      require_security_scan:
+        type: "boolean"
+        default: true
+        description: "Whether security scanning is required"
+        
+      allow_breaking_changes:
+        type: "boolean"
+        default: false
+        description: "Whether breaking changes are allowed"
+        
+      require_manual_review:
+        type: "boolean"
+        default: true
+        description: "Whether manual code review is required"
+    additionalProperties: false
+    
+  # Implementation Details
+  implementation_type:
+    type: "string"
+    enum: ["bugfix", "feature", "optimization", "refactoring", "documentation"]
+    default: "feature"
+    description: "Type of implementation work"
+    
+  complexity:
+    type: "string"
+    enum: ["low", "medium", "high", "critical"]
+    default: "medium"
+    description: "Complexity level of the work"
+    
+  estimated_effort:
+    type: "string"
+    pattern: "^[0-9]+[mdw]?$"
+    description: "Estimated effort (m=minutes, d=days, w=weeks)"
+    examples:
+      - "4h"
+      - "2d"
+      - "1w"
+    
+  dependencies:
+    type: "array"
+    items:
+      type: "string"
+      pattern: "^[a-z0-9]+-[a-z0-9]+-[0-9]{3}$"
+    minItems: 0
+    maxItems: 5
+    description: "List of dependent work order IDs"
+    example: ["audio-engine-001", "ui-components-002"]
+    
+  # Testing Requirements
+  test_plan:
+    type: "object"
+    properties:
+      unit_tests:
+        type: "boolean"
+        default: true
+        description: "Whether unit tests are required"
+        
+      integration_tests:
+        type: "boolean"
+        default: true
+        description: "Whether integration tests are required"
+        
+      e2e_tests:
+        type: "boolean"
+        default: false
+        description: "Whether end-to-end tests are required"
+        
+      performance_tests:
+        type: "boolean"
+        default: false
+        description: "Whether performance tests are required"
+        
+      security_tests:
+        type: "boolean"
+        default: false
+        description: "Whether security tests are required"
+        
+      test_scenarios:
+        type: "array"
+        items:
+          type: "string"
+        minItems: 1
+        maxItems: 10
+        description: "Specific test scenarios to cover"
+        example: ["Mobile Safari audio playback", "Chrome crossfading", "iOS touch controls"]
+        
+      mock_data:
+        type: "boolean"
+        default: true
+        description: "Whether mock data should be used for testing"
+    additionalProperties: false
+    
+  # Execution Commands
+  run_commands:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        command:
+          type: "string"
+          minLength: 5
+          maxLength: 100
+          description: "Command to run"
+          example: "npm test"
+        description:
+          type: "string"
+          minLength: 10
+          maxLength: 100
+          description: "Description of what the command does"
+          example: "Run unit tests"
+        required_field:
+          type: "boolean"
+          default: true
+          description: "Whether this command must succeed"
+        timeout:
+          type: "integer"
+          minimum: 30
+          maximum: 3600
+          default: 300
+          description: "Command timeout in seconds"
+      required: ["command", "description"]
+    minItems: 1
+    maxItems: 10
+    description: "Commands to run during implementation"
+    
+  # Deliverables
+  deliverables:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          minLength: 5
+          maxLength: 50
+          description: "Name of the deliverable"
+          example: "Audio Engine Optimization"
+        type:
+          type: "string"
+          enum: ["code", "tests", "documentation", "config", "assets"]
+          description: "Type of deliverable"
+        description:
+          type: "string"
+          minLength: 10
+          maxLength: 100
+          description: "Description of the deliverable"
+        required_field:
+          type: "boolean"
+          default: true
+          description: "Whether this deliverable is required"
+      required: ["name", "type", "description"]
+    minItems: 1
+    maxItems: 10
+    description: "List of deliverables expected from the implementation"
+    
+  # Rollback Strategy
+  rollback_strategy:
+    type: "object"
+    properties:
+      enabled:
+        type: "boolean"
+        default: true
+        description: "Whether rollback strategy is enabled"
+      
+      method:
+        type: "string"
+        enum: ["git_revert", "backup_restore", "feature_flag"]
+        default: "git_revert"
+        description: "Rollback method to use"
+        
+      triggers:
+        type: "array"
+        items:
+          type: "string"
+          enum: ["test_failure", "performance_regression", "security_issue", "manual"]
+        minItems: 1
+        maxItems: 5
+        description: "Conditions that trigger rollback"
+        
+      auto_rollback:
+        type: "boolean"
+        default: false
+        description: "Whether to automatically rollback on triggers"
+        
+      manual_steps:
+        type: "array"
+        items:
+          type: "string"
+        minItems: 1
+        maxItems: 10
+        description: "Manual steps for rollback if needed"
+    additionalProperties: false
+    
+  # Monitoring and Telemetry
+  telemetry_to_return:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        metric:
+          type: "string"
+          minLength: 5
+          maxLength: 50
+          description: "Metric name"
+          example: "audio_latency_ms"
+        type:
+          type: "string"
+          enum: ["numeric", "boolean", "string", "object"]
+          description: "Metric data type"
+        unit:
+          type: "string"
+          maxLength: 20
+          description: "Unit of measurement (if applicable)"
+          example: "ms"
+        description:
+          type: "string"
+          minLength: 10
+          maxLength: 100
+          description: "Description of the metric"
+      required: ["metric", "type", "description"]
+    minItems: 0
+    maxItems: 10
+    description: "Metrics and telemetry data to collect during implementation"
+    
+  # Metadata
+  priority:
+    type: "string"
+    enum: ["low", "medium", "high", "critical"]
+    default: "medium"
+    description: "Priority level of the work order"
+    
+  tags:
+    type: "array"
+    items:
+      type: "string"
+      pattern: "^[a-z0-9-]+$"
+    minItems: 0
+    maxItems: 10
+    description: "Tags for categorization and filtering"
+    example: ["audio", "mobile", "performance", "web-audio-api"]
+    
+  assignee:
+    type: "string"
+    pattern: "^[a-z0-9-]+$"
+    description: "Assignee for the work order (optional)"
+    example: "audio-team"
+    
+  due_date:
+    type: "string"
+    format: "date-time"
+    description: "Due date for completion (optional)"
+    example: "2025-08-16T17:00:00Z"
+    
+  created_by:
+    type: "string"
+    pattern: "^[a-z0-9-]+$"
+    description: "Creator of the work order"
+    example: "product-manager"
+    
+  created_at:
+    type: "string"
+    format: "date-time"
+    description: "Creation timestamp"
+    example: "2025-08-09T10:00:00Z"
+    
+  updated_at:
+    type: "string"
+    format: "date-time"
+    description: "Last update timestamp"
+    example: "2025-08-09T10:00:00Z"
+
+# Additional validation rules
+additionalProperties: false
+required_fields:
+  - "id"
+  - "branch"
+  - "target_files"
+  - "objective"
+  - "acceptance_criteria"
+  - "constraints"

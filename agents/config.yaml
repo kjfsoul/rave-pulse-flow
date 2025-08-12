@@ -1,0 +1,351 @@
+# EDM Shuffle Agentic Tooling Configuration
+# Non-secret configuration for agent execution and tool integration
+
+version: "1.0.0"
+last_updated: "2025-08-09"
+
+# Global Configuration
+global:
+  max_concurrent_agents: 3
+  default_timeout_seconds: 1800
+  retry_attempts: 3
+  retry_delay_seconds: 30
+  enable_logging: true
+  log_level: "INFO"
+  enable_monitoring: true
+  
+# Agent Configuration
+agents:
+  claude_code_implementer:
+    enabled: true
+    model: "claude-3-5-sonnet-20241022"
+    max_tokens: 4000
+    temperature: 0.1
+    timeout_seconds: 3600
+    constraints:
+      max_file_changes: 10
+      max_lines_per_file: 100
+      require_test_coverage: true
+      require_validation: true
+    tools:
+      - "code_search"
+      - "test_generator"
+      - "security_auditor"
+    safety_features:
+      - "no_secrets"
+      - "rollback_generation"
+      - "quality_gates"
+    
+  manus_ai_orchestrator:
+    enabled: true
+    api_endpoint: "https://api.manus.ai/v1"
+    timeout_seconds: 300
+    max_concurrent_work_orders: 5
+    constraints:
+      require_human_approval: true
+      enforce_ci_gates: true
+      max_work_order_size: "small"
+    notification_settings:
+      slack_webhook: "https://hooks.slack.com/services/placeholder"
+      email_notifications: false
+      escalation_threshold: "high"
+    
+  code_search_tool:
+    enabled: true
+    tools:
+      ripgrep:
+        enabled: true
+        additional_args: ["--type", "typescript", "--type", "javascript", "--type", "tsx", "--type", "jsx"]
+      ctags:
+        enabled: true
+        exclude_patterns: ["node_modules", ".git", "dist", "build"]
+      comby:
+        enabled: true
+        rules_file: "comby_rules.json"
+    performance:
+      max_search_results: 100
+      cache_results: true
+      cache_ttl_seconds: 3600
+      
+  test_generator:
+    enabled: true
+    frameworks:
+      vitest:
+        enabled: true
+        config_file: "vitest.config.ts"
+        coverage_threshold: 80
+      playwright:
+        enabled: true
+        browsers: ["chromium", "firefox", "webkit"]
+        headless: true
+      testing_library:
+        enabled: true
+        additional_matchers: ["@testing-library/jest-dom"]
+    output:
+      test_directory: "src/__tests__"
+      coverage_directory: "coverage"
+      report_formats: ["json", "html", "lcov"]
+      
+  security_auditor:
+    enabled: true
+    tools:
+      npm_audit:
+        enabled: true
+        audit_level: "moderate"
+        ignore_patterns: []
+      lockfile_lint:
+        enabled: true
+        rules: ["package-lock.json", "yarn.lock"]
+      eslint:
+        enabled: true
+        config_file: ".eslintrc.js"
+        additional_plugins: ["security"]
+    severity_levels:
+      critical: "fail"
+      high: "fail"
+      moderate: "warn"
+      low: "info"
+
+# Tool Configuration
+tools:
+  code_search:
+    enabled: true
+    index_directory: "src"
+    exclude_patterns:
+      - "node_modules/**"
+      - ".git/**"
+      - "dist/**"
+      - "build/**"
+      - "**/*.test.{ts,js,tsx,jsx}"
+    file_types:
+      - "*.ts"
+      - "*.tsx"
+      - "*.js"
+      - "*.jsx"
+      - "*.json"
+      - "*.md"
+      
+  test_runner:
+    enabled: true
+    parallel: true
+    max_workers: 4
+    watch_mode: false
+    coverage: true
+    coverage_threshold: 80
+    
+  linter:
+    enabled: true
+    tools:
+      eslint:
+        enabled: true
+        extensions: [".ts", ".tsx", ".js", ".jsx"]
+        ignore_patterns: ["node_modules", "dist", "build"]
+      prettier:
+        enabled: true
+        extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".md"]
+        
+  bundler:
+    enabled: true
+    tool: "vite"
+    mode: "development"
+    sourcemap: true
+    optimize_deps: true
+    
+# Workflow Configuration
+workflows:
+  standard_implementation:
+    enabled: true
+    steps:
+      - name: "validation"
+        agent: "claude_code_implementer"
+        required: true
+      - name: "analysis"
+        agent: "code_search_tool"
+        required: true
+      - name: "implementation"
+        agent: "claude_code_implementer"
+        required: true
+      - name: "testing"
+        agent: "test_generator"
+        required: true
+      - name: "security"
+        agent: "security_auditor"
+        required: true
+      - name: "orchestration"
+        agent: "manus_ai_orchestrator"
+        required: true
+    timeout_seconds: 7200
+    rollback_on_failure: true
+    
+  quick_fix:
+    enabled: true
+    steps:
+      - name: "implementation"
+        agent: "claude_code_implementer"
+        required: true
+      - name: "basic_testing"
+        agent: "test_generator"
+        required: false
+    timeout_seconds: 1800
+    rollback_on_failure: true
+    
+  feature_development:
+    enabled: true
+    steps:
+      - name: "requirements_analysis"
+        agent: "claude_code_implementer"
+        required: true
+      - name: "architecture_design"
+        agent: "claude_code_implementer"
+        required: true
+      - name: "implementation"
+        agent: "claude_code_implementer"
+        required: true
+      - name: "comprehensive_testing"
+        agent: "test_generator"
+        required: true
+      - name: "documentation"
+        agent: "claude_code_implementer"
+        required: true
+      - name: "security_review"
+        agent: "security_auditor"
+        required: true
+      - name: "performance_optimization"
+        agent: "claude_code_implementer"
+        required: false
+    timeout_seconds: 86400
+    rollback_on_failure: true
+
+# Integration Configuration
+integrations:
+  github:
+    enabled: true
+    repository: "edm-shuffle/rave-pulse-flow"
+    token: "${GITHUB_TOKEN}"  # Environment variable reference
+    events:
+      - "issues"
+      - "pull_request"
+      - "push"
+    branch_protection:
+      enabled: true
+      require_pull_request_reviews: true
+      required_status_checks: ["ci/ci"]
+      
+  supabase:
+    enabled: true
+    url: "${SUPABASE_URL}"  # Environment variable reference
+    key: "${SUPABASE_SERVICE_ROLE_KEY}"  # Environment variable reference
+    schemas:
+      - "public"
+      - "auth"
+      
+  ci_cd:
+    enabled: true
+    provider: "github_actions"
+    workflow_file: ".github/workflows/ci.yml"
+    required_checks:
+      - "lint"
+      - "test"
+      - "security"
+      - "build"
+      
+# Monitoring and Observability
+monitoring:
+  enabled: true
+  metrics:
+    - "agent_execution_time"
+    - "work_order_success_rate"
+    - "code_quality_score"
+    - "test_coverage"
+    - "security_vulnerabilities"
+  alerts:
+    enabled: true
+    thresholds:
+      execution_time_warning: 1800
+      execution_time_critical: 3600
+      success_rate_warning: 0.8
+      success_rate_critical: 0.6
+      test_coverage_warning: 0.7
+      test_coverage_critical: 0.5
+  logging:
+    enabled: true
+    level: "INFO"
+    format: "json"
+    retention_days: 30
+    
+# Environment Configuration
+environments:
+  development:
+    enabled: true
+    features:
+      - "debug_mode"
+      - "verbose_logging"
+      - "experimental_tools"
+    constraints:
+      allow_unsafe_operations: true
+      
+  staging:
+    enabled: true
+    features:
+      - "full_testing"
+      - "security_scanning"
+      - "performance_monitoring"
+    constraints:
+      allow_unsafe_operations: false
+      
+  production:
+    enabled: true
+    features:
+      - "minimal_logging"
+      - "strict_validation"
+      - "rollback_capable"
+    constraints:
+      allow_unsafe_operations: false
+      require_manual_approval: true
+
+# Safety and Security
+safety:
+  secrets:
+    detection: true
+    prevention: true
+    allowed_patterns: []
+    blocked_patterns:
+      - "api_key"
+      - "secret"
+      - "password"
+      - "token"
+      - "private_key"
+      
+  validation:
+    enabled: true
+    checks:
+      - "schema_validation"
+      - "type_safety"
+      - "linting"
+      - "test_coverage"
+      - "security_scan"
+      
+  rollback:
+    enabled: true
+    strategy: "git_revert"
+    auto_rollback: true
+    rollback_threshold: "high"
+    
+# Performance Configuration
+performance:
+  caching:
+    enabled: true
+    ttl_seconds: 3600
+    max_size_mb: 1000
+    
+  optimization:
+    enabled: true
+    parallel_processing: true
+    resource_limits:
+      max_memory_mb: 2048
+      max_cpu_percent: 80
+      
+  profiling:
+    enabled: false
+    sample_rate: 0.1
+    output_directory: "profiling"
