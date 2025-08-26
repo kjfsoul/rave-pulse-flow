@@ -126,7 +126,8 @@ const ProfessionalDJStation: React.FC = () => {
   useEffect(() => {
     const initializeAudio = async () => {
       try {
-        const context = new (window.AudioContext || window.webkitAudioContext)()
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
+        const context = new AudioContextClass()
         setAudioContext(context)
         
         // Initialize master mixer

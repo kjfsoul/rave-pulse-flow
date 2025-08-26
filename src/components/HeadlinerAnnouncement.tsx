@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Crown, Star, Sparkles, Confetti, Trophy, Mic, 
+  Crown, Star, Sparkles, Trophy, Mic, 
   Users, TrendingUp, Zap, AlertCircle, Gift
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'

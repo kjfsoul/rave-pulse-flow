@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import BottomNavigation from "@/components/BottomNavigation";
 import EqualizerBars from "@/components/EqualizerBars";
@@ -71,7 +71,7 @@ const Index = () => {
     <div className="min-h-screen bg-bass-dark relative pb-20">
       {/* RSS Feed Streamer */}
       <RSSFeedStreamer />
-      
+
       {/* Top Right Buttons */}
       <motion.div
         className="absolute top-4 right-4 flex gap-2 z-50"
@@ -134,7 +134,7 @@ const Index = () => {
           </>
         )}
       </motion.div>
-      
+
       {/* Enhanced Hero Section with Rave Drop */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
         {/* Laser Rave Background */}
@@ -164,7 +164,7 @@ const Index = () => {
           {!showDancers ? (
             <>
               {/* Main Title */}
-              <motion.h1 
+              <motion.h1
                 className="text-6xl md:text-8xl font-bold mb-6"
                 animate={{
                   textShadow: [
@@ -182,23 +182,23 @@ const Index = () => {
               </motion.h1>
 
               {/* New Tagline */}
-              <motion.p 
+              <motion.p
                 className="text-2xl md:text-3xl text-slate-300 mb-12"
                 initial={{ opacity: 0 }}
-                animate={{ 
+                animate={{
                   opacity: 1,
                   x: [0, 5, -5, 0],
                 }}
-                transition={{ 
+                transition={{
                   opacity: { delay: 0.5, duration: 1 },
                   x: { duration: 3, repeat: Infinity, ease: "easeInOut" }
                 }}
               >
                 🔥 Enter The Rave. Your Flow Will Find You.
               </motion.p>
-              
+
               {/* Enhanced Equalizer */}
-              <motion.div 
+              <motion.div
                 className="mb-16"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -206,7 +206,7 @@ const Index = () => {
               >
                 <EqualizerBars barCount={50} className="h-32" />
               </motion.div>
-              
+
               {/* Action Buttons */}
               <div className="flex gap-6 flex-col sm:flex-row">
                 <motion.button
@@ -227,7 +227,7 @@ const Index = () => {
                   >
                     🎶 Start Dancing
                   </motion.span>
-                  
+
                   {/* Shimmer Effect */}
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
@@ -261,7 +261,7 @@ const Index = () => {
                   >
                     🎛️ DJ Studio
                   </motion.span>
-                  
+
                   {/* Shimmer Effect */}
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
@@ -288,7 +288,7 @@ const Index = () => {
               >
                 Choose Your Vibe
               </motion.h2>
-              
+
               <motion.p
                 className="text-xl text-slate-300 mb-12"
                 initial={{ opacity: 0 }}
@@ -299,7 +299,7 @@ const Index = () => {
               </motion.p>
 
               {/* Shuffle Dancers */}
-              <ShuffleDancers 
+              <ShuffleDancers
                 onArchetypeSelect={handleArchetypeSelect}
                 selectedArchetype={selectedArchetype}
               />
@@ -366,7 +366,7 @@ const Index = () => {
           </h2>
           <p className="text-slate-400">Hot moves lighting up the feed</p>
         </motion.div>
-        
+
         <div className="grid grid-cols-2 gap-4">
           {trendingClips.map((clip, index) => (
             <motion.div
@@ -386,12 +386,12 @@ const Index = () => {
                     >
                       <Play className="w-6 h-6 text-white ml-1" />
                     </motion.div>
-                    
+
                     <Badge className="absolute top-2 right-2 bg-neon-cyan text-bass-dark">
                       {clip.trend}
                     </Badge>
                   </div>
-                  
+
                   <div className="p-3">
                     <h3 className="font-semibold text-white mb-1">{clip.title}</h3>
                     <div className="flex items-center justify-between text-sm">
@@ -422,7 +422,7 @@ const Index = () => {
           </h2>
           <p className="text-slate-400">Fresh fits for every archetype</p>
         </motion.div>
-        
+
         <div className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide">
           {gearDrops.map((item, index) => (
             <motion.div
@@ -449,6 +449,35 @@ const Index = () => {
           ))}
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-bass-medium/50 border-t border-neon-purple/20 py-8 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🕺</span>
+              <span className="text-xl font-bold text-white">EDM Shuffle</span>
+            </div>
+
+            <div className="flex items-center gap-6 text-sm">
+              <Link
+                to="/privacy-policy"
+                className="text-slate-400 hover:text-neon-cyan transition-colors duration-200 flex items-center gap-1"
+              >
+                🔒 Privacy Policy
+              </Link>
+              <span className="text-slate-600">|</span>
+              <span className="text-slate-500">© 2025 EDM Shuffle</span>
+            </div>
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-slate-700/50 text-center">
+            <p className="text-xs text-slate-500">
+              Your privacy is our priority. We respect your dance floor and your data.
+            </p>
+          </div>
+        </div>
+      </footer>
 
       <BottomNavigation />
     </div>

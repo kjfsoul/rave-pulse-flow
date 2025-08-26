@@ -68,8 +68,23 @@ export const UserProfile: React.FC = () => {
     }
   }
 
-  if (!user || !profile) {
+  if (!user) {
     return null
+  }
+
+  if (!profile) {
+    return (
+      <div className="max-w-2xl mx-auto space-y-6">
+        <Card className="bg-black/80 border-purple-500/30 backdrop-blur-lg">
+          <CardContent className="py-8">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto mb-4"></div>
+              <p className="text-gray-300">Loading your profile...</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (

@@ -332,7 +332,8 @@ export const marketplaceOperations = {
     itemId: string,
     itemType: string,
     amountPaid: number,
-    downloadUrl?: string
+    downloadUrl?: string,
+    paymentIntentId?: string
   ): Promise<MarketplacePurchase | null> {
     const { data, error } = await supabase
       .from('marketplace_purchases')
@@ -341,7 +342,8 @@ export const marketplaceOperations = {
         item_id: itemId,
         item_type: itemType,
         amount_paid: amountPaid,
-        download_url: downloadUrl
+        download_url: downloadUrl,
+        payment_intent_id: paymentIntentId
       })
       .select()
       .single()

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { festivalOperations } from "@/lib/database";
 import { supabase } from "@/lib/supabase";
@@ -42,9 +42,11 @@ const FestivalVotingStage = () => {
   // Audio contexts and refs
   const audioContextRef = useRef<AudioContext | null>(null);
   const currentTrackRef = useRef<{ source: AudioBufferSourceNode; gainNode: GainNode } | null>(null);
+  // Global audio state
+  const isPlayingRef = useRef(false);
   const turntableIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const djs = [
+  const djs = useMemo(() => [
     {
       id: 1,
       name: "DJ CyberStorm",
@@ -105,12 +107,12 @@ const FestivalVotingStage = () => {
       location: "Tomorrowland",
       achievements: ["🔥 Phoenix Legend", "🎪 Festival Favorite"]
     }
-  ];
+  ], []);
 
   // Initialize audio context
   const initAudioContext = () => {
     if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      audioContextRef.current = new AudioContext();
     }
     return audioContextRef.current;
   };
@@ -167,50 +169,107 @@ const FestivalVotingStage = () => {
   // Play DJ preview
   const handleDJPreview = async (dj: typeof djs[0]) => {
     try {
-      // Stop current track if playing
+      // Always stop any currently playing track first to prevent overlap
       if (currentTrackRef.current) {
         currentTrackRef.current.source.stop();
+        currentTrackRef.current.source.disconnect();
         currentTrackRef.current = null;
       }
 
+      // If the same DJ is clicked and was playing, just stop (toggle off)
+      if (selectedDJ === dj.id && isPlaying) {
+        setIsPlaying(false);
+        setSelectedDJ(null);
+        isPlayingRef.current = false;
+        toast.success('⏸️ Preview stopped');
+        return;
+      }
+
+      // Start playing the new track (either different DJ or same DJ restarting)
       const audioContext = initAudioContext();
       if (audioContext.state === 'suspended') {
         await audioContext.resume();
       }
 
-      // Generate and play beat
       const buffer = await generateDJBeat(dj);
       const source = audioContext.createBufferSource();
       const gainNode = audioContext.createGain();
-      
+
       source.buffer = buffer;
       source.loop = true;
       source.connect(gainNode);
       gainNode.connect(audioContext.destination);
       gainNode.gain.value = isMuted ? 0 : 0.3;
-      
-      source.start();
+
+      source.onended = () => {
+        if (selectedDJ === dj.id) {
+          setIsPlaying(false);
+          setSelectedDJ(null);
+          isPlayingRef.current = false;
+        }
+      };
+
+      source.start(0);
       currentTrackRef.current = { source, gainNode };
-      
+
       setSelectedDJ(dj.id);
       setCurrentBPM(dj.bpm);
       setIsPlaying(true);
-      
+      isPlayingRef.current = true;
+
       toast.success(`🎵 Now playing: ${dj.track} by ${dj.name}`);
     } catch (error) {
       console.error('Error playing DJ preview:', error);
       toast.error('Failed to play preview');
+      setIsPlaying(false);
+      setSelectedDJ(null);
+      isPlayingRef.current = false;
     }
   };
 
   // Stop current track
   const stopCurrentTrack = () => {
-    if (currentTrackRef.current) {
-      currentTrackRef.current.source.stop();
-      currentTrackRef.current = null;
+    try {
+      if (currentTrackRef.current) {
+        const { source, gainNode } = currentTrackRef.current;
+        if (source) {
+          source.stop();
+          source.disconnect();
+        }
+        if (gainNode) {
+          gainNode.disconnect();
+        }
+        currentTrackRef.current = null;
+      }
+    } catch (error) {
+      console.warn('Error stopping current track:', error);
     }
+
+    isPlayingRef.current = false;
     setIsPlaying(false);
     setSelectedDJ(null);
+  };
+  
+  // Global stop audio function
+  const stopAllAudio = () => {
+    try {
+      // Stop current track
+      stopCurrentTrack();
+
+      // Clear any turntable intervals
+      if (turntableIntervalRef.current) {
+        clearInterval(turntableIntervalRef.current);
+        turntableIntervalRef.current = null;
+      }
+
+      // Reset BPM to default
+      setCurrentBPM(128);
+
+      toast.success('⏹️ All audio stopped');
+    } catch (error) {
+      console.error('Error stopping all audio:', error);
+      toast.error('Error stopping audio');
+    }
   };
 
   // Toggle play/pause
@@ -382,11 +441,30 @@ const FestivalVotingStage = () => {
   // Cleanup audio on unmount
   useEffect(() => {
     return () => {
-      if (currentTrackRef.current) {
-        currentTrackRef.current.source.stop();
-      }
-      if (turntableIntervalRef.current) {
-        clearInterval(turntableIntervalRef.current);
+      try {
+        // Stop current track
+        if (currentTrackRef.current) {
+          const { source, gainNode } = currentTrackRef.current;
+          if (source) {
+            source.stop();
+            source.disconnect();
+          }
+          if (gainNode) {
+            gainNode.disconnect();
+          }
+        }
+
+        // Clear turntable interval
+        if (turntableIntervalRef.current) {
+          clearInterval(turntableIntervalRef.current);
+        }
+
+        // Close audio context if it exists
+        if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+          audioContextRef.current.close();
+        }
+      } catch (error) {
+        console.warn('Error during audio cleanup:', error);
       }
     };
   }, []);
@@ -398,7 +476,7 @@ const FestivalVotingStage = () => {
       
       try {
         const votes = await festivalOperations.getUserVotes(user.id);
-        setUserVotes(new Set(votes.map(v => v.artist_id)));
+        setUserVotes(new Set(votes.map(v => v.dj_id)));
       } catch (error) {
         console.error('Error loading user votes:', error);
       }
@@ -439,7 +517,7 @@ const FestivalVotingStage = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [djs]);
 
   useEffect(() => {
     // Check for headliner after votes
@@ -448,7 +526,7 @@ const FestivalVotingStage = () => {
     if (headlinerId && maxVotes > 1500) {
       setHeadliner(parseInt(headlinerId));
     }
-  }, [votes]);
+  }, [votes, djs]);
 
   const selectedDJData = djs.find(dj => dj.id === selectedDJ);
 
@@ -561,6 +639,13 @@ const FestivalVotingStage = () => {
             >
               {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
             </button>
+            <button
+              onClick={stopAllAudio}
+              className="text-neon-purple hover:text-neon-cyan transition-colors"
+              title="Stop all audio"
+            >
+              <VolumeX className="w-5 h-5" />
+            </button>
           </div>
         </motion.div>
 
@@ -593,18 +678,17 @@ const FestivalVotingStage = () => {
             <div className="text-center mb-6">
               <h2 className="text-3xl font-bold text-white mb-2">🎤 Featured Artists</h2>
               <p className="text-slate-300 mb-4">Discover up-and-coming DJs and live performers</p>
-              {headliner && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="mb-4"
-                >
+              <div className="flex justify-center gap-4 mb-4">
+                <NeonButton onClick={stopAllAudio} variant="secondary" size="sm">
+                  🛑 Stop All Audio
+                </NeonButton>
+                {headliner && (
                   <Badge className="bg-gradient-to-r from-neon-purple to-neon-cyan text-white px-4 py-2 text-lg">
                     <Crown className="w-4 h-4 mr-2" />
                     Headliner: {djs.find(d => d.id === headliner)?.name}
                   </Badge>
-                </motion.div>
-              )}
+                )}
+              </div>
               
               {/* Live Stats */}
               <div className="flex justify-center gap-6 text-sm text-slate-400">

@@ -1,50 +1,60 @@
+/* Import Google Fonts for rave aesthetic */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;400;500;700&family=Audiowide&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
-
+/* Base styles */
 @layer base {
   :root {
-    --background: 15 23 42; /* slate-800 */
-    --foreground: 248 250 252; /* slate-50 */
-
-    --card: 30 41 59; /* slate-700 */
-    --card-foreground: 248 250 252;
-
-    --popover: 15 23 42;
-    --popover-foreground: 248 250 252;
-
-    --primary: 191 90 242; /* neon purple */
-    --primary-foreground: 15 23 42;
-
-    --secondary: 51 65 85; /* slate-600 */
-    --secondary-foreground: 248 250 252;
-
-    --muted: 30 41 59;
-    --muted-foreground: 148 163 184; /* slate-400 */
-
-    --accent: 6 255 165; /* neon cyan */
-    --accent-foreground: 15 23 42;
-
-    --destructive: 239 68 68; /* red-500 */
-    --destructive-foreground: 248 250 252;
-
-    --border: 51 65 85;
-    --input: 30 41 59;
-    --ring: 191 90 242;
-
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
 
-    --sidebar-background: 2 6 23;
-    --sidebar-foreground: 203 213 225;
-    --sidebar-primary: 191 90 242;
-    --sidebar-primary-foreground: 15 23 42;
-    --sidebar-accent: 30 41 59;
-    --sidebar-accent-foreground: 248 250 252;
-    --sidebar-border: 51 65 85;
-    --sidebar-ring: 191 90 242;
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
   }
 }
 
@@ -52,63 +62,151 @@
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-bass-dark text-foreground;
-    font-family: system-ui, -apple-system, sans-serif;
+    @apply bg-background text-foreground;
+    font-family: 'Rajdhani', system-ui, sans-serif;
   }
 }
 
-@layer components {
-  .neon-glow {
-    @apply shadow-lg;
-    box-shadow: 0 0 20px rgba(191, 90, 242, 0.3);
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-bass-medium;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neon-purple rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-neon-cyan;
+}
+
+/* Custom animations */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
   }
-  
-  .neon-glow-cyan {
-    box-shadow: 0 0 20px rgba(6, 255, 165, 0.3);
+  100% {
+    background-position: 200% 0;
   }
-  
-  .neon-border {
-    border: 1px solid rgba(191, 90, 242, 0.5);
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(191, 90, 242, 0.5);
   }
-  
-  .neon-text {
-    text-shadow: 0 0 10px rgba(191, 90, 242, 0.8);
+  50% {
+    box-shadow: 0 0 40px rgba(191, 90, 242, 0.8), 0 0 60px rgba(6, 255, 165, 0.3);
   }
-  
-  .gradient-neon {
-    background: linear-gradient(135deg, #bf5af2 0%, #06ffa5 50%, #1e40af 100%);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
   }
-  
-  .shimmer-bg {
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(191, 90, 242, 0.1) 50%,
-      transparent 100%
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes equalizer {
+  0%, 100% {
+    height: 20%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+
+/* Utility classes */
+.shimmer-bg {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background-size: 200% 100%;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Rave theme specific styles */
+.rave-gradient {
+  background: linear-gradient(135deg,
+    rgba(191, 90, 242, 0.8),
+    rgba(6, 255, 165, 0.8),
+    rgba(30, 64, 175, 0.8),
+    rgba(247, 37, 133, 0.8)
+  );
+}
+
+.neon-glow {
+  filter: drop-shadow(0 0 10px currentColor);
+}
+
+.cyber-text {
+  font-family: 'Orbitron', monospace;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.display-text {
+  font-family: 'Audiowide', monospace;
+  letter-spacing: 0.1em;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .mobile-optimized {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .mobile-hidden {
+    display: none;
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .dark-enhanced {
+    background: linear-gradient(135deg,
+      rgba(191, 90, 242, 0.1),
+      rgba(6, 255, 165, 0.1),
+      rgba(30, 64, 175, 0.1)
     );
-    background-size: 200% 100%;
   }
+}
 
-  .animate-shimmer {
-    background-size: 200% 200%;
-    animation: shimmer 3s ease-in-out infinite;
+/* Performance optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe {
+    animation: none;
   }
+}
 
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
-  }
-
-  .archetype-glow {
-    background-image: linear-gradient(45deg, #6b21a8 25%, #db2777 50%, #06b6d4 75%);
-    background-size: 300% 300%;
-    animation: shimmer 15s infinite ease-in-out;
-    box-shadow: 0 0 60px rgba(255, 255, 255, 0.1);
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .high-contrast {
+    border: 2px solid currentColor;
+    border-radius: 4px;
   }
 }

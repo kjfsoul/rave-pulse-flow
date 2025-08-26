@@ -158,6 +158,68 @@ export type Database = {
           download_url?: string | null
         }
       }
+      live_feed: {
+        Row: {
+          id: string
+          title: string
+          description: string
+          link: string
+          source: string
+          category: 'music' | 'festival' | 'news'
+          pub_date: string
+          guid: string
+          image_url?: string | null
+          author?: string | null
+          tags?: string[] | null
+          read_time?: number | null
+          sentiment?: 'positive' | 'negative' | 'neutral' | null
+          priority?: number | null
+          trending?: boolean | null
+          featured?: boolean | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          description: string
+          link: string
+          source: string
+          category?: string
+          pub_date: string
+          guid: string
+          image_url?: string | null
+          author?: string | null
+          tags?: string[] | null
+          read_time?: number | null
+          sentiment?: string | null
+          priority?: number | null
+          trending?: boolean | null
+          featured?: boolean | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string
+          link?: string
+          source?: string
+          category?: string
+          pub_date?: string
+          guid?: string
+          image_url?: string | null
+          author?: string | null
+          tags?: string[] | null
+          read_time?: number | null
+          sentiment?: string | null
+          priority?: number | null
+          trending?: boolean | null
+          featured?: boolean | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
   }
 }
@@ -167,3 +229,4 @@ export type FestivalVote = Database['public']['Tables']['festival_votes']['Row']
 export type Challenge = Database['public']['Tables']['challenges']['Row']
 export type DjSettings = Database['public']['Tables']['dj_settings']['Row']
 export type MarketplacePurchase = Database['public']['Tables']['marketplace_purchases']['Row']
+export type LiveFeedItem = Database['public']['Tables']['live_feed']['Row']

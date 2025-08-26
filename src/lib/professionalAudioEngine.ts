@@ -100,7 +100,10 @@ export class ProfessionalAudioEngine {
         color: this.getHotCueColor(i)
       })),
       quantize: true,
-      quantizeGrid: 16 // 16th notes
+      quantizeGrid: 16, // 16th notes
+      isCued: false,
+      isSync: false,
+      loopLength: 0
     }
 
     this.initializeAudioChain()
@@ -349,7 +352,7 @@ export class ProfessionalAudioEngine {
     
     for (let i = 0; i < channelData.length - windowSize; i += windowSize) {
       const window = channelData.slice(i, i + windowSize)
-      const spectrum = this.fft(window)
+      const spectrum = this.fft(Array.from(window))
       
       // Map frequencies to chromagram
       for (let bin = 0; bin < spectrum.length / 2; bin++) {
@@ -396,7 +399,7 @@ export class ProfessionalAudioEngine {
     
     for (let i = 0; i < channelData.length - windowSize; i += hopSize) {
       const window = channelData.slice(i, i + windowSize)
-      const spectrum = this.fft(window)
+      const spectrum = this.fft(Array.from(window))
       
       let numerator = 0
       let denominator = 0
@@ -522,7 +525,7 @@ export class ProfessionalAudioEngine {
     for (let i = 0; i < channelData.length - windowSize; i += hopSize) {
       const window = channelData.slice(i, i + windowSize)
       const spectrum = this.fft(Array.from(window))
-      const magnitudes = []
+      const magnitudes: number[] = []
       
       for (let bin = 0; bin < spectrum.length / 2; bin++) {
         magnitudes.push(Math.sqrt(spectrum[bin * 2] ** 2 + spectrum[bin * 2 + 1] ** 2))

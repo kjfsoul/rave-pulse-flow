@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { profileOperations } from "@/lib/database";
+import { profileOperations, activityOperations } from "@/lib/database";
 import { toast } from "sonner";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import BottomNavigation from "@/components/BottomNavigation";
@@ -53,7 +53,7 @@ const quizQuestions: QuizQuestion[] = [
 ];
 
 const ArchetypeQuiz = () => {
-  const { user, updateProfile } = useAuth();
+  const { user, updateProfile, refreshProfile } = useAuth();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [currentVibe, setCurrentVibe] = useState<"fire" | "frost" | "wave" | null>(null);
@@ -89,9 +89,43 @@ const ArchetypeQuiz = () => {
         setIsSaving(true);
         try {
           console.log('Attempting to save archetype:', winner, 'for user:', user.id);
-          await updateProfile({ archetype: winner });
-          console.log('Archetype saved successfully');
-          toast.success(`Archetype "${winner}" saved to your profile!`);
+          
+          // Save archetype and award PLUR points
+          const profile = await profileOperations.getProfile(user.id);
+          if (!profile) {
+            throw new Error('Profile not found');
+          }
+          
+          // Update archetype using the dedicated method
+          const archetypeSaved = await profileOperations.updateArchetype(user.id, winner);
+          if (!archetypeSaved) {
+            throw new Error('Failed to save archetype');
+          }
+          
+          // Update PLUR points
+          const pointsUpdated = await profileOperations.updatePLURPoints(user.id, profile.plur_points + 50);
+          if (!pointsUpdated) {
+            throw new Error('Failed to update PLUR points');
+          }
+          
+          // Refresh the profile in AuthContext to ensure consistency
+          await refreshProfile();
+          
+          console.log('Archetype and PLUR points saved successfully');
+          
+          // Log the archetype selection
+          try {
+            await activityOperations.logActivity(
+              user.id,
+              'archetype_selected',
+              { archetype: winner }
+            );
+            console.log('Activity logged successfully');
+          } catch (activityError) {
+            console.warn('Failed to log activity:', activityError);
+          }
+          
+          toast.success(`Archetype "${winner}" saved to your profile! +50 PLUR points awarded!`);
         } catch (error) {
           console.error('Error saving archetype:', error);
           console.error('Error details:', JSON.stringify(error, null, 2));

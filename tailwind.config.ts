@@ -18,6 +18,14 @@ export default {
 				'2xl': '1400px'
 			}
 		},
+		fontFamily: {
+			'orbitron': ['Orbitron', 'monospace'],
+			'rajdhani': ['Rajdhani', 'sans-serif'],
+			'audiowide': ['Audiowide', 'monospace'],
+			'sans': ['Rajdhani', 'system-ui', 'sans-serif'],
+			'mono': ['Orbitron', 'monospace'],
+			'display': ['Audiowide', 'monospace']
+		},
 		extend: {
 			colors: {
 				border: 'hsl(var(--border))',

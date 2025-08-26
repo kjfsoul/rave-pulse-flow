@@ -17,6 +17,7 @@ import DJMixStation from "./pages/DJMixStation";
 import Profile from "./pages/Profile";
 import ShuffleChallengePage from "./pages/ShuffleChallengePage";
 import ProfessionalDJStationPage from "./pages/ProfessionalDJStationPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ScrollToTop from "./components/ScrollToTop";
 // import AudioTestComponent from "./components/audio-ui/AudioTestComponent";
 
@@ -46,6 +47,7 @@ const App = () => (
                 <Route path="/pro-dj-station" element={<ProfessionalDJStationPage />} />
                 <Route path="/shuffle-challenge" element={<ShuffleChallengePage />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 {/* <Route path="/audio-test" element={<AudioTestComponent />} /> */}
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
