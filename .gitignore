@@ -51,4 +51,3 @@ venv_crewai/*
 .venv*
 .env.crew
 .env.example
-
