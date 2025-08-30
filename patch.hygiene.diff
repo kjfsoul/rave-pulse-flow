@@ -1,0 +1,83 @@
+  diff --git a/DECISIONS.md b/DECISIONS.md
+  new file mode 100644
+  index 0000000..b815e87
+  --- /dev/null
+  +++ b/DECISIONS.md
+  @@ -0,0 +1,15 @@
+  +# Architectural Decision Records
+  +
+  +This file logs significant architectural decisions for the project.
+  +
+  +## ADR-001: Codebase Hygiene - Archive Unused Scripts and Notes
+  +
+  +Date: 2025-08-30
+  +
+  +Status: Proposed
+  +
+  +Context: The root directory contained numerous scripts and documentation files that were not part
+  of the application's build or runtime. This cluttered the project and made it difficult to
+  navigate.
+  +
+  +Decision:
+  +- Relocate one-off test scripts (quick-test.js, test-rss-*.js, verify-connection.js) to an attic/
+  directory to preserve them for historical reference without cluttering the root.
+  +- Move developer notes and agent instructions (claude_code_instructions.md, GEMINI.md) to a
+  docs/dev/ directory to centralize development-related documentation.
+  +- Consolidate tests from the deprecated src/test directory into src/__tests__.
+  +
+  +Consequences: The project root is cleaner. All application code, tests, and documentation are now
+  in their conventional locations.
+  diff --git a/claude_code_instructions.md b/docs/dev/claude_code_instructions.md
+  similarity index 100%
+  rename from claude_code_instructions.md
+  rename to docs/dev/claude_code_instructions.md
+  diff --git a/GEMINI.md b/docs/dev/GEMINI.md
+  similarity index 100%
+  rename from GEMINI.md
+  rename to docs/dev/GEMINI.md
+  diff --git a/playwright.config.ts b/playwright.config.ts
+  index 33b8e3f..a3f6e0c 100644
+  --- a/playwright.config.ts
+  +++ b/playwright.config.ts
+  @@ -1,6 +1,6 @@
+   import { defineConfig, devices } from '@playwright/test';
+
+   export default defineConfig({
+   - testDir: './tests',
+   + testDir: './tests/e2e',
+     fullyParallel: true,
+     forbidOnly: !!process.env.CI,
+     retries: process.env.CI ? 2 : 0,
+  diff --git a/quick-test.js b/attic/quick-test.js
+  similarity index 100%
+  rename from quick-test.js
+  rename to attic/quick-test.js
+  diff --git a/src/test/App.test.tsx b/src/__tests__/App.test.tsx
+  similarity index 100%
+  rename from src/test/App.test.tsx
+  rename to src/__tests__/App.test.tsx
+  diff --git a/test-rss-connection.js b/attic/test-rss-connection.js
+  similarity index 100%
+  rename from test-rss-connection.js
+  rename to attic/test-rss-connection.js
+  diff --git a/test-rss-functionality.js b/attic/test-rss-functionality.js
+  similarity index 100%
+  rename from test-rss-functionality.js
+  rename to attic/test-rss-functionality.js
+  diff --git a/verify-connection.js b/attic/verify-connection.js
+  similarity index 100%
+  rename from verify-connection.js
+  rename to attic/verify-connection.js
+  diff --git a/vitest.config.ts b/vitest.config.ts
+  index 35c3f9c..c89b3e9 100644
+  --- a/vitest.config.ts
+  +++ b/vitest.config.ts
+  @@ -8,6 +8,6 @@
+     test: {
+       globals: true,
+       environment: 'jsdom',
+   - setupFiles: ['./src/__tests__/setup.ts'],
+   + include: ['src/__tests__/**/*.test.ts?(x)'],
+     },
+   });
+  >>>PATCH
