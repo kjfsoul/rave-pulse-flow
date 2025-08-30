@@ -1,0 +1,13 @@
+Implement feature "{{feature_name}}": {{one-paragraph spec}}.
+
+Policy:
+- First output PLAN only:
+  - Impacted files (from code_index), new files, data/schema changes.
+  - Tests to add/update (unit + e2e).
+  - Acceptance criteria tied to ACCEPTANCE_CHECKLIST.md.
+- Wait for APPROVE PLAN.
+- Then output DIFF PREVIEW in small steps (scaffold -> logic -> tests). Include migrations if needed.
+- Provide PR title/body and the exact commands to validate locally (typecheck, test, e2e, build).
+- If CI fails, attempt up to 2 fix iterations with concrete changes; if still failing, stop and ASK targeted questions.
+
+Begin with PLAN. Do not write files.

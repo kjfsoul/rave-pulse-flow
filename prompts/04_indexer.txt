@@ -1,0 +1,32 @@
+Create a /tools/indexer package (Node+TS) that produces:
+
+- code_index.json:
+  {
+    "files": [
+      {
+        "path": "src/components/Button.tsx",
+        "kind": "react-component",
+        "exports": ["Button"],
+        "defaultExport": false,
+        "imports": ["react", "./Icon"],
+        "routes": [],
+        "testFiles": ["src/components/__tests__/Button.test.tsx"],
+        "usesSupabase": false,
+        "lastCommit": "<git-hash>"
+      }
+    ]
+  }
+
+- component_map.json:
+  {
+    "Button": { "path": "src/components/Button.tsx", "props": {"variant":"primary"|"secondary"}, "stories": ["src/components/Button.stories.tsx"] }
+  }
+
+Implementation notes:
+- Use ts-morph or TS Compiler API to list exports/imports/JSX components.
+- Route discovery: Next.js app/pages routing OR React Router createBrowserRouter patterns.
+- SQL scan: /supabase/migrations and *.sql (collect CREATE TABLE/FUNCTION/TRIGGER names).
+- CLI: `node tools/indexer/index.js --write` to emit files at repo root.
+- Add npm scripts and /tools/indexer/README.md.
+
+Deliver unified diffs for all new files and package.json script additions. End with PR title/description and “AWAITING APPLY APPROVAL”.

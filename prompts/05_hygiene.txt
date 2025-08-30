@@ -1,0 +1,9 @@
+Propose a Hygiene PR (diff preview only):
+- For each candidate dead file identified, choose:
+  - Move to attic/  OR  git rm
+- Include justification per file: no inbound imports, not used by build/tests/CI, replaced by <path> at commit <hash>.
+- Update DECISIONS.md with "Removed/Archived" entries (path, reason, PR link placeholder).
+- Update any imports to avoid build breaks; add unit tests if required.
+- Keep PR within small-diff limits; split if needed.
+
+Output: unified diff preview, PR title/description, rollback plan. End with “AWAITING APPLY APPROVAL”.

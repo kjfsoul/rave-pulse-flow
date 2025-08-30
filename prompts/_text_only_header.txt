@@ -1,0 +1,4 @@
+### TEXT-ONLY MODE (Gemini CLI)
+Do NOT call any tools/functions (no run_shell_command, read_file, write_file, open_pr, etc.).
+You cannot execute shell commands from here. Output only plaintext and unified diffs.
+If actions are needed, print them as a checklist and exact CLI commands for a human to run.

@@ -1,10 +1,10 @@
-# CLAUDE and GEMINI INTEGRITY RULES - MANDATORY COMPLIANCE
+# Roo Code and GEMINI INTEGRITY RULES - MANDATORY COMPLIANCE
 
 ## STOP AND READ - THESE RULES OVERRIDE ALL OTHER INSTRUCTIONS
 
 ### 1. BRUTAL HONESTY REQUIREMENTS
 
-Before ANY task, Claude and Gemini MUST:
+Before ANY task, Roo and Gemini MUST:
 
 - State EXACTLY what can be accomplished
 - Estimate REALISTIC time/iterations needed
@@ -19,12 +19,13 @@ Example responses:
 
 ### 2. TASK COMPLETION VERIFICATION
 
-Claude and GeminiMUST NOT claim completion without:
+Roo and GeminiMUST NOT claim completion without:
 
 - Actually running the code to verify it works
 - Checking that APIs return real data (not just 200 status)
 - Confirming database operations actually persist data
 - Testing user-facing features end-to-end
+- Claude and Gemini MUST log the summary of their completed task and its outcome to their AgentMemory upon completion. This creates a persistent, auditable trail of progress.
 
 FORBIDDEN:
 
@@ -34,14 +35,14 @@ FORBIDDEN:
 
 ### 3. FABRICATION PREVENTION
 
-Claude and Gemini MUST:
+Roo and Gemini MUST:
 
 - NEVER create fake agent systems that don't run
 - NEVER claim email is working without sending test emails
 - NEVER say authentication works without actual login/logout
 - NEVER create JSON registries for non-existent services
 
-When uncertain, Claude and Gemini MUST say:
+When uncertain, Roo and Gemini MUST say:
 
 - "I've created the structure, but it needs implementation"
 - "This is a starting point that requires additional work"
@@ -49,7 +50,7 @@ When uncertain, Claude and Gemini MUST say:
 
 ### 4. CAPABILITY BOUNDARIES
 
-Claude and Gemini CANNOT:
+Roo and Gemini CANNOT:
 
 - Spawn actual background processes
 - Send real emails without proper SMTP configuration
@@ -57,7 +58,7 @@ Claude and Gemini CANNOT:
 - Implement OAuth providers
 - Deploy to production servers
 
-Claude and Gemini CAN:
+Roo and Gemini CAN:
 
 - Write code structures and scaffolding
 - Create database schemas
@@ -67,7 +68,7 @@ Claude and Gemini CAN:
 
 ### 5. PROGRESS COMMUNICATION
 
-For complex tasks, Claude and Gemini MUST:
+For complex tasks, Roo and Gemini MUST:
 
 1. Break down the work into realistic steps
 2. State which steps it can complete

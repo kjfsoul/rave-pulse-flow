@@ -69,74 +69,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-bass-dark relative pb-20">
-      {/* RSS Feed Streamer */}
-      <RSSFeedStreamer />
-
-      {/* Top Right Buttons */}
-      <motion.div
-        className="absolute top-4 right-4 flex gap-2 z-50"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        {!user ? (
-          <>
-            <Button
-              onClick={() => navigate('/profile')}
-              variant="outline"
-              size="sm"
-              className="bg-bass-medium/80 backdrop-blur-sm border-purple-500/30 text-white hover:bg-purple-600/20 hover:border-purple-400"
-            >
-              <LogIn className="w-4 h-4 mr-1" />
-              Sign In
-            </Button>
-            <Button
-              onClick={() => navigate('/profile')}
-              size="sm"
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
-            >
-              <UserPlus className="w-4 h-4 mr-1" />
-              Sign Up
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button
-              onClick={() => navigate('/dj-mix')}
-              size="sm"
-              className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
-            >
-              🎛️ DJ Studio
-            </Button>
-            <Button
-              onClick={() => navigate('/pro-dj-station')}
-              size="sm"
-              className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white"
-            >
-              🏢 Pro Studio
-            </Button>
-            <Button
-              onClick={() => navigate('/shuffle-challenge')}
-              size="sm"
-              className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white"
-            >
-              <Trophy className="w-4 h-4 mr-1" />
-              Challenges
-            </Button>
-            <Button
-              onClick={() => navigate('/profile')}
-              variant="outline"
-              size="sm"
-              className="bg-bass-medium/80 backdrop-blur-sm border-cyan-500/30 text-white hover:bg-cyan-600/20 hover:border-cyan-400"
-            >
-              Profile
-            </Button>
-          </>
-        )}
-      </motion.div>
-
       {/* Enhanced Hero Section with Rave Drop */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 z-20">
+          <RSSFeedStreamer />
+        </div>
         {/* Laser Rave Background */}
         <LaserRaveBackground />
 
@@ -242,39 +179,7 @@ const Index = () => {
                   />
                 </motion.button>
 
-                {/* DJ Mix Studio Button */}
-                <motion.button
-                  onClick={() => navigate('/dj-mix')}
-                  className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xl px-12 py-6 rounded-full font-bold hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 relative overflow-hidden group"
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 1.4, duration: 1 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <motion.span
-                    className="relative z-10 flex items-center"
-                    animate={{
-                      y: [0, -2, 0],
-                    }}
-                    transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                  >
-                    🎛️ DJ Studio
-                  </motion.span>
-
-                  {/* Shimmer Effect */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                    initial={{ x: "-100%" }}
-                    animate={{ x: "100%" }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      repeatDelay: 3,
-                      ease: "easeInOut"
-                    }}
-                  />
-                </motion.button>
+                
               </div>
             </>
           ) : (

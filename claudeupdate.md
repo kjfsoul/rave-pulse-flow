@@ -1,5 +1,14 @@
 # CLAUDE UPDATE (Latest Progress and Known Issues)
 
+## Architectural Shift: Deprecation of CrewAI and Implementation of Stateful Agent Memory
+**Date**: August 28, 2025
+
+- **Action**: Removed static CrewAI agent definitions (`agents.py`, `agents_fixed.py`).
+- **New Implementation**: Implemented a new `AgentMemory` system backed by Supabase pgvector to provide persistent, stateful context for all agents.
+- **Impact**: All future agent tasks will leverage this memory system for a more dynamic and context-aware workflow. The old, stateless agent system is now deprecated.
+
+---
+
 ## Progress
 - Bootstrapped project with latest folder structure and audio libraries
 - Archived all external platform contributions

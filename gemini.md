@@ -17,25 +17,9 @@ This document provides the foundational context and rules for working on the EDM
 * **Backend:** Supabase (Auth & Database)
 * **State Management:** TanStack Query & React Context
 
-## 3. Agent Mandates & Workflow
+## 3. Agent Memory System
 
-**A. Core Integrity Rules (See `CLAUDE_INTEGRITY_RULES.md` for full details)**
-
-* NEVER fabricate progress. All work must be verified.
-* Work on ONE microtask at a time from `IMPLEMENTATION_MICROTASKS.md`.
-* Pause for human review after each task.
-
-**B. Agentic Memory Logging (MANDATORY)**
-This is a non-negotiable background task for building agentic memory.
-
-* **Shell Commands:** All terminal commands (`npm`, `git`, `bun`, etc.) **MUST** be prefixed with the `memlog-edm` alias.
-  * **Example:** `memlog-edm npm run build`
-* **Python Code:** This project does not currently require Python. If it is added, all key functions must be instrumented with the `@log_invocation` decorator.
-
-**C. Multi-Agent Synchronization**
-
-* This project is a multi-agent environment (Claude, Gemini, Roo Code).
-* All progress, blockers, and session notes must be tracked in `claudeupdate.md` to ensure seamless handoffs between agents.
+This project now uses a stateful agent architecture. All agents leverage the `AgentMemory` class to persist and retrieve context from a shared knowledge base. When undertaking a task, first query the memory system for relevant context. Upon completion, log a summary of your work and its outcome back into memory.
 
 ## 4. Primary Development Commands
 

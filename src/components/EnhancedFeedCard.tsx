@@ -156,7 +156,7 @@ const EnhancedFeedCard: React.FC<EnhancedFeedCardProps> = ({
       onHoverEnd={onHoverEnd}
       className="relative group"
     >
-      <div className="relative bg-bass-medium/50 border border-neon-purple/20 hover:border-neon-purple/40 transition-all duration-300 cursor-pointer group overflow-hidden h-full rounded-lg">
+      <div className="relative bg-bass-medium/50 border border-neon-purple/20 hover:border-neon-purple/40 transition-all duration-300 cursor-pointer group overflow-hidden h-64 rounded-lg flex flex-col">
         {/* Featured/Trending Badge */}
         <AnimatePresence>
           {(item.featured || item.trending) && (
@@ -193,6 +193,11 @@ const EnhancedFeedCard: React.FC<EnhancedFeedCardProps> = ({
         )}
 
         <CardContent className="p-4">
+          {item.image_url && (
+            <div className="mb-4">
+              <img src={item.image_url} alt={item.title} className="rounded-lg w-full h-auto" loading="lazy" />
+            </div>
+          )}
           <a href={item.link} target="_blank" rel="noopener noreferrer" className="block">
             <div className="flex items-start gap-3">
               {/* Enhanced Source Emoji with Animation */}

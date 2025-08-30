@@ -26,7 +26,7 @@ const LaserRaveBackground = () => {
           key={laser.id}
           className="absolute inset-0 origin-center"
           style={{
-            background: `conic-gradient(from ${laser.angle}deg, transparent 0%, rgba(191, 90, 242, ${laser.opacity}) 1%, transparent 2%, transparent 98%, rgba(6, 255, 165, ${laser.opacity}) 99%, transparent 100%)`,
+            background: `conic-gradient(from ${laser.angle}deg, transparent 0%, rgba(191, 90, 242, ${laser.opacity}) 1%, transparent 2%, transparent 98%, rgba(30, 64, 175, ${laser.opacity}) 99%, transparent 100%)`,
           }}
           animate={{
             rotate: [0, 360],
@@ -76,7 +76,7 @@ const LaserRaveBackground = () => {
             "rgba(0, 0, 0, 0)",
             "rgba(191, 90, 242, 0.1)",
             "rgba(0, 0, 0, 0)",
-            "rgba(6, 255, 165, 0.1)",
+            "rgba(30, 64, 175, 0.1)",
             "rgba(0, 0, 0, 0)",
           ],
         }}

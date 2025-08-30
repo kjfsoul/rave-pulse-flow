@@ -1,0 +1,13 @@
+Execute Stage 1 as a DIFF PREVIEW only (no writes). Output unified diffs for:
+
+- PROJECT_RULES.md: coding standards; error handling & logging; Supabase usage (typed clients, RLS); API versioning; perf budgets; a11y checklist; commit conventions; PR size limits; branching model.
+- ACCEPTANCE_CHECKLIST.md: gates (typecheck, lint, unit, e2e, size-limit); tests required; no public API changes unless specified; security: secrets, parameterized queries.
+- .cursorrules: enforced libs/patterns/naming and do/don’t rules for assistants.
+- .editorconfig, .prettierrc, .eslintrc.js (TS/React/import/order rules), tsconfig.json (strict).
+- .github/workflows/*.yml:
+  - typecheck.yml, lint.yml, test.yml (Vitest/Jest), e2e.yml (Playwright skeleton), size-limit.yml, supabase-diff.yml (runs `npx supabase db diff --local` and fails on unexpected drift).
+
+Also show the npm script additions to package.json:
+"typecheck", "lint", "format", "test", "e2e", "build", "size", "index:code", "index:components", "ci:all".
+
+Finally, print PR title/description and say: “AWAITING APPLY APPROVAL”.

@@ -9,6 +9,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 3. **NEVER** fabricate features, data, or progress
 4. **ASK** for clarification if context is missing
 
+## Agent Memory System
+
+This project now uses a stateful agent architecture. All agents leverage the `AgentMemory` class to persist and retrieve context from a shared knowledge base. When undertaking a task, first query the memory system for relevant context. Upon completion, log a summary of your work and its outcome back into memory.
+
+
 ## 🎉 **CURRENT PROJECT STATUS: MVP COMPLETE**
 
 **All 10 core authentication and persistence tasks completed (Jan 10, 2025)**

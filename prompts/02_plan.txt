@@ -1,0 +1,22 @@
+Using the audit, draft a 3-stage plan with explicit checkpoints. Do NOT edit files.
+
+Stages
+- Stage 1: Guardrails PR
+  - Create/refresh: PROJECT_RULES.md, ACCEPTANCE_CHECKLIST.md, .editorconfig, .eslintrc, .prettierrc, tsconfig.json, .cursorrules
+  - Add GitHub Actions: typecheck.yml, lint.yml, test.yml (Vitest/Jest), e2e.yml (Playwright), size-limit.yml, supabase-diff.yml
+  - npm scripts: typecheck, lint, format, test, e2e, build, size, index:code, index:components, ci:all
+- Stage 2: Indexing PR
+  - Add /tools/indexer (Node/TS, ts-morph or TS Compiler API + simple SQL parser)
+  - Outputs: code_index.json, component_map.json; CLI: node tools/indexer/index.js --write
+- Stage 3: Hygiene PR
+  - For each candidate dead file: propose attic/ move or deletion via PR; justify with imports graph & build refs; update DECISIONS.md; no runtime changes without tests.
+
+For each stage output:
+- Branch name
+- PR title
+- PR description
+- File change list
+- Acceptance criteria (CI must pass)
+- Rollback plan
+
+End with: “AWAITING APPROVAL: choose Stage to execute (1/2/3).”

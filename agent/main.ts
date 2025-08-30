@@ -67,7 +67,7 @@ async function runAgentLoop() {
   }
 }
 
-runAgentLoop();import path from 'path';
+// runAgentLoop();import path from 'path';
 import { getNextPendingTask, updateTaskStatus, requeueTask } from './supabaseClient';
 import { submitPromptToClaude } from './claudeClient';
 import { validateCode } from './validation';
@@ -133,4 +133,4 @@ async function runAgentLoop() {
   }
 }
 
-runAgentLoop();
+// runAgentLoop();

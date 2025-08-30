@@ -43,7 +43,7 @@ const App = () => (
                 <Route path="/marketplace" element={<MarketplaceGrid />} />
                 <Route path="/festival" element={<FestivalVotingStage />} />
                 <Route path="/voting" element={<VotingPage />} />
-                <Route path="/dj-mix" element={<DJMixStation />} />
+                
                 <Route path="/pro-dj-station" element={<ProfessionalDJStationPage />} />
                 <Route path="/shuffle-challenge" element={<ShuffleChallengePage />} />
                 <Route path="/profile" element={<Profile />} />

@@ -11,7 +11,7 @@ const BottomNavigation = () => {
 
   const navItems = [
     { icon: Home, label: "Explore", path: "/" },
-    { icon: Headphones, label: "Studio", path: "/dj-mix" },
+    { icon: Headphones, label: "Studio", path: "/pro-dj-station" },
     { icon: ShoppingBag, label: "Marketplace", path: "/marketplace" },
     { icon: Music, label: "Festival", path: "/festival" },
     { icon: Dna, label: "Archetype", path: "/archetype-quiz" },

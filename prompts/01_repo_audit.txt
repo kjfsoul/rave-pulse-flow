@@ -1,0 +1,26 @@
+Goal: produce a “State of the Repo” report and a machine-usable plan. DO NOT modify files.
+
+Tasks
+1) Inventory (read-only):
+   - package.json workspaces & scripts; tsconfig paths; .env.example keys; .github/workflows; any n8n/Supabase config; Dockerfiles/IaC; test/e2e setup; seed data; Python folders.
+   - Dependencies map (runtime vs dev); flag version drift/duplicates.
+   - Detect framework entrypoints (Next.js/Vite), API routes, DB clients, migration files.
+2) Plan a code index (preview only; no writes yet):
+   - For each TS/TSX/JS/JSX: {path, exports, defaultExport?, componentName, dependsOn[], routes, testFiles[]}.
+   - For SQL/migrations: list tables/functions/triggers (names and file paths).
+   - Propose JSON schemas: code_index.json and component_map.json.
+3) Quality signals:
+   - Type strictness; ESLint presence; # of unit/e2e tests; CI coverage; size of public API surface.
+   - Candidate dead/unused files (not imported anywhere; legacy/; large binaries).
+   - Risks: weak typing hotspots; direct DB calls; missing error handling; secrets in code.
+4) Memory/guardrails present/absent: PROJECT_RULES.md, .cursorrules, CONTRIBUTING.md, etc.
+
+Deliver
+- SECTION A: High-level summary (bullets)
+- SECTION B: Risks & Opportunities matrix (Impact High/Med/Low × Effort)
+- SECTION C: Proposed index schemas (JSON examples)
+- SECTION D: Missing guardrails
+- SECTION E: Candidate dead files (LIST ONLY, NO DELETION) + justification
+- SECTION F: Clarifying questions for maintainer
+
+Operate in read-only mode.
