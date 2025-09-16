@@ -107,6 +107,8 @@ const ProfessionalDJStation: React.FC = () => {
     broadcasting: false
   })
   
+  const [masterDeck, setMasterDeck] = useState<'A' | 'B' | null>(null)
+
   // Visual feedback
   const [vuMeterData, setVuMeterData] = useState<{
     deckA: number[]
@@ -326,9 +328,21 @@ const ProfessionalDJStation: React.FC = () => {
       case 'isPlaying':
         if (value) {
           deckAEngineRef.current.play()
+          if (!masterDeck) setMasterDeck('A')
         } else {
           deckAEngineRef.current.pause()
+          if (masterDeck === 'A') {
+            setMasterDeck(deckBState.isPlaying ? 'B' : null)
+          }
         }
+        break
+      case 'isSync':
+        if (value && masterDeck && masterDeck !== 'A' && deckBTrack) {
+          deckAEngineRef.current.syncToBPM(deckBTrack.bpm)
+        } else if (!value) {
+          deckAEngineRef.current.resetPitch()
+        }
+        setDeckAState(deckAEngineRef.current.getState())
         break
       case 'volume':
         deckAEngineRef.current.setVolume(value)
@@ -354,7 +368,7 @@ const ProfessionalDJStation: React.FC = () => {
         }
         break
     }
-  }, [])
+  }, [masterDeck, deckBState.isPlaying, deckBTrack])
 
   const handleDeckBControlChange = useCallback((key: string, value: any) => {
     setDeckBState(prev => ({ ...prev, [key]: value }))
@@ -365,9 +379,21 @@ const ProfessionalDJStation: React.FC = () => {
       case 'isPlaying':
         if (value) {
           deckBEngineRef.current.play()
+          if (!masterDeck) setMasterDeck('B')
         } else {
           deckBEngineRef.current.pause()
+          if (masterDeck === 'B') {
+            setMasterDeck(deckAState.isPlaying ? 'A' : null)
+          }
         }
+        break
+      case 'isSync':
+        if (value && masterDeck && masterDeck !== 'B' && deckATrack) {
+          deckBEngineRef.current.syncToBPM(deckATrack.bpm)
+        } else if (!value) {
+          deckBEngineRef.current.resetPitch()
+        }
+        setDeckBState(deckBEngineRef.current.getState())
         break
       case 'volume':
         deckBEngineRef.current.setVolume(value)
@@ -393,7 +419,7 @@ const ProfessionalDJStation: React.FC = () => {
         }
         break
     }
-  }, [])
+  }, [masterDeck, deckAState.isPlaying, deckATrack])
 
   // Hot cue handlers
   const handleDeckAHotCue = useCallback((index: number, action: 'set' | 'trigger' | 'delete') => {
@@ -596,11 +622,10 @@ const ProfessionalDJStation: React.FC = () => {
             trackAnalysis={deckATrack}
             onControlChange={handleDeckAControlChange}
             onHotCueTrigger={handleDeckAHotCue}
-            onJogWheel={(direction, intensity) => {
-              // Implement jog wheel scratching/pitch bend
-              const pitchBend = direction === 'forward' ? intensity * 5 : -intensity * 5
-              deckAEngineRef.current?.setPitch(deckAState.pitch + pitchBend)
-            }}
+            onJogWheel={(delta) => deckAEngineRef.current?.scratch(delta)}
+            onPitchBend={(amount) => deckAEngineRef.current?.pitchBend(amount)}
+            onJogStart={() => deckAEngineRef.current?.startScratch()}
+            onJogEnd={() => deckAEngineRef.current?.endScratch()}
             onBeatJump={(beats) => {
               // Implement beat jumping
               const newPosition = deckAState.position + (beats * 60 / (deckATrack?.bpm || 128))
@@ -616,6 +641,7 @@ const ProfessionalDJStation: React.FC = () => {
                 setDeckAState(deckAEngineRef.current.getState())
               }
             }}
+            isMaster={masterDeck === 'A'}
           />
         </div>
 
@@ -756,10 +782,10 @@ const ProfessionalDJStation: React.FC = () => {
             trackAnalysis={deckBTrack}
             onControlChange={handleDeckBControlChange}
             onHotCueTrigger={handleDeckBHotCue}
-            onJogWheel={(direction, intensity) => {
-              const pitchBend = direction === 'forward' ? intensity * 5 : -intensity * 5
-              deckBEngineRef.current?.setPitch(deckBState.pitch + pitchBend)
-            }}
+            onJogWheel={(delta) => deckBEngineRef.current?.scratch(delta)}
+            onPitchBend={(amount) => deckBEngineRef.current?.pitchBend(amount)}
+            onJogStart={() => deckBEngineRef.current?.startScratch()}
+            onJogEnd={() => deckBEngineRef.current?.endScratch()}
             onBeatJump={(beats) => {
               const newPosition = deckBState.position + (beats * 60 / (deckBTrack?.bpm || 128))
               deckBEngineRef.current?.seekTo(newPosition)
@@ -774,6 +800,7 @@ const ProfessionalDJStation: React.FC = () => {
                 setDeckBState(deckBEngineRef.current.getState())
               }
             }}
+            isMaster={masterDeck === 'B'}
           />
         </div>
       </div>
