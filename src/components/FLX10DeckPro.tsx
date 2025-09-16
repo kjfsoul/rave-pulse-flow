@@ -34,9 +34,13 @@ interface FLX10DeckProProps {
   trackAnalysis: TrackAnalysis | null
   onControlChange: (key: string, value: any) => void
   onHotCueTrigger: (index: number, action: 'set' | 'trigger' | 'delete') => void
-  onJogWheel: (direction: 'forward' | 'backward', intensity: number) => void
+  onJogWheel: (delta: number) => void
+  onPitchBend: (amount: number) => void
+  onJogStart: () => void
+  onJogEnd: () => void
   onBeatJump: (beats: number) => void
   onLoop: (action: 'in' | 'out' | 'toggle' | 'exit') => void
+  isMaster: boolean
   className?: string
 }
 
@@ -117,8 +121,12 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
   onControlChange,
   onHotCueTrigger,
   onJogWheel,
+  onPitchBend,
+  onJogStart,
+  onJogEnd,
   onBeatJump,
   onLoop,
+  isMaster,
   className = ''
 }) => {
   const [showManual, setShowManual] = useState(false)
@@ -629,7 +637,7 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
 
   // Professional jog wheel interaction
   const handleJogInteraction = useCallback((event: React.MouseEvent) => {
-    if (!jogRef.current) return
+    if (!jogRef.current || !isDraggingJog) return
     
     const rect = jogRef.current.getBoundingClientRect()
     const centerX = rect.left + rect.width / 2
@@ -641,37 +649,38 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
     const distance = Math.sqrt(Math.pow(clientX - centerX, 2) + Math.pow(clientY - centerY, 2))
     const radius = rect.width / 2
     
-    if (isDraggingJog) {
-      const deltaAngle = angle - lastJogAngle
-      const normalizedDelta = ((deltaAngle + 180) % 360) - 180
-      const intensity = Math.abs(normalizedDelta) / 180
-      
-      // Outer ring: pitch bend, Inner ring: scratching
-      if (distance > radius * 0.7) {
-        onJogWheel(normalizedDelta > 0 ? 'forward' : 'backward', intensity * 0.02)
-      } else {
-        onJogWheel(normalizedDelta > 0 ? 'forward' : 'backward', intensity * 0.1)
-      }
-      
-      setJogRotation(prev => prev + normalizedDelta)
-      setLastJogAngle(angle)
+    const deltaAngle = angle - lastJogAngle
+    const normalizedDelta = ((deltaAngle + 180) % 360) - 180
+
+    // Outer ring: pitch bend, Inner ring: scratching
+    if (distance > radius * 0.7) {
+      onPitchBend(normalizedDelta * 0.01) // Smaller multiplier for subtle pitch bend
+    } else {
+      onJogWheel(normalizedDelta * 0.1) // Larger multiplier for scratch effect
     }
-  }, [isDraggingJog, lastJogAngle, onJogWheel])
+
+    setJogRotation(prev => prev + normalizedDelta)
+    setLastJogAngle(angle)
+  }, [isDraggingJog, lastJogAngle, onJogWheel, onPitchBend])
 
   const startJogDrag = useCallback((event: React.MouseEvent) => {
     if (!jogRef.current) return
     
+    onJogStart()
     setIsDraggingJog(true)
     const rect = jogRef.current.getBoundingClientRect()
     const centerX = rect.left + rect.width / 2
     const centerY = rect.top + rect.height / 2
     const angle = Math.atan2(event.clientY - centerY, event.clientX - centerX) * (180 / Math.PI)
     setLastJogAngle(angle)
-  }, [])
+  }, [onJogStart])
 
   const stopJogDrag = useCallback(() => {
-    setIsDraggingJog(false)
-  }, [])
+    if (isDraggingJog) {
+      setIsDraggingJog(false)
+      onJogEnd()
+    }
+  }, [isDraggingJog, onJogEnd])
 
   // Professional waveform rendering
   const renderProfessionalWaveform = () => {
@@ -698,8 +707,16 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
         </div>
         
         {/* Playhead indicator */}
-        <div className={`absolute top-0 bottom-0 w-0.5 bg-white shadow-lg transform transition-transform duration-75`} 
-             style={{ left: '50%' }} />
+        <div
+          className="absolute top-0 bottom-0 w-0.5 bg-white/80 shadow-lg backdrop-filter backdrop-invert"
+          style={{
+            left:
+              trackAnalysis && trackAnalysis.duration > 0
+                ? `${(controls.position / trackAnalysis.duration) * 100}%`
+                : "0%",
+            transition: 'left 100ms linear',
+          }}
+        />
              
         {/* Beat grid markers */}
         {trackAnalysis.analyzedData?.beatgrid?.map((beat, i) => (
@@ -770,9 +787,11 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
         {/* Header with Controls */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
-            <div className={`px-6 py-3 bg-gradient-to-r ${deckColor} rounded-xl shadow-lg`}>
+            <div className={`px-6 py-3 bg-gradient-to-r ${deckColor} rounded-xl shadow-lg flex items-center space-x-3`}>
               <h2 className="text-2xl font-bold text-white">DECK {deckId}</h2>
-              <div className="text-xs text-white/80">Pioneer DDJ-FLX10</div>
+              {isMaster && (
+                <Badge className="bg-yellow-500 text-black font-bold animate-pulse">MASTER</Badge>
+              )}
             </div>
             
             {trackAnalysis && (
@@ -967,8 +986,9 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
                     step="0.1"
                     value={controls.pitch}
                     onChange={(e) => onControlChange('pitch', parseFloat(e.target.value))}
-                    className={`writing-mode-vertical-lr h-full w-6 bg-gray-800 rounded-full appearance-none cursor-pointer slider-${accentColor}`}
+                    className={`writing-mode-vertical-lr h-full w-6 bg-gray-800 rounded-full appearance-none slider-${accentColor} ${controls.isSync ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
                     style={{ writingMode: 'vertical-lr' }}
+                    disabled={controls.isSync}
                   />
                 </div>
               </div>
@@ -992,52 +1012,61 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
           </div>
         </div>
 
-        {/* Professional Transport Controls */}
-        <div className="mb-8 flex justify-center space-x-4">
-          <motion.button
-            className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 border-2 ${
-              controls.isPlaying
-                ? `bg-gradient-to-br from-red-600 to-red-800 border-red-400 text-white shadow-lg shadow-red-500/50`
-                : `bg-gradient-to-br from-green-600 to-green-800 border-green-400 text-white shadow-lg shadow-green-500/50`
-            }`}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleTransportControl(controls.isPlaying ? 'pause' : 'play')}
-          >
-            <div className="flex items-center space-x-2">
-              {controls.isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
-              <span>{controls.isPlaying ? 'PAUSE' : 'PLAY'}</span>
-            </div>
-          </motion.button>
+        {/* Professional Transport & Loop Controls */}
+        <div className="mb-8">
+          <div className="flex justify-center space-x-4">
+            <motion.button
+              className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 border-2 ${
+                controls.isPlaying
+                  ? `bg-gradient-to-br from-red-600 to-red-800 border-red-400 text-white shadow-lg shadow-red-500/50`
+                  : `bg-gradient-to-br from-green-600 to-green-800 border-green-400 text-white shadow-lg shadow-green-500/50`
+              }`}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handleTransportControl(controls.isPlaying ? 'pause' : 'play')}
+            >
+              <div className="flex items-center space-x-2">
+                {controls.isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+                <span>{controls.isPlaying ? 'PAUSE' : 'PLAY'}</span>
+              </div>
+            </motion.button>
 
-          <motion.button
-            className={`px-8 py-4 rounded-xl font-bold text-lg border-2 transition-all duration-200 ${
-              controls.isCued
-                ? `bg-gradient-to-br from-${accentColor}-600 to-${accentColor}-800 border-${accentColor}-400 text-white shadow-lg`
-                : 'bg-gray-700 border-gray-500 text-gray-300 hover:bg-gray-600'
-            }`}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => onControlChange('isCued', !controls.isCued)}
-          >
-            <div className="flex items-center space-x-2">
-              <RotateCcw className="w-6 h-6" />
-              <span>CUE</span>
-            </div>
-          </motion.button>
+            <motion.button
+              className={`px-8 py-4 rounded-xl font-bold text-lg border-2 transition-all duration-200 ${
+                controls.isCued
+                  ? `bg-gradient-to-br from-${accentColor}-600 to-${accentColor}-800 border-${accentColor}-400 text-white shadow-lg`
+                  : 'bg-gray-700 border-gray-500 text-gray-300 hover:bg-gray-600'
+              }`}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onControlChange('isCued', !controls.isCued)}
+            >
+              <div className="flex items-center space-x-2">
+                <RotateCcw className="w-6 h-6" />
+                <span>CUE</span>
+              </div>
+            </motion.button>
 
-          <motion.button
-            className={`px-8 py-4 rounded-xl font-bold text-lg border-2 transition-all duration-200 ${
-              controls.isSync
-                ? 'bg-gradient-to-br from-yellow-600 to-yellow-800 border-yellow-400 text-white shadow-lg shadow-yellow-500/50'
-                : 'bg-gray-700 border-gray-500 text-gray-300 hover:bg-gray-600'
-            }`}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => onControlChange('isSync', !controls.isSync)}
-          >
-            <div className="flex items-center space-x-2">
-              <Zap className="w-6 h-6" />
-              <span>SYNC</span>
-            </div>
-          </motion.button>
+            <motion.button
+              className={`px-8 py-4 rounded-xl font-bold text-lg border-2 transition-all duration-200 ${
+                controls.isSync
+                  ? 'bg-gradient-to-br from-yellow-600 to-yellow-800 border-yellow-400 text-white shadow-lg shadow-yellow-500/50'
+                  : 'bg-gray-700 border-gray-500 text-gray-300 hover:bg-gray-600'
+              }`}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onControlChange('isSync', !controls.isSync)}
+            >
+              <div className="flex items-center space-x-2">
+                <Zap className="w-6 h-6" />
+                <span>SYNC</span>
+              </div>
+            </motion.button>
+          </div>
+          <div className="flex justify-center space-x-2 mt-4">
+            <Button onClick={() => onLoop('in')} variant="outline" className={`border-${accentColor}-500/30 text-${accentColor}-300`}>LOOP IN</Button>
+            <Button onClick={() => onLoop('out')} variant="outline" className={`border-${accentColor}-500/30 text-${accentColor}-300`}>LOOP OUT</Button>
+            <Button onClick={() => onLoop('toggle')} variant="default" className={`${controls.loopActive ? `bg-${accentColor}-600` : 'bg-gray-700'}`}>
+              {controls.loopActive ? 'EXIT LOOP' : '4-BEAT LOOP'}
+            </Button>
+          </div>
         </div>
 
         {/* Professional Jog Wheel */}

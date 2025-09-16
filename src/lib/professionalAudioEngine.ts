@@ -43,6 +43,8 @@ export interface ProfessionalAudioState {
   }>
   quantize: boolean
   quantizeGrid: number
+  isScratching: boolean
+  manualPitch: number
   
   // Additional FLX10DeckPro compatibility fields
   isCued: boolean
@@ -101,6 +103,8 @@ export class ProfessionalAudioEngine {
       })),
       quantize: true,
       quantizeGrid: 16, // 16th notes
+      isScratching: false,
+      manualPitch: 0,
       isCued: false,
       isSync: false,
       loopLength: 0
@@ -638,9 +642,14 @@ export class ProfessionalAudioEngine {
     this.sourceNode.buffer = this.currentTrack.buffer
     this.sourceNode.connect(this.gainNode)
     
-    // Apply pitch shift if needed
-    if (this.state.pitch !== 0) {
-      this.sourceNode.playbackRate.value = 1 + (this.state.pitch / 100)
+    // Apply pitch shift
+    this.sourceNode.playbackRate.value = 1 + (this.state.pitch / 100)
+
+    // Apply loop settings
+    if (this.state.loopActive && this.state.loopEnd > this.state.loopStart) {
+      this.sourceNode.loop = true
+      this.sourceNode.loopStart = this.state.loopStart
+      this.sourceNode.loopEnd = this.state.loopEnd
     }
     
     this.sourceNode.start(0, this.state.position)
@@ -653,6 +662,7 @@ export class ProfessionalAudioEngine {
   pause(): void {
     if (this.sourceNode) {
       this.sourceNode.stop()
+      this.sourceNode.disconnect()
       this.sourceNode = null
     }
     this.state.isPlaying = false
@@ -669,10 +679,27 @@ export class ProfessionalAudioEngine {
   }
 
   setPitch(pitch: number): void {
-    this.state.pitch = Math.max(-50, Math.min(50, pitch))
-    if (this.sourceNode) {
-      this.sourceNode.playbackRate.value = 1 + (this.state.pitch / 100)
+    this.state.pitch = Math.max(-50, Math.min(50, pitch));
+    if (!this.state.isSync) {
+      this.state.manualPitch = this.state.pitch;
     }
+    if (this.sourceNode) {
+      this.sourceNode.playbackRate.value = 1 + (this.state.pitch / 100);
+    }
+  }
+
+  syncToBPM(targetBpm: number): void {
+    if (!this.currentTrack || this.currentTrack.bpm === 0) return;
+    this.state.manualPitch = this.state.pitch;
+    const newPlaybackRate = targetBpm / this.currentTrack.bpm;
+    const newPitch = (newPlaybackRate - 1) * 100;
+    this.setPitch(newPitch);
+    this.state.isSync = true;
+  }
+
+  resetPitch(): void {
+    this.setPitch(this.state.manualPitch);
+    this.state.isSync = false;
   }
 
   setEQ(band: 'low' | 'mid' | 'high', value: number): void {
@@ -748,16 +775,88 @@ export class ProfessionalAudioEngine {
   }
 
   seekTo(position: number): void {
-    const wasPlaying = this.state.isPlaying
-    
+    const wasPlaying = this.state.isPlaying;
     if (wasPlaying) {
-      this.pause()
+      this.pause();
     }
-    
-    this.state.position = Math.max(0, Math.min(this.currentTrack?.duration || 0, position))
-    
+    this.state.position = Math.max(0, Math.min(this.currentTrack?.duration || 0, position));
     if (wasPlaying) {
-      this.play()
+      this.play();
+    }
+  }
+
+  setLoop(action: 'in' | 'out'): void {
+    if (!this.currentTrack) return;
+
+    if (action === 'in') {
+      this.state.loopStart = this.state.position;
+      if (this.state.loopEnd > 0 && this.state.loopEnd < this.state.loopStart) {
+        this.state.loopEnd = 0;
+      }
+    } else if (action === 'out') {
+      if (this.state.position > this.state.loopStart) {
+        this.state.loopEnd = this.state.position;
+        this.state.loopActive = true;
+        this._restartPlayback();
+      }
+    }
+  }
+
+  toggleLoop(lengthInBeats: number): void {
+    if (this.state.loopActive) {
+      this.exitLoop();
+      return;
+    }
+
+    if (!this.currentTrack) return;
+    const beatDuration = 60 / this.currentTrack.bpm;
+    this.state.loopStart = this.state.position;
+    this.state.loopEnd = this.state.position + (lengthInBeats * beatDuration);
+    this.state.loopActive = true;
+    this.state.loopLength = lengthInBeats;
+    this._restartPlayback();
+  }
+
+  exitLoop(): void {
+    this.state.loopActive = false;
+    this._restartPlayback();
+  }
+
+  startScratch(): void {
+    this.state.isScratching = true;
+  }
+
+  endScratch(): void {
+    this.state.isScratching = false;
+  }
+
+  scratch(delta: number): void {
+    if (!this.currentTrack || !this.state.isScratching) return;
+    // Don't restart playback if we're not playing, just update the position
+    const wasPlaying = this.state.isPlaying;
+    if (wasPlaying) this.pause();
+    
+    const newPosition = this.state.position + delta * 0.01; // The multiplier can be tweaked for sensitivity
+    this.state.position = Math.max(0, Math.min(this.currentTrack.duration, newPosition));
+    
+    if (wasPlaying) this.play();
+  }
+
+  pitchBend(amount: number): void {
+    if (this.sourceNode) {
+      const currentPlaybackRate = this.sourceNode.playbackRate;
+      // Use setTargetAtTime for smooth transitions
+      currentPlaybackRate.setTargetAtTime(currentPlaybackRate.value + amount, this.audioContext.currentTime, 0.01);
+      // Return to the original pitch smoothly
+      currentPlaybackRate.setTargetAtTime(1 + (this.state.pitch / 100), this.audioContext.currentTime + 0.1, 0.1);
+    }
+  }
+
+  private _restartPlayback(): void {
+    const wasPlaying = this.state.isPlaying;
+    if (wasPlaying) {
+      this.pause();
+      this.play();
     }
   }
 
@@ -774,22 +873,43 @@ export class ProfessionalAudioEngine {
   }
 
   private startPositionTracking(): void {
+    let lastTime = this.audioContext.currentTime
+    const playbackRate = 1 + (this.state.pitch / 100)
+    let startPosition = this.state.position
+
     const updatePosition = () => {
-      if (this.state.isPlaying && this.currentTrack) {
-        this.state.position += 0.016 // ~60fps updates
-        
-        if (this.callbacks.onPositionUpdate) {
-          this.callbacks.onPositionUpdate(this.state.position)
+      if (!this.state.isPlaying || !this.currentTrack || this.state.isScratching) {
+        // If we are scratching, we still need to keep the animation frame loop going
+        // so it can resume when scratching is done. But we don't update the position.
+        if (this.state.isPlaying) requestAnimationFrame(updatePosition);
+        return
+      }
+
+      const currentTime = this.audioContext.currentTime
+      const elapsedTime = currentTime - lastTime
+
+      this.state.position = startPosition + (elapsedTime * playbackRate)
+
+      // Handle loop for state tracking
+      if (this.state.loopActive && this.state.loopEnd > this.state.loopStart && this.state.position >= this.state.loopEnd) {
+        const loopDuration = this.state.loopEnd - this.state.loopStart
+        // Adjust startPosition and lastTime to correctly calculate position after a loop cycle
+        const loops = Math.floor((this.state.position - this.state.loopStart) / loopDuration)
+        startPosition = this.state.loopStart + (loops * loopDuration)
+        lastTime = this.audioContext.currentTime
+      }
+
+      if (this.callbacks.onPositionUpdate) {
+        this.callbacks.onPositionUpdate(this.state.position)
+      }
+
+      // Check for end of track (only if not looping)
+      if (!this.state.loopActive && this.state.position >= this.currentTrack.duration) {
+        this.stop() // Use stop to reset position
+        if (this.callbacks.onEndOfTrack) {
+          this.callbacks.onEndOfTrack()
         }
-        
-        // Check for end of track
-        if (this.state.position >= this.currentTrack.duration) {
-          this.pause()
-          if (this.callbacks.onEndOfTrack) {
-            this.callbacks.onEndOfTrack()
-          }
-        }
-        
+      } else {
         requestAnimationFrame(updatePosition)
       }
     }
