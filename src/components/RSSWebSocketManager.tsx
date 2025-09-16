@@ -1,24 +1,29 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 
 interface RSSWebSocketManagerProps {
   onNewArticle?: (article: any) => void;
   onUpdate?: (update: any) => void;
-  onError?: (error: any) => void;
+  onError?: (error: { message: string; isFinal: boolean }) => void;
+  onStatusChange?: (status: 'subscribed' | 'connecting' | 'disconnected' | 'error') => void;
 }
 
 const RSSWebSocketManager: React.FC<RSSWebSocketManagerProps> = ({
   onNewArticle,
   onUpdate,
-  onError
+  onError,
+  onStatusChange,
 }) => {
   const subscriptionRef = useRef<any>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
   const reconnectAttempts = useRef(0);
-  const maxReconnectAttempts = 5;
+  const maxReconnectAttempts = 8; // Increased attempts
+
+  const [isManualReconnect, setManualReconnect] = useState(false);
 
   const setupRealtimeSubscription = useCallback(() => {
+    if (onStatusChange) onStatusChange('connecting');
     try {
       // Clean up existing subscription
       if (subscriptionRef.current) {
@@ -40,23 +45,17 @@ const RSSWebSocketManager: React.FC<RSSWebSocketManagerProps> = ({
             console.log('New RSS article received:', payload.new);
             const newArticle = payload.new;
 
-            // Show notification for new articles
             toast.info('New article added!', {
               description: `${newArticle.title?.substring(0, 50)}...`,
-              duration: 4000,
+              duration: 5000,
               action: {
                 label: 'View',
                 onClick: () => window.open(newArticle.link, '_blank')
               }
             });
 
-            // Call the callback if provided
-            if (onNewArticle) {
-              onNewArticle(newArticle);
-            }
-
-            // Reset reconnect attempts on successful message
-            reconnectAttempts.current = 0;
+            if (onNewArticle) onNewArticle(newArticle);
+            reconnectAttempts.current = 0; // Reset on success
           }
         )
         .on(
@@ -68,63 +67,79 @@ const RSSWebSocketManager: React.FC<RSSWebSocketManagerProps> = ({
           },
           (payload) => {
             console.log('RSS article updated:', payload.new);
-
-            if (onUpdate) {
-              onUpdate(payload.new);
-            }
+            if (onUpdate) onUpdate(payload.new);
           }
         )
-        .subscribe((status) => {
+        .subscribe((status, err) => {
+          try {
           console.log('Real-time subscription status:', status);
 
           if (status === 'SUBSCRIBED') {
             console.log('Successfully subscribed to RSS feed updates');
+            if (onStatusChange) onStatusChange('subscribed');
             reconnectAttempts.current = 0;
-          } else if (status === 'CHANNEL_ERROR') {
-            console.error('Channel error in RSS subscription');
-            handleReconnection();
-          } else if (status === 'TIMED_OUT') {
-            console.error('Real-time subscription timed out');
-            handleReconnection();
-          } else if (status === 'CLOSED') {
-            console.log('Real-time subscription closed');
+            if (isManualReconnect) {
+              toast.success('Reconnected to the live feed!');
+              setManualReconnect(false);
+            }
+          } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+            const errorReason = err ? (err as Error).message : 'Connection failed';
+            console.error(`Subscription failed: ${status}. Reason: ${errorReason}`);
+            if (onStatusChange) onStatusChange('disconnected');
             handleReconnection();
           }
+        } catch (e) {
+          console.error('Error in subscribe callback:', e);
+        }
         });
 
     } catch (error) {
       console.error('Error setting up real-time subscription:', error);
-      if (onError) {
-        onError(error);
-      }
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      if (onError) onError({ message: errorMessage, isFinal: false });
+      if (onStatusChange) onStatusChange('error');
       handleReconnection();
     }
-  }, [onNewArticle, onUpdate, onError]);
+  }, [onNewArticle, onUpdate, onError, onStatusChange, isManualReconnect]);
 
   const handleReconnection = useCallback(() => {
     if (reconnectAttempts.current >= maxReconnectAttempts) {
-      console.error('Max reconnection attempts reached');
-      toast.error('Real-time connection lost. Please refresh the page.');
+      console.error('Max reconnection attempts reached. Giving up.');
+      const finalError = 'Could not connect to the live feed. The server may be temporarily down.';
+      if (onError) onError({ message: finalError, isFinal: true });
+      if (onStatusChange) onStatusChange('error');
+
+      toast.error('Live feed connection failed', {
+        description: 'You can try to reconnect manually.',
+        action: {
+          label: 'Reconnect',
+          onClick: () => {
+            reconnectAttempts.current = 0;
+            setManualReconnect(true);
+            setupRealtimeSubscription();
+          }
+        }
+      });
       return;
     }
 
     reconnectAttempts.current += 1;
-    const delay = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000); // Exponential backoff
+    // Exponential backoff with jitter
+    const delay = Math.min(1000 * Math.pow(2, reconnectAttempts.current) + Math.random() * 1000, 45000);
 
-    console.log(`Attempting to reconnect in ${delay}ms (attempt ${reconnectAttempts.current}/${maxReconnectAttempts})`);
+    console.log(`Attempting to reconnect in ${Math.round(delay / 1000)}s (attempt ${reconnectAttempts.current}/${maxReconnectAttempts})`);
 
     reconnectTimeoutRef.current = setTimeout(() => {
       setupRealtimeSubscription();
     }, delay);
-  }, [setupRealtimeSubscription]);
+  }, [setupRealtimeSubscription, onError, onStatusChange, maxReconnectAttempts]);
 
   const checkConnection = useCallback(() => {
     if (subscriptionRef.current) {
       const state = subscriptionRef.current.state;
       console.log('WebSocket connection state:', state);
-
       if (state !== 'joined') {
-        console.log('Connection lost, attempting to reconnect...');
+        console.warn('Connection appears to be lost, attempting to reconnect...');
         handleReconnection();
       }
     }
@@ -133,13 +148,10 @@ const RSSWebSocketManager: React.FC<RSSWebSocketManagerProps> = ({
   useEffect(() => {
     setupRealtimeSubscription();
 
-    // Set up connection health check
-    const healthCheckInterval = setInterval(checkConnection, 30000); // Check every 30 seconds
-
-    // Set up visibility change listener to check connection when tab becomes visible
+    const healthCheckInterval = setInterval(checkConnection, 45000);
     const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        console.log('Tab became visible, checking connection...');
+      if (!document.hidden && subscriptionRef.current?.state !== 'joined') {
+        console.log('Tab became visible, checking and refreshing connection...');
         checkConnection();
       }
     };
@@ -149,18 +161,11 @@ const RSSWebSocketManager: React.FC<RSSWebSocketManagerProps> = ({
     return () => {
       clearInterval(healthCheckInterval);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-
-      if (reconnectTimeoutRef.current) {
-        clearTimeout(reconnectTimeoutRef.current);
-      }
-
-      if (subscriptionRef.current) {
-        subscriptionRef.current.unsubscribe();
-      }
+      if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
+      if (subscriptionRef.current) subscriptionRef.current.unsubscribe();
     };
   }, [setupRealtimeSubscription, checkConnection]);
 
-  // This component doesn't render anything visible
   return null;
 };
 
