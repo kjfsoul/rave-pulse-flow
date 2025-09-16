@@ -698,8 +698,16 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
         </div>
         
         {/* Playhead indicator */}
-        <div className={`absolute top-0 bottom-0 w-0.5 bg-white shadow-lg transform transition-transform duration-75`} 
-             style={{ left: '50%' }} />
+        <div
+          className="absolute top-0 bottom-0 w-0.5 bg-white/80 shadow-lg backdrop-filter backdrop-invert"
+          style={{
+            left:
+              trackAnalysis && trackAnalysis.duration > 0
+                ? `${(controls.position / trackAnalysis.duration) * 100}%`
+                : "0%",
+            transition: 'left 100ms linear',
+          }}
+        />
              
         {/* Beat grid markers */}
         {trackAnalysis.analyzedData?.beatgrid?.map((beat, i) => (
@@ -992,52 +1000,61 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
           </div>
         </div>
 
-        {/* Professional Transport Controls */}
-        <div className="mb-8 flex justify-center space-x-4">
-          <motion.button
-            className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 border-2 ${
-              controls.isPlaying
-                ? `bg-gradient-to-br from-red-600 to-red-800 border-red-400 text-white shadow-lg shadow-red-500/50`
-                : `bg-gradient-to-br from-green-600 to-green-800 border-green-400 text-white shadow-lg shadow-green-500/50`
-            }`}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleTransportControl(controls.isPlaying ? 'pause' : 'play')}
-          >
-            <div className="flex items-center space-x-2">
-              {controls.isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
-              <span>{controls.isPlaying ? 'PAUSE' : 'PLAY'}</span>
-            </div>
-          </motion.button>
+        {/* Professional Transport & Loop Controls */}
+        <div className="mb-8">
+          <div className="flex justify-center space-x-4">
+            <motion.button
+              className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 border-2 ${
+                controls.isPlaying
+                  ? `bg-gradient-to-br from-red-600 to-red-800 border-red-400 text-white shadow-lg shadow-red-500/50`
+                  : `bg-gradient-to-br from-green-600 to-green-800 border-green-400 text-white shadow-lg shadow-green-500/50`
+              }`}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handleTransportControl(controls.isPlaying ? 'pause' : 'play')}
+            >
+              <div className="flex items-center space-x-2">
+                {controls.isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+                <span>{controls.isPlaying ? 'PAUSE' : 'PLAY'}</span>
+              </div>
+            </motion.button>
 
-          <motion.button
-            className={`px-8 py-4 rounded-xl font-bold text-lg border-2 transition-all duration-200 ${
-              controls.isCued
-                ? `bg-gradient-to-br from-${accentColor}-600 to-${accentColor}-800 border-${accentColor}-400 text-white shadow-lg`
-                : 'bg-gray-700 border-gray-500 text-gray-300 hover:bg-gray-600'
-            }`}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => onControlChange('isCued', !controls.isCued)}
-          >
-            <div className="flex items-center space-x-2">
-              <RotateCcw className="w-6 h-6" />
-              <span>CUE</span>
-            </div>
-          </motion.button>
+            <motion.button
+              className={`px-8 py-4 rounded-xl font-bold text-lg border-2 transition-all duration-200 ${
+                controls.isCued
+                  ? `bg-gradient-to-br from-${accentColor}-600 to-${accentColor}-800 border-${accentColor}-400 text-white shadow-lg`
+                  : 'bg-gray-700 border-gray-500 text-gray-300 hover:bg-gray-600'
+              }`}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onControlChange('isCued', !controls.isCued)}
+            >
+              <div className="flex items-center space-x-2">
+                <RotateCcw className="w-6 h-6" />
+                <span>CUE</span>
+              </div>
+            </motion.button>
 
-          <motion.button
-            className={`px-8 py-4 rounded-xl font-bold text-lg border-2 transition-all duration-200 ${
-              controls.isSync
-                ? 'bg-gradient-to-br from-yellow-600 to-yellow-800 border-yellow-400 text-white shadow-lg shadow-yellow-500/50'
-                : 'bg-gray-700 border-gray-500 text-gray-300 hover:bg-gray-600'
-            }`}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => onControlChange('isSync', !controls.isSync)}
-          >
-            <div className="flex items-center space-x-2">
-              <Zap className="w-6 h-6" />
-              <span>SYNC</span>
-            </div>
-          </motion.button>
+            <motion.button
+              className={`px-8 py-4 rounded-xl font-bold text-lg border-2 transition-all duration-200 ${
+                controls.isSync
+                  ? 'bg-gradient-to-br from-yellow-600 to-yellow-800 border-yellow-400 text-white shadow-lg shadow-yellow-500/50'
+                  : 'bg-gray-700 border-gray-500 text-gray-300 hover:bg-gray-600'
+              }`}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onControlChange('isSync', !controls.isSync)}
+            >
+              <div className="flex items-center space-x-2">
+                <Zap className="w-6 h-6" />
+                <span>SYNC</span>
+              </div>
+            </motion.button>
+          </div>
+          <div className="flex justify-center space-x-2 mt-4">
+            <Button onClick={() => onLoop('in')} variant="outline" className={`border-${accentColor}-500/30 text-${accentColor}-300`}>LOOP IN</Button>
+            <Button onClick={() => onLoop('out')} variant="outline" className={`border-${accentColor}-500/30 text-${accentColor}-300`}>LOOP OUT</Button>
+            <Button onClick={() => onLoop('toggle')} variant="default" className={`${controls.loopActive ? `bg-${accentColor}-600` : 'bg-gray-700'}`}>
+              {controls.loopActive ? 'EXIT LOOP' : '4-BEAT LOOP'}
+            </Button>
+          </div>
         </div>
 
         {/* Professional Jog Wheel */}
