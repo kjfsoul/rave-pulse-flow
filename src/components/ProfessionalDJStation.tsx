@@ -120,7 +120,10 @@ const ProfessionalDJStation: React.FC = () => {
 
   const masterGainRef = useRef<GainNode | null>(null)
   const crossfaderGainARef = useRef<GainNode | null>(null)
-  const crossfaderGainBRef = useRef<GainNode | null>(null)
+  const crossfaderGainBRef = useRef<GainNode |null>(null)
+  const cueGainARef = useRef<GainNode | null>(null)
+  const cueGainBRef = useRef<GainNode | null>(null)
+  const headphoneGainRef = useRef<GainNode | null>(null)
 
   // Initialize professional audio system
   useEffect(() => {
@@ -134,21 +137,40 @@ const ProfessionalDJStation: React.FC = () => {
         masterGainRef.current = context.createGain()
         crossfaderGainARef.current = context.createGain()
         crossfaderGainBRef.current = context.createGain()
+
+        // Initialize headphone cueing path
+        headphoneGainRef.current = context.createGain()
+        cueGainARef.current = context.createGain()
+        cueGainBRef.current = context.createGain()
         
         // Initialize audio engines
         deckAEngineRef.current = new ProfessionalAudioEngine(context)
         deckBEngineRef.current = new ProfessionalAudioEngine(context)
         
         // Connect audio routing
+        // Deck A output splits to crossfader and cue path
         deckAEngineRef.current.connect(crossfaderGainARef.current)
+        deckAEngineRef.current.connect(cueGainARef.current)
+
+        // Deck B output splits to crossfader and cue path
         deckBEngineRef.current.connect(crossfaderGainBRef.current)
+        deckBEngineRef.current.connect(cueGainBRef.current)
         
+        // Master path
         crossfaderGainARef.current.connect(masterGainRef.current)
         crossfaderGainBRef.current.connect(masterGainRef.current)
         masterGainRef.current.connect(context.destination)
+
+        // Cue path
+        cueGainARef.current.connect(headphoneGainRef.current)
+        cueGainBRef.current.connect(headphoneGainRef.current)
+        headphoneGainRef.current.connect(context.destination)
         
         // Set initial mixer values
         masterGainRef.current.gain.value = mixerState.masterVolume / 100
+        headphoneGainRef.current.gain.value = mixerState.headphoneVolume / 100
+        cueGainARef.current.gain.value = 0 // Muted by default
+        cueGainBRef.current.gain.value = 0 // Muted by default
         updateCrossfader(mixerState.crossfader)
         
         // Set up callbacks for audio engines
@@ -326,6 +348,11 @@ const ProfessionalDJStation: React.FC = () => {
       case 'filter':
         deckAEngineRef.current.setFilter(value)
         break
+      case 'isCued':
+        if (cueGainARef.current) {
+          cueGainARef.current.gain.value = value ? 1 : 0
+        }
+        break
     }
   }, [])
 
@@ -359,6 +386,11 @@ const ProfessionalDJStation: React.FC = () => {
         break
       case 'filter':
         deckBEngineRef.current.setFilter(value)
+        break
+      case 'isCued':
+        if (cueGainBRef.current) {
+          cueGainBRef.current.gain.value = value ? 1 : 0
+        }
         break
     }
   }, [])
@@ -413,8 +445,45 @@ const ProfessionalDJStation: React.FC = () => {
           masterGainRef.current.gain.value = value / 100
         }
         break
+      case 'headphoneVolume':
+        if (headphoneGainRef.current) {
+          headphoneGainRef.current.gain.value = value / 100
+        }
+        break
     }
   }, [updateCrossfader])
+
+  // File upload handler
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, deckId: 'A' | 'B') => {
+    const file = event.target.files?.[0]
+    if (!file || !audioContext) return
+
+    const toastId = toast.loading(`Loading "${file.name}"...`)
+
+    try {
+      const arrayBuffer = await file.arrayBuffer()
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
+
+      const engine = deckId === 'A' ? deckAEngineRef.current : deckBEngineRef.current
+      const setTrack = deckId === 'A' ? setDeckATrack : setDeckBTrack
+      const handleControlChange = deckId === 'A' ? handleDeckAControlChange : handleDeckBControlChange
+
+      if (engine) {
+        // Stop playback on the deck before loading a new track
+        handleControlChange('isPlaying', false)
+
+        const track = await engine.loadTrack(audioBuffer, { title: file.name.replace(/\.[^/.]+$/, "") })
+        setTrack(track)
+        toast.success(`"${track.title}" loaded into Deck ${deckId}`, { id: toastId })
+      }
+    } catch (error) {
+      console.error('Error loading track:', error)
+      toast.error('Failed to load track. Please use a supported audio format.', { id: toastId })
+    } finally {
+      // Reset the file input so the same file can be loaded again
+      event.target.value = ''
+    }
+  }
 
   // VU Meter animation
   useEffect(() => {
@@ -538,8 +607,14 @@ const ProfessionalDJStation: React.FC = () => {
               deckAEngineRef.current?.seekTo(newPosition)
             }}
             onLoop={(action) => {
-              // Implement loop controls
-              console.log('Loop action:', action)
+              if (deckAEngineRef.current) {
+                if (action === 'toggle') {
+                  deckAEngineRef.current.toggleLoop(4)
+                } else if (action === 'in' || action === 'out') {
+                  deckAEngineRef.current.setLoop(action)
+                }
+                setDeckAState(deckAEngineRef.current.getState())
+              }
             }}
           />
         </div>
@@ -690,7 +765,14 @@ const ProfessionalDJStation: React.FC = () => {
               deckBEngineRef.current?.seekTo(newPosition)
             }}
             onLoop={(action) => {
-              console.log('Loop action:', action)
+              if (deckBEngineRef.current) {
+                if (action === 'toggle') {
+                  deckBEngineRef.current.toggleLoop(4)
+                } else if (action === 'in' || action === 'out') {
+                  deckBEngineRef.current.setLoop(action)
+                }
+                setDeckBState(deckBEngineRef.current.getState())
+              }
             }}
           />
         </div>
@@ -708,9 +790,37 @@ const ProfessionalDJStation: React.FC = () => {
             
             <div className="flex items-center space-x-4">
               <span className="text-gray-400">User: {user?.email}</span>
-              <Button variant="outline" size="sm" className="border-purple-500/30 text-purple-300">
+              <input
+                type="file"
+                id="track-upload-a"
+                className="hidden"
+                accept="audio/*"
+                onChange={(e) => handleFileUpload(e, 'A')}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-purple-500/30 text-purple-300"
+                onClick={() => document.getElementById('track-upload-a')?.click()}
+              >
                 <Upload className="w-4 h-4 mr-2" />
-                Load Tracks
+                Load Deck A
+              </Button>
+              <input
+                type="file"
+                id="track-upload-b"
+                className="hidden"
+                accept="audio/*"
+                onChange={(e) => handleFileUpload(e, 'B')}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-cyan-500/30 text-cyan-300"
+                onClick={() => document.getElementById('track-upload-b')?.click()}
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Load Deck B
               </Button>
             </div>
           </div>
