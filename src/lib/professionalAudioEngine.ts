@@ -48,6 +48,7 @@ export interface ProfessionalAudioState {
   isCued: boolean
   isSync: boolean
   loopLength: number
+  reverbMix: number
 }
 
 export class ProfessionalAudioEngine {

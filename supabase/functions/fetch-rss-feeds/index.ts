@@ -153,11 +153,11 @@ async function fetchRSSFeed(feedUrl: string, source: string) {
       headers: {
         'User-Agent': 'RavePulseFlow/1.0 (EDM News Aggregator)'
       },
-      signal: AbortSignal.timeout(10000)
+      signal: AbortSignal.timeout(15000) // Increased timeout
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch RSS feed: ${response.status}`);
+      throw new Error(`Failed to fetch RSS feed from ${source}: ${response.status}`);
     }
 
     const xmlText = await response.text();
@@ -214,6 +214,27 @@ serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Last-resort trigger: Check if the last post is older than 12 hours.
+    // This is a fallback for when the cron job fails.
+    const { data: latestPost, error: latestPostError } = await supabase
+      .from('live_feed')
+      .select('pub_date')
+      .order('pub_date', { ascending: false })
+      .limit(1);
+
+    if (latestPostError) {
+      console.warn("Could not check latest post, proceeding with fetch.", latestPostError);
+    } else if (latestPost && latestPost.length > 0) {
+      const lastPostDate = new Date(latestPost[0].pub_date);
+      const twelveHoursAgo = new Date(Date.now() - 12 * 60 * 60 * 1000);
+      if (lastPostDate > twelveHoursAgo) {
+        return new Response(
+          JSON.stringify({ success: true, message: 'Feed is up-to-date. No refresh needed.' }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
+        );
+      }
+    }
 
     console.log('Starting RSS feed processing...');
 

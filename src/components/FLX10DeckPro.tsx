@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { SoundTouch } from 'soundtouchjs'
 import { 
   Play, Pause, RotateCcw, Zap, Volume2, Settings, 
   BookOpen, User, ChevronRight, ChevronLeft, Info,
@@ -138,6 +139,13 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
   const analyserRef = useRef<AnalyserNode | null>(null)
   const masterGainRef = useRef<GainNode | null>(null)
   
+  // Phase 2: Advanced Audio Processing
+  const soundTouchRef = useRef<any>(null)
+  const scriptProcessorNodeRef = useRef<ScriptProcessorNode | null>(null)
+  const convolverNodeRef = useRef<ConvolverNode | null>(null)
+  const dryGainRef = useRef<GainNode | null>(null)
+  const wetGainRef = useRef<GainNode | null>(null)
+
   // Professional EQ Nodes - Phase 2 
   const lowEQRef = useRef<BiquadFilterNode | null>(null)
   const midEQRef = useRef<BiquadFilterNode | null>(null)
@@ -186,9 +194,62 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
       midEQRef.current!.connect(highEQRef.current!)
       highEQRef.current!.connect(filterRef.current!)
       filterRef.current!.connect(analyserRef.current)
-      analyserRef.current.connect(masterGainRef.current)
-      // Note: Final connection to destination handled by parent DJ station
       
+      // Phase 2: Initialize SoundTouch for Key Lock
+      soundTouchRef.current = new SoundTouch()
+      scriptProcessorNodeRef.current = audioContextRef.current.createScriptProcessor(4096, 2, 2)
+
+      scriptProcessorNodeRef.current.onaudioprocess = (e) => {
+        if (!controls.keyLock || !soundTouchRef.current) {
+          // Bypass processing when key lock is off
+          e.outputBuffer.copyToChannel(e.inputBuffer.getChannelData(0), 0)
+          e.outputBuffer.copyToChannel(e.inputBuffer.getChannelData(1), 1)
+          return
+        }
+
+        const l = e.inputBuffer.getChannelData(0)
+        const r = e.inputBuffer.getChannelData(1)
+        const samples = new Float32Array(l.length + r.length)
+
+        for (let i = 0; i < l.length; i++) {
+          samples[i * 2] = l[i]
+          samples[i * 2 + 1] = r[i]
+        }
+
+        soundTouchRef.current.rate = 1.0 / (1 + controls.pitch / 100)
+        soundTouchRef.current.process(samples)
+        const processedSamples = soundTouchRef.current.read(samples.length)
+
+        if (processedSamples) {
+          for (let i = 0; i < l.length; i++) {
+            l[i] = processedSamples[i * 2]
+            r[i] = processedSamples[i * 2 + 1]
+          }
+        }
+      }
+
+      // Phase 2: Initialize Reverb FX
+      convolverNodeRef.current = audioContextRef.current.createConvolver()
+      dryGainRef.current = audioContextRef.current.createGain()
+      wetGainRef.current = audioContextRef.current.createGain()
+
+      const impulseResponse = audioContextRef.current.createBuffer(2, audioContextRef.current.sampleRate * 2, audioContextRef.current.sampleRate)
+      for (let i = 0; i < impulseResponse.numberOfChannels; i++) {
+        const channel = impulseResponse.getChannelData(i)
+        for (let j = 0; j < impulseResponse.length; j++) {
+          channel[j] = (Math.random() * 2 - 1) * Math.pow(1 - j / impulseResponse.length, 2)
+        }
+      }
+      convolverNodeRef.current.buffer = impulseResponse
+
+      analyserRef.current.connect(dryGainRef.current)
+      dryGainRef.current.connect(masterGainRef.current!)
+
+      analyserRef.current.connect(convolverNodeRef.current)
+      convolverNodeRef.current.connect(wetGainRef.current)
+      wetGainRef.current.connect(masterGainRef.current!)
+
+      // Note: Final connection to destination handled by parent DJ station
       setAudioReady(true)
       setAudioError(null)
       console.log(`FLX10 Deck ${deckId}: Professional audio engine initialized successfully`)
@@ -386,7 +447,12 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
       sourceNodeRef.current.loop = true
       
       // Connect to audio processing chain
-      sourceNodeRef.current.connect(gainNodeRef.current)
+      if (controls.keyLock && scriptProcessorNodeRef.current) {
+        sourceNodeRef.current.connect(scriptProcessorNodeRef.current)
+        scriptProcessorNodeRef.current.connect(gainNodeRef.current!)
+      } else {
+        sourceNodeRef.current.connect(gainNodeRef.current!)
+      }
       
       // Start playback
       sourceNodeRef.current.start(0)
@@ -583,6 +649,27 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
       updateVolumeParameters()
     }
   }, [audioReady, updateVolumeParameters])
+
+  useEffect(() => {
+    if (audioReady && sourceNodeRef.current && gainNodeRef.current && scriptProcessorNodeRef.current) {
+      sourceNodeRef.current.disconnect()
+      scriptProcessorNodeRef.current.disconnect()
+      if (controls.keyLock) {
+        sourceNodeRef.current.connect(scriptProcessorNodeRef.current)
+        scriptProcessorNodeRef.current.connect(gainNodeRef.current)
+      } else {
+        sourceNodeRef.current.connect(gainNodeRef.current)
+      }
+    }
+  }, [audioReady, controls.keyLock])
+
+  useEffect(() => {
+    if (audioReady && dryGainRef.current && wetGainRef.current) {
+      const mix = controls.reverbMix / 100
+      dryGainRef.current.gain.value = 1 - mix
+      wetGainRef.current.gain.value = mix
+    }
+  }, [audioReady, controls.reverbMix])
 
   // Critical cleanup on component unmount
   useEffect(() => {
@@ -1054,6 +1141,30 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
             <Button onClick={() => onLoop('toggle')} variant="default" className={`${controls.loopActive ? `bg-${accentColor}-600` : 'bg-gray-700'}`}>
               {controls.loopActive ? 'EXIT LOOP' : '4-BEAT LOOP'}
             </Button>
+          </div>
+        </div>
+
+        {/* Professional FX Section */}
+        <div className="mb-8">
+          <h3 className={`text-lg font-bold text-${accentColor}-300 mb-4 tracking-wider`}>
+            FX UNIT
+          </h3>
+          <div className="flex justify-around items-center">
+            <div className="flex flex-col items-center space-y-2">
+              <label className={`text-xs font-semibold text-${accentColor}-300 tracking-wider`}>
+                REVERB
+              </label>
+              <Slider
+                value={[controls.reverbMix]}
+                onValueChange={(value) => onControlChange('reverbMix', value[0])}
+                max={100}
+                step={1}
+                className="w-48"
+              />
+              <div className={`text-xs text-${accentColor}-200 font-mono bg-gray-900/50 px-2 py-1 rounded`}>
+                {Math.round(controls.reverbMix)}%
+              </div>
+            </div>
           </div>
         </div>
 
