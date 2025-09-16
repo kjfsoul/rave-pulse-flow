@@ -807,6 +807,37 @@ export class ProfessionalAudioEngine {
       this.exitLoop();
       return;
     }
+    if (wasPlaying) {
+      this.pause();
+    }
+    this.state.position = Math.max(0, Math.min(this.currentTrack?.duration || 0, position));
+    if (wasPlaying) {
+      this.play();
+    }
+  }
+
+  setLoop(action: 'in' | 'out'): void {
+    if (!this.currentTrack) return;
+
+    if (action === 'in') {
+      this.state.loopStart = this.state.position;
+      if (this.state.loopEnd > 0 && this.state.loopEnd < this.state.loopStart) {
+        this.state.loopEnd = 0;
+      }
+    } else if (action === 'out') {
+      if (this.state.position > this.state.loopStart) {
+        this.state.loopEnd = this.state.position;
+        this.state.loopActive = true;
+        this._restartPlayback();
+      }
+    }
+  }
+
+  toggleLoop(lengthInBeats: number): void {
+    if (this.state.loopActive) {
+      this.exitLoop();
+      return;
+    }
 
     if (!this.currentTrack) return;
     const beatDuration = 60 / this.currentTrack.bpm;
@@ -883,6 +914,8 @@ export class ProfessionalAudioEngine {
         // so it can resume when scratching is done. But we don't update the position.
         if (this.state.isPlaying) requestAnimationFrame(updatePosition);
         return
+      if (!this.state.isPlaying || !this.currentTrack) {
+        return // Stop the loop if not playing
       }
 
       const currentTime = this.audioContext.currentTime
