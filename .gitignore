@@ -62,3 +62,7 @@ venv_crewai/*
 node_modules
 .env*
 .DS_Store
+# Node
+node_modules
+.env*
+.DS_Store
