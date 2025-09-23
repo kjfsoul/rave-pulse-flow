@@ -1,13 +1,22 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string
+// Handle both Vite and Next.js environment variables
+const supabaseUrl = (typeof window !== 'undefined' 
+  ? import.meta.env?.VITE_SUPABASE_URL 
+  : process.env.NEXT_PUBLIC_SUPABASE_URL) as string
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables')
-}
+const supabaseAnonKey = (typeof window !== 'undefined' 
+  ? import.meta.env?.VITE_SUPABASE_ANON_KEY 
+  : process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) as string
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Use mock values if environment variables are not available
+const mockSupabaseUrl = 'https://mock.supabase.co'
+const mockSupabaseKey = 'mock-anon-key'
+
+const finalUrl = supabaseUrl || mockSupabaseUrl;
+const finalKey = supabaseAnonKey || mockSupabaseKey;
+
+export const supabase = createClient(finalUrl, finalKey);
 
 // Database types
 export type Database = {

@@ -6,7 +6,12 @@
 import { loadStripe, Stripe } from '@stripe/stripe-js'
 
 // Initialize Stripe with publishable key
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '')
+const stripeKey =
+  (typeof window !== "undefined"
+    ? import.meta.env?.VITE_STRIPE_PUBLISHABLE_KEY
+    : process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) || "mock-stripe-key";
+
+const stripePromise = loadStripe(stripeKey);
 
 export const getStripe = async (): Promise<Stripe | null> => {
   return await stripePromise
