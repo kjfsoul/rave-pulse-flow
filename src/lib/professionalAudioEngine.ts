@@ -53,6 +53,14 @@ export interface ProfessionalAudioState {
   reverbMix: number
 }
 
+import {
+  EQ_CONFIG,
+  LIMITER_CONFIG,
+  ANALYSER_CONFIG,
+  mapHighpassFrequency,
+  mapLowpassFrequency,
+} from '@/config/audio'
+
 export class ProfessionalAudioEngine {
   private audioContext: AudioContext
   private sourceNode: AudioBufferSourceNode | null = null
@@ -108,7 +116,8 @@ export class ProfessionalAudioEngine {
       manualPitch: 0,
       isCued: false,
       isSync: false,
-      loopLength: 0
+      loopLength: 0,
+      reverbMix: 0
     }
 
     this.initializeAudioChain()
@@ -125,29 +134,29 @@ export class ProfessionalAudioEngine {
     this.outputNode = this.audioContext.createGain()
     this.limiterNode = this.audioContext.createDynamicsCompressor()
 
-    // Configure EQ nodes
-    this.lowEQNode.type = 'lowshelf'
-    this.lowEQNode.frequency.value = 320
-    this.midEQNode.type = 'peaking'
-    this.midEQNode.frequency.value = 1000
-    this.midEQNode.Q.value = 0.5
-    this.highEQNode.type = 'highshelf'
-    this.highEQNode.frequency.value = 3200
+    // Configure EQ nodes (from config)
+    this.lowEQNode.type = EQ_CONFIG.low.type
+    this.lowEQNode.frequency.value = EQ_CONFIG.low.frequencyHz
+    this.midEQNode.type = EQ_CONFIG.mid.type
+    this.midEQNode.frequency.value = EQ_CONFIG.mid.frequencyHz
+    this.midEQNode.Q.value = EQ_CONFIG.mid.q
+    this.highEQNode.type = EQ_CONFIG.high.type
+    this.highEQNode.frequency.value = EQ_CONFIG.high.frequencyHz
 
     // Configure filter node
     this.filterNode.type = 'allpass'
     this.filterNode.frequency.value = 1000
 
     // Configure analyser
-    this.analyserNode.fftSize = 4096
-    this.analyserNode.smoothingTimeConstant = 0.8
+    this.analyserNode.fftSize = ANALYSER_CONFIG.fftSize
+    this.analyserNode.smoothingTimeConstant = ANALYSER_CONFIG.smoothingTimeConstant
 
     // Configure limiter
-    this.limiterNode.threshold.value = -3
-    this.limiterNode.knee.value = 12
-    this.limiterNode.ratio.value = 20
-    this.limiterNode.attack.value = 0.003
-    this.limiterNode.release.value = 0.25
+    this.limiterNode.threshold.value = LIMITER_CONFIG.thresholdDb
+    this.limiterNode.knee.value = LIMITER_CONFIG.kneeDb
+    this.limiterNode.ratio.value = LIMITER_CONFIG.ratio
+    this.limiterNode.attack.value = LIMITER_CONFIG.attackSec
+    this.limiterNode.release.value = LIMITER_CONFIG.releaseSec
 
     // Chain audio nodes
     this.gainNode
@@ -704,7 +713,13 @@ export class ProfessionalAudioEngine {
   }
 
   setEQ(band: 'low' | 'mid' | 'high', value: number): void {
-    const gain = Math.max(-30, Math.min(30, value))
+    const clamp = (min: number, max: number, v: number) => Math.max(min, Math.min(max, v))
+    const ranges = {
+      low: EQ_CONFIG.low.gainRangeDb,
+      mid: EQ_CONFIG.mid.gainRangeDb,
+      high: EQ_CONFIG.high.gainRangeDb,
+    }
+    const gain = clamp(-ranges[band], ranges[band], value)
     
     switch (band) {
       case 'low':
@@ -730,11 +745,11 @@ export class ProfessionalAudioEngine {
     } else if (value > 0) {
       // High-pass filter
       this.filterNode.type = 'highpass'
-      this.filterNode.frequency.value = 20 + (value / 100) * 10000
+      this.filterNode.frequency.value = mapHighpassFrequency(value)
     } else {
       // Low-pass filter
       this.filterNode.type = 'lowpass'
-      this.filterNode.frequency.value = 20000 + (value / 100) * 19000
+      this.filterNode.frequency.value = mapLowpassFrequency(value)
     }
   }
 
@@ -788,44 +803,12 @@ export class ProfessionalAudioEngine {
 
   setLoop(action: 'in' | 'out'): void {
     if (!this.currentTrack) return;
-
     if (action === 'in') {
       this.state.loopStart = this.state.position;
       if (this.state.loopEnd > 0 && this.state.loopEnd < this.state.loopStart) {
         this.state.loopEnd = 0;
       }
-    } else if (action === 'out') {
-      if (this.state.position > this.state.loopStart) {
-        this.state.loopEnd = this.state.position;
-        this.state.loopActive = true;
-        this._restartPlayback();
-      }
-    }
-  }
-
-  toggleLoop(lengthInBeats: number): void {
-    if (this.state.loopActive) {
-      this.exitLoop();
-      return;
-    }
-    if (wasPlaying) {
-      this.pause();
-    }
-    this.state.position = Math.max(0, Math.min(this.currentTrack?.duration || 0, position));
-    if (wasPlaying) {
-      this.play();
-    }
-  }
-
-  setLoop(action: 'in' | 'out'): void {
-    if (!this.currentTrack) return;
-
-    if (action === 'in') {
-      this.state.loopStart = this.state.position;
-      if (this.state.loopEnd > 0 && this.state.loopEnd < this.state.loopStart) {
-        this.state.loopEnd = 0;
-      }
-    } else if (action === 'out') {
+    } else {
       if (this.state.position > this.state.loopStart) {
         this.state.loopEnd = this.state.position;
         this.state.loopActive = true;
@@ -915,8 +898,6 @@ export class ProfessionalAudioEngine {
         // so it can resume when scratching is done. But we don't update the position.
         if (this.state.isPlaying) requestAnimationFrame(updatePosition);
         return
-      if (!this.state.isPlaying || !this.currentTrack) {
-        return // Stop the loop if not playing
       }
 
       const currentTime = this.audioContext.currentTime
