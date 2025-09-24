@@ -56,6 +56,9 @@ const ProfessionalDJStation: React.FC = () => {
     })),
     quantize: true,
     quantizeGrid: 16,
+    isScratching: false,
+    manualPitch: 0,
+    reverbMix: 0,
     
     // FLX10DeckPro compatibility fields
     isCued: false,
@@ -84,6 +87,9 @@ const ProfessionalDJStation: React.FC = () => {
     })),
     quantize: true,
     quantizeGrid: 16,
+    isScratching: false,
+    manualPitch: 0,
+    reverbMix: 0,
     
     // FLX10DeckPro compatibility fields
     isCued: false,
@@ -601,7 +607,7 @@ const ProfessionalDJStation: React.FC = () => {
                   </Badge>
                 </div>
                 
-                <Button variant="outline" size="sm" className="border-purple-500/30 text-purple-300">
+                <Button variant="outline" size="sm" className="border-purple-500/30 text-purple-300 bg-gray-800/50 hover:bg-purple-600/20">
                   <Settings className="w-4 h-4 mr-2" />
                   Studio Settings
                 </Button>
@@ -724,8 +730,8 @@ const ProfessionalDJStation: React.FC = () => {
                     onClick={() => handleMixerChange('headphonesConnected', !mixerState.headphonesConnected)}
                     className={`${
                       mixerState.headphonesConnected
-                        ? 'bg-green-600 hover:bg-green-700'
-                        : 'bg-gray-700 hover:bg-gray-600'
+                        ? 'bg-green-600 hover:bg-green-700 text-white'
+                        : 'bg-gray-700 hover:bg-gray-600 text-white'
                     }`}
                   >
                     <Headphones className="w-4 h-4 mr-2" />
@@ -753,15 +759,15 @@ const ProfessionalDJStation: React.FC = () => {
                     onClick={() => handleMixerChange('recording', !mixerState.recording)}
                     className={`${
                       mixerState.recording
-                        ? 'bg-red-600 hover:bg-red-700 animate-pulse'
-                        : 'bg-gray-700 hover:bg-gray-600'
+                        ? 'bg-red-600 hover:bg-red-700 animate-pulse text-white'
+                        : 'bg-gray-700 hover:bg-gray-600 text-white'
                     }`}
                   >
                     <div className="w-3 h-3 bg-red-400 rounded-full mr-2" />
                     REC
                   </Button>
                   <Button
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
                     disabled={!mixerState.recording}
                   >
                     <Save className="w-4 h-4 mr-2" />
@@ -827,7 +833,7 @@ const ProfessionalDJStation: React.FC = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="border-purple-500/30 text-purple-300"
+                className="border-purple-500/30 text-purple-300 bg-gray-800/50 hover:bg-purple-600/20"
                 onClick={() => document.getElementById('track-upload-a')?.click()}
               >
                 <Upload className="w-4 h-4 mr-2" />
@@ -843,7 +849,7 @@ const ProfessionalDJStation: React.FC = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="border-cyan-500/30 text-cyan-300"
+                className="border-cyan-500/30 text-cyan-300 bg-gray-800/50 hover:bg-cyan-600/20"
                 onClick={() => document.getElementById('track-upload-b')?.click()}
               >
                 <Upload className="w-4 h-4 mr-2" />

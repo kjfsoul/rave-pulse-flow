@@ -901,7 +901,7 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
               onClick={() => setShowManual(!showManual)}
               variant="outline"
               size="sm"
-              className={`border-${accentColor}-500/30 text-${accentColor}-300 hover:bg-${accentColor}-600/20`}
+              className={`border-${accentColor}-500/30 text-${accentColor}-300 hover:bg-${accentColor}-600/20 bg-gray-800/50`}
             >
               <BookOpen className="w-4 h-4 mr-2" />
               Manual
@@ -910,7 +910,7 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
               onClick={() => setShowCoach(!showCoach)}
               variant="outline"
               size="sm"
-              className={`border-${accentColor}-500/30 text-${accentColor}-300 hover:bg-${accentColor}-600/20`}
+              className={`border-${accentColor}-500/30 text-${accentColor}-300 hover:bg-${accentColor}-600/20 bg-gray-800/50`}
             >
               <User className="w-4 h-4 mr-2" />
               DJ Coach
@@ -1083,14 +1083,14 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
               <div className="flex flex-col space-y-3">
                 <Button
                   onClick={() => onControlChange('keyLock', !controls.keyLock)}
-                  className={`${controls.keyLock ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-700 hover:bg-gray-600'}`}
+                  className={`${controls.keyLock ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-700 hover:bg-gray-600 text-white'}`}
                 >
                   Key Lock
                 </Button>
                 <Button
                   onClick={() => onControlChange('pitch', 0)}
                   variant="outline"
-                  className={`border-${accentColor}-500/30 text-${accentColor}-300`}
+                  className={`border-${accentColor}-500/30 text-${accentColor}-300 bg-gray-800/50 hover:bg-${accentColor}-600/20`}
                 >
                   Reset
                 </Button>
@@ -1148,9 +1148,9 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
             </motion.button>
           </div>
           <div className="flex justify-center space-x-2 mt-4">
-            <Button onClick={() => onLoop('in')} variant="outline" className={`border-${accentColor}-500/30 text-${accentColor}-300`}>LOOP IN</Button>
-            <Button onClick={() => onLoop('out')} variant="outline" className={`border-${accentColor}-500/30 text-${accentColor}-300`}>LOOP OUT</Button>
-            <Button onClick={() => onLoop('toggle')} variant="default" className={`${controls.loopActive ? `bg-${accentColor}-600` : 'bg-gray-700'}`}>
+            <Button onClick={() => onLoop('in')} variant="outline" className={`border-${accentColor}-500/30 text-${accentColor}-300 bg-gray-800/50 hover:bg-${accentColor}-600/20`}>LOOP IN</Button>
+            <Button onClick={() => onLoop('out')} variant="outline" className={`border-${accentColor}-500/30 text-${accentColor}-300 bg-gray-800/50 hover:bg-${accentColor}-600/20`}>LOOP OUT</Button>
+            <Button onClick={() => onLoop('toggle')} variant="default" className={`${controls.loopActive ? `bg-${accentColor}-600 hover:bg-${accentColor}-700 text-white` : 'bg-gray-700 hover:bg-gray-600 text-white'}`}>
               {controls.loopActive ? 'EXIT LOOP' : '4-BEAT LOOP'}
             </Button>
           </div>
@@ -1312,7 +1312,7 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
                       onClick={() => setShowManual(false)}
                       variant="outline"
                       size="sm"
-                      className="text-gray-400 border-gray-600"
+                      className="text-gray-400 border-gray-600 bg-gray-800/50 hover:bg-gray-700"
                     >
                       ✕
                     </Button>
@@ -1386,7 +1386,7 @@ const FLX10DeckPro: React.FC<FLX10DeckProProps> = ({
                       onClick={() => setShowCoach(false)}
                       variant="outline"
                       size="sm"
-                      className="text-gray-400 border-gray-600"
+                      className="text-gray-400 border-gray-600 bg-gray-800/50 hover:bg-gray-700"
                     >
                       ✕
                     </Button>
