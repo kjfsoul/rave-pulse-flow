@@ -221,7 +221,7 @@ const RSSFeedStreamer: React.FC = () => {
   // Trigger RSS feed update via Edge Function
   const refreshFeed = async () => {
     try {
-      toast.info('Fetching latest EDM news...');
+      toast.info('Fetching latest EDM news (daily update)...');
 
       console.log('🚀 Calling fetch-rss-feeds Edge Function...');
       const { data, error: functionError } = await supabase.functions.invoke('fetch-rss-feeds', {
@@ -315,7 +315,7 @@ const RSSFeedStreamer: React.FC = () => {
   // Handle WebSocket errors
   const handleWebSocketError = (error: any) => {
     console.error('WebSocket error:', error);
-    toast.error('Real-time connection error. Some updates may be delayed.');
+    toast.error('RSS connection error. Feeds update daily.');
   };
 
   // Initial fetch on component mount with timeout

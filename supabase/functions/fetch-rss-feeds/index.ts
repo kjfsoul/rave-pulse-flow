@@ -215,8 +215,8 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Last-resort trigger: Check if the last post is older than 12 hours.
-    // This is a fallback for when the cron job fails.
+    // Daily update check: Only fetch if the last post is older than 24 hours.
+    // This ensures RSS feeds are updated once per day instead of constantly.
     const { data: latestPost, error: latestPostError } = await supabase
       .from('live_feed')
       .select('pub_date')
@@ -227,10 +227,15 @@ serve(async (req) => {
       console.warn("Could not check latest post, proceeding with fetch.", latestPostError);
     } else if (latestPost && latestPost.length > 0) {
       const lastPostDate = new Date(latestPost[0].pub_date);
-      const twelveHoursAgo = new Date(Date.now() - 12 * 60 * 60 * 1000);
-      if (lastPostDate > twelveHoursAgo) {
+      const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      if (lastPostDate > twentyFourHoursAgo) {
         return new Response(
-          JSON.stringify({ success: true, message: 'Feed is up-to-date. No refresh needed.' }),
+          JSON.stringify({ 
+            success: true, 
+            message: 'Feed is up-to-date. Next update scheduled for tomorrow.',
+            lastUpdate: lastPostDate.toISOString(),
+            nextUpdate: new Date(lastPostDate.getTime() + 24 * 60 * 60 * 1000).toISOString()
+          }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
         );
       }

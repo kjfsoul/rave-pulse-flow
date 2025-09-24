@@ -30,7 +30,7 @@ const RSSWebSocketManager: React.FC<RSSWebSocketManagerProps> = ({
         subscriptionRef.current.unsubscribe();
       }
 
-      console.log('Setting up real-time subscription for live_feed...');
+      console.log('Setting up daily RSS feed subscription (not real-time)...');
 
       subscriptionRef.current = supabase
         .channel('enhanced_rss_feed')

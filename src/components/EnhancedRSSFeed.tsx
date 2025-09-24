@@ -54,13 +54,13 @@ interface FilterOptions {
   searchQuery: string;
 }
 
-// Helper function to check for stale data
+// Helper function to check for stale data (now checks for 2 days for daily updates)
 const isDataStale = (items: EnhancedFeedItem[]): boolean => {
   if (items.length === 0) return false;
   const latestPostDate = new Date(items[0].pub_date);
-  const oneDayAgo = new Date();
-  oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-  return latestPostDate < oneDayAgo;
+  const twoDaysAgo = new Date();
+  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2); // 48 hours for daily RSS updates
+  return latestPostDate < twoDaysAgo;
 };
 
 const EnhancedRSSFeed: React.FC = () => {
@@ -91,7 +91,7 @@ const EnhancedRSSFeed: React.FC = () => {
         setFeedItems(data);
         if (isDataStale(data) && connectionStatus !== 'error') {
           setConnectionStatus('stale');
-          toast.warning("Live feed is stale", { description: "Data hasn't updated in over 24 hours. Attempting to refresh..." });
+          toast.warning("RSS feed is stale", { description: "Data hasn't updated in over 48 hours. Attempting to refresh..." });
           refreshFeed();
         }
       } else {
@@ -131,8 +131,8 @@ const EnhancedRSSFeed: React.FC = () => {
     setError(message);
     if (isFinal) {
       setConnectionStatus('error');
-      toast.error("Live connection failed. Falling back to static feed.", {
-        description: "You'll see the latest loaded data, but no live updates."
+      toast.error("RSS connection failed. Falling back to static feed.", {
+        description: "You'll see the latest loaded data. RSS feeds update daily."
       });
       fetchFeedItems(true); // Fetch as a fallback
     }
@@ -174,7 +174,7 @@ const EnhancedRSSFeed: React.FC = () => {
 
   const StatusIndicator = () => {
     const indicatorMap = {
-      subscribed: { icon: SignalHigh, color: 'text-neon-green', text: 'Live' },
+      subscribed: { icon: SignalHigh, color: 'text-neon-green', text: 'Daily Updates' },
       connecting: { icon: Signal, color: 'text-yellow-400 animate-pulse', text: 'Connecting...' },
       disconnected: { icon: SignalLow, color: 'text-orange-500', text: 'Reconnecting...' },
       error: { icon: XCircle, color: 'text-neon-pink', text: 'Connection Failed' },
@@ -275,7 +275,16 @@ const EnhancedRSSFeed: React.FC = () => {
         {filteredItems.length > 0 ? (
           <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <AnimatePresence>
-              {filteredItems.map((item, index) => <EnhancedFeedCard key={`${item.id}-${index}`} item={item} />)}
+              {filteredItems.map((item, index) => (
+                <EnhancedFeedCard 
+                  key={`${item.id}-${index}`} 
+                  item={item} 
+                  index={index}
+                  isHovered={false}
+                  onHoverStart={() => {}}
+                  onHoverEnd={() => {}}
+                />
+              ))}
             </AnimatePresence>
           </motion.div>
         ) : (
