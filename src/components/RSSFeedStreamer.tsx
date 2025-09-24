@@ -1,31 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Music, Radio, ExternalLink, Clock, Rss, RefreshCw, AlertCircle, Smartphone } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { supabase, LiveFeedItem } from '@/lib/supabase';
-import { mockSupabase } from '@/lib/mockSupabase';
-import { toast } from 'sonner';
-import EnhancedFeedCard from './EnhancedFeedCard';
-import MobileSwipeFeed from './MobileSwipeFeed';
-import RSSWebSocketManager from './RSSWebSocketManager';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { LiveFeedItem, supabase } from "@/lib/supabase";
+import { motion } from "framer-motion";
+import {
+  AlertCircle,
+  Calendar,
+  Music,
+  Radio,
+  RefreshCw,
+  Rss,
+  Smartphone,
+} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
+import EnhancedFeedCard from "./EnhancedFeedCard";
+import MobileSwipeFeed from "./MobileSwipeFeed";
+import RSSWebSocketManager from "./RSSWebSocketManager";
 
 // Emoji mapping for different sources and categories
 const getSourceEmoji = (source: string, category: string): string => {
   const sourceMap: Record<string, string> = {
-    'Your EDM': '🎵',
-    'Dancing Astronaut': '🚀',
-    'EDM.com': '🎪'
+    "Your EDM": "🎵",
+    "Dancing Astronaut": "🚀",
+    "EDM.com": "🎪",
   };
 
   const categoryMap: Record<string, string> = {
-    'music': '🎵',
-    'festival': '🎪',
-    'news': '📰'
+    music: "🎵",
+    festival: "🎪",
+    news: "📰",
   };
 
-  return sourceMap[source] || categoryMap[category] || '🎧';
+  return sourceMap[source] || categoryMap[category] || "🎧";
 };
 
 const RSSFeedStreamer: React.FC = () => {
@@ -35,210 +41,230 @@ const RSSFeedStreamer: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
-  const [viewMode, setViewMode] = useState<'desktop' | 'mobile'>('desktop');
+  const [viewMode, setViewMode] = useState<"desktop" | "mobile">("desktop");
   const [isMobile, setIsMobile] = useState(false);
 
   // Fetch feed items with smart fallback
   const fetchFeedItems = async () => {
-    console.log('🔄 Starting fetchFeedItems...');
-    console.log('📡 Environment check:', {
+    console.log("🔄 Starting fetchFeedItems...");
+    console.log("📡 Environment check:", {
       supabaseUrl: import.meta.env.VITE_SUPABASE_URL,
-      hasAnonKey: !!import.meta.env.VITE_SUPABASE_ANON_KEY
+      hasAnonKey: !!import.meta.env.VITE_SUPABASE_ANON_KEY,
     });
 
     try {
       setLoading(true);
       setError(null);
 
-      console.log('📡 Making Supabase request to live_feed table...');
+      console.log("📡 Making Supabase request to live_feed table...");
       const { data, error: fetchError } = await supabase
-        .from('live_feed')
-        .select('*')
-        .order('pub_date', { ascending: false })
+        .from("live_feed")
+        .select("*")
+        .order("pub_date", { ascending: false })
         .limit(10);
 
-      console.log('📊 Supabase response:', { data, error: fetchError });
+      console.log("📊 Supabase response:", { data, error: fetchError });
 
       if (fetchError) {
-        console.error('❌ Supabase error:', fetchError);
+        console.error("❌ Supabase error:", fetchError);
 
         // Provide specific error messages based on error type
-        if (fetchError.code === 'PGRST116') {
+        if (fetchError.code === "PGRST116") {
           console.log('📋 Table "live_feed" does not exist - using demo data');
-          setError('Database table not found. Please run the database migration first.');
-        } else if (fetchError.message?.includes('JWT')) {
-          console.log('🔐 Authentication error - using demo data');
-          setError('Authentication error. Please check your Supabase configuration.');
-        } else if (fetchError.message?.includes('fetch')) {
-          console.log('🌐 Network error - using demo data');
-          setError('Network error. Please check your connection.');
+          setError(
+            "Database table not found. Please run the database migration first."
+          );
+        } else if (fetchError.message?.includes("JWT")) {
+          console.log("🔐 Authentication error - using demo data");
+          setError(
+            "Authentication error. Please check your Supabase configuration."
+          );
+        } else if (fetchError.message?.includes("fetch")) {
+          console.log("🌐 Network error - using demo data");
+          setError("Network error. Please check your connection.");
         } else {
-          console.log('❓ Unknown error - using demo data');
+          console.log("❓ Unknown error - using demo data");
           setError(`Database error: ${fetchError.message}`);
         }
 
-        console.log('🔄 Falling back to demo data...');
+        console.log("🔄 Falling back to demo data...");
         loadDemoData();
         return;
       }
 
       if (data && data.length > 0) {
-        console.log('✅ Found', data.length, 'real feed items from Supabase');
+        console.log("✅ Found", data.length, "real feed items from Supabase");
         setFeedItems(data);
         setLastRefresh(new Date());
         setError(null);
       } else {
-        console.log('⚠️ No feed items found, using demo data');
+        console.log("⚠️ No feed items found, using demo data");
         loadDemoData();
       }
     } catch (err) {
-      console.error('💥 Error fetching feed items:', err);
-      console.log('🔄 Using demo data as fallback...');
+      console.error("💥 Error fetching feed items:", err);
+      console.log("🔄 Using demo data as fallback...");
       loadDemoData();
     } finally {
-      console.log('🏁 Fetch complete');
+      console.log("🏁 Fetch complete");
       setLoading(false);
     }
   };
 
   // Load demo data when Supabase is not available
   const loadDemoData = () => {
-    console.log('🎵 Loading demo EDM news data...');
+    console.log("🎵 Loading demo EDM news data...");
     const demoData: LiveFeedItem[] = [
       {
-        id: 'demo-1',
-        title: 'Tomorrowland 2025 Announces First Wave of Artists',
-        description: 'The iconic Belgian festival has revealed its initial lineup featuring David Guetta, Martin Garrix, and Armin van Buuren. Early bird tickets selling fast.',
-        link: 'https://tomorrowland.com/news/2025-lineup',
-        source: 'Tomorrowland',
-        category: 'festival',
+        id: "demo-1",
+        title: "Tomorrowland 2025 Announces First Wave of Artists",
+        description:
+          "The iconic Belgian festival has revealed its initial lineup featuring David Guetta, Martin Garrix, and Armin van Buuren. Early bird tickets selling fast.",
+        link: "https://tomorrowland.com/news/2025-lineup",
+        source: "Tomorrowland",
+        category: "festival",
         pub_date: new Date(Date.now() - 900000).toISOString(), // 15 minutes ago
-        guid: 'demo-guid-1',
+        guid: "demo-guid-1",
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
-        author: 'Festival Team',
-        tags: ['festival', 'lineup', 'tomorrowland'],
+        author: "Festival Team",
+        tags: ["festival", "lineup", "tomorrowland"],
         read_time: 2,
-        sentiment: 'positive',
+        sentiment: "positive",
         priority: 5,
         trending: true,
-        featured: true
+        featured: true,
       },
       {
-        id: 'demo-2',
+        id: "demo-2",
         title: 'Deadmau5 Releases New Album "where phantoms sleep 04"',
-        description: 'The Canadian electronic music producer drops his highly anticipated album featuring collaborations with various artists in the EDM scene.',
-        link: 'https://deadmau5.com/releases/where-phantoms-sleep-04',
-        source: 'EDM.com',
-        category: 'music',
+        description:
+          "The Canadian electronic music producer drops his highly anticipated album featuring collaborations with various artists in the EDM scene.",
+        link: "https://deadmau5.com/releases/where-phantoms-sleep-04",
+        source: "EDM.com",
+        category: "music",
         pub_date: new Date(Date.now() - 1800000).toISOString(), // 30 minutes ago
-        guid: 'demo-guid-2',
+        guid: "demo-guid-2",
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
-        author: 'Music Editor',
-        tags: ['deadmau5', 'album', 'electronic'],
+        author: "Music Editor",
+        tags: ["deadmau5", "album", "electronic"],
         read_time: 3,
-        sentiment: 'positive',
-        priority: 4
-      },
-      {
-        id: 'demo-3',
-        title: 'Ultra Music Festival 2025 Dates Confirmed',
-        description: 'Miami\'s premier electronic music festival has announced its 2025 dates and early planning for what promises to be another spectacular year.',
-        link: 'https://ultramusicfestival.com/2025',
-        source: 'Ultra Music',
-        category: 'festival',
-        pub_date: new Date(Date.now() - 3600000).toISOString(), // 1 hour ago
-        guid: 'demo-guid-3',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        author: 'Festival News',
-        tags: ['ultra', 'miami', 'festival'],
-        read_time: 2,
-        sentiment: 'positive',
-        priority: 3,
-        featured: true
-      },
-      {
-        id: 'demo-4',
-        title: 'Techno Revolution: Underground Scenes Making Waves',
-        description: 'How underground techno collectives are influencing mainstream electronic music and creating new subgenres that push creative boundaries.',
-        link: 'https://dancingastronaut.com/underground-techno',
-        source: 'Dancing Astronaut',
-        category: 'news',
-        pub_date: new Date(Date.now() - 5400000).toISOString(), // 1.5 hours ago
-        guid: 'demo-guid-4',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        author: 'Culture Reporter',
-        tags: ['techno', 'underground', 'culture'],
-        read_time: 5,
-        sentiment: 'neutral',
-        priority: 2
-      },
-      {
-        id: 'demo-5',
-        title: 'Beatport Releases 2024 Year-End Report',
-        description: 'The digital music store reveals the most popular tracks, artists, and emerging trends from the past year in electronic dance music.',
-        link: 'https://beatport.com/year-end-2024',
-        source: 'Beatport',
-        category: 'news',
-        pub_date: new Date(Date.now() - 7200000).toISOString(), // 2 hours ago
-        guid: 'demo-guid-5',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        author: 'Analytics Team',
-        tags: ['beatport', 'analytics', 'year-end'],
-        read_time: 4,
-        sentiment: 'positive',
-        priority: 3
-      },
-      {
-        id: 'demo-6',
-        title: 'Rising Star: Meet the Next Big EDM Producer',
-        description: 'An exclusive interview with an up-and-coming producer who\'s tracks have been gaining massive traction across streaming platforms.',
-        link: 'https://insomniac.com/rising-stars',
-        source: 'Insomniac',
-        category: 'news',
-        pub_date: new Date(Date.now() - 10800000).toISOString(), // 3 hours ago
-        guid: 'demo-guid-6',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        author: 'Features Editor',
-        tags: ['producer', 'interview', 'rising-star'],
-        read_time: 6,
-        sentiment: 'positive',
+        sentiment: "positive",
         priority: 4,
-        trending: true
-      }
+      },
+      {
+        id: "demo-3",
+        title: "Ultra Music Festival 2025 Dates Confirmed",
+        description:
+          "Miami's premier electronic music festival has announced its 2025 dates and early planning for what promises to be another spectacular year.",
+        link: "https://ultramusicfestival.com/2025",
+        source: "Ultra Music",
+        category: "festival",
+        pub_date: new Date(Date.now() - 3600000).toISOString(), // 1 hour ago
+        guid: "demo-guid-3",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        author: "Festival News",
+        tags: ["ultra", "miami", "festival"],
+        read_time: 2,
+        sentiment: "positive",
+        priority: 3,
+        featured: true,
+      },
+      {
+        id: "demo-4",
+        title: "Techno Revolution: Underground Scenes Making Waves",
+        description:
+          "How underground techno collectives are influencing mainstream electronic music and creating new subgenres that push creative boundaries.",
+        link: "https://dancingastronaut.com/underground-techno",
+        source: "Dancing Astronaut",
+        category: "news",
+        pub_date: new Date(Date.now() - 5400000).toISOString(), // 1.5 hours ago
+        guid: "demo-guid-4",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        author: "Culture Reporter",
+        tags: ["techno", "underground", "culture"],
+        read_time: 5,
+        sentiment: "neutral",
+        priority: 2,
+      },
+      {
+        id: "demo-5",
+        title: "Beatport Releases 2024 Year-End Report",
+        description:
+          "The digital music store reveals the most popular tracks, artists, and emerging trends from the past year in electronic dance music.",
+        link: "https://beatport.com/year-end-2024",
+        source: "Beatport",
+        category: "news",
+        pub_date: new Date(Date.now() - 7200000).toISOString(), // 2 hours ago
+        guid: "demo-guid-5",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        author: "Analytics Team",
+        tags: ["beatport", "analytics", "year-end"],
+        read_time: 4,
+        sentiment: "positive",
+        priority: 3,
+      },
+      {
+        id: "demo-6",
+        title: "Rising Star: Meet the Next Big EDM Producer",
+        description:
+          "An exclusive interview with an up-and-coming producer who's tracks have been gaining massive traction across streaming platforms.",
+        link: "https://insomniac.com/rising-stars",
+        source: "Insomniac",
+        category: "news",
+        pub_date: new Date(Date.now() - 10800000).toISOString(), // 3 hours ago
+        guid: "demo-guid-6",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        author: "Features Editor",
+        tags: ["producer", "interview", "rising-star"],
+        read_time: 6,
+        sentiment: "positive",
+        priority: 4,
+        trending: true,
+      },
     ];
 
     setFeedItems(demoData);
-    setError('Demo mode: Supabase connection timeout, showing sample data. Create the live_feed table to see real RSS data.');
-    console.log('✅ Demo data loaded successfully');
+    setError(
+      "Demo mode: Supabase connection timeout, showing sample data. Create the live_feed table to see real RSS data."
+    );
+    console.log("✅ Demo data loaded successfully");
   };
 
   // Trigger RSS feed update via Edge Function
   const refreshFeed = async () => {
     try {
-      toast.info('Fetching latest EDM news (daily update)...');
+      toast.info("Fetching latest EDM news (daily update)...");
 
-      console.log('🚀 Calling fetch-rss-feeds Edge Function...');
-      const { data, error: functionError } = await supabase.functions.invoke('fetch-rss-feeds', {
-        body: {},
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      console.log("🚀 Calling fetch-rss-feeds Edge Function...");
+      const { data, error: functionError } = await supabase.functions.invoke(
+        "fetch-rss-feeds",
+        {
+          body: {},
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      console.log('📊 Edge Function response:', { data, error: functionError });
+      console.log("📊 Edge Function response:", { data, error: functionError });
 
       if (functionError) {
-        console.error('❌ Edge function error:', functionError);
+        console.error("❌ Edge function error:", functionError);
 
         // Check if it's a "function not found" error
-        if (functionError.message?.includes('function') && functionError.message?.includes('not found')) {
-          toast.error('RSS function not deployed. Please deploy the fetch-rss-feeds Edge Function first.');
+        if (
+          functionError.message?.includes("function") &&
+          functionError.message?.includes("not found")
+        ) {
+          toast.error(
+            "RSS function not deployed. Please deploy the fetch-rss-feeds Edge Function first."
+          );
           return;
         }
 
@@ -247,9 +273,12 @@ const RSSFeedStreamer: React.FC = () => {
       }
 
       if (data?.success) {
-        const message = data.itemsUpserted > 0
-          ? `Updated with ${data.itemsUpserted} new articles from ${data.sources?.length || 0} sources!`
-          : 'Feed refreshed - no new articles found';
+        const message =
+          data.itemsUpserted > 0
+            ? `Updated with ${data.itemsUpserted} new articles from ${
+                data.sources?.length || 0
+              } sources!`
+            : "Feed refreshed - no new articles found";
 
         toast.success(message);
 
@@ -257,28 +286,32 @@ const RSSFeedStreamer: React.FC = () => {
         setTimeout(async () => {
           await fetchFeedItems();
         }, 1000);
-
       } else if (data?.success === false) {
-        console.log('⚠️ Edge function returned error:', data.error);
-        toast.warning(`Feed update completed with warnings: ${data.error || 'Unknown error'}`);
+        console.log("⚠️ Edge function returned error:", data.error);
+        toast.warning(
+          `Feed update completed with warnings: ${
+            data.error || "Unknown error"
+          }`
+        );
       } else {
-        console.log('⚠️ Edge function returned unexpected response:', data);
-        toast.warning('Feed refresh completed - checking for updates...');
+        console.log("⚠️ Edge function returned unexpected response:", data);
+        toast.warning("Feed refresh completed - checking for updates...");
       }
 
       // Always refresh local data
       await fetchFeedItems();
-
     } catch (err) {
-      console.error('💥 Error refreshing feed:', err);
+      console.error("💥 Error refreshing feed:", err);
 
       // Provide specific error messages
-      if (err.message?.includes('fetch')) {
-        toast.error('Network error - please check your connection');
-      } else if (err.message?.includes('timeout')) {
-        toast.error('Request timeout - RSS service may be busy');
+      if (err.message?.includes("fetch")) {
+        toast.error("Network error - please check your connection");
+      } else if (err.message?.includes("timeout")) {
+        toast.error("Request timeout - RSS service may be busy");
       } else {
-        toast.error(`Failed to refresh RSS feed: ${err.message || 'Unknown error'}`);
+        toast.error(
+          `Failed to refresh RSS feed: ${err.message || "Unknown error"}`
+        );
       }
     }
   };
@@ -287,26 +320,26 @@ const RSSFeedStreamer: React.FC = () => {
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
-      setViewMode(window.innerWidth < 768 ? 'mobile' : 'desktop');
+      setViewMode(window.innerWidth < 768 ? "mobile" : "desktop");
     };
 
     checkMobile();
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
 
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Handle real-time new articles
   const handleNewArticle = (newArticle: LiveFeedItem) => {
-    console.log('New article received via WebSocket:', newArticle);
-    setFeedItems(prev => [newArticle, ...prev]);
+    console.log("New article received via WebSocket:", newArticle);
+    setFeedItems((prev) => [newArticle, ...prev]);
   };
 
   // Handle real-time updates
   const handleUpdate = (updatedArticle: LiveFeedItem) => {
-    console.log('Article updated via WebSocket:', updatedArticle);
-    setFeedItems(prev =>
-      prev.map(item =>
+    console.log("Article updated via WebSocket:", updatedArticle);
+    setFeedItems((prev) =>
+      prev.map((item) =>
         item.id === updatedArticle.id ? updatedArticle : item
       )
     );
@@ -314,16 +347,16 @@ const RSSFeedStreamer: React.FC = () => {
 
   // Handle WebSocket errors
   const handleWebSocketError = (error: any) => {
-    console.error('WebSocket error:', error);
-    toast.error('RSS connection error. Feeds update daily.');
+    console.error("WebSocket error:", error);
+    toast.error("RSS connection error. Feeds update daily.");
   };
 
   // Initial fetch on component mount with timeout
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (loading) {
-        console.log('⏰ Loading timeout reached');
-        setError('Loading timeout - please check your connection');
+        console.log("⏰ Loading timeout reached");
+        setError("Loading timeout - please check your connection");
         setLoading(false);
       }
     }, 15000); // 15 second timeout
@@ -356,28 +389,38 @@ const RSSFeedStreamer: React.FC = () => {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'music': return <Music className="w-4 h-4" />;
-      case 'festival': return <Calendar className="w-4 h-4" />;
-      case 'news': return <Radio className="w-4 h-4" />;
-      default: return <Rss className="w-4 h-4" />;
+      case "music":
+        return <Music className="w-4 h-4" />;
+      case "festival":
+        return <Calendar className="w-4 h-4" />;
+      case "news":
+        return <Radio className="w-4 h-4" />;
+      default:
+        return <Rss className="w-4 h-4" />;
     }
   };
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'music': return 'bg-neon-purple/20 text-neon-purple border-neon-purple/30';
-      case 'festival': return 'bg-neon-cyan/20 text-neon-cyan border-neon-cyan/30';
-      case 'news': return 'bg-neon-pink/20 text-neon-pink border-neon-pink/30';
-      default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+      case "music":
+        return "bg-neon-purple/20 text-neon-purple border-neon-purple/30";
+      case "festival":
+        return "bg-neon-cyan/20 text-neon-cyan border-neon-cyan/30";
+      case "news":
+        return "bg-neon-pink/20 text-neon-pink border-neon-pink/30";
+      default:
+        return "bg-gray-500/20 text-gray-400 border-gray-500/30";
     }
   };
 
   const formatTimeAgo = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
-    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+    const diffInHours = Math.floor(
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60)
+    );
 
-    if (diffInHours < 1) return 'Just now';
+    if (diffInHours < 1) return "Just now";
     if (diffInHours < 24) return `${diffInHours}h ago`;
     const diffInDays = Math.floor(diffInHours / 24);
     return `${diffInDays}d ago`;
@@ -430,7 +473,7 @@ const RSSFeedStreamer: React.FC = () => {
   if (feedItems.length === 0) return null;
 
   // Mobile Swipe View
-  if (viewMode === 'mobile') {
+  if (viewMode === "mobile") {
     return <MobileSwipeFeed items={feedItems} />;
   }
 
@@ -456,10 +499,10 @@ const RSSFeedStreamer: React.FC = () => {
               className="w-8 h-8 bg-gradient-to-r from-neon-purple to-neon-cyan rounded-full flex items-center justify-center relative"
               animate={{
                 boxShadow: [
-                  '0 0 10px rgba(191, 90, 242, 0.5)',
-                  '0 0 20px rgba(6, 255, 165, 0.5)',
-                  '0 0 10px rgba(191, 90, 242, 0.5)'
-                ]
+                  "0 0 10px rgba(191, 90, 242, 0.5)",
+                  "0 0 20px rgba(6, 255, 165, 0.5)",
+                  "0 0 10px rgba(191, 90, 242, 0.5)",
+                ],
               }}
               transition={{ duration: 2, repeat: Infinity }}
             >
@@ -472,13 +515,20 @@ const RSSFeedStreamer: React.FC = () => {
               />
             </motion.div>
             <div>
-              <h2 className="text-lg font-bold text-white">Enhanced EDM Live Feed</h2>
-              <p className="text-xs text-slate-400">AI-powered news with real-time updates</p>
+              <h2 className="text-lg font-bold text-white">
+                Enhanced EDM Live Feed
+              </h2>
+              <p className="text-xs text-slate-400">
+                AI-powered news with real-time updates
+              </p>
             </div>
           </motion.div>
 
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="bg-neon-cyan/10 text-neon-cyan border-neon-cyan/30">
+            <Badge
+              variant="outline"
+              className="bg-neon-cyan/10 text-neon-cyan border-neon-cyan/30"
+            >
               <motion.div
                 className="w-2 h-2 bg-neon-cyan rounded-full mr-2"
                 animate={{ opacity: [0.5, 1, 0.5] }}
@@ -489,11 +539,15 @@ const RSSFeedStreamer: React.FC = () => {
 
             {/* View Mode Toggle */}
             <Button
-              onClick={() => setViewMode(viewMode === 'desktop' ? 'mobile' : 'desktop')}
+              onClick={() =>
+                setViewMode(viewMode === "desktop" ? "mobile" : "desktop")
+              }
               size="sm"
               variant="ghost"
               className="text-slate-400 hover:text-white"
-              title={`Switch to ${viewMode === 'desktop' ? 'mobile' : 'desktop'} view`}
+              title={`Switch to ${
+                viewMode === "desktop" ? "mobile" : "desktop"
+              } view`}
             >
               <Smartphone className="w-4 h-4" />
             </Button>
@@ -561,7 +615,6 @@ const RSSFeedStreamer: React.FC = () => {
             ))}
           </motion.div>
         </div>
-
       </div>
     </div>
   );
