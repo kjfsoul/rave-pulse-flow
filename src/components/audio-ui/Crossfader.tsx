@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Crosshair } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
+import { useAudioEngine } from '@/audio/hooks/useAudioEngine';
+import { FF_AUDIO_ENGINE } from '@/config/features';
 
 interface CrossfaderProps {
   value: number;
@@ -14,20 +16,31 @@ interface CrossfaderProps {
 }
 
 const Crossfader: React.FC<CrossfaderProps> = ({
-  value,
-  onChange,
+  value: initialValue,
+  onChange: onChangeProp,
   deckAActive,
   deckBActive,
   deckAVolume = 0,
   deckBVolume = 0,
-  isSimulationMode = false
+  isSimulationMode = false,
 }) => {
+  const { audioEngine } = useAudioEngine() ?? {};
+  const [value, setValue] = useState(initialValue);
+
   const deckAMultiplier = (100 - value) / 100;
   const deckBMultiplier = value / 100;
   const activeDeck = value < 40 ? 'A' : value > 60 ? 'B' : null;
 
   const handleValueChange = (newValue: number[]) => {
-    onChange(newValue[0]);
+    const v = newValue[0];
+    setValue(v);
+
+    if (FF_AUDIO_ENGINE && audioEngine) {
+      // Normalize value from 0-100 to 0-1 for the audio engine
+      audioEngine.setCrossfader(v / 100);
+    }
+
+    onChangeProp(v);
   };
 
   return (

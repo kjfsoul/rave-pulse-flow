@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, RotateCcw, Zap, Volume2 } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
+import { useAudioEngine } from '@/audio/hooks/useAudioEngine';
+import { FF_AUDIO_ENGINE } from '@/config/features';
 
 interface ControlsState {
   volume: number;
@@ -10,6 +12,10 @@ interface ControlsState {
   isPlaying: boolean;
   isSynced: boolean;
   hotCues: boolean[];
+  // Added for new EQ controls
+  low: number;
+  mid: number;
+  high: number;
 }
 
 interface FLX10DeckProps {
@@ -18,19 +24,59 @@ interface FLX10DeckProps {
   controls: ControlsState;
   trackTitle?: string;
   bpm?: number;
-  onControlChange: (key: string, value: number | boolean) => void;
+  onControlChange: (key: string, value: any) => void;
   onHotCueTrigger: (index: number) => void;
 }
 
 const FLX10Deck: React.FC<FLX10DeckProps> = ({
   deckId,
   audioBuffer,
-  controls,
+  controls: initialControls,
   trackTitle = 'No Track Loaded',
   bpm = 128,
-  onControlChange,
-  onHotCueTrigger
+  onControlChange: onControlChangeProp,
+  onHotCueTrigger,
 }) => {
+  const { audioEngine } = useAudioEngine() ?? {};
+  const deck = deckId === 'A' ? audioEngine?.deckA : audioEngine?.deckB;
+
+  const [controls, setControls] = useState(initialControls);
+
+  useEffect(() => {
+    if (FF_AUDIO_ENGINE && deck) {
+      deck.load('oscillator');
+      const initialEQ = { low: 50, mid: 50, high: 50 };
+      deck.setEQ(initialEQ);
+      setControls(prev => ({...prev, ...initialEQ}));
+    }
+  }, [deck]);
+
+  const onControlChange = (key: keyof ControlsState, value: any) => {
+    const newControls = { ...controls, [key]: value };
+    setControls(newControls);
+
+    if (FF_AUDIO_ENGINE && audioEngine && deck) {
+      if (key === 'isPlaying') {
+        if (audioEngine.audioContext.state === 'suspended') {
+          audioEngine.audioContext.resume();
+        }
+        if (value) deck.play();
+        else deck.pause();
+      } else if (key === 'pitch') {
+        const rate = 1 + (value as number) / 100;
+        deck.setRate(rate);
+      } else if (key === 'low' || key === 'mid' || key === 'high') {
+        deck.setEQ({
+          low: newControls.low ?? 50,
+          mid: newControls.mid ?? 50,
+          high: newControls.high ?? 50,
+        });
+      }
+    } else {
+      onControlChangeProp(key, value);
+    }
+  };
+
   const [jogRotation, setJogRotation] = useState(0);
   const [isDraggingJog, setIsDraggingJog] = useState(false);
   const [pressedPad, setPressedPad] = useState<number | null>(null);
@@ -150,34 +196,42 @@ const FLX10Deck: React.FC<FLX10DeckProps> = ({
         ))}
       </div>
 
-      {/* Control Knobs Row */}
-      <div className="grid grid-cols-2 gap-6">
-        {/* Gain Knob */}
+      {/* EQ & Control Knobs Row */}
+      <div className="grid grid-cols-3 gap-4">
+        {/* Low EQ */}
         <div className="space-y-2">
           <label className="block text-neon-cyan text-sm font-medium">
-            GAIN {controls.volume}%
-          </label>
-          <div className="relative">
-            <Slider
-              value={[controls.volume]}
-              onValueChange={(value) => onControlChange('volume', value[0])}
-              max={100}
-              step={1}
-              className="w-full"
-            />
-            <Volume2 className="absolute -right-6 top-1/2 transform -translate-y-1/2 w-4 h-4 text-neon-cyan/60" />
-          </div>
-        </div>
-
-        {/* Filter Knob */}
-        <div className="space-y-2">
-          <label className="block text-neon-cyan text-sm font-medium">
-            FILTER {controls.filter > 0 ? 'HPF' : controls.filter < 0 ? 'LPF' : 'OFF'} {Math.abs(controls.filter)}%
+            LOW {controls.low}%
           </label>
           <Slider
-            value={[controls.filter]}
-            onValueChange={(value) => onControlChange('filter', value[0])}
-            min={-100}
+            value={[controls.low]}
+            onValueChange={(value) => onControlChange('low', value[0])}
+            max={100}
+            step={1}
+            className="w-full"
+          />
+        </div>
+        {/* Mid EQ */}
+        <div className="space-y-2">
+          <label className="block text-neon-cyan text-sm font-medium">
+            MID {controls.mid}%
+          </label>
+          <Slider
+            value={[controls.mid]}
+            onValueChange={(value) => onControlChange('mid', value[0])}
+            max={100}
+            step={1}
+            className="w-full"
+          />
+        </div>
+        {/* High EQ */}
+        <div className="space-y-2">
+          <label className="block text-neon-cyan text-sm font-medium">
+            HIGH {controls.high}%
+          </label>
+          <Slider
+            value={[controls.high]}
+            onValueChange={(value) => onControlChange('high', value[0])}
             max={100}
             step={1}
             className="w-full"

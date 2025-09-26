@@ -50,6 +50,23 @@ See [`DOCUMENTATION_INDEX.md`](./DOCUMENTATION_INDEX.md) for a full, clickable l
 - Supabase (planned)
 - Open, extensible for cloud/AI integrations (Gemini CLI, Claude Code, Roo Code, Kimi Dev, etc.)
 
+## 💻 Development
+
+### Enabling the Web Audio Engine
+
+The new Web Audio-based engine is currently behind a feature flag. To enable it for local development:
+
+1.  Create a file named `.env.local` in the root of the project.
+2.  Add the following line to the file:
+
+    ```
+    NEXT_PUBLIC_FF_AUDIO_ENGINE=true
+    ```
+
+3.  Start the development server (`pnpm dev`). The audio engine will now be active.
+
+By default, this feature is turned **off**.
+
 ## 🎯 Core Principles
 
 - **Transparency:** Every commit, feature, and claim must be verifiable.

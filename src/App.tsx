@@ -19,6 +19,8 @@ import ShuffleChallengePage from "./pages/ShuffleChallengePage";
 import ProfessionalDJStationPage from "./pages/ProfessionalDJStationPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ScrollToTop from "./components/ScrollToTop";
+import { FF_AUDIO_ENGINE } from "./config/features";
+import { RecordingControls } from "./components/audio-ui/RecordingControls";
 // import AudioTestComponent from "./components/audio-ui/AudioTestComponent";
 
 const queryClient = new QueryClient();
@@ -48,6 +50,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            {FF_AUDIO_ENGINE && <RecordingControls />}
           </TooltipProvider>
         </AudioProvider>
       </VotingProvider>
