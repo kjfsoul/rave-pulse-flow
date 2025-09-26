@@ -1,0 +1,52 @@
+name: Daily RSS Feed Update
+
+on:
+  schedule:
+    # Run daily at 6 AM UTC (adjust timezone as needed)
+    - cron: '0 6 * * *'
+  workflow_dispatch:  # Allow manual trigger
+  push:
+    branches: [ main ]
+    paths:
+      - 'supabase/functions/fetch-rss-feeds/**'
+
+jobs:
+  update-rss-feeds:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Update RSS Feeds
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "🔄 Triggering daily RSS feed update..."
+          
+          response=$(curl -s -w "\n%{http_code}" -X POST "$SUPABASE_URL/functions/v1/fetch-rss-feeds" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | head -n -1)
+          
+          echo "📊 Response Code: $http_code"
+          echo "📄 Response Body: $body"
+          
+          if [ "$http_code" -eq 200 ]; then
+            echo "✅ RSS feed update completed successfully"
+            echo "$body" | jq -r '.message // "No message"'
+          else
+            echo "❌ RSS feed update failed with status $http_code"
+            echo "$body"
+            exit 1
+          fi
+          
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "🚨 Daily RSS update failed. Check the logs above for details."
+          # Add notification logic here (Slack, Discord, email, etc.)

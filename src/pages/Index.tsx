@@ -102,7 +102,7 @@ const Index = () => {
         ) : (
           <>
             <Button
-              onClick={() => navigate('/dj-mix')}
+              onClick={() => navigate('/pro-dj-station')}
               size="sm"
               className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
             >
@@ -242,9 +242,9 @@ const Index = () => {
                   />
                 </motion.button>
 
-                {/* DJ Mix Studio Button */}
+                {/* Pro Studio Button */}
                 <motion.button
-                  onClick={() => navigate('/dj-mix')}
+                  onClick={() => navigate('/pro-dj-station')}
                   className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xl px-12 py-6 rounded-full font-bold hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 relative overflow-hidden group"
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -259,7 +259,7 @@ const Index = () => {
                     }}
                     transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
                   >
-                    🎛️ DJ Studio
+                    🎛️ Pro Studio
                   </motion.span>
 
                   {/* Shimmer Effect */}

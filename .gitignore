@@ -7,62 +7,54 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
+# Node / deps
+node_modules/
+
+# Builds
 dist
 dist-ssr
-*.local
+.next/
+out/
 
-# Editor directories and files
+# OS / Editors
+.DS_Store
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# Anaconda
-.anaconda/*
-anaconda3/*
-*/anaconda3/*
+# Python / Conda (if present)
+.anaconda/
+anaconda3/
 **/anaconda3/**
 .venv/
-.env.local
-.env.crew
-.env*
-env*
+.venv*/
+venv*/
 venv_crewai/*
-production_checklist.md
-.env.crew
-.env*
-.vercel
+
+# Env files (dot-env only)
 .env
+.env.*
+!.env.example
 .env.local
+
+# Vercel
 .vercel
+
+# MCP / tools
 .mcp.json
-.venv*
-venv_crewai/*
-.env
-.env.local
-.vercel
-.mcp.json
-.venv*
-.env.crew
-.env.example
-.clinerules/byterover-rules.md
-.kilocode/rules/byterover-rules.md
-.roo/rules/byterover-rules.md
-.windsurf/rules/byterover-rules.md
-.cursor/rules/byterover-rules.mdc
-.kiro/steering/byterover-rules.md
-.qoder/rules/byterover-rules.md
-.augment/rules/byterover-rules.md# Node
-node_modules
-.env*
-.DS_Store
-# Node
-node_modules
-.env*
-.DS_Store
+.clinerules/
+.kilocode/
+.roo/
+.windsurf/
+.cursor/
+.kiro/
+.qoder/
+.augment/rules/byterover-rules.md
+
+# Project docs you intentionally want ignored
+# production_checklist.md
