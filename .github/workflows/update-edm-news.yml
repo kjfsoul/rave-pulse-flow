@@ -43,14 +43,39 @@ jobs:
 
       - name: Validate output
         run: |
-          test -f public/data/edm-news.json || exit 1
+          # Check file exists
+          if [ ! -f public/data/edm-news.json ]; then
+            echo "❌ Feed file not found"
+            exit 1
+          fi
+          
+          # Validate JSON structure and minimum items
           node -e "
             const data = require('./public/data/edm-news.json');
-            if (!data.metadata || !data.items || data.items.length === 0) {
-              console.error('❌ Invalid feed data');
+            
+            // Check structure
+            if (!data.metadata || !data.items) {
+              console.error('❌ Invalid feed structure');
               process.exit(1);
             }
-            console.log('✅ Generated', data.metadata.totalItems, 'items from', data.metadata.activeSources, 'sources');
+            
+            // Require at least 10 items (not 60)
+            if (data.items.length < 10) {
+              console.error('❌ Insufficient items:', data.items.length);
+              process.exit(1);
+            }
+            
+            // Success metrics
+            console.log('✅ Feed validation passed');
+            console.log('📊 Items:', data.metadata.totalItems);
+            console.log('📡 Active sources:', data.metadata.activeSources + '/' + data.metadata.totalSources);
+            console.log('⚠️  Failed sources:', data.metadata.failedSources?.length || 0);
+            
+            // Warn if too many failures (but don't fail the build)
+            const failureRate = (data.metadata.failedSources?.length || 0) / data.metadata.totalSources;
+            if (failureRate > 0.5) {
+              console.warn('⚠️  Warning: More than 50% of sources failed');
+            }
           "
 
       - name: Check for changes

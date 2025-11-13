@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, PanInfo } from "framer-motion";
 import {
   AlertCircle,
   Filter,
@@ -157,9 +157,13 @@ const mapCategory = (category?: string): "music" | "festival" | "news" => {
   return "news";
 };
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 const EnhancedRSSFeed: React.FC = () => {
   const [feedItems, setFeedItems] = useState<EnhancedFeedItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<EnhancedFeedItem[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 6; // 2 rows × 3 columns
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [connectionStatus, setConnectionStatus] =
@@ -321,8 +325,32 @@ const EnhancedRSSFeed: React.FC = () => {
     fetchFeedItems();
   }, [fetchFeedItems]);
 
+  // Filter items from last 48 hours
+  useEffect(() => {
+    const now = Date.now();
+    const fortyEightHoursAgo = now - (48 * 60 * 60 * 1000);
+    
+    const recentItems = feedItems.filter(item => {
+      const itemDate = new Date(item.pub_date).getTime();
+      return itemDate >= fortyEightHoursAgo;
+    });
+    
+    setFilteredItems(recentItems);
+  }, [feedItems]);
+
+  // Apply additional filters (search, category, etc.)
   useEffect(() => {
     let filtered = [...feedItems];
+    
+    // 48-hour filter FIRST
+    const now = Date.now();
+    const fortyEightHoursAgo = now - (48 * 60 * 60 * 1000);
+    filtered = filtered.filter(item => {
+      const itemDate = new Date(item.pub_date).getTime();
+      return itemDate >= fortyEightHoursAgo;
+    });
+
+    // Then apply user filters
     if (filters.searchQuery) {
       const query = filters.searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -334,15 +362,19 @@ const EnhancedRSSFeed: React.FC = () => {
             item.tags.some((tag) => tag.toLowerCase().includes(query)))
       );
     }
+
     if (filters.category !== "all")
       filtered = filtered.filter((item) => item.category === filters.category);
+    
     if (filters.source !== "all")
       filtered = filtered.filter((item) => item.source === filters.source);
+    
     if (filters.sentiment !== "all")
       filtered = filtered.filter(
         (item) => item.sentiment === filters.sentiment
       );
 
+    // Sorting
     switch (filters.sortBy) {
       case "priority":
         filtered.sort((a, b) => (b.priority || 0) - (a.priority || 0));
@@ -359,22 +391,86 @@ const EnhancedRSSFeed: React.FC = () => {
         );
         break;
     }
+
     setFilteredItems(filtered);
+    setCurrentPage(1); // Reset to page 1 when filters change
   }, [feedItems, filters]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentItems = filteredItems.slice(startIndex, endIndex);
+
+  const [isChangingPage, setIsChangingPage] = useState(false);
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setIsChangingPage(true);
+      setTimeout(() => {
+        setCurrentPage(prev => prev + 1);
+        setIsChangingPage(false);
+        document.getElementById('rss-feed-top')?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }, 150);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setIsChangingPage(true);
+      setTimeout(() => {
+        setCurrentPage(prev => prev - 1);
+        setIsChangingPage(false);
+        document.getElementById('rss-feed-top')?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }, 150);
+    }
+  };
+
+  // Add this to your component
+  const handleDragEnd = (
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    const swipeThreshold = 50;
+    
+    // Swipe left (next page)
+    if (info.offset.x < -swipeThreshold && currentPage < totalPages) {
+      goToNextPage();
+    }
+    
+    // Swipe right (previous page)
+    if (info.offset.x > swipeThreshold && currentPage > 1) {
+      goToPrevPage();
+    }
+  };
 
   const uniqueSources = useMemo(() => {
     if (metadata?.sources?.length) return metadata.sources;
     return Array.from(new Set(feedItems.map((item) => item.source)));
   }, [feedItems, metadata]);
 
-  const stats = useMemo(
-    () => ({
-      total: feedItems.length,
-      trending: feedItems.filter((item) => item.trending).length,
-      featured: feedItems.filter((item) => item.featured).length,
-    }),
-    [feedItems]
-  );
+  const stats = useMemo(() => {
+    // Only count items from last 48 hours
+    const now = Date.now();
+    const fortyEightHoursAgo = now - (48 * 60 * 60 * 1000);
+    
+    const recentItems = feedItems.filter(item => {
+      const itemDate = new Date(item.pub_date).getTime();
+      return itemDate >= fortyEightHoursAgo;
+    });
+
+    return {
+      total: recentItems.length,
+      trending: recentItems.filter((item) => item.trending).length,
+      featured: recentItems.filter((item) => item.featured).length,
+    };
+  }, [feedItems]);
 
   const StatusIndicator = () => {
     const indicatorMap = {
@@ -466,11 +562,29 @@ const EnhancedRSSFeed: React.FC = () => {
     );
   }
 
+  // Add this useEffect after your other hooks
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Left arrow key
+      if (e.key === 'ArrowLeft' && currentPage > 1) {
+        goToPrevPage();
+      }
+      // Right arrow key
+      if (e.key === 'ArrowRight' && currentPage < totalPages) {
+        goToNextPage();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [currentPage, totalPages]);
+
   return (
     <div className="w-full bg-gradient-to-r from-bass-dark via-bass-medium to-bass-dark border-b border-neon-purple/20">
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Header */}
         <motion.div
+          id="rss-feed-top"
           className="flex items-center justify-between mb-6"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -494,7 +608,7 @@ const EnhancedRSSFeed: React.FC = () => {
                 Enhanced EDM Feed <Zap className="w-5 h-5 text-neon-cyan" />
               </h2>
               <p className="text-sm text-slate-400">
-                AI-powered EDM news — refreshed daily from {metadata?.sources?.length ?? uniqueSources.length} sources
+                AI-powered EDM news — last 48 hours from {metadata?.sources?.length ?? uniqueSources.length} sources
               </p>
             </div>
           </div>
@@ -504,7 +618,7 @@ const EnhancedRSSFeed: React.FC = () => {
                 variant="outline"
                 className="bg-neon-cyan/10 text-neon-cyan border-neon-cyan/30"
               >
-                {stats.total} total
+                {filteredItems.length} in 48h
               </Badge>
               {stats.trending > 0 && (
                 <Badge
@@ -627,54 +741,203 @@ const EnhancedRSSFeed: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* Content */}
-        {filteredItems.length > 0 ? (
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            <AnimatePresence>
-              {filteredItems.map((item, index) => (
-                <EnhancedFeedCard
-                  key={`${item.id}-${index}`}
-                  item={item}
-                  index={index}
-                  isHovered={false}
-                  onHoverStart={() => {}}
-                  onHoverEnd={() => {}}
-                />
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center py-12"
-          >
-            <Rss className="w-12 h-12 mx-auto text-slate-500" />
-            <h3 className="mt-4 text-xl font-bold text-white">
-              No Articles Found
-            </h3>
-            <p className="mt-2 text-slate-400">
-              Try adjusting your filters or refreshing the feed.
-            </p>
-            <Button
-              onClick={refreshFeed}
-              variant="outline"
-              className="mt-6 border-neon-purple/30 text-neon-purple"
-            >
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Refresh
-            </Button>
-          </motion.div>
-        )}
-
-        <StatusIndicator />
-      </div>
-    </div>
-  );
-};
+        {/* Content - Carousel with Pagination */}
+        {currentItems.length > 0 ? (
+          <div className="space-y-6">
+            <div className="relative">
+              {isChangingPage && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="absolute inset-0 bg-bass-dark/50 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg"
+                >
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  >
+                    <Rss className="w-8 h-8 text-neon-purple" />
+                  </motion.div>
+                </motion.div>
+              )}
+              
+              {/* Carousel Grid - 2 rows × 3 columns */}
+              <motion.div
+                key={currentPage} // Re-animate on page change
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 cursor-grab active:cursor-grabbing"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={handleDragEnd}
+              >
+                {currentItems.map((item, index) => (
+                  <EnhancedFeedCard
+                    key={`${item.id}-${currentPage}-${index}`}
+                    item={item}
+                    index={index}
+                    isHovered={false}
+                    onHoverStart={() => {}}
+                    onHoverEnd={() => {}}
+                  />
+                ))}
+              </motion.div>
+            </div>
+            
+                {/* Mobile Pagination - Simplified */}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-neon-purple/20">
+                  <Button
+                    onClick={goToPrevPage}
+                    disabled={currentPage === 1}
+                    variant="outline"
+                    size="lg"
+                    aria-label="Go to previous page"
+                    aria-disabled={currentPage === 1}
+                        className={`
+                      w-full sm:w-auto
+                      border-neon-purple/30 text-white
+                      ${currentPage === 1 
+                        ? 'opacity-30 cursor-not-allowed' 
+                        : 'hover:bg-neon-purple/20 hover:border-neon-purple'
+                      }
+                    `}
+                  >
+                    <ChevronLeft className="w-5 h-5 mr-2" />
+                    Previous
+                  </Button>
+            
+                  {/* Page Indicator - Stacked on Mobile */}
+                  <div className="flex flex-col items-center gap-2">
+                    <p className="text-sm text-slate-400">
+                      Page {currentPage} of {totalPages}
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of {filteredItems.length} stories
+                    </p>
+                    
+                    {/* Mobile Page Dots - Show only on tablet+ */}
+                    {totalPages <= 10 && (
+                      <div className="hidden sm:flex items-center gap-2 mt-2">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                          <button
+                            key={page}
+                            onClick={() => {
+                              setCurrentPage(page);
+                              document.getElementById('rss-feed-top')?.scrollIntoView({ 
+                                behavior: 'smooth' 
+                              });
+                            }}
+                            className={`
+                              w-2 h-2 rounded-full transition-all
+                              ${page === currentPage 
+                                ? 'bg-neon-purple w-8' 
+                                : 'bg-slate-600 hover:bg-slate-500'
+                              }
+                            `}
+                            aria-label={`Go to page ${page}`}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+            
+                  <Button
+                    onClick={goToNextPage}
+                    disabled={currentPage === totalPages}
+                    variant="outline"
+                    size="lg"
+                    aria-label="Go to next page"
+                    aria-disabled={currentPage === totalPages}
+                    className={`
+                      w-full sm:w-auto
+                      border-neon-purple/30 text-white
+                      ${currentPage === totalPages 
+                        ? 'opacity-30 cursor-not-allowed' 
+                        : 'hover:bg-neon-purple/20 hover:border-neon-purple'
+                      }
+                    `}
+                  >
+                    Next
+                    <ChevronRight className="w-5 h-5 ml-2" />
+                  </Button>
+                            </div>
+                
+                            {/* Live region for screen readers */}
+                            <div 
+                              role="status" 
+                              aria-live="polite" 
+                              aria-atomic="true"
+                              className="sr-only"
+                            >
+                              Page {currentPage} of {totalPages}, showing {currentItems.length} articles
+                            </div>
+                
+                            {/* Quick Jump (optional - for many pages) */}
+                            {totalPages > 10 && (
+                              <div className="flex items-center justify-center gap-2 pt-4">
+                                <span className="text-sm text-slate-400">Jump to page:</span>
+                                <Input
+                                  type="number"
+                                  min={1}
+                                  max={totalPages}
+                                  value={currentPage}
+                                  onChange={(e) => {
+                                    const page = parseInt(e.target.value);
+                                    if (page >= 1 && page <= totalPages) {
+                                      setCurrentPage(page);
+                                      document.getElementById('rss-feed-top')?.scrollIntoView({ 
+                                        behavior: 'smooth' 
+                                      });
+                                    }
+                                  }}
+                                  className="w-20 bg-bass-dark/50 border-slate-600/30 text-white text-center"
+                                />
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-center py-12"
+                          >
+                            <Rss className="w-12 h-12 mx-auto text-slate-500" />
+                            <h3 className="mt-4 text-xl font-bold text-white">
+                              No Articles Found in Last 48 Hours
+                            </h3>
+                            <p className="mt-2 text-slate-400">
+                              Try adjusting your filters or check back later for fresh content.
+                            </p>
+                            <Button
+                              onClick={refreshFeed}
+                              variant="outline"
+                              className="mt-6 border-neon-purple/30 text-neon-purple"
+                            >
+                              <RefreshCw className="w-4 h-4 mr-2" />
+                              Refresh Feed
+                            </Button>
+                          </motion.div>
+                        )}
+                
+                        {/* View All Stories Link */}
+                        <div className="text-center pt-6">
+                          <Button
+                            variant="ghost"
+                            size="lg"
+                            className="text-neon-cyan hover:text-neon-purple transition-colors"
+                            onClick={() => window.location.href = '/news'}
+                          >
+                            View All {filteredItems.length} Stories from Last 48 Hours
+                            <ChevronRight className="w-4 h-4 ml-2" />
+                          </Button>
+                        </div>
+                
+                        <StatusIndicator />
+                      </div>
+                    </div>
+                  );
+                };
 
 export default EnhancedRSSFeed;

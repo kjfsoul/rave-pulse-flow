@@ -69,72 +69,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-bass-dark relative pb-20">
-      {/* Enhanced RSS Feed */}
-      <EnhancedRSSFeed />
-
-      {/* Top Right Buttons */}
-      <motion.div
-        className="absolute top-4 right-4 flex gap-2 z-50"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        {!user ? (
-          <>
-            <Button
-              onClick={() => navigate('/profile')}
-              variant="outline"
-              size="sm"
-              className="bg-bass-medium/80 backdrop-blur-sm border-purple-500/30 text-white hover:bg-purple-600/20 hover:border-purple-400"
-            >
-              <LogIn className="w-4 h-4 mr-1" />
-              Sign In
-            </Button>
-            <Button
-              onClick={() => navigate('/profile')}
-              size="sm"
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
-            >
-              <UserPlus className="w-4 h-4 mr-1" />
-              Sign Up
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button
-              onClick={() => navigate('/pro-dj-station')}
-              size="sm"
-              className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
-            >
-              🎛️ DJ Studio
-            </Button>
-            <Button
-              onClick={() => navigate('/pro-dj-station')}
-              size="sm"
-              className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white"
-            >
-              🏢 Pro Studio
-            </Button>
-            <Button
-              onClick={() => navigate('/shuffle-challenge')}
-              size="sm"
-              className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white"
-            >
-              <Trophy className="w-4 h-4 mr-1" />
-              Challenges
-            </Button>
-            <Button
-              onClick={() => navigate('/profile')}
-              variant="outline"
-              size="sm"
-              className="bg-bass-medium/80 backdrop-blur-sm border-cyan-500/30 text-white hover:bg-cyan-600/20 hover:border-cyan-400"
-            >
-              Profile
-            </Button>
-          </>
-        )}
-      </motion.div>
-
       {/* Enhanced Hero Section with Rave Drop */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
         {/* Laser Rave Background */}
@@ -147,8 +81,6 @@ const Index = () => {
             background: [
               "radial-gradient(circle at 20% 50%, rgba(191, 90, 242, 0.4) 0%, rgba(30, 64, 175, 0.2) 50%, rgba(2, 6, 23, 1) 100%)",
               "radial-gradient(circle at 80% 50%, rgba(6, 255, 165, 0.4) 0%, rgba(191, 90, 242, 0.2) 50%, rgba(2, 6, 23, 1) 100%)",
-              "radial-gradient(circle at 50% 20%, rgba(30, 64, 175, 0.4) 0%, rgba(6, 255, 165, 0.2) 50%, rgba(2, 6, 23, 1) 100%)",
-              "radial-gradient(circle at 50% 80%, rgba(191, 90, 242, 0.4) 0%, rgba(30, 64, 175, 0.2) 50%, rgba(2, 6, 23, 1) 100%)",
             ]
           }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
@@ -341,17 +273,6 @@ const Index = () => {
         </motion.div>
       </section>
 
-      {/* Vibe Preview Modal */}
-      <AnimatePresence>
-        {showVibePreview && selectedArchetype && (
-          <VibePreview
-            archetype={selectedArchetype}
-            onLockFlow={handleLockFlow}
-            onExploreMore={handleExploreMore}
-          />
-        )}
-      </AnimatePresence>
-
       {/* Trending Shuffle Clips */}
       <section className="px-4 mb-12">
         <motion.div
@@ -408,6 +329,9 @@ const Index = () => {
           ))}
         </div>
       </section>
+
+      {/* Enhanced RSS Feed */}
+      <EnhancedRSSFeed />
 
       {/* Gear Drops Carousel */}
       <section className="px-4 mb-12">

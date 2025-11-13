@@ -16,11 +16,20 @@ const CONFIG = {
   debug: process.env.DEBUG === 'true',
 };
 
+const USER_AGENTS = [
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'EDM-Shuffle-Aggregator/1.0 (+https://edmshuffle.com)',
+];
+
 const parser = new Parser({
   timeout: CONFIG.requestTimeout,
   headers: {
-    'User-Agent': 'EDM-Shuffle-Aggregator/1.0',
-    Accept: 'application/rss+xml, application/xml, text/xml',
+    'User-Agent': USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)],
+    'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Cache-Control': 'no-cache',
   },
   customFields: {
     item: [
@@ -142,42 +151,58 @@ function calculatePriority(item, feedPriority, pubDateISO) {
 
 async function fetchFeed(feedConfig) {
   log('info', `Fetching ${feedConfig.source}`);
-
-  const feed = await withRetry(() => parser.parseURL(feedConfig.url), feedConfig.source);
-
-  const items = (feed?.items || [])
-    .slice(0, CONFIG.maxItemsPerFeed)
-    .map((item) => {
-      const title = cleanText(item.title);
-      const link = item.link || item.guid;
-      if (!title || !link) return null;
-
-      const description = cleanText(item.contentSnippet || item.content || item.description);
-      const pubDate = item.pubDate || item.isoDate || new Date().toISOString();
-      const image = extractImage(item);
-      const analysis = analyzeContent(`${title} ${description}`);
-
-      return {
-        id: item.guid || item.id || link,
-        title,
-        description: description.slice(0, 350),
-        fullContent: item.contentEncoded || null,
-        link,
-        pubDate,
-        source: feedConfig.source,
-        feedCategory: feedConfig.category,
-        contentCategory: analysis.category,
-        sentiment: analysis.sentiment,
-        priority: calculatePriority({ title, contentSnippet: item.contentSnippet, image }, feedConfig.priority, pubDate),
-        image,
-        hasFullContent: Boolean(item.contentEncoded),
-        tags: [feedConfig.category, analysis.category, analysis.sentiment].filter(Boolean),
-      };
-    })
-    .filter(Boolean);
-
-  log('success', `${feedConfig.source}: ${items.length} items`);
-  return items;
+  
+  try {
+    const feed = await withRetry(
+      () => parser.parseURL(feedConfig.url), 
+      feedConfig.source,
+      3 // 3 retries with exponential backoff
+    );
+    
+    if (!feed?.items?.length) {
+      log('warning', `${feedConfig.source}: No items found`);
+      return [];
+    }
+    
+    const items = feed.items
+      .slice(0, CONFIG.maxItemsPerFeed)
+      .map((item) => {
+        const title = cleanText(item.title);
+        const link = item.link || item.guid;
+        if (!title || !link) return null;
+        
+        const description = cleanText(item.contentSnippet || item.content || item.description);
+        const pubDate = item.pubDate || item.isoDate || new Date().toISOString();
+        const image = extractImage(item);
+        const analysis = analyzeContent(`${title} ${description}`);
+        
+        return {
+          id: item.guid || item.id || link,
+          title,
+          description: description.slice(0, 350),
+          fullContent: item.contentEncoded || null,
+          link,
+          pubDate,
+          source: feedConfig.source,
+          feedCategory: feedConfig.category,
+          contentCategory: analysis.category,
+          sentiment: analysis.sentiment,
+          priority: calculatePriority({ title, contentSnippet: item.contentSnippet, image }, feedConfig.priority, pubDate),
+          image,
+          hasFullContent: Boolean(item.contentEncoded),
+          tags: [feedConfig.category, analysis.category, analysis.sentiment].filter(Boolean),
+        };
+      })
+      .filter(Boolean);
+    
+    log('success', `${feedConfig.source}: ${items.length} items`);
+    return items;
+    
+  } catch (error) {
+    // Log detailed error but don't crash
+    log('error', `${feedConfig.source} failed: ${error.message}`);
+    return [];
+  }
 }
 
 function dedupe(items) {
@@ -192,34 +217,42 @@ function dedupe(items) {
 
 async function main() {
   log('info', `Fetching EDM news from ${RSS_FEEDS.length} sources...`);
-
+  
   const allItems = [];
   const failedSources = [];
-
+  const successfulSources = [];
+  
   for (const feed of RSS_FEEDS) {
     try {
       const items = await fetchFeed(feed);
-      allItems.push(...items);
+      
+      if (items.length > 0) {
+        allItems.push(...items);
+        successfulSources.push(feed.source);
+      } else {
+        failedSources.push({ source: feed.source, reason: 'No items returned' });
+      }
     } catch (error) {
       log('error', `Skipping ${feed.source}`, { error: error.message });
-      failedSources.push(feed.source);
+      failedSources.push({ source: feed.source, reason: error.message });
     }
     await sleep(CONFIG.requestDelay);
   }
-
-  if (!allItems.length) {
-    throw new Error('No feed data generated - all sources failed');
+  
+  // Fail only if we have fewer than 10 items total
+  if (allItems.length < 10) {
+    throw new Error(`Insufficient data: only ${allItems.length} items from ${successfulSources.length} sources`);
   }
-
+  
   const uniqueItems = dedupe(allItems);
   uniqueItems.sort((a, b) => {
     if (b.priority !== a.priority) return b.priority - a.priority;
     return new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime();
   });
-
+  
   const topItems = uniqueItems.slice(0, CONFIG.maxTotalItems);
   const activeSources = Array.from(new Set(topItems.map((item) => item.source)));
-
+  
   const output = {
     metadata: {
       generated: new Date().toISOString(),
@@ -227,25 +260,29 @@ async function main() {
       totalSources: RSS_FEEDS.length,
       activeSources: activeSources.length,
       sources: activeSources,
-      failedSources: failedSources,
+      failedSources: failedSources.map(f => f.source),
+      failureDetails: failedSources, // Include reasons for debugging
+      healthScore: Math.round((successfulSources.length / RSS_FEEDS.length) * 100),
     },
     featured: topItems.slice(0, 5),
     items: topItems,
   };
-
+  
   const dir = path.join(__dirname, '..', 'public', 'data');
   await fs.mkdir(dir, { recursive: true });
-
+  
   const jsonPath = path.join(dir, 'edm-news.json');
   const backupPath = path.join(dir, 'edm-news-backup.json');
-
+  
   await fs.writeFile(jsonPath, JSON.stringify(output, null, 2));
   await fs.writeFile(backupPath, JSON.stringify(output, null, 2));
-
+  
   log('success', `✅ Generated ${topItems.length} items from ${activeSources.length}/${RSS_FEEDS.length} sources`);
-
+  log('info', `📊 Health score: ${output.metadata.healthScore}%`);
+  
   if (failedSources.length > 0) {
-    log('warning', `⚠️ Failed sources: ${failedSources.join(', ')}`);
+    log('warning', `⚠️ Failed sources (${failedSources.length}):`);
+    failedSources.forEach(f => log('warning', `  - ${f.source}: ${f.reason}`));
   }
 }
 
