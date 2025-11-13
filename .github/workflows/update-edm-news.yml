@@ -1,0 +1,96 @@
+name: Update EDM News Feed
+
+on:
+  schedule:
+    - cron: '0 11 * * *'  # 11:00 UTC = 6 AM EST
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Enable debug logging'
+        required: false
+        default: 'false'
+
+jobs:
+  update-feed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --no-save rss-parser
+
+      - name: Create output directory
+        run: mkdir -p public/data
+
+      - name: Generate feed
+        id: generate
+        run: |
+          node scripts/generate-feed.js
+          echo "status=success" >> "$GITHUB_OUTPUT"
+        env:
+          DEBUG: ${{ github.event.inputs.debug }}
+        continue-on-error: true
+
+      - name: Validate output
+        if: steps.generate.outcome == 'success'
+        run: |
+          test -f public/data/edm-news.json
+          node -e "
+            const data = require('./public/data/edm-news.json');
+            if (!data.metadata || !data.items) process.exit(1);
+            console.log('✅ Generated', data.metadata.totalItems, 'items from', data.metadata.activeSources, 'sources');
+          "
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git add public/data/*.json
+          if git diff --staged --quiet; then
+            echo \"has_changes=false\" >> \"$GITHUB_OUTPUT\"
+          else
+            echo \"has_changes=true\" >> \"$GITHUB_OUTPUT\"
+          fi
+
+      - name: Commit and push
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "EDM News Bot"
+          git config user.email "bot@github-actions"
+
+          ITEMS=$(node -p "require('./public/data/edm-news.json').metadata.totalItems")
+          SOURCES=$(node -p "require('./public/data/edm-news.json').metadata.activeSources")
+
+          git commit -m "🎵 Update EDM news - $(date -u +'%Y-%m-%d %H:%M UTC')
+📊 $ITEMS items from $SOURCES sources"
+          git push
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## 🎵 EDM News Update" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f public/data/edm-news.json ]; then
+            node -e "
+              const d = require('./public/data/edm-news.json');
+              console.log('**Status:** ✅ Success');
+              console.log('**Items:** ' + d.metadata.totalItems);
+              console.log('**Sources:** ' + d.metadata.activeSources + '/' + d.metadata.totalSources);
+              console.log('**Generated:** ' + d.metadata.generated);
+              console.log('');
+              console.log('**Top Stories:**');
+              d.featured.slice(0,3).forEach((i,n) =>
+                console.log((n+1) + '. ' + i.title + ' (' + i.source + ')')
+              );
+            " >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "**Status:** ❌ Failed" >> "$GITHUB_STEP_SUMMARY"
+          fi
