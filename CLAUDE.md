@@ -53,7 +53,7 @@ npm run dev
 # Build for production
 npm run build
 
-# Build in development mode  
+# Build in development mode
 npm run build:dev
 
 # Run linting (ESLint)
@@ -145,15 +145,11 @@ bun run build
   - Global stop button functions correctly
   - Proper cleanup prevents memory leaks
 
-### EDM Live Feed System (Aug 14, 2025)
+### EDM Live Feed System (Status Update – Nov 2025)
 
-- **Deliverables**: Replaced static news items with dynamic RSS feed system fetching current EDM news
-- **Database Migration**: Created `supabase/migrations/20250814_live_feed_table.sql` with comprehensive schema for storing RSS feed articles
-- **Edge Function**: Implemented `supabase/functions/fetch-rss-feeds/index.ts` to fetch and parse RSS feeds from Your EDM, Dancing Astronaut, and EDM.com
-- **Frontend Integration**: Updated `RSSFeedStreamer.tsx` component to fetch from live_feed table with loading states, error handling, and manual refresh
-- **Features**: Auto-refresh every 4 seconds, responsive design (3 items desktop/1 mobile), real-time updates via Edge Function
-- **Security**: Public read access for feed items, 7-day auto-cleanup of old items
-- **Note**: Migration needs to be applied through Supabase dashboard before the system is fully functional
+- Supabase-based RSS ingestion (`live_feed` table + `fetch-rss-feeds` edge function) **has been removed**.
+- Current solution: GitHub Action (`update-edm-news.yml`) runs `scripts/generate-feed.js` to publish static JSON under `public/data/`.
+- `EnhancedRSSFeed.tsx` now consumes the JSON feed and handles freshness/error states without Supabase.
 
 ## 🎧 Audio Implementation Progress
 

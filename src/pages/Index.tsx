@@ -8,7 +8,7 @@ import LaserRaveBackground from "@/components/LaserRaveBackground";
 import ShuffleDancers from "@/components/ShuffleDancers";
 import VibePreview from "@/components/VibePreview";
 import ScrollHintArrow from "@/components/ScrollHintArrow";
-import RSSFeedStreamer from "@/components/RSSFeedStreamer";
+import EnhancedRSSFeed from "@/components/EnhancedRSSFeed";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -69,8 +69,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-bass-dark relative pb-20">
-      {/* RSS Feed Streamer */}
-      <RSSFeedStreamer />
+      {/* Enhanced RSS Feed */}
+      <EnhancedRSSFeed />
 
       {/* Top Right Buttons */}
       <motion.div

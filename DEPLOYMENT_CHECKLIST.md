@@ -3,8 +3,8 @@
 ## Pre-deployment
 
 *   [ ] Verify that all tests are passing.
-*   [ ] Verify that the `.env` file contains the correct Supabase credentials for the production environment.
-*   [ ] Verify that the Supabase function `fetch-rss-feeds` is deployed and the cron job is configured to run at least once a day.
+*   [ ] Verify that the `.env` file contains the required environment variables.
+*   [ ] Confirm GitHub Action `Update EDM News Feed` has run successfully within the last 24 hours.
 
 ## Deployment
 
@@ -14,4 +14,4 @@
 ## Post-deployment
 
 *   [ ] Verify that the application is running correctly in the production environment.
-*   [ ] Monitor the Supabase function logs to ensure that the RSS feed is being updated regularly.
+*   [ ] Check the deployed site to confirm `/data/edm-news.json` served with current timestamp.

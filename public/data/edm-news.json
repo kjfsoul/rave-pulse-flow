@@ -1,0 +1,71 @@
+{
+  "metadata": {
+    "generated": "2025-11-13T05:30:00.000Z",
+    "totalItems": 3,
+    "totalSources": 3,
+    "activeSources": 3,
+    "sources": ["EDM.com", "Tomorrowland", "Dancing Astronaut"],
+    "version": "static-fallback"
+  },
+  "featured": [
+    {
+      "id": "fallback-featured-1",
+      "title": "Tomorrowland 2025 Announces First Wave of Artists",
+      "description": "The iconic Belgian festival unveils an all-star lineup featuring Armin van Buuren, Charlotte de Witte, and Martin Garrix. Early-bird tickets open next week.",
+      "link": "https://www.tomorrowland.com",
+      "pubDate": "2025-11-13T03:00:00.000Z",
+      "source": "Tomorrowland",
+      "feedCategory": "festivals",
+      "contentCategory": "festivals",
+      "sentiment": "positive",
+      "priority": 95,
+      "image": null,
+      "tags": ["festival", "lineup", "tomorrowland"]
+    }
+  ],
+  "items": [
+    {
+      "id": "fallback-1",
+      "title": "Tomorrowland 2025 Announces First Wave of Artists",
+      "description": "Tomorrowland reveals its 2025 lineup with headliners Armin van Buuren, Charlotte de Witte, and Martin Garrix. Ticket presales start next week.",
+      "link": "https://www.tomorrowland.com",
+      "pubDate": "2025-11-13T03:00:00.000Z",
+      "source": "Tomorrowland",
+      "feedCategory": "festivals",
+      "contentCategory": "festivals",
+      "sentiment": "positive",
+      "priority": 95,
+      "image": null,
+      "tags": ["festival", "lineup", "tomorrowland"]
+    },
+    {
+      "id": "fallback-2",
+      "title": "Deadmau5 Drops Surprise Album 'where phantoms sleep 04'",
+      "description": "The Canadian producer releases a surprise album featuring collaborations with Rezz and Kaskade, blending techno, progressive, and electro house.",
+      "link": "https://edm.com",
+      "pubDate": "2025-11-13T02:00:00.000Z",
+      "source": "EDM.com",
+      "feedCategory": "releases",
+      "contentCategory": "releases",
+      "sentiment": "positive",
+      "priority": 88,
+      "image": null,
+      "tags": ["deadmau5", "album", "release"]
+    },
+    {
+      "id": "fallback-3",
+      "title": "Techno Collectives Reshape Underground Rave Culture",
+      "description": "Dancing Astronaut reports on underground crews in Berlin, Detroit, and Seoul building inclusive, community-first techno experiences.",
+      "link": "https://dancingastronaut.com",
+      "pubDate": "2025-11-13T01:30:00.000Z",
+      "source": "Dancing Astronaut",
+      "feedCategory": "news",
+      "contentCategory": "news",
+      "sentiment": "positive",
+      "priority": 76,
+      "image": null,
+      "tags": ["techno", "culture", "underground"]
+    }
+  ]
+}
+

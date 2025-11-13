@@ -18,7 +18,6 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { toast } from 'sonner';
-import RSSFeedStreamer from './RSSFeedStreamer';
 import EnhancedRSSFeed from './EnhancedRSSFeed';
 import MobileSwipeFeed from './MobileSwipeFeed';
 
@@ -30,16 +29,11 @@ interface TestResult {
 }
 
 const RSSTestComponent: React.FC = () => {
-  const [activeComponent, setActiveComponent] = useState<'streamer' | 'enhanced' | 'mobile'>('streamer');
+  const [activeComponent, setActiveComponent] = useState<'enhanced' | 'mobile'>('enhanced');
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [isRunningTests, setIsRunningTests] = useState(false);
 
   const components = {
-    streamer: {
-      name: 'RSS Feed Streamer',
-      component: <RSSFeedStreamer />,
-      description: 'Original enhanced RSS streamer with real-time updates'
-    },
     enhanced: {
       name: 'Enhanced RSS Feed',
       component: <EnhancedRSSFeed />,
@@ -97,16 +91,6 @@ const RSSTestComponent: React.FC = () => {
     }
   };
 
-  const testRealTimeConnection = async (): Promise<boolean> => {
-    return new Promise((resolve) => {
-      // Simulate testing real-time connection
-      setTimeout(() => {
-        // In a real implementation, you would check WebSocket connection status
-        resolve(true);
-      }, 1000);
-    });
-  };
-
   const testComponentRendering = async (): Promise<boolean> => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -137,7 +121,6 @@ const RSSTestComponent: React.FC = () => {
     setIsRunningTests(true);
 
     const tests = [
-      { name: 'Real-time Connection Test', func: testRealTimeConnection },
       { name: 'Component Rendering Test', func: testComponentRendering },
       { name: 'Mobile Responsiveness Test', func: testMobileResponsiveness },
       { name: 'Data Fetching Test', func: testDataFetching }

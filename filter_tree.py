@@ -195,7 +195,6 @@ files_and_dirs = [
     "supabase/.temp/",
     "supabase/functions/",
     "supabase/functions/crew-status/",
-    "supabase/functions/fetch-rss-feeds/",
     "supabase/functions/plan-festival/",
     "supabase/functions/submit-vote/",
     "supabase/migrations/",
@@ -223,7 +222,7 @@ def should_exclude(path):
     # Check if the path itself is in the exclude list
     if path.rstrip('/') in exclude_dirs:
         return True
-    
+
     # Check if any parent directory is in the exclude list
     path_parts = path.split(os.sep)
     for i in range(len(path_parts)):
@@ -231,7 +230,7 @@ def should_exclude(path):
         parent_path = os.path.join(*path_parts[:i+1]) if i > 0 else path_parts[0]
         if parent_path in exclude_dirs:
             return True
-            
+
     return False
 
 def build_tree(paths):
