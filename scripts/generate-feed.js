@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Parser from 'rss-parser';
 import fs from 'fs/promises';
 import path from 'path';
@@ -57,93 +56,34 @@ const RSS_FEEDS = [
 ];
 
 const KEYWORDS = {
-  festivals: [
-    'festival',
-    'lineup',
-    'tickets',
-    'tour dates',
-    'tour announcement',
-    'headliner',
-    'stage',
-    'performing live',
-    'concert',
-    'show dates',
-    'edc',
-    'ultra',
-    'tomorrowland',
-    'coachella',
-    'lollapalooza',
-  ],
-  releases: [
-    'new single',
-    'new album',
-    'new ep',
-    'drops',
-    'releases',
-    'out now',
-    'premiere',
-    'exclusive',
-    'stream',
-    'listen',
-    'available now',
-    'remix',
-    'vip',
-    'bootleg',
-    'edit',
-  ],
-  positive: [
-    'announces',
-    'unveils',
-    'reveals',
-    'drops',
-    'massive',
-    'epic',
-    'incredible',
-    'stunning',
-    'breakthrough',
-    'debut',
-    'returns',
-    'collaboration',
-    'collab',
-  ],
-  negative: [
-    'cancels',
-    'cancelled',
-    'postponed',
-    'delayed',
-    'controversy',
-    'criticized',
-    'backlash',
-    'lawsuit',
-    'arrested',
-  ],
+  festivals: ['festival', 'lineup', 'tickets', 'tour dates', 'headliner', 'stage', 'edc', 'ultra', 'tomorrowland'],
+  releases: ['new single', 'new album', 'drops', 'releases', 'premiere', 'stream', 'remix'],
+  positive: ['announces', 'unveils', 'reveals', 'massive', 'epic', 'collaboration'],
+  negative: ['cancels', 'postponed', 'delayed', 'controversy'],
 };
 
 const log = (level, msg, data = null) => {
-  const icons = { info: 'ℹ️', success: '✅', warning: '⚠️', error: '❌', debug: '🔍' };
-  console.log(`[${new Date().toISOString()}] ${icons[level] || 'ℹ️'} ${msg}`);
+  const icons = { info: 'ℹ️', success: '✅', warning: '⚠️', error: '❌' };
+  console.log(`[${new Date().toISOString()}] ${icons[level]} ${msg}`);
   if (data && CONFIG.debug) console.log(JSON.stringify(data, null, 2));
 };
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function withRetry(fn, name, retries = CONFIG.maxRetries) {
-  for (let i = 1; i <= retries; i += 1) {
+  for (let i = 1; i <= retries; i++) {
     try {
-      // eslint-disable-next-line no-await-in-loop
       return await fn();
     } catch (err) {
       if (i === retries) {
-        log('error', `Failed ${name} after ${retries} attempts`, { error: err.message });
+        log('error', `Failed ${name} after ${retries} attempts: ${err.message}`);
         throw err;
       }
       const delay = CONFIG.retryDelay * (2 ** (i - 1));
-      log('warning', `Retry ${i}/${retries} for ${name} in ${delay}ms`, { error: err.message });
-      // eslint-disable-next-line no-await-in-loop
+      log('warning', `Retry ${i}/${retries} for ${name} in ${delay}ms`);
       await sleep(delay);
     }
   }
-  return null;
 }
 
 function cleanText(text) {
@@ -153,12 +93,6 @@ function cleanText(text) {
 
 function analyzeContent(text) {
   const lower = text.toLowerCase();
-  const sentiment = KEYWORDS.positive.some((k) => lower.includes(k))
-    ? 'positive'
-    : KEYWORDS.negative.some((k) => lower.includes(k))
-    ? 'negative'
-    : 'neutral';
-
   const festivalScore = KEYWORDS.festivals.filter((k) => lower.includes(k)).length;
   const releaseScore = KEYWORDS.releases.filter((k) => lower.includes(k)).length;
 
@@ -166,14 +100,22 @@ function analyzeContent(text) {
   if (festivalScore > releaseScore && festivalScore > 0) category = 'festivals';
   else if (releaseScore > 0) category = 'releases';
 
-  return { sentiment, category, festivalScore, releaseScore };
+  const sentiment = KEYWORDS.positive.some((k) => lower.includes(k)) ? 'positive' :
+                    KEYWORDS.negative.some((k) => lower.includes(k)) ? 'negative' : 'neutral';
+
+  return { category, sentiment, festivalScore, releaseScore };
 }
 
 function extractImage(item) {
   const media = Array.isArray(item.mediaContent) ? item.mediaContent[0] : item.mediaContent;
   if (media?.$?.url) return media.$.url;
-  if (item.enclosure?.url && /\.(jpg|jpeg|png|gif|webp)$/i.test(item.enclosure.url)) return item.enclosure.url;
+
+  if (item.enclosure?.url && /\.(jpg|jpeg|png|gif|webp)$/i.test(item.enclosure.url)) {
+    return item.enclosure.url;
+  }
+
   if (item.mediaThumbnail?.$?.url) return item.mediaThumbnail.$.url;
+
   const content = item.contentEncoded || item.content || item.description || '';
   const match = content.match(/<img[^>]+src=["']([^"']+)["']/i);
   return match ? match[1] : null;
@@ -181,56 +123,59 @@ function extractImage(item) {
 
 function calculatePriority(item, feedPriority, pubDateISO) {
   let score = feedPriority * 10;
-  const published = new Date(pubDateISO).getTime();
-  const hoursOld = (Date.now() - published) / 3_600_000;
+
+  const hoursOld = (Date.now() - new Date(pubDateISO).getTime()) / 3600000;
   if (hoursOld < 6) score += 50;
   else if (hoursOld < 24) score += 35;
   else if (hoursOld < 48) score += 20;
   else if (hoursOld < 72) score += 10;
+
   const analysis = analyzeContent(item.title + (item.contentSnippet || ''));
   if (analysis.category === 'festivals') score += 25;
   else if (analysis.category === 'releases') score += 15;
+
   if (analysis.sentiment === 'positive') score += 10;
   if (item.image && /1200|1080|2048/.test(item.image)) score += 5;
+
   return Math.round(score);
-}
-
-function normalizeItem(rawItem, feedConfig) {
-  const title = cleanText(rawItem.title);
-  const link = rawItem.link || rawItem.guid;
-  if (!title || !link) return null;
-
-  const description = cleanText(rawItem.contentSnippet || rawItem.content || rawItem.description);
-  const pubDate = rawItem.pubDate || rawItem.isoDate || new Date().toISOString();
-  const image = extractImage(rawItem);
-  const analysis = analyzeContent(`${title} ${description}`);
-  const priority = calculatePriority({ title, contentSnippet: rawItem.contentSnippet, image }, feedConfig.priority, pubDate);
-
-  return {
-    id: rawItem.guid || rawItem.id || link,
-    title,
-    description: description.slice(0, 350),
-    fullContent: rawItem.contentEncoded || null,
-    link,
-    pubDate,
-    source: feedConfig.source,
-    feedCategory: feedConfig.category,
-    contentCategory: analysis.category,
-    sentiment: analysis.sentiment,
-    priority,
-    image,
-    hasFullContent: Boolean(rawItem.contentEncoded),
-    tags: [feedConfig.category, analysis.category, analysis.sentiment].filter(Boolean),
-  };
 }
 
 async function fetchFeed(feedConfig) {
   log('info', `Fetching ${feedConfig.source}`);
+
   const feed = await withRetry(() => parser.parseURL(feedConfig.url), feedConfig.source);
+
   const items = (feed?.items || [])
     .slice(0, CONFIG.maxItemsPerFeed)
-    .map((item) => normalizeItem(item, feedConfig))
+    .map((item) => {
+      const title = cleanText(item.title);
+      const link = item.link || item.guid;
+      if (!title || !link) return null;
+
+      const description = cleanText(item.contentSnippet || item.content || item.description);
+      const pubDate = item.pubDate || item.isoDate || new Date().toISOString();
+      const image = extractImage(item);
+      const analysis = analyzeContent(`${title} ${description}`);
+
+      return {
+        id: item.guid || item.id || link,
+        title,
+        description: description.slice(0, 350),
+        fullContent: item.contentEncoded || null,
+        link,
+        pubDate,
+        source: feedConfig.source,
+        feedCategory: feedConfig.category,
+        contentCategory: analysis.category,
+        sentiment: analysis.sentiment,
+        priority: calculatePriority({ title, contentSnippet: item.contentSnippet, image }, feedConfig.priority, pubDate),
+        image,
+        hasFullContent: Boolean(item.contentEncoded),
+        tags: [feedConfig.category, analysis.category, analysis.sentiment].filter(Boolean),
+      };
+    })
     .filter(Boolean);
+
   log('success', `${feedConfig.source}: ${items.length} items`);
   return items;
 }
@@ -245,30 +190,25 @@ function dedupe(items) {
   return Array.from(map.values());
 }
 
-async function writeJSON(filePath, data) {
-  await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, JSON.stringify(data, null, 2));
-  log('success', `Wrote ${path.relative(process.cwd(), filePath)}`);
-}
-
 async function main() {
-  log('info', 'Fetching EDM news from sources...', { feeds: RSS_FEEDS.length });
+  log('info', `Fetching EDM news from ${RSS_FEEDS.length} sources...`);
+
   const allItems = [];
+  const failedSources = [];
 
   for (const feed of RSS_FEEDS) {
     try {
-      // eslint-disable-next-line no-await-in-loop
       const items = await fetchFeed(feed);
       allItems.push(...items);
     } catch (error) {
       log('error', `Skipping ${feed.source}`, { error: error.message });
+      failedSources.push(feed.source);
     }
-    // eslint-disable-next-line no-await-in-loop
     await sleep(CONFIG.requestDelay);
   }
 
   if (!allItems.length) {
-    throw new Error('No feed data generated.');
+    throw new Error('No feed data generated - all sources failed');
   }
 
   const uniqueItems = dedupe(allItems);
@@ -287,18 +227,29 @@ async function main() {
       totalSources: RSS_FEEDS.length,
       activeSources: activeSources.length,
       sources: activeSources,
+      failedSources: failedSources,
     },
     featured: topItems.slice(0, 5),
     items: topItems,
   };
 
   const dir = path.join(__dirname, '..', 'public', 'data');
-  await writeJSON(path.join(dir, 'edm-news.json'), output);
-  await writeJSON(path.join(dir, 'edm-news-backup.json'), output);
-  log('success', `Generated ${topItems.length} items from ${activeSources.length} sources`);
+  await fs.mkdir(dir, { recursive: true });
+
+  const jsonPath = path.join(dir, 'edm-news.json');
+  const backupPath = path.join(dir, 'edm-news-backup.json');
+
+  await fs.writeFile(jsonPath, JSON.stringify(output, null, 2));
+  await fs.writeFile(backupPath, JSON.stringify(output, null, 2));
+
+  log('success', `✅ Generated ${topItems.length} items from ${activeSources.length}/${RSS_FEEDS.length} sources`);
+
+  if (failedSources.length > 0) {
+    log('warning', `⚠️ Failed sources: ${failedSources.join(', ')}`);
+  }
 }
 
 main().catch((error) => {
-  console.error('Feed generation failed:', error.message);
+  console.error('❌ Feed generation failed:', error.message);
   process.exit(1);
 });
