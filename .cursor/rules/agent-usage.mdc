@@ -1,0 +1,254 @@
+---
+description: Mandatory agent involvement - use AI agents proactively when helpful
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Agent Usage Protocol
+
+## 🚨 MANDATORY: Proactive Agent Involvement
+
+**You MUST manually involve AI agents when they would be helpful, even if not explicitly requested.**
+
+## When to Use Agents
+
+### Always Consider Agents For:
+
+1. **Code Generation & Implementation**
+   - Complex features requiring multiple files
+   - Repetitive code patterns
+   - Test generation
+   - Documentation creation
+
+2. **Content Generation**
+   - Lineup recommendations
+   - Challenge descriptions
+   - Marketplace product descriptions
+   - User-facing content
+
+3. **Data Processing**
+   - Festival data aggregation
+   - RSS feed processing
+   - Analytics and insights
+   - Data validation
+
+4. **Quality Assurance**
+   - Code review
+   - Security scanning
+   - Test generation
+   - Performance analysis
+
+5. **Workflow Automation**
+   - Task orchestration
+   - PR management
+   - Status updates
+   - Notifications
+
+## Available Agent Systems
+
+### 1. CrewAI Agents (Python)
+**Location:** `agents.py`, `crew.py`
+
+**Available Agents:**
+- **Festival Scouter** - Discover and aggregate festival data
+- **Beat Mixer** - Generate audio content and mixes
+- **Lineup Curator** - AI-powered artist recommendations
+- **Engagement Alchemist** - Gamification and social features
+- **Data Oracle** - Analytics and insights
+- **Quality Guardian** - QA and testing
+
+**Usage:**
+```bash
+# Run specific agent workflow
+python crew.py --workflow festival_discovery
+python crew.py --workflow lineup_generation --event-id <id>
+```
+
+### 2. Claude Code Implementer (TypeScript)
+**Location:** `agent/main.ts`
+
+**Capabilities:**
+- Automated code generation from work orders
+- Test creation
+- Code validation
+- PR generation
+
+**Usage:**
+```bash
+# Process tasks from Supabase
+cd agent && npm run start
+
+# Or trigger via API
+curl -X POST /api/agents/process-task \
+  -d '{"task_id": "..."}'
+```
+
+### 3. Agent Registry Tools
+**Location:** `agents/registry.json`
+
+**Available Tools:**
+- Code Search Tool - Find code patterns
+- Test Generator - Create test suites
+- Security Auditor - Vulnerability scanning
+
+## Decision Framework
+
+**Ask yourself before starting work:**
+
+1. **Is this repetitive?** → Use agent automation
+2. **Does this require content generation?** → Use CrewAI agents
+3. **Is this a complex multi-file change?** → Use Claude Code Implementer
+4. **Does this need quality checks?** → Use Quality Guardian
+5. **Is this data processing?** → Use Data Oracle
+
+**If YES to any → Involve appropriate agent**
+
+## Manual Agent Invocation Examples
+
+### Example 1: Generating Lineup Recommendations
+```python
+# Instead of manually creating lineup, use Lineup Curator agent
+from crew import create_lineup_curator_workflow
+
+workflow = create_lineup_curator_workflow(
+    artists=available_artists,
+    constraints=event_constraints
+)
+lineup = workflow.execute()
+```
+
+### Example 2: Generating Test Code
+```typescript
+// Instead of writing tests manually, use Test Generator
+import { generateTests } from './agents/test-generator';
+
+const tests = await generateTests({
+  file: 'src/components/Deck.tsx',
+  coverage: 80,
+  framework: 'vitest'
+});
+```
+
+### Example 3: Processing Festival RSS Feeds
+```python
+# Instead of manual RSS parsing, use Festival Scouter
+from crew import create_festival_scouter_workflow
+
+workflow = create_festival_scouter_workflow(
+    rss_urls=['https://festivalwizard.com/feed/'],
+    auto_add=True
+)
+events = workflow.execute()
+```
+
+### Example 4: Code Review and Security Scan
+```bash
+# Before committing, use Security Auditor
+python -m agents.security_auditor \
+  --path src/ \
+  --check-secrets \
+  --check-vulnerabilities
+```
+
+## Integration Points
+
+### Beads Integration
+- Agents can create Beads issues automatically
+- Agents can update issue status
+- Agents can link related issues
+
+### GitHub Integration
+- Agents can create PRs
+- Agents can comment on issues
+- Agents can update status checks
+
+### Supabase Integration
+- Agents store results in database
+- Agents trigger real-time updates
+- Agents use Edge Functions
+
+## Proactive Agent Usage Workflow
+
+**When starting any task:**
+
+1. **Assess:** Would an agent help here?
+2. **Identify:** Which agent/tool is appropriate?
+3. **Invoke:** Use the agent proactively
+4. **Review:** Check agent output quality
+5. **Integrate:** Incorporate agent results into work
+
+## Examples of Proactive Usage
+
+### ✅ Good: Using Agents Proactively
+
+**User asks:** "Add a new challenge type"
+
+**You should:**
+1. Use Engagement Alchemist to generate challenge content
+2. Use Test Generator to create tests
+3. Use Security Auditor to validate
+4. Then implement the feature
+
+**User asks:** "Find all places where we use audio context"
+
+**You should:**
+1. Use Code Search Tool to find all occurrences
+2. Present results to user
+3. Then proceed with changes
+
+### ❌ Bad: Not Using Agents
+
+**User asks:** "Add a new challenge type"
+
+**You manually:**
+- Write challenge content yourself
+- Write tests manually
+- Skip security checks
+
+**This violates the protocol!**
+
+## Agent Output Quality
+
+**Always validate agent output:**
+- Review generated code for correctness
+- Test generated content for quality
+- Verify agent results match requirements
+- Don't blindly accept agent output
+
+## Error Handling
+
+**If agent fails:**
+1. Log the error
+2. Fall back to manual implementation
+3. Report agent issue to Beads
+4. Continue with task
+
+**Don't let agent failures block progress.**
+
+## Cost Considerations
+
+**Be mindful of API costs:**
+- Use agents for high-value tasks
+- Batch similar requests
+- Cache agent results when possible
+- Monitor usage and costs
+
+## Reporting
+
+**When using agents, note it:**
+- In commit messages: "Used Lineup Curator agent for recommendations"
+- In Beads updates: "Agent-generated content reviewed and integrated"
+- In code comments: "// Generated by Test Generator agent"
+
+## Enforcement
+
+**This is MANDATORY, not optional.**
+
+- Agents exist to help - use them
+- Don't do manually what agents can do
+- Proactive agent usage improves quality and speed
+- Violating this protocol wastes resources
+
+---
+
+**Remember: Agents are tools to amplify your capabilities. Use them proactively, not reactively.**

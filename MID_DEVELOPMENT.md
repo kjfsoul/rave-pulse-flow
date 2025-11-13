@@ -2,24 +2,51 @@
 
 **Use this when working on tasks mid-development.**
 
+## 🚨 CRITICAL: Before Starting Work
+
+**Tell Cursor:**
+```
+"Check for secrets"
+```
+
+**This MUST pass before doing anything else.**
+
 ## 🚨 Critical Checks Before Marking Tasks Complete
 
 Before closing any Beads issue, you MUST run:
 
+**Tell Cursor:**
+```
+"Run code quality check"
+```
+
+**Or run:**
 ```bash
 ./scripts/check-code-quality.sh
 ```
 
 This checks:
 - ✅ TypeScript errors
-- ✅ Linting errors  
+- ✅ Linting errors
 - ✅ Hardcoded/mock/stubbed data
+- ✅ Secrets (MANDATORY)
 
 **Tasks with these issues CANNOT be marked complete.**
 
 ## 🔄 Mid-Development Workflow
 
 ### 1. **Check Current Work**
+
+**Tell Cursor:**
+```
+"What am I working on?"
+```
+or
+```
+"I forgot what I was doing"
+```
+
+**Or run:**
 ```bash
 # See what you're working on
 bd list --status in_progress --json
@@ -27,6 +54,11 @@ bd list --status in_progress --json
 # Get full context
 ISSUE_ID=$(bd list --status in_progress --json | jq -r '.[0].id')
 bd show $ISSUE_ID --json
+```
+
+**Or use recovery script:**
+```bash
+./scripts/recover-context.sh
 ```
 
 ### 2. **Before Making Changes**
@@ -94,7 +126,7 @@ bd close <id> --reason "Implemented feature X. TypeScript: ✅ Lint: ✅ No mock
 
 **Ready to complete:**
 ```
-"Verify code quality and complete current task" or 
+"Verify code quality and complete current task" or
 "Run quality check, then close current Beads issue if it passes"
 ```
 
@@ -130,4 +162,3 @@ The script will fail if:
 - Mock/hardcoded data is detected
 
 Fix these issues before closing any Beads issue.
-

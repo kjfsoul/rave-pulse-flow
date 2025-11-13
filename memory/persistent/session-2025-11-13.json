@@ -1,0 +1,16 @@
+{
+  "session_id": "session-YYYY-MM-DD-HHMMSS",
+  "date": "2025-11-13",
+  "branch": "main",
+  "commits_today": 0,
+  "areas": [],
+  "statuses": {},
+  "next": [],
+  "compliance": {
+    "protocol_read": true,
+    "proof_hash": "be97fe943bf511545efdd8bf04aaffce083438d32718ed3376e59e8855cb609b",
+    "proof_timestamp": "2025-11-13T03:15:12Z",
+    "provider_order": "localjson,supabase,byterover(optional)",
+    "byterover_enabled": false
+  }
+}

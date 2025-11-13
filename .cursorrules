@@ -1,0 +1,38 @@
+# Cursor IDE Session Initialization
+
+**User must explicitly request session initialization.**
+
+## When User Opens Cursor
+
+They should say:
+```
+"Initialize session"
+```
+
+Then you execute `.cursor/rules/MANDATORY_SESSION_INIT.mdc` protocol.
+
+## What to Do
+
+1. Check memory health (`memory/persistent/session-YYYY-MM-DD.json`)
+2. Load Beads context (`bd list --status in_progress --json`)
+3. Validate session integrity
+4. Check for secrets (`./scripts/check-secrets.sh`)
+5. Output status blocks to user
+
+## User Verification
+
+User verifies by seeing:
+```
+🧠 Memory Check: ✅ HEALTHY
+📅 Session: YYYY-MM-DD
+📋 Current Work: [issue]
+✅ Session initialized
+📚 Context loaded: [summary]
+🔐 Security: [status]
+```
+
+If you don't output this, you didn't execute the protocol.
+
+---
+
+**All other rules are in:** `.cursor/rules/`

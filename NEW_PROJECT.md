@@ -50,9 +50,10 @@ If you prefer to copy from an existing project:
 
 ## After Creation
 
-1. **Review files:** Check they match your project needs
-2. **Start session:** `./scripts/integrated-session-start.sh`
-3. **Tell Cursor:** "read startup.md"
+1. **Check secrets:** `./scripts/check-secrets.sh` (MANDATORY FIRST)
+2. **Review files:** Check they match your project needs
+3. **Start session:** Tell Cursor `"read startup.md"`
+4. **Verify secrets:** Tell Cursor `"Check for secrets"` (must pass)
 
 ## For Future Projects
 
@@ -62,4 +63,3 @@ Just run:
 ```
 
 Everything is set up automatically!
-

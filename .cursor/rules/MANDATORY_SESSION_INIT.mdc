@@ -1,0 +1,154 @@
+---
+description: Session initialization protocol - execute when user requests initialization
+alwaysApply: true
+---
+
+# SESSION INITIALIZATION PROTOCOL
+
+## When User Says: "Initialize session"
+
+**You MUST execute these steps in order:**
+
+### Step 1: Memory Health Check (MANDATORY)
+
+```bash
+# Check if session file exists for today
+SESSION_FILE="memory/persistent/session-$(date +%Y-%m-%d).json"
+if [ ! -f "$SESSION_FILE" ]; then
+    echo "❌ MEMORY FAILURE: No session file for today"
+    echo "🔧 FIXING: Creating session from template..."
+    cp memory/persistent/session-template.json "$SESSION_FILE"
+    node scripts/memory/normalize-session.mjs "$SESSION_FILE"
+fi
+
+# Validate session integrity
+node scripts/memory/validate-session.mjs "$SESSION_FILE"
+```
+
+**What to output to user:**
+```
+🧠 Memory Check: [✅ HEALTHY | ❌ DEGRADED]
+📅 Session: YYYY-MM-DD
+```
+
+### Step 2: Beads Context Load (MANDATORY)
+
+```bash
+# Load current work context
+if command -v bd >/dev/null 2>&1; then
+    CURRENT_WORK=$(bd list --status in_progress --json 2>/dev/null)
+    if [ -n "$CURRENT_WORK" ]; then
+        echo "Current work loaded from Beads"
+    fi
+fi
+```
+
+**What to output to user:**
+```
+📋 Current Work: [Issue ID + Title] OR "No active work"
+```
+
+### Step 3: Context Continuity Check (MANDATORY)
+
+**Read and internalize:**
+1. `memory/persistent/session-$(date +%Y-%m-%d).json` - Today's session state
+2. `CURSOR_COMMANDS_CHEATSHEET.md` - Available commands
+3. `.cursor/rules/beads-workflow.mdc` - Workflow rules
+
+**What to output to user:**
+```
+✅ Session initialized
+📚 Context loaded: [X] commits today, working in [areas]
+```
+
+### Step 4: Secret Check (MANDATORY)
+
+```bash
+# Run secret detection
+./scripts/check-secrets.sh
+```
+
+**What to output to user:**
+```
+🔐 Security: [✅ CLEAN | ⚠️ SECRETS DETECTED]
+```
+
+---
+
+## 🛑 EXECUTION RULES
+
+1. **Complete all 4 steps** before responding to other queries
+2. **IF ANY STEP FAILS**: Report failure and fix before proceeding
+3. **ALWAYS OUTPUT** the status blocks to user (they verify execution)
+4. **Run actual commands** - don't just describe them
+
+---
+
+## 💡 How User Verifies You Executed This
+
+**Every session start should show:**
+```
+🧠 Memory Check: ✅ HEALTHY
+📅 Session: 2025-11-04
+📋 Current Work: bd-42 - Implement feature X
+✅ Session initialized
+📚 Context loaded: 3 commits today, working in backend, frontend
+🔐 Security: ✅ CLEAN
+```
+
+**If user doesn't see this, you FAILED to execute the protocol.**
+
+---
+
+## 🔄 Context Degradation Detection
+
+**During a session, if you notice:**
+- Missing information about current work
+- Uncertainty about project state
+- Gaps in conversation continuity
+
+**IMMEDIATELY execute:**
+```
+"I'm experiencing context degradation. Running recovery protocol..."
+```
+
+Then run:
+```bash
+./scripts/recover-context.sh
+```
+
+And reload context from Beads.
+
+---
+
+## 📝 Why This Works
+
+1. **Forced execution**: `.mdc` files with `alwaysApply: true` load automatically
+2. **Observable**: User sees output, knows you executed it
+3. **Self-diagnostic**: You check your own memory state
+4. **Beads integration**: Context persistence outside your memory
+5. **Blocking**: You cannot proceed without initialization
+
+---
+
+## 🚫 What NOT to Do
+
+- ❌ Skip this because "it seems unnecessary"
+- ❌ Assume you have context without checking
+- ❌ Respond to user before initialization
+- ❌ Fake the output without running commands
+
+---
+
+## ✅ Compliance
+
+When user requests "Initialize session", execute this protocol immediately and output all status blocks.
+
+## 🎯 Natural Language Triggers
+
+Any of these phrases should trigger this protocol:
+- "Initialize session"
+- "Start session"
+- "Run session initialization"
+- "Check memory and context"
+- "Execute mandatory protocol"

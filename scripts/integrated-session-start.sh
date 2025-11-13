@@ -61,9 +61,25 @@ else
     echo "   ⚠️  Agent protocol not found"
 fi
 
-# 3. Beads System Check
+# 3. Secret Check (MANDATORY)
 echo ""
-echo "3️⃣ Beads System..."
+echo "3️⃣ Secret Detection..."
+if [ -f "scripts/check-secrets.sh" ]; then
+    if ./scripts/check-secrets.sh 2>&1 | grep -q "No secrets detected"; then
+        echo "   ✅ No secrets detected"
+    else
+        echo "   ❌ SECRETS DETECTED - Must fix before proceeding"
+        echo "   Run: ./scripts/check-secrets.sh --fix"
+        echo "   Or tell Cursor: 'Fix secrets'"
+        SECRET_FAILURE=true
+    fi
+else
+    echo "   ⚠️  check-secrets.sh not found"
+fi
+
+# 4. Beads System Check
+echo ""
+echo "4️⃣ Beads System..."
 if command -v bd &> /dev/null || [ -d ".beads" ]; then
     if command -v bd &> /dev/null; then
         echo "   ✅ Beads CLI available"
@@ -87,23 +103,35 @@ else
     echo "   ⚠️  Beads not initialized"
 fi
 
-# 4. Summary
+# 5. Summary
 echo ""
 echo "=========================================="
-echo "✅ Integrated System Startup Complete"
+if [ "${SECRET_FAILURE:-false}" = true ]; then
+    echo "⚠️  Startup Complete - SECRETS DETECTED"
+else
+    echo "✅ Integrated System Startup Complete"
+fi
 echo "=========================================="
 echo ""
 echo "Current Status:"
 echo "- Memory: $(test -f memory/MEMORY_SYSTEM_MANIFEST.json && echo '✅ Active' || echo '❌ Not initialized')"
 echo "- Compliance: $(test -f logs/compliance/proof-$(date +%Y-%m-%d).json && echo '✅ Active' || echo '❌ Not initialized')"
+echo "- Secrets: $([ "${SECRET_FAILURE:-false}" = true ] && echo '❌ FAILED - Fix required' || echo '✅ Clean')"
 echo "- Beads: $(command -v bd >/dev/null && echo '✅ Active' || (test -d .beads && echo '⚠️  Directory exists (CLI not in PATH)' || echo '❌ Not installed'))"
 echo ""
+if [ "${SECRET_FAILURE:-false}" = true ]; then
+    echo "🚨 CRITICAL: Secrets detected. Fix before proceeding:"
+    echo "   Tell Cursor: 'Fix secrets'"
+    echo "   Or run: ./scripts/check-secrets.sh --fix"
+    echo ""
+fi
 echo "Next Steps:"
-echo "1. Review Beads ready work above"
-echo "2. Select an issue: bd ready --json"
-echo "3. Update status: bd update <id> --status in_progress --json"
-echo "4. Get context: bd show <id> --json"
-echo "5. Work on the issue"
+echo "1. ✅ Secret check (must pass)"
+echo "2. Review Beads ready work above"
+echo "3. Select an issue: bd ready --json"
+echo "4. Update status: bd update <id> --status in_progress --json"
+echo "5. Get context: bd show <id> --json"
+echo "6. Tell Cursor: 'read MID_DEVELOPMENT.md'"
 echo ""
 echo "For memory recovery, run: ./scripts/recover-context.sh"
 echo ""

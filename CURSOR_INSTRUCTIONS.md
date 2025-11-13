@@ -6,15 +6,19 @@
 ```
 "read startup.md"
 ```
-or
+
+**What happens automatically:**
+1. Checks Memory, Compliance, Beads systems
+2. **Checks for secrets (MANDATORY)**
+3. Shows ready work from Beads
+4. Sets up session
+
+**After startup, tell Cursor:**
 ```
-"Run the startup script"
+"Check for secrets"
 ```
 
-**What happens:**
-- Checks Memory, Compliance, Beads systems
-- Shows ready work from Beads
-- Sets up session
+**This MUST pass before starting work.**
 
 ## 🔄 Mid-Development (Critical)
 
@@ -23,10 +27,16 @@ or
 "read MID_DEVELOPMENT.md"
 ```
 
-**Or specific commands:**
-- `"Check code quality"` - Runs TypeScript/lint/mock checks
-- `"Fix code quality issues"` - Auto-fixes what it can
+**FIRST THING - Check secrets:**
+```
+"Check for secrets"
+```
+**This MUST pass before doing anything else.**
+
+**Then:**
 - `"What am I working on?"` - Shows current Beads issue
+- `"Run code quality check"` - Checks TypeScript/lint/mock/secrets
+- `"Fix code quality issues"` - Auto-fixes what it can
 - `"File this bug to Beads: [description]"` - Creates issue
 
 **Before completing ANY task:**
@@ -36,19 +46,48 @@ or
 
 ## 🧠 When Memory Fades
 
-**Tell Cursor:**
-```
-"read recover.md"
-```
-or
-```
-"Run recovery"
-```
+**Tell Cursor any of these:**
+- `"I forgot what I was doing"`
+- `"Recover memory"`
+- `"Restore context"`
+- `"What was I working on?"`
+- `"Show me my current work"`
+- `"I lost context"`
+- `"read recover.md"`
 
-**What happens:**
+**What happens automatically:**
+- Runs recovery script
 - Shows current work from Beads
 - Displays full context
 - Restores memory
+- Shows dependencies and recent work
+
+## 🧹 Repository Cleanup
+
+**Tell Cursor any of these:**
+- `"Clean up repository"`
+- `"Remove bloat"`
+- `"Clean up the repo"`
+- `"Remove unused files"`
+- `"Cleanup repo with dry-run first"`
+
+**What happens:**
+1. **Dry-run first (always):** Shows what would be deleted
+2. **Interactive cleanup:** Asks before deleting each item
+3. **Removes:** Duplicates, unused files, large files, empty dirs, bloat (.log, .tmp, .bak, etc.)
+
+**Step-by-step:**
+```
+"Clean up repository" → Shows dry-run preview
+```
+
+Then review and approve deletions.
+
+**Or run directly:**
+```bash
+./scripts/cleanup-repo.sh --dry-run        # Preview
+./scripts/cleanup-repo.sh --interactive    # Ask before each deletion
+```
 
 ## 🎯 Project Setup
 
@@ -62,27 +101,59 @@ or
 ```
 
 **What happens:**
+- Checks secrets (MANDATORY FIRST)
 - Cleans up redundancies (with verification)
 - Checks recent updates
 - Analyzes goals/features
 - Generates tasklist.md
+- Verifies tasks with you
 
 ## 📋 Working with Tasks
 
+**Natural language commands:**
+
+**Analyze goals/features and generate tasklist (COMPLETE WORKFLOW):**
+
+**Step 1 - Discovery:**
+- `"Analyze project goals"`
+- `"Analyze goals from [file] and features from [file]"`
+- `"Read through docs and identify all features"`
+- `"Analyze project features from [directory]"`
+- `"Generate task list from goals"`
+
+**What happens:**
+1. Reads specified files/directories OR auto-detects (README.md, CURRENT_GOALS.txt, FEATURES.md, PRD.md, docs/, src/)
+2. Scans codebase for implemented features
+3. Compares documented goals vs implemented features
+4. Identifies gaps (documented but not implemented)
+5. Generates tasklist.md with current + missing + suggested features
+
+**Step 2 - Verification:**
+- `"Verify tasks"`
+- `"Show me the task list"`
+- `"Review tasks before converting"`
+- `"Are these features correct?"`
+
+**What happens:**
+- Shows all features found
+- **WAITS for your confirmation**
+- You can approve/modify
+
+**Step 3 - Update (if needed):**
+- `"Update tasklist with [feature name]"`
+- `"Add [feature] to tasklist"`
+- `"Remove [feature] from tasklist"`
+
 **Convert tasklist to Beads:**
-```
-"Process tasklist.md" or "Convert tasklist to Beads issues"
-```
+- `"Convert tasklist to Beads"`
+- `"Process tasklist.md"`
+- `"Create Beads issues from tasklist"`
+- `"Convert tasks to Beads issues"`
 
-**Analyze goals/features:**
-```
-"Analyze goals from [file] and features from [file]"
-```
-
-**Verify tasks:**
-```
-"Verify tasks in tasklist.md"
-```
+**Verify tasks before converting:**
+- `"Verify tasks"`
+- `"Show me the task list"`
+- `"Review tasks before converting"`
 
 ## ✅ Quality Gates (MANDATORY)
 
@@ -90,20 +161,27 @@ or
 
 1. **Tell Cursor:**
    ```
+   "Check for secrets"
+   ```
+   **Must pass first.**
+
+2. **Tell Cursor:**
+   ```
    "Run code quality check"
    ```
+   **Must pass.**
 
-2. **If fails, tell Cursor:**
+3. **If fails, tell Cursor:**
    ```
    "Fix code quality issues"
    ```
 
-3. **Verify fix:**
+4. **Verify fix:**
    ```
    "Run code quality check again"
    ```
 
-4. **Only if passes:**
+5. **Only if both pass:**
    ```
    "Complete current Beads issue"
    ```
@@ -120,8 +198,13 @@ or
 | Action | Tell Cursor |
 |--------|-------------|
 | Start session | `"read startup.md"` |
-| Recover context | `"read recover.md"` |
-| Setup project | `"read setup.md"` |
+| **Check secrets** | `"Check for secrets"` ← **DO THIS FIRST** |
+| Recover context | `"I forgot what I was doing"` or `"Recover memory"` |
+| **Cleanup repo** | `"Clean up repository"` or `"Remove bloat"` |
+| Setup project | `"Run project setup"` or `"read setup.md"` |
+| Analyze goals | `"Analyze project goals"` |
+| Convert tasklist | `"Convert tasklist to Beads"` |
+| Verify tasks | `"Verify tasks"` |
 | Mid-development | `"read MID_DEVELOPMENT.md"` |
 | Check quality | `"Run code quality check"` |
 | Fix quality | `"Fix code quality issues"` |
@@ -150,4 +233,3 @@ This explains:
 ```
 
 Shows how to create a new project with all systems.
-

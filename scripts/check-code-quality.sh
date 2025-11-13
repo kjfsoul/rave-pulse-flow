@@ -63,7 +63,7 @@ MOCK_PATTERNS=(
 )
 
 MOCK_FOUND=false
-CODE_FILES=$(find . -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" \) ! -path "*/node_modules/*" ! -path "*/.next/*" ! -path "*/dist/*" ! -path "*/build/*" ! -path "*/test/*" ! -path "*/tests/*" 2>/dev/null || true)
+CODE_FILES=$(find . -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" \) ! -path "*/node_modules/*" ! -path "*/.next/*" ! -path "*/dist/*" ! -path "*/dist-test/*" ! -path "*/build/*" ! -path "*/test/*" ! -path "*/tests/*" 2>/dev/null || true)
 
 for pattern in "${MOCK_PATTERNS[@]}"; do
     MATCHES=$(echo "$CODE_FILES" | xargs grep -l -iE "$pattern" 2>/dev/null || true)
@@ -116,6 +116,20 @@ if [ "$MOCK_FOUND" = false ]; then
 fi
 echo ""
 
+# Check for secrets
+echo "4️⃣ Secret Detection..."
+if [ -f "scripts/check-secrets.sh" ]; then
+    if ./scripts/check-secrets.sh 2>&1 | grep -q "No secrets detected"; then
+        echo "   ✅ No secrets detected"
+    else
+        echo "   ❌ Secrets detected - check output above"
+        FAILURES=$((FAILURES + 1))
+    fi
+else
+    echo "   ⚠️  check-secrets.sh not found"
+fi
+echo ""
+
 # Summary
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
@@ -128,4 +142,3 @@ else
     echo "Issues found that must be addressed before marking tasks complete."
     exit 1
 fi
-
