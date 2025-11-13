@@ -419,9 +419,8 @@ const EnhancedRSSFeed: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentPage, totalPages]);
 
-  const [isChangingPage, setIsChangingPage] = useState(false);
+
 
   const goToNextPage = () => {
     if (currentPage < totalPages) {
