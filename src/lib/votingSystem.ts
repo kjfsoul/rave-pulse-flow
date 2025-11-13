@@ -36,37 +36,21 @@ export interface VoteResult {
 }
 
 class VotingSystem {
-  private realtimeChannel: any = null
-
   constructor() {
-    this.initializeRealtime()
+    // Realtime initialization removed as per GEMINI.md
   }
 
-  private initializeRealtime() {
-    // Initialize Supabase Realtime for live vote updates
-    this.realtimeChannel = supabase
-      .channel(REALTIME_CHANNEL)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'festival_votes'
-        },
-        (payload) => {
-          console.log('Realtime vote update:', payload)
-          // Dispatch custom event for UI updates
-          window.dispatchEvent(new CustomEvent('festival-vote-update', {
-            detail: payload
-          }))
-        }
-      )
-      .subscribe((status) => {
-        console.log(`Realtime subscription status: ${status}`)
-        if (status === 'SUBSCRIBED') {
-          console.log('Connected to voting realtime channel')
-        }
+  private updateRateLimit(userId: string): void {
+    const now = Date.now()
+    const userData = rateLimitStore.get(userId)
+
+    if (userData) {
+      rateLimitStore.set(userId, {
+        userId,
+        lastVoteTime: now,
+        voteCount: userData.voteCount + 1
       })
+    }
   }
 
   /**

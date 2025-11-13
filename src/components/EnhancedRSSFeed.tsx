@@ -402,6 +402,23 @@ const EnhancedRSSFeed: React.FC = () => {
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentItems = filteredItems.slice(startIndex, endIndex);
 
+  // Add this useEffect after your other hooks
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Left arrow key
+      if (e.key === 'ArrowLeft' && currentPage > 1) {
+        goToPrevPage();
+      }
+      // Right arrow key
+      if (e.key === 'ArrowRight' && currentPage < totalPages) {
+        goToNextPage();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [currentPage, totalPages]);
+
   const [isChangingPage, setIsChangingPage] = useState(false);
 
   const goToNextPage = () => {
