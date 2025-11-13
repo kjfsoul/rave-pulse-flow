@@ -9,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { supabase } from "@/lib/supabase";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertCircle,
@@ -26,10 +25,9 @@ import {
   XCircle,
   Zap,
 } from "lucide-react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import EnhancedFeedCard from "./EnhancedFeedCard";
-import RSSWebSocketManager from "./RSSWebSocketManager";
 
 // Types
 type ConnectionStatus =
@@ -65,13 +63,98 @@ interface FilterOptions {
   searchQuery: string;
 }
 
-// Helper function to check for stale data (now checks for 2 days for daily updates)
-const isDataStale = (items: EnhancedFeedItem[]): boolean => {
-  if (items.length === 0) return false;
-  const latestPostDate = new Date(items[0].pub_date);
-  const twoDaysAgo = new Date();
-  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2); // 48 hours for daily RSS updates
-  return latestPostDate < twoDaysAgo;
+interface FeedMetadata {
+  generated: string;
+  totalItems: number;
+  totalSources: number;
+  activeSources: number;
+  sources: string[];
+}
+
+interface StaticFeedItem {
+  id: string;
+  title: string;
+  description: string;
+  fullContent?: string | null;
+  link: string;
+  pubDate: string;
+  source: string;
+  feedCategory?: string;
+  contentCategory?: string;
+  sentiment?: "positive" | "negative" | "neutral";
+  priority?: number;
+  image?: string | null;
+  hasFullContent?: boolean;
+  tags?: string[];
+}
+
+interface StaticFeedResponse {
+  metadata: FeedMetadata;
+  featured?: StaticFeedItem[];
+  items: StaticFeedItem[];
+}
+
+const FALLBACK_ITEMS: EnhancedFeedItem[] = [
+  {
+    id: "fallback-1",
+    title: "Tomorrowland 2025 Announces First Wave of Artists",
+    description:
+      "Tomorrowland reveals its 2025 lineup with headliners Armin van Buuren, Charlotte de Witte, and Martin Garrix. Ticket presales start next week.",
+    link: "#",
+    pub_date: new Date().toISOString(),
+    category: "festival",
+    source: "Tomorrowland",
+    tags: ["festival", "lineup"],
+    read_time: 2,
+    sentiment: "positive",
+    priority: 95,
+    trending: true,
+    featured: true,
+  },
+  {
+    id: "fallback-2",
+    title: "Deadmau5 Drops Surprise Album 'where phantoms sleep 04'",
+    description:
+      "Featuring collaborations with Rezz and Kaskade, Deadmau5 releases a surprise album exploring progressive and techno landscapes.",
+    link: "#",
+    pub_date: new Date(Date.now() - 3600 * 1000).toISOString(),
+    category: "music",
+    source: "EDM.com",
+    tags: ["release", "album"],
+    read_time: 3,
+    sentiment: "positive",
+    priority: 90,
+    trending: true,
+  },
+  {
+    id: "fallback-3",
+    title: "Techno’s Underground Collectives Are Making Waves",
+    description:
+      "Independent techno collectives across Berlin, Detroit, and Seoul are redefining the rave experience with intimate warehouse events.",
+    link: "#",
+    pub_date: new Date(Date.now() - 2 * 3600 * 1000).toISOString(),
+    category: "news",
+    source: "Dancing Astronaut",
+    tags: ["techno", "culture"],
+    read_time: 4,
+    sentiment: "positive",
+    priority: 70,
+  },
+];
+
+const mapCategory = (category?: string): "music" | "festival" | "news" => {
+  const normalized = (category || "").toLowerCase();
+  if (normalized === "festivals" || normalized === "festival") return "festival";
+  if (
+    normalized === "releases" ||
+    normalized === "music" ||
+    normalized === "bass" ||
+    normalized === "house" ||
+    normalized === "production"
+  ) {
+    return "music";
+  }
+  return "news";
 };
 
 const EnhancedRSSFeed: React.FC = () => {
@@ -82,6 +165,7 @@ const EnhancedRSSFeed: React.FC = () => {
   const [connectionStatus, setConnectionStatus] =
     useState<ConnectionStatus>("connecting");
   const [showFilters, setShowFilters] = useState(false);
+  const [metadata, setMetadata] = useState<FeedMetadata | null>(null);
   const [filters, setFilters] = useState<FilterOptions>({
     category: "all",
     source: "all",
@@ -90,88 +174,147 @@ const EnhancedRSSFeed: React.FC = () => {
     searchQuery: "",
   });
 
-  const fetchFeedItems = useCallback(
-    async (isFallback = false) => {
-      try {
-        setLoading(true);
-        setError(null);
+  const mapStaticFeedItem = useCallback(
+    (
+      item: StaticFeedItem,
+      featuredIds: Set<string>
+    ): EnhancedFeedItem => {
+      const category = mapCategory(item.contentCategory || item.feedCategory);
+      const readTime = Math.max(
+        1,
+        Math.round((item.description?.split(/\s+/).length || 0) / 200)
+      );
+      const trending = Boolean(item.priority && item.priority >= 80);
 
-        const { data, error: fetchError } = await supabase
-          .from("live_feed")
-          .select("*")
-          .order("pub_date", { ascending: false })
-          .limit(50);
+      return {
+        id: item.id,
+        title: item.title ?? "Untitled",
+        description: item.description ?? "",
+        link: item.link,
+        pub_date: item.pubDate,
+        category,
+        source: item.source,
+        image_url: item.image ?? undefined,
+        tags: item.tags ?? [],
+        read_time: readTime,
+        sentiment: (item.sentiment ?? "neutral") as
+          | "positive"
+          | "negative"
+          | "neutral",
+        priority: item.priority,
+        trending,
+        featured: featuredIds.has(item.id),
+      };
+    },
+    []
+  );
 
-        if (fetchError) throw fetchError;
+  const loadEmbeddedFallback = useCallback(() => {
+    setFeedItems(FALLBACK_ITEMS);
+    setFilteredItems(FALLBACK_ITEMS);
+    setMetadata({
+      generated: new Date().toISOString(),
+      totalItems: FALLBACK_ITEMS.length,
+      totalSources: 1,
+      activeSources: 1,
+      sources: Array.from(new Set(FALLBACK_ITEMS.map((item) => item.source))),
+    });
+    setConnectionStatus("error");
+  }, []);
 
-        if (data && data.length > 0) {
-          setFeedItems(data);
-          if (isDataStale(data) && connectionStatus !== "error") {
-            setConnectionStatus("stale");
-            toast.warning("RSS feed is stale", {
-              description:
-                "Data hasn't updated in over 48 hours. Attempting to refresh...",
-            });
-            refreshFeed();
-          }
-        } else {
-          setError("No feed items available. The rave gods are silent.");
+  const loadStaticFeed = useCallback(
+    (data: StaticFeedResponse, origin: "primary" | "backup") => {
+      if (!data?.items?.length) {
+        throw new Error("Feed returned no items");
+      }
+
+      const featuredIds = new Set(
+        data.featured?.map((item) => item.id) ?? []
+      );
+      const mappedItems = data.items.map((item) =>
+        mapStaticFeedItem(item, featuredIds)
+      );
+      setFeedItems(mappedItems);
+      setMetadata(data.metadata);
+
+      const generatedTime = data.metadata?.generated
+        ? new Date(data.metadata.generated)
+        : null;
+      const hoursSinceUpdate = generatedTime
+        ? (Date.now() - generatedTime.getTime()) / 3_600_000
+        : null;
+      if (hoursSinceUpdate !== null && hoursSinceUpdate > 48) {
+        setConnectionStatus("stale");
+        if (origin === "backup") {
+          toast.warning("Using backup news feed (latest refresh delayed).");
         }
-      } catch (err) {
-        console.error("Error fetching feed items:", err);
-        setError("Failed to load news feed. The signal is lost.");
-        setConnectionStatus("error");
+      } else {
+        setConnectionStatus("subscribed");
+        if (origin === "backup") {
+          toast.warning("Primary feed unavailable. Using backup copy.");
+        }
+      }
+    },
+    [mapStaticFeedItem]
+  );
+
+  const fetchJson = useCallback(async (url: string) => {
+    const response = await fetch(url, {
+      cache: "no-store",
+    });
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+    return (await response.json()) as StaticFeedResponse;
+  }, []);
+
+  const fetchFeedItems = useCallback(
+    async ({
+      showToast = false,
+      forceReload = false,
+    }: {
+      showToast?: boolean;
+      forceReload?: boolean;
+    } = {}) => {
+      setLoading(true);
+      setError(null);
+
+      const querySuffix = forceReload ? `?ts=${Date.now()}` : "";
+
+      try {
+        const primaryData = await fetchJson(
+          `/data/edm-news.json${querySuffix}`
+        );
+        loadStaticFeed(primaryData, "primary");
+        if (showToast) {
+          toast.success("News feed refreshed.");
+        }
+      } catch (primaryError) {
+        console.error("Primary feed failed:", primaryError);
+        try {
+          const backupData = await fetchJson(
+            `/data/edm-news-backup.json${querySuffix}`
+          );
+          loadStaticFeed(backupData, "backup");
+          if (showToast) {
+            toast.success("Loaded backup feed.");
+          }
+        } catch (backupError) {
+          console.error("Backup feed failed:", backupError);
+          setError("Unable to load news feed right now.");
+          setConnectionStatus("error");
+          loadEmbeddedFallback();
+        }
       } finally {
         setLoading(false);
       }
     },
-    [connectionStatus]
+    [fetchJson, loadEmbeddedFallback, loadStaticFeed]
   );
 
   const refreshFeed = async () => {
-    try {
-      toast.info("Forcing feed refresh...");
-      const { data, error: functionError } = await supabase.functions.invoke(
-        "fetch-rss-feeds"
-      );
-      if (functionError) throw functionError;
-      if (data?.success) {
-        toast.success(
-          `Feed refresh successful! ${data.itemsUpserted || 0} new articles.`
-        );
-        await fetchFeedItems();
-      } else {
-        toast.error("Feed refresh failed on the server.");
-      }
-    } catch (err) {
-      console.error("Error refreshing feed:", err);
-      toast.error("Failed to trigger feed refresh.");
-    }
-  };
-
-  const handleNewArticle = (article: EnhancedFeedItem) => {
-    setFeedItems((prev) => [
-      article,
-      ...prev.filter((item) => item.id !== article.id),
-    ]);
-  };
-
-  const handleWebSocketError = ({
-    message,
-    isFinal,
-  }: {
-    message: string;
-    isFinal: boolean;
-  }) => {
-    setError(message);
-    if (isFinal) {
-      setConnectionStatus("error");
-      toast.error("RSS connection failed. Falling back to static feed.", {
-        description:
-          "You'll see the latest loaded data. RSS feeds update daily.",
-      });
-      fetchFeedItems(true); // Fetch as a fallback
-    }
+    toast.info("Refreshing EDM news feed...");
+    await fetchFeedItems({ showToast: true, forceReload: true });
   };
 
   useEffect(() => {
@@ -219,14 +362,19 @@ const EnhancedRSSFeed: React.FC = () => {
     setFilteredItems(filtered);
   }, [feedItems, filters]);
 
-  const uniqueSources = Array.from(
-    new Set(feedItems.map((item) => item.source))
+  const uniqueSources = useMemo(() => {
+    if (metadata?.sources?.length) return metadata.sources;
+    return Array.from(new Set(feedItems.map((item) => item.source)));
+  }, [feedItems, metadata]);
+
+  const stats = useMemo(
+    () => ({
+      total: feedItems.length,
+      trending: feedItems.filter((item) => item.trending).length,
+      featured: feedItems.filter((item) => item.featured).length,
+    }),
+    [feedItems]
   );
-  const stats = {
-    total: feedItems.length,
-    trending: feedItems.filter((item) => item.trending).length,
-    featured: feedItems.filter((item) => item.featured).length,
-  };
 
   const StatusIndicator = () => {
     const indicatorMap = {
@@ -320,12 +468,6 @@ const EnhancedRSSFeed: React.FC = () => {
 
   return (
     <div className="w-full bg-gradient-to-r from-bass-dark via-bass-medium to-bass-dark border-b border-neon-purple/20">
-      <RSSWebSocketManager
-        onNewArticle={handleNewArticle}
-        onUpdate={handleNewArticle} // Treat updates as new articles for simplicity
-        onError={handleWebSocketError}
-        onStatusChange={setConnectionStatus}
-      />
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Header */}
         <motion.div
@@ -352,7 +494,7 @@ const EnhancedRSSFeed: React.FC = () => {
                 Enhanced EDM Feed <Zap className="w-5 h-5 text-neon-cyan" />
               </h2>
               <p className="text-sm text-slate-400">
-                AI-powered, real-time rave news
+                AI-powered EDM news — refreshed daily from {metadata?.sources?.length ?? uniqueSources.length} sources
               </p>
             </div>
           </div>
