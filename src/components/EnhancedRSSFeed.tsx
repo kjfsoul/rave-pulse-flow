@@ -178,6 +178,8 @@ const EnhancedRSSFeed: React.FC = () => {
     searchQuery: "",
   });
 
+  const [isChangingPage, setIsChangingPage] = useState(false);
+
   const mapStaticFeedItem = useCallback(
     (
       item: StaticFeedItem,
