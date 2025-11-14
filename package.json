@@ -16,7 +16,8 @@
     "test:ui": "vitest --ui",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "generate-feed": "node scripts/generate-feed.js"
+    "generate-feed": "node scripts/generate-feed.js",
+    "sync:printify": "tsx scripts/sync-printify.ts"
   },
   "dependencies": {
     "@genkit-ai/mcp": "^1.22.0",
@@ -100,6 +101,7 @@
     "postcss": "^8.4.47",
     "supabase": "^2.34.3",
     "tailwindcss": "^3.4.11",
+    "tsx": "^4.19.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^7.0.6",

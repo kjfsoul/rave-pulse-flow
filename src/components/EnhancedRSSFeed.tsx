@@ -178,7 +178,7 @@ const EnhancedRSSFeed: React.FC = () => {
     searchQuery: "",
   });
 
-  const [isChangingPage, setIsChangingPage] = useState(false);
+
 
   const mapStaticFeedItem = useCallback(
     (
@@ -419,6 +419,7 @@ const EnhancedRSSFeed: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [currentPage, totalPages]);
 
 
 
