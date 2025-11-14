@@ -1,6 +1,6 @@
 # EDM Shuffle
 
-Welcome to **EDM Shuffle** — the next-gen community-driven digital rave and festival platform.
+Welcome to **EDM Shuffle** — the next-gen community-driven digital rave and festival platform.  
 This project is an open, transparent, and rigorously documented codebase, built with a focus on trust, verifiability, and collaboration across leading AI coding assistants (Claude Code, Gemini CLI, Roo Code, and more).
 
 ## 🚀 What is EDM Shuffle?
@@ -16,7 +16,7 @@ EDM Shuffle is a festival-inspired, interactive audio/visual experience for DJs,
 
 ## 🔍 Repository Structure
 
-- **All documentation is located in the root directory of this repo.**
+- **All documentation is located in the root directory of this repo.**  
 - Major source code lives under `/src/`, with components, pages, and hooks logically organized.
 
 ## 📂 Documentation Index
@@ -72,30 +72,6 @@ By default, this feature is turned **off**.
 - **Transparency:** Every commit, feature, and claim must be verifiable.
 - **Modularity:** Components and features are built independently and composably.
 - **Community-Driven:** Prioritizing user engagement, feedback, and collective energy.
-
-## 🛒 Printify Merch Pipeline
-
-The homepage Gear Drops carousel and marketplace merch grid are powered by the EDM Shuffle Printify store (`storeId: 24437349`). To refresh the catalog or download the latest images:
-
-1. Add the following variables to your local environment:
-
-   ```bash
-   export PRINTIFY_API_KEY=sk_live_or_test_key
-   # optional override; otherwise the tooling auto-detects the single shop whose title contains "edm"
-   # export PRINTIFY_STORE_ID=24437349
-   ```
-
-2. Run the sync script to regenerate the static catalog and cache images in `public/images/printify`:
-
-   ```bash
-   npm run sync:printify
-   ```
-
-   > The EDM Shuffle sync only persists products that are both visible and published (have an external Printify ID), so the site always reflects live storefront merch.
-
-3. Deploy the Supabase Edge Function `printify-products` with the secret `PRINTIFY_API_TOKEN` (same as the API key). The function will reuse `PRINTIFY_STORE_ID` if set; otherwise it auto-detects the single shop whose title contains "edm". The frontend calls this function at runtime to merge live product data with the auto-generated catalog.
-
-If the live API is unreachable, the UI gracefully falls back to the bundled catalog produced by the sync script.
 
 ---
 
