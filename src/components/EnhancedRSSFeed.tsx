@@ -331,19 +331,19 @@ const EnhancedRSSFeed: React.FC = () => {
   useEffect(() => {
     const now = Date.now();
     const fortyEightHoursAgo = now - (48 * 60 * 60 * 1000);
-    
+
     const recentItems = feedItems.filter(item => {
       const itemDate = new Date(item.pub_date).getTime();
       return itemDate >= fortyEightHoursAgo;
     });
-    
+
     setFilteredItems(recentItems);
   }, [feedItems]);
 
   // Apply additional filters (search, category, etc.)
   useEffect(() => {
     let filtered = [...feedItems];
-    
+
     // 48-hour filter FIRST
     const now = Date.now();
     const fortyEightHoursAgo = now - (48 * 60 * 60 * 1000);
@@ -367,10 +367,10 @@ const EnhancedRSSFeed: React.FC = () => {
 
     if (filters.category !== "all")
       filtered = filtered.filter((item) => item.category === filters.category);
-    
+
     if (filters.source !== "all")
       filtered = filtered.filter((item) => item.source === filters.source);
-    
+
     if (filters.sentiment !== "all")
       filtered = filtered.filter(
         (item) => item.sentiment === filters.sentiment
@@ -404,33 +404,15 @@ const EnhancedRSSFeed: React.FC = () => {
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentItems = filteredItems.slice(startIndex, endIndex);
 
-  // Add this useEffect after your other hooks
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      // Left arrow key
-      if (e.key === 'ArrowLeft' && currentPage > 1) {
-        goToPrevPage();
-      }
-      // Right arrow key
-      if (e.key === 'ArrowRight' && currentPage < totalPages) {
-        goToNextPage();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-
-
-
   const goToNextPage = () => {
     if (currentPage < totalPages) {
       setIsChangingPage(true);
       setTimeout(() => {
         setCurrentPage(prev => prev + 1);
         setIsChangingPage(false);
-        document.getElementById('rss-feed-top')?.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start' 
+        document.getElementById('rss-feed-top')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
         });
       }, 150);
     }
@@ -442,9 +424,9 @@ const EnhancedRSSFeed: React.FC = () => {
       setTimeout(() => {
         setCurrentPage(prev => prev - 1);
         setIsChangingPage(false);
-        document.getElementById('rss-feed-top')?.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start' 
+        document.getElementById('rss-feed-top')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
         });
       }, 150);
     }
@@ -456,12 +438,12 @@ const EnhancedRSSFeed: React.FC = () => {
     info: PanInfo
   ) => {
     const swipeThreshold = 50;
-    
+
     // Swipe left (next page)
     if (info.offset.x < -swipeThreshold && currentPage < totalPages) {
       goToNextPage();
     }
-    
+
     // Swipe right (previous page)
     if (info.offset.x > swipeThreshold && currentPage > 1) {
       goToPrevPage();
@@ -477,7 +459,7 @@ const EnhancedRSSFeed: React.FC = () => {
     // Only count items from last 48 hours
     const now = Date.now();
     const fortyEightHoursAgo = now - (48 * 60 * 60 * 1000);
-    
+
     const recentItems = feedItems.filter(item => {
       const itemDate = new Date(item.pub_date).getTime();
       return itemDate >= fortyEightHoursAgo;
@@ -489,6 +471,20 @@ const EnhancedRSSFeed: React.FC = () => {
       featured: recentItems.filter((item) => item.featured).length,
     };
   }, [feedItems]);
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft" && currentPage > 1) {
+        goToPrevPage();
+      }
+      if (e.key === "ArrowRight" && currentPage < totalPages) {
+        goToNextPage();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [currentPage, totalPages]);
 
   const StatusIndicator = () => {
     const indicatorMap = {
@@ -579,23 +575,6 @@ const EnhancedRSSFeed: React.FC = () => {
       </div>
     );
   }
-
-  // Add this useEffect after your other hooks
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      // Left arrow key
-      if (e.key === 'ArrowLeft' && currentPage > 1) {
-        goToPrevPage();
-      }
-      // Right arrow key
-      if (e.key === 'ArrowRight' && currentPage < totalPages) {
-        goToNextPage();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentPage, totalPages]);
 
   return (
     <div className="w-full bg-gradient-to-r from-bass-dark via-bass-medium to-bass-dark border-b border-neon-purple/20">
@@ -777,7 +756,7 @@ const EnhancedRSSFeed: React.FC = () => {
                   </motion.div>
                 </motion.div>
               )}
-              
+
               {/* Carousel Grid - 2 rows × 3 columns */}
               <motion.div
                 key={currentPage} // Re-animate on page change
@@ -803,7 +782,7 @@ const EnhancedRSSFeed: React.FC = () => {
                 ))}
               </motion.div>
             </div>
-            
+
                 {/* Mobile Pagination - Simplified */}
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-neon-purple/20">
                   <Button
@@ -816,8 +795,8 @@ const EnhancedRSSFeed: React.FC = () => {
                         className={`
                       w-full sm:w-auto
                       border-neon-purple/30 text-white
-                      ${currentPage === 1 
-                        ? 'opacity-30 cursor-not-allowed' 
+                      ${currentPage === 1
+                        ? 'opacity-30 cursor-not-allowed'
                         : 'hover:bg-neon-purple/20 hover:border-neon-purple'
                       }
                     `}
@@ -825,7 +804,7 @@ const EnhancedRSSFeed: React.FC = () => {
                     <ChevronLeft className="w-5 h-5 mr-2" />
                     Previous
                   </Button>
-            
+
                   {/* Page Indicator - Stacked on Mobile */}
                   <div className="flex flex-col items-center gap-2">
                     <p className="text-sm text-slate-400">
@@ -834,7 +813,7 @@ const EnhancedRSSFeed: React.FC = () => {
                     <p className="text-xs text-slate-500">
                       {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of {filteredItems.length} stories
                     </p>
-                    
+
                     {/* Mobile Page Dots - Show only on tablet+ */}
                     {totalPages <= 10 && (
                       <div className="hidden sm:flex items-center gap-2 mt-2">
@@ -843,14 +822,14 @@ const EnhancedRSSFeed: React.FC = () => {
                             key={page}
                             onClick={() => {
                               setCurrentPage(page);
-                              document.getElementById('rss-feed-top')?.scrollIntoView({ 
-                                behavior: 'smooth' 
+                              document.getElementById('rss-feed-top')?.scrollIntoView({
+                                behavior: 'smooth'
                               });
                             }}
                             className={`
                               w-2 h-2 rounded-full transition-all
-                              ${page === currentPage 
-                                ? 'bg-neon-purple w-8' 
+                              ${page === currentPage
+                                ? 'bg-neon-purple w-8'
                                 : 'bg-slate-600 hover:bg-slate-500'
                               }
                             `}
@@ -860,7 +839,7 @@ const EnhancedRSSFeed: React.FC = () => {
                       </div>
                     )}
                   </div>
-            
+
                   <Button
                     onClick={goToNextPage}
                     disabled={currentPage === totalPages}
@@ -871,8 +850,8 @@ const EnhancedRSSFeed: React.FC = () => {
                     className={`
                       w-full sm:w-auto
                       border-neon-purple/30 text-white
-                      ${currentPage === totalPages 
-                        ? 'opacity-30 cursor-not-allowed' 
+                      ${currentPage === totalPages
+                        ? 'opacity-30 cursor-not-allowed'
                         : 'hover:bg-neon-purple/20 hover:border-neon-purple'
                       }
                     `}
@@ -881,17 +860,17 @@ const EnhancedRSSFeed: React.FC = () => {
                     <ChevronRight className="w-5 h-5 ml-2" />
                   </Button>
                             </div>
-                
+
                             {/* Live region for screen readers */}
-                            <div 
-                              role="status" 
-                              aria-live="polite" 
+                            <div
+                              role="status"
+                              aria-live="polite"
                               aria-atomic="true"
                               className="sr-only"
                             >
                               Page {currentPage} of {totalPages}, showing {currentItems.length} articles
                             </div>
-                
+
                             {/* Quick Jump (optional - for many pages) */}
                             {totalPages > 10 && (
                               <div className="flex items-center justify-center gap-2 pt-4">
@@ -905,8 +884,8 @@ const EnhancedRSSFeed: React.FC = () => {
                                     const page = parseInt(e.target.value);
                                     if (page >= 1 && page <= totalPages) {
                                       setCurrentPage(page);
-                                      document.getElementById('rss-feed-top')?.scrollIntoView({ 
-                                        behavior: 'smooth' 
+                                      document.getElementById('rss-feed-top')?.scrollIntoView({
+                                        behavior: 'smooth'
                                       });
                                     }
                                   }}
@@ -938,7 +917,7 @@ const EnhancedRSSFeed: React.FC = () => {
                             </Button>
                           </motion.div>
                         )}
-                
+
                         {/* View All Stories Link */}
                         <div className="text-center pt-6">
                           <Button
@@ -951,7 +930,7 @@ const EnhancedRSSFeed: React.FC = () => {
                             <ChevronRight className="w-4 h-4 ml-2" />
                           </Button>
                         </div>
-                
+
                         <StatusIndicator />
                       </div>
                     </div>

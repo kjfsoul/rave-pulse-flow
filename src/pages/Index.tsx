@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import BottomNavigation from "@/components/BottomNavigation";
@@ -12,7 +12,9 @@ import EnhancedRSSFeed from "@/components/EnhancedRSSFeed";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Play, Heart, Share2, TrendingUp, LogIn, UserPlus, Trophy } from "lucide-react";
+import { LogIn, UserPlus, Trophy, ShoppingBag, ExternalLink } from "lucide-react";
+import { usePrintifyProducts } from "@/hooks/usePrintifyProducts";
+import { formatCurrency, getProductUrl } from "@/lib/printify";
 
 interface Archetype {
   id: string;
@@ -53,19 +55,27 @@ const Index = () => {
     // Could add reshuffle logic here
   };
 
-  const trendingClips = [
-    { id: 1, title: "Fire Shuffle Combo", likes: "2.3K", trend: "+15%" },
-    { id: 2, title: "Moonwalk Bass Drop", likes: "1.8K", trend: "+23%" },
-    { id: 3, title: "Frost Step Master", likes: "3.1K", trend: "+8%" },
-    { id: 4, title: "Neon Glide Flow", likes: "942", trend: "+41%" },
-  ];
+  const { mergedProducts: mergedPrintifyProducts, loading: printifyLoading } = usePrintifyProducts({ fetchLimit: 16 });
 
-  const gearDrops = [
-    { id: 1, name: "LED Shuffle Kicks", price: "$149", archetype: "Firestorm", image: "🔥" },
-    { id: 2, name: "Cyber Glow Hoodie", price: "$89", archetype: "FrostPulse", image: "❄️" },
-    { id: 3, name: "Bass Drop Headphones", price: "$199", archetype: "MoonWaver", image: "🌙" },
-    { id: 4, name: "Neon Rave Gloves", price: "$39", archetype: "Firestorm", image: "⚡" },
-  ];
+  const featuredPrintifyProducts = useMemo(() => mergedPrintifyProducts.slice(0, 7), [mergedPrintifyProducts]);
+
+  const getPrimaryImage = (images?: { preview?: string | null; src: string; isDefault?: boolean }[]) => {
+    if (!images || images.length === 0) return null;
+    const preferred = images.find((image) => image.isDefault);
+    return (preferred?.preview || preferred?.src || images[0].preview || images[0].src || null) ?? null;
+  };
+
+  const getDisplayPrice = (product: (typeof mergedPrintifyProducts)[number]) => {
+    if (product.priceRange) {
+      return formatCurrency(product.priceRange.min, product.priceRange.currency || "USD");
+    }
+    const variantPrices = product.variants?.map((variant) => variant.price).filter((price) => typeof price === "number" && !Number.isNaN(price));
+    if (variantPrices && variantPrices.length > 0) {
+      const minPrice = Math.min(...variantPrices);
+      return formatCurrency(minPrice);
+    }
+    return "See details";
+  };
 
   return (
     <div className="min-h-screen bg-bass-dark relative pb-20">
@@ -273,67 +283,10 @@ const Index = () => {
         </motion.div>
       </section>
 
-      {/* Trending Shuffle Clips */}
-      <section className="px-4 mb-12">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="mb-6"
-        >
-          <h2 className="text-3xl font-bold text-neon-purple mb-2 flex items-center">
-            <TrendingUp className="mr-3" />
-            Trending Shuffle Clips
-          </h2>
-          <p className="text-slate-400">Hot moves lighting up the feed</p>
-        </motion.div>
-
-        <div className="grid grid-cols-2 gap-4">
-          {trendingClips.map((clip, index) => (
-            <motion.div
-              key={clip.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="relative group"
-            >
-              <Card className="bg-bass-medium border-neon-purple/20 hover:border-neon-purple/50 transition-all duration-300 overflow-hidden">
-                <CardContent className="p-0">
-                  <div className="aspect-square bg-gradient-to-br from-neon-purple/20 to-neon-cyan/20 relative flex items-center justify-center">
-                    <motion.div
-                      className="w-12 h-12 bg-neon-purple/80 rounded-full flex items-center justify-center"
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      <Play className="w-6 h-6 text-white ml-1" />
-                    </motion.div>
-
-                    <Badge className="absolute top-2 right-2 bg-neon-cyan text-bass-dark">
-                      {clip.trend}
-                    </Badge>
-                  </div>
-
-                  <div className="p-3">
-                    <h3 className="font-semibold text-white mb-1">{clip.title}</h3>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-400 flex items-center">
-                        <Heart className="w-4 h-4 mr-1 text-neon-pink" />
-                        {clip.likes}
-                      </span>
-                      <Share2 className="w-4 h-4 text-slate-500 hover:text-neon-cyan cursor-pointer" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
       {/* Enhanced RSS Feed */}
       <EnhancedRSSFeed />
 
-      {/* Gear Drops Carousel */}
+      {/* Live Merch Drops */}
       <section className="px-4 mb-12">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -342,36 +295,89 @@ const Index = () => {
           className="mb-6"
         >
           <h2 className="text-3xl font-bold text-neon-cyan mb-2">
-            🔥 Gear Drops of the Day
+            🔥 Live Merch Drops
           </h2>
-          <p className="text-slate-400">Fresh fits for every archetype</p>
+          <p className="text-slate-400">
+            Fresh from the EDM Shuffle Printify store — only published products, updated live.
+          </p>
         </motion.div>
 
-        <div className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide">
-          {gearDrops.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="flex-shrink-0 w-48"
-            >
-              <Card className="bg-bass-medium border-neon-cyan/20 hover:border-neon-cyan/50 hover:shadow-lg hover:shadow-neon-cyan/20 transition-all duration-300 cursor-pointer group">
-                <CardContent className="p-4">
-                  <div className="text-4xl mb-3 text-center">{item.image}</div>
-                  <Badge className="mb-2 bg-neon-purple/20 text-neon-purple border-neon-purple/30">
-                    {item.archetype}
-                  </Badge>
-                  <h3 className="font-semibold text-white mb-2 group-hover:text-neon-cyan transition-colors">
-                    {item.name}
-                  </h3>
-                  <p className="text-2xl font-bold text-neon-cyan">{item.price}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+        {printifyLoading && featuredPrintifyProducts.length === 0 ? (
+          <div className="bg-bass-medium/40 border border-neon-cyan/20 rounded-2xl py-12 text-center text-slate-400">
+            Syncing merch drops from Printify...
+          </div>
+        ) : featuredPrintifyProducts.length === 0 ? (
+          <div className="bg-bass-medium/40 border border-neon-cyan/20 rounded-2xl py-12 text-center text-slate-400">
+            No merch drops are live yet. Run <code className="px-2 py-1 bg-bass-medium rounded">npm run sync:printify</code> once products
+            are published.
+          </div>
+        ) : (
+          <div className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide snap-x snap-mandatory">
+            {featuredPrintifyProducts.map((product, index) => {
+              const imageSrc = getPrimaryImage(product.images);
+              return (
+                <motion.a
+                  key={product.id}
+                  href={getProductUrl(product)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.08 }}
+                  className="flex-shrink-0 w-64 snap-start"
+                >
+                  <Card className="bg-bass-medium/80 border-neon-cyan/20 hover:border-neon-cyan/50 hover:shadow-lg hover:shadow-neon-cyan/20 transition-all duration-300 h-full">
+                    <CardContent className="p-0 flex flex-col h-full">
+                      <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-bass-dark/60">
+                        {imageSrc ? (
+                          <img
+                            src={imageSrc}
+                            alt={product.title}
+                            className="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="flex h-full items-center justify-center text-4xl text-neon-cyan/80">
+                            <ShoppingBag className="h-10 w-10" />
+                          </div>
+                        )}
+                        <Badge className="absolute top-3 left-3 bg-neon-purple/20 text-neon-purple border-neon-purple/30">
+                          {product.source === "live" ? "Live" : "Catalog"}
+                        </Badge>
+                      </div>
+                      <div className="flex flex-1 flex-col p-4 space-y-3">
+                        <div>
+                          <h3 className="text-white text-lg font-semibold leading-tight line-clamp-2">
+                            {product.title}
+                          </h3>
+                          <p className="text-sm text-slate-400 mt-1 line-clamp-2">
+                            {product.description?.replace(/<[^>]*>/g, "") || "Limited edition EDM Shuffle drop"}
+                          </p>
+                        </div>
+                        <div className="mt-auto flex items-center justify-between text-sm">
+                          <span className="text-neon-cyan text-lg font-bold">
+                            {getDisplayPrice(product)}
+                          </span>
+                          <Badge className="bg-bass-dark/80 border-neon-cyan/40 text-neon-cyan flex items-center gap-1">
+                            <ExternalLink className="h-3.5 w-3.5" />
+                            View
+                          </Badge>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.a>
+              );
+            })}
+          </div>
+        )}
+
+        {printifyLoading && featuredPrintifyProducts.length > 0 && (
+          <p className="text-center text-xs text-slate-500 mt-4">
+            Updating live merch data from Printify...
+          </p>
+        )}
       </section>
 
       {/* Footer */}
@@ -383,7 +389,7 @@ const Index = () => {
               <span className="text-xl font-bold text-white">EDM Shuffle</span>
             </div>
 
-            <div className="flex items-center gap-6 text-sm">
+          <div className="flex items-center gap-6 text-sm">
               <Link
                 to="/privacy-policy"
                 className="text-slate-400 hover:text-neon-cyan transition-colors duration-200 flex items-center gap-1"
