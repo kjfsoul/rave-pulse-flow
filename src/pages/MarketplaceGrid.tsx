@@ -58,11 +58,11 @@ const MarketplaceGrid = () => {
   };
 
   const digitalProducts: Product[] = [
-    { 
-      id: "cyber-led-kicks", 
-      name: "Cyber LED Kicks", 
-      price: 199.99, 
-      archetype: "Firestorm", 
+    {
+      id: "cyber-led-kicks",
+      name: "Cyber LED Kicks",
+      price: 199.99,
+      archetype: "Firestorm",
       emoji: "🔥",
       description: "High-energy LED sneakers that pulse with every beat. Perfect for aggressive shuffling and hard dance.",
       category: "Footwear",
@@ -70,11 +70,11 @@ const MarketplaceGrid = () => {
       rating: 4.8,
       reviews: 127
     },
-    { 
-      id: "frost-pulse-hoodie", 
-      name: "Frost Pulse Hoodie", 
-      price: 89.99, 
-      archetype: "FrostPulse", 
+    {
+      id: "frost-pulse-hoodie",
+      name: "Frost Pulse Hoodie",
+      price: 89.99,
+      archetype: "FrostPulse",
       emoji: "❄️",
       description: "Temperature-reactive hoodie with crystalline patterns that glow in UV light.",
       category: "Apparel",
@@ -82,11 +82,11 @@ const MarketplaceGrid = () => {
       rating: 4.6,
       reviews: 89
     },
-    { 
-      id: "moon-glow-pants", 
-      name: "Moon Glow Pants", 
-      price: 129.99, 
-      archetype: "MoonWaver", 
+    {
+      id: "moon-glow-pants",
+      name: "Moon Glow Pants",
+      price: 129.99,
+      archetype: "MoonWaver",
       emoji: "🌙",
       description: "Flowy pants with holographic fibers that create mesmerizing wave patterns in motion.",
       category: "Apparel",
@@ -94,11 +94,11 @@ const MarketplaceGrid = () => {
       rating: 4.9,
       reviews: 156
     },
-    { 
-      id: "neon-bass-gloves", 
-      name: "Neon Bass Gloves", 
-      price: 45.99, 
-      archetype: "Firestorm", 
+    {
+      id: "neon-bass-gloves",
+      name: "Neon Bass Gloves",
+      price: 45.99,
+      archetype: "Firestorm",
       emoji: "⚡",
       description: "Touch-sensitive gloves that light up with hand movements. Great for light shows.",
       category: "Accessories",
@@ -106,11 +106,11 @@ const MarketplaceGrid = () => {
       rating: 4.7,
       reviews: 203
     },
-    { 
-      id: "crystal-visor", 
-      name: "Crystal Visor", 
-      price: 75.99, 
-      archetype: "FrostPulse", 
+    {
+      id: "crystal-visor",
+      name: "Crystal Visor",
+      price: 75.99,
+      archetype: "FrostPulse",
       emoji: "🔮",
       description: "Prismatic visor that splits light into rainbow effects. Essential for crystal pulse ravers.",
       category: "Accessories",
@@ -118,11 +118,11 @@ const MarketplaceGrid = () => {
       rating: 4.5,
       reviews: 67
     },
-    { 
-      id: "lunar-cape", 
-      name: "Lunar Cape", 
-      price: 159.99, 
-      archetype: "MoonWaver", 
+    {
+      id: "lunar-cape",
+      name: "Lunar Cape",
+      price: 159.99,
+      archetype: "MoonWaver",
       emoji: "🌌",
       description: "Flowing cape with fiber optic stars that twinkle like a night sky.",
       category: "Apparel",
@@ -136,7 +136,7 @@ const MarketplaceGrid = () => {
   useEffect(() => {
     const loadPurchases = async () => {
       if (!user) return;
-      
+
       try {
         const purchases = await marketplaceOperations.getUserPurchases(user.id);
         setUserPurchases(purchases.map(p => p.item_id));
@@ -144,7 +144,7 @@ const MarketplaceGrid = () => {
         console.error('Error loading purchases:', error);
       }
     };
-    
+
     loadPurchases();
   }, [user]);
 
@@ -163,7 +163,7 @@ const MarketplaceGrid = () => {
     try {
       // Import Stripe processing
       const { processPaymentDev, isStripeConfigured } = await import('@/lib/stripe');
-      
+
       // Convert product to Stripe format
       const stripeProduct = {
         id: product.id,
@@ -180,7 +180,7 @@ const MarketplaceGrid = () => {
 
       // Process payment (using dev mode for now)
       const paymentResult = await processPaymentDev(stripeProduct, user.email || '');
-      
+
       if (!paymentResult.success) {
         toast.error(paymentResult.error || 'Payment failed');
         return;
@@ -200,7 +200,7 @@ const MarketplaceGrid = () => {
         // Update local state
         setUserPurchases(prev => [...prev, product.id]);
         setPurchaseDialogOpen(false);
-        
+
         // Show success message
         toast.success(`${product.name} purchased successfully!`, {
           icon: "🎉",
@@ -225,26 +225,26 @@ const MarketplaceGrid = () => {
   const getArchetypeColors = (archetype: string) => {
     switch (archetype) {
       case "Firestorm":
-        return { 
-          border: "border-red-500/50", 
+        return {
+          border: "border-red-500/50",
           bg: "bg-red-500/10",
           text: "text-red-400"
         };
       case "FrostPulse":
-        return { 
-          border: "border-cyan-400/50", 
+        return {
+          border: "border-cyan-400/50",
           bg: "bg-cyan-400/10",
           text: "text-cyan-400"
         };
       case "MoonWaver":
-        return { 
-          border: "border-purple-500/50", 
+        return {
+          border: "border-purple-500/50",
           bg: "bg-purple-500/10",
           text: "text-purple-400"
         };
       default:
-        return { 
-          border: "border-neon-cyan/30", 
+        return {
+          border: "border-neon-cyan/30",
           bg: "bg-neon-cyan/5",
           text: "text-neon-cyan"
         };
@@ -263,8 +263,8 @@ const MarketplaceGrid = () => {
           >
             <div className="flex items-center gap-2">
               <div className="text-xl">
-                {profile.archetype === 'Firestorm' ? '🔥' : 
-                 profile.archetype === 'FrostPulse' ? '❄️' : 
+                {profile.archetype === 'Firestorm' ? '🔥' :
+                 profile.archetype === 'FrostPulse' ? '❄️' :
                  profile.archetype === 'MoonWaver' ? '🌙' : '🎭'}
               </div>
               <div>
@@ -385,13 +385,13 @@ const MarketplaceGrid = () => {
               </div>
             )}
           </section>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {digitalProducts.map((product, index) => {
               const colors = getArchetypeColors(product.archetype);
               const isOwned = userPurchases.includes(product.id);
               const isArchetypeMatch = profile?.archetype === product.archetype;
-              
+
               return (
                 <motion.div
                   key={product.id}
@@ -423,7 +423,7 @@ const MarketplaceGrid = () => {
 
                     <CardContent className="p-6">
                       <div className="text-6xl mb-4 text-center">{product.emoji}</div>
-                      
+
                       <div className="flex items-center justify-between mb-2">
                         <Badge className="bg-neon-cyan/20 text-neon-cyan border-neon-cyan/30">
                           {product.archetype}
@@ -434,16 +434,16 @@ const MarketplaceGrid = () => {
                           <span className="text-xs text-slate-500">({product.reviews})</span>
                         </div>
                       </div>
-                      
+
                       <h3 className="font-bold text-white mb-2 text-lg">{product.name}</h3>
                       <p className="text-sm text-slate-400 mb-4 line-clamp-2">{product.description}</p>
-                      
+
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-2xl font-bold text-neon-purple">${product.price}</p>
                           <p className="text-xs text-slate-500">{product.category}</p>
                         </div>
-                        
+
                         <div className="flex gap-2">
                           {isOwned ? (
                             <Button
@@ -456,7 +456,7 @@ const MarketplaceGrid = () => {
                               Download
                             </Button>
                           ) : (
-                            <Dialog open={purchaseDialogOpen && selectedProduct?.id === product.id} 
+                            <Dialog open={purchaseDialogOpen && selectedProduct?.id === product.id}
                                     onOpenChange={(open) => {
                                       setPurchaseDialogOpen(open);
                                       if (!open) setSelectedProduct(null);
@@ -481,13 +481,13 @@ const MarketplaceGrid = () => {
                                     {product.description}
                                   </DialogDescription>
                                 </DialogHeader>
-                                
+
                                 <div className="space-y-4">
                                   <div className="flex items-center justify-between">
                                     <span className="text-white">Price:</span>
                                     <span className="text-2xl font-bold text-neon-purple">${product.price}</span>
                                   </div>
-                                  
+
                                   {isArchetypeMatch && (
                                     <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
                                       <div className="flex items-center gap-2 text-yellow-400">
@@ -499,7 +499,7 @@ const MarketplaceGrid = () => {
                                       </p>
                                     </div>
                                   )}
-                                  
+
                                   <div className="flex gap-3">
                                     <Button
                                       onClick={() => setPurchaseDialogOpen(false)}
@@ -529,7 +529,7 @@ const MarketplaceGrid = () => {
             })}
           </div>
         </div>
-        
+
         <BottomNavigation />
       </div>
     </ProtectedRoute>

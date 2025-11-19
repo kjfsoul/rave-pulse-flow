@@ -63,3 +63,10 @@ venv_crewai/*
 app/
 next.config.js
 next-env.d.ts
+
+# Duplicate mirror repositories
+*.git/
+rave-pulse-flow.git/
+.env
+.env.local
+.env.*.local

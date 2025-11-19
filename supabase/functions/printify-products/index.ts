@@ -10,6 +10,7 @@
  */
 
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts"
+import { corsHeaders } from "../_shared/cors.ts"
 
 const PRINTIFY_API = "https://api.printify.com/v1"
 const STORE_TITLE_KEYWORD = "edm"
@@ -146,16 +147,9 @@ async function fetchProducts(
 }
 
 serve(async (req: Request): Promise<Response> => {
+  // Handle CORS preflight
   if (req.method === "OPTIONS") {
-    return new Response(null, {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "authorization, x-client-info, apikey, content-type"
-      }
-    })
+    return new Response("ok", { headers: corsHeaders })
   }
 
   try {
@@ -185,8 +179,8 @@ serve(async (req: Request): Promise<Response> => {
       {
         status: 200,
         headers: {
+          ...corsHeaders,
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
           "Cache-Control": "public, max-age=60"
         }
       }
@@ -201,8 +195,8 @@ serve(async (req: Request): Promise<Response> => {
       {
         status: 500,
         headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
+          ...corsHeaders,
+          "Content-Type": "application/json"
         }
       }
     )

@@ -1,13 +1,33 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string
+// Check for local Supabase first (dev mode)
+const isLocalDev = import.meta.env.DEV && window.location.hostname === 'localhost'
+const supabaseUrl = isLocalDev
+  ? (import.meta.env.VITE_SUPABASE_URL || 'http://localhost:54321')
+  : (import.meta.env.VITE_SUPABASE_URL as string)
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string
 
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Log Supabase configuration in dev mode
+if (isLocalDev) {
+  console.log('[Supabase] Using local Supabase instance:', supabaseUrl)
+} else {
+  console.log('[Supabase] Using production Supabase instance:', supabaseUrl)
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    // Enable session detection from URL (for OAuth callbacks)
+    detectSessionInUrl: true,
+    // Auto-refresh session
+    autoRefreshToken: true,
+    // Persist session in localStorage
+    persistSession: true,
+  },
+})
 
 // Database types
 export type Database = {

@@ -4,7 +4,7 @@
 import type { PrintifyCatalog } from './types'
 
 export const PRINTIFY_CATALOG: PrintifyCatalog = {
-  "generatedAt": "2025-11-13T23:48:23.331Z",
+  "generatedAt": "2025-11-19T09:04:04.122Z",
   "products": {
     "68cfa63dd214a8512104b5e0": {
       "id": "68cfa63dd214a8512104b5e0",
@@ -72,5547 +72,6 @@ export const PRINTIFY_CATALOG: PrintifyCatalog = {
       "priceRange": {
         "min": 2499,
         "max": 2499,
-        "currency": "USD"
-      }
-    },
-    "68cfa5a108ca4dcdc40590f0": {
-      "id": "68cfa5a108ca4dcdc40590f0",
-      "title": "Cosmic 'Astral Voyager'- Sci-Fi Art Poster",
-      "description": "<p><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\">Bring cosmic wonder into your space with </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-style: italic; vertical-align: baseline;\">The Astral Voyager</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\"> matte poster, a </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-weight: bold; vertical-align: baseline;\">psychedelic wall art</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\"> print that blends fantasy, sci-fi, and spiritual symbolism. Featuring a multi-limbed voyager with a radiant third eye surrounded by swirling galaxies, vibrant planets, and electric hues of blue, magenta, and purple, this </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-weight: bold; vertical-align: baseline;\">cosmic art print</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\"> makes a bold statement in any setting&mdash;whether it&rsquo;s home decor, dorm room style, a creative studio, or a wellness space. Perfect for </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-weight: bold; vertical-align: baseline;\">sci-fi fans</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\">, spiritual seekers, and lovers of </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-weight: bold; vertical-align: baseline;\">galaxy wall decor</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\">, </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-style: italic; vertical-align: baseline;\">The Astral Voyager</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\"> ignites imagination, sparks conversation, and transforms any room into a portal of discovery.</span></p>\n<p>.: Made with museum-grade archival paper for excellent printing fidelity and vibrant color reproduction<br />.: Paper weight: 175 g/m&sup2; (Sensaria and Prodigi), 189 g/m&sup2; (Printify Choice)<br />.: Find the perfect match to your customers' needs with 46 available sizes<br />.: For indoor use only<br />.: Please note: Due to the production process of these posters, please allow for slight size deviations with a tolerance +/- 1/16</p>\n<p>&nbsp;</p>\n<table id=\"size-guide\" style=\"min-width: 360px;\">\n<thead>\n<tr>\n<th style=\"padding: 10px;\">&nbsp;</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">8\" x 10\"</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Width, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">8.00</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Length, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">10.00</td>\n</tr>\n</tbody>\n</table>\n<p>&nbsp;</p>",
-      "tags": [],
-      "options": {
-        "Sizes": {
-          "name": "Sizes",
-          "type": "size",
-          "values": [
-            {
-              "id": 5374,
-              "title": "8\" x 10\""
-            },
-            {
-              "id": 1078,
-              "title": "11″ x 14″"
-            },
-            {
-              "id": 3223,
-              "title": "12\" x 16\""
-            },
-            {
-              "id": 1085,
-              "title": "12″ x 18″"
-            },
-            {
-              "id": 1087,
-              "title": "16″ x 20″"
-            },
-            {
-              "id": 1089,
-              "title": "18″ x 24″"
-            },
-            {
-              "id": 1080,
-              "title": "20″ x 30″"
-            },
-            {
-              "id": 1091,
-              "title": "24″ x 36″"
-            },
-            {
-              "id": 1197,
-              "title": "10″ x 10″"
-            },
-            {
-              "id": 4393,
-              "title": "12\" x 12\""
-            },
-            {
-              "id": 3224,
-              "title": "14\" x 14\""
-            },
-            {
-              "id": 1201,
-              "title": "16″ x 16″"
-            },
-            {
-              "id": 4399,
-              "title": "18\" x 18\""
-            }
-          ],
-          "display_in_preview": true
-        },
-        "Paper finish": {
-          "name": "Paper finish",
-          "type": "paper",
-          "values": [
-            {
-              "id": 1932,
-              "title": "Matte"
-            }
-          ],
-          "display_in_preview": false
-        }
-      },
-      "variants": [
-        {
-          "id": 114557,
-          "sku": "89936835589861124106",
-          "title": "8\" x 10\" / Matte",
-          "price": 1002,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 112749,
-          "sku": "21418331389116138902",
-          "title": "14\" x 14\" / Matte",
-          "price": 1525,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101133,
-          "sku": "26536081046505406727",
-          "title": "18\" x 18\" / Matte",
-          "price": 1295,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101127,
-          "sku": "19933815776757927927",
-          "title": "12\" x 12\" / Matte",
-          "price": 975,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101120,
-          "sku": "23850655067947064842",
-          "title": "16″ x 16″ / Matte",
-          "price": 1295,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101119,
-          "sku": "15607652683282692364",
-          "title": "10″ x 10″ / Matte",
-          "price": 855,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101110,
-          "sku": "42596678901562696897",
-          "title": "12\" x 16\" / Matte",
-          "price": 1212,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 43150,
-          "sku": "21997118137804243032",
-          "title": "24″ x 36″ / Matte",
-          "price": 1925,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 43147,
-          "sku": "13248203534696330413",
-          "title": "20″ x 30″ / Matte",
-          "price": 1507,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 43144,
-          "sku": "18730131718937278200",
-          "title": "18″ x 24″ / Matte",
-          "price": 1292,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 43141,
-          "sku": "23885994362377916979",
-          "title": "16″ x 20″ / Matte",
-          "price": 1308,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 43138,
-          "sku": "32437156905302784539",
-          "title": "12″ x 18″ / Matte",
-          "price": 1128,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 43135,
-          "sku": "32744200584494393320",
-          "title": "11″ x 14″ / Matte",
-          "price": 718,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        }
-      ],
-      "images": [
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa5a108ca4dcdc40590f0/114557/106501/cosmic-astral-voyager-sci-fi-art-poster.jpg?camera_label=front",
-          "position": "other",
-          "preview": "/images/printify/cosmic-astral-voyager-sci-fi-art-poster-68cfa5a108ca4dcdc40590f0-main.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa5a108ca4dcdc40590f0/114557/106530/cosmic-astral-voyager-sci-fi-art-poster.jpg?camera_label=front-2",
-          "position": "other",
-          "preview": "/images/printify/cosmic-astral-voyager-sci-fi-art-poster-68cfa5a108ca4dcdc40590f0-angle1.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa5a108ca4dcdc40590f0/114557/106613/cosmic-astral-voyager-sci-fi-art-poster.jpg?camera_label=close-up",
-          "position": "other",
-          "preview": "/images/printify/cosmic-astral-voyager-sci-fi-art-poster-68cfa5a108ca4dcdc40590f0-angle2.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa5a108ca4dcdc40590f0/114557/106562/cosmic-astral-voyager-sci-fi-art-poster.jpg?camera_label=context-1",
-          "position": "other",
-          "preview": "/images/printify/cosmic-astral-voyager-sci-fi-art-poster-68cfa5a108ca4dcdc40590f0-angle3.jpg"
-        }
-      ],
-      "createdAt": "2025-09-21 07:13:37+00:00",
-      "updatedAt": "2025-09-21 07:46:59+00:00",
-      "visible": true,
-      "externalId": "23367696",
-      "printProviderId": 99,
-      "blueprintId": 282,
-      "userData": null,
-      "featuredImage": "https://images-api.printify.com/mockup/68cfa5a108ca4dcdc40590f0/114557/106501/cosmic-astral-voyager-sci-fi-art-poster.jpg?camera_label=front",
-      "priceRange": {
-        "min": 718,
-        "max": 1925,
-        "currency": "USD"
-      }
-    },
-    "68cfa59e08ca4dcdc40590ef": {
-      "id": "68cfa59e08ca4dcdc40590ef",
-      "title": "Unisex Garment-Dyed T-shirt",
-      "description": "Comfort Colors introduces the “Comfort Colors 1717” garment-dyed t-shirt; a fully customizable tee made 100% with ring-spun cotton. The soft-washed, garment-dyed fabric brings extra coziness to your wardrobe while the relaxed fit makes it an excellent daily choice. The double-needle stitching throughout the tee makes it highly durable while the lack of side-seams helps the shirt retain its tubular shape. Discover all 58 colors in our Comfort Colors 1717 color charts below.<br/><p>.: The Comfort Colors 1717 tee is made with medium fabric (6.1 oz/yd² (206.8 g/m²)) consisting of high quality, 100% ring-spun US cotton for long-lasting comfort.<br/>.: The relaxed fit keeps the wearer comfy in both casual and semi-formal settings while the crew neckline delivers that classic, neat style which makes it perfect for accessorizing. <br/>.: The pre-shrunk fabric ensures a consistently great fit. Check all available sizes in our Comfort Colors 1717 size chart. <br/>.: All Comfort Colors 1717 shirts feature pre-shrunk cotton for size retention and a signature sewn-in twill label.<br/>.: Made using 100% US cotton that is ethically grown and harvested. Gildan is also a proud member of the US Cotton Trust Protocol ensuring ethical and sustainable means of production.<br/>.: Available in 58 colors. Check all available colors in our Comfort Colors 1717 color charts</p>",
-      "tags": [],
-      "options": {
-        "Colors": {
-          "name": "Colors",
-          "type": "color",
-          "values": [
-            {
-              "id": 2766,
-              "title": "White",
-              "colors": [
-                "#ffffff"
-              ]
-            },
-            {
-              "id": 3348,
-              "title": "Melon",
-              "colors": [
-                "#FF9A5F"
-              ]
-            },
-            {
-              "id": 3343,
-              "title": "Terracotta",
-              "colors": [
-                "#DB8C76"
-              ]
-            },
-            {
-              "id": 3326,
-              "title": "Bright Salmon",
-              "colors": [
-                "#FF796C"
-              ]
-            },
-            {
-              "id": 3325,
-              "title": "Brick",
-              "colors": [
-                "#915C5C"
-              ]
-            },
-            {
-              "id": 3344,
-              "title": "Ivory",
-              "colors": [
-                "#FFF7E7"
-              ]
-            },
-            {
-              "id": 3319,
-              "title": "Banana",
-              "colors": [
-                "#FFECB9"
-              ]
-            },
-            {
-              "id": 3331,
-              "title": "Citrus",
-              "colors": [
-                "#FFC86E"
-              ]
-            },
-            {
-              "id": 3351,
-              "title": "Mustard",
-              "colors": [
-                "#D0AE6E"
-              ]
-            },
-            {
-              "id": 3327,
-              "title": "Burnt Orange",
-              "colors": [
-                "#E27C4B"
-              ]
-            },
-            {
-              "id": 3366,
-              "title": "Yam",
-              "colors": [
-                "#C9814F"
-              ]
-            },
-            {
-              "id": 3345,
-              "title": "Khaki",
-              "colors": [
-                "#AEA583"
-              ]
-            },
-            {
-              "id": 4549,
-              "title": "Espresso",
-              "colors": [
-                "#846b5b"
-              ]
-            },
-            {
-              "id": 2763,
-              "title": "Butter",
-              "colors": [
-                "#F5E1A4"
-              ]
-            },
-            {
-              "id": 3355,
-              "title": "Pepper",
-              "colors": [
-                "#5F605B"
-              ]
-            },
-            {
-              "id": 3346,
-              "title": "Kiwi",
-              "colors": [
-                "#C9DB77"
-              ]
-            },
-            {
-              "id": 3339,
-              "title": "Grey",
-              "colors": [
-                "#7A7F79"
-              ]
-            },
-            {
-              "id": 3358,
-              "title": "Sage",
-              "colors": [
-                "#6D775C"
-              ]
-            },
-            {
-              "id": 3341,
-              "title": "Hemp",
-              "colors": [
-                "#676A4A"
-              ]
-            },
-            {
-              "id": 3320,
-              "title": "Bay",
-              "colors": [
-                "#C3CFC1"
-              ]
-            },
-            {
-              "id": 3350,
-              "title": "Moss",
-              "colors": [
-                "#747F66"
-              ]
-            },
-            {
-              "id": 2819,
-              "title": "Island Reef",
-              "colors": [
-                "#A2D8C2"
-              ]
-            },
-            {
-              "id": 3338,
-              "title": "Grass",
-              "colors": [
-                "#488B6F"
-              ]
-            },
-            {
-              "id": 4510,
-              "title": "Island Green",
-              "colors": [
-                "#5AB98F"
-              ]
-            },
-            {
-              "id": 3328,
-              "title": "Chalky Mint",
-              "colors": [
-                "#A7D9D4"
-              ]
-            },
-            {
-              "id": 3347,
-              "title": "Light Green",
-              "colors": [
-                "#738874"
-              ]
-            },
-            {
-              "id": 3324,
-              "title": "Blue Spruce",
-              "colors": [
-                "#536758"
-              ]
-            },
-            {
-              "id": 3335,
-              "title": "Seafoam",
-              "colors": [
-                "#609A95"
-              ]
-            },
-            {
-              "id": 3360,
-              "title": "Topaz Blue",
-              "colors": [
-                "#1F5D71"
-              ]
-            },
-            {
-              "id": 2818,
-              "title": "Lagoon Blue",
-              "colors": [
-                "#89E4ED"
-              ]
-            },
-            {
-              "id": 3329,
-              "title": "Chambray",
-              "colors": [
-                "#D9EDF5"
-              ]
-            },
-            {
-              "id": 3364,
-              "title": "Washed Denim",
-              "colors": [
-                "#8595B8"
-              ]
-            },
-            {
-              "id": 3359,
-              "title": "Flo Blue",
-              "colors": [
-                "#7682C2"
-              ]
-            },
-            {
-              "id": 3356,
-              "title": "Periwinkle",
-              "colors": [
-                "#6570AF"
-              ]
-            },
-            {
-              "id": 3323,
-              "title": "Blue Jean",
-              "colors": [
-                "#788CA1"
-              ]
-            },
-            {
-              "id": 3352,
-              "title": "Mystic Blue",
-              "colors": [
-                "#647CA3"
-              ]
-            },
-            {
-              "id": 2820,
-              "title": "Granite",
-              "colors": [
-                "#8A8E90"
-              ]
-            },
-            {
-              "id": 3342,
-              "title": "Ice Blue",
-              "colors": [
-                "#7B8E95"
-              ]
-            },
-            {
-              "id": 3357,
-              "title": "Royal Caribe",
-              "colors": [
-                "#5D8AC7"
-              ]
-            },
-            {
-              "id": 3349,
-              "title": "Midnight",
-              "colors": [
-                "#3F485B"
-              ]
-            },
-            {
-              "id": 3334,
-              "title": "Denim",
-              "colors": [
-                "#4E5064"
-              ]
-            },
-            {
-              "id": 3361,
-              "title": "True Navy",
-              "colors": [
-                "#183047"
-              ]
-            },
-            {
-              "id": 4509,
-              "title": "China Blue",
-              "colors": [
-                "#43516E"
-              ]
-            },
-            {
-              "id": 3337,
-              "title": "Graphite",
-              "colors": [
-                "#373231"
-              ]
-            },
-            {
-              "id": 2767,
-              "title": "Black",
-              "colors": [
-                "#000000"
-              ]
-            },
-            {
-              "id": 2765,
-              "title": "Navy",
-              "colors": [
-                "#263040"
-              ]
-            },
-            {
-              "id": 3363,
-              "title": "Violet",
-              "colors": [
-                "#A88FD7"
-              ]
-            },
-            {
-              "id": 3336,
-              "title": "Grape",
-              "colors": [
-                "#645C81"
-              ]
-            },
-            {
-              "id": 3353,
-              "title": "Orchid",
-              "colors": [
-                "#CBB3CC"
-              ]
-            },
-            {
-              "id": 3322,
-              "title": "Blossom",
-              "colors": [
-                "#F8D1E2"
-              ]
-            },
-            {
-              "id": 3354,
-              "title": "Peony",
-              "colors": [
-                "#EB979B"
-              ]
-            },
-            {
-              "id": 3340,
-              "title": "Heliconia",
-              "colors": [
-                "#E37699"
-              ]
-            },
-            {
-              "id": 2815,
-              "title": "Crunchberry",
-              "colors": [
-                "#EB7CA2"
-              ]
-            },
-            {
-              "id": 3321,
-              "title": "Berry",
-              "colors": [
-                "#775568"
-              ]
-            },
-            {
-              "id": 3362,
-              "title": "Vineyard",
-              "colors": [
-                "#65403B"
-              ]
-            },
-            {
-              "id": 2814,
-              "title": "Boysenberry",
-              "colors": [
-                "#72265B"
-              ]
-            },
-            {
-              "id": 3365,
-              "title": "Watermelon",
-              "colors": [
-                "#DA807B"
-              ]
-            },
-            {
-              "id": 3330,
-              "title": "Chili",
-              "colors": [
-                "#853F44"
-              ]
-            },
-            {
-              "id": 3332,
-              "title": "Crimson",
-              "colors": [
-                "#B66A74"
-              ]
-            },
-            {
-              "id": 3333,
-              "title": "Cumin",
-              "colors": [
-                "#B06C62"
-              ]
-            },
-            {
-              "id": 2764,
-              "title": "Red",
-              "colors": [
-                "#A80D27"
-              ]
-            }
-          ],
-          "display_in_preview": true
-        },
-        "Sizes": {
-          "name": "Sizes",
-          "type": "size",
-          "values": [
-            {
-              "id": 14,
-              "title": "S"
-            },
-            {
-              "id": 1547,
-              "title": "M"
-            },
-            {
-              "id": 1548,
-              "title": "L"
-            },
-            {
-              "id": 1549,
-              "title": "XL"
-            },
-            {
-              "id": 18,
-              "title": "2XL"
-            },
-            {
-              "id": 19,
-              "title": "3XL"
-            },
-            {
-              "id": 20,
-              "title": "4XL"
-            }
-          ],
-          "display_in_preview": false
-        }
-      },
-      "variants": [
-        {
-          "id": 79153,
-          "sku": "25748398722405805492",
-          "title": "Orchid / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79127,
-          "sku": "25672626911864990079",
-          "title": "Crimson / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79135,
-          "sku": "38182600770564556347",
-          "title": "Graphite / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79136,
-          "sku": "79185992012621312473",
-          "title": "Grass / 3XL",
-          "price": 2261,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79116,
-          "sku": "13608753028735808675",
-          "title": "Blue Jean / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79150,
-          "sku": "28076491970617237175",
-          "title": "Mustard / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79119,
-          "sku": "23219061008413893856",
-          "title": "Brick / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79160,
-          "sku": "18648065793628069074",
-          "title": "Flo Blue / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79168,
-          "sku": "55821473844721201396",
-          "title": "Watermelon / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79124,
-          "sku": "27816062380396890092",
-          "title": "Chambray / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79147,
-          "sku": "77918369337584618147",
-          "title": "Melon / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79123,
-          "sku": "21840063678757705964",
-          "title": "Chalky Mint / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79159,
-          "sku": "19561998024110366204",
-          "title": "Sage / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79166,
-          "sku": "30520218455340928607",
-          "title": "Violet / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79164,
-          "sku": "24494541429191124830",
-          "title": "True Navy / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79134,
-          "sku": "31133019133587005986",
-          "title": "Grape / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79115,
-          "sku": "49002742608217008533",
-          "title": "Blossom / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79170,
-          "sku": "17403333743406092046",
-          "title": "Yam / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79146,
-          "sku": "51994077203872066037",
-          "title": "Light Green / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79120,
-          "sku": "18973513298466372948",
-          "title": "Bright Salmon / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79126,
-          "sku": "19925501502192937137",
-          "title": "Citrus / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79162,
-          "sku": "17125670093972364133",
-          "title": "Terracotta / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79156,
-          "sku": "30742067538606084846",
-          "title": "Periwinkle / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101823,
-          "sku": "26332058632684599150",
-          "title": "Island Green / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79169,
-          "sku": "10714798631235385514",
-          "title": "White / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79152,
-          "sku": "15806494569467980124",
-          "title": "Navy / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79145,
-          "sku": "16708749812569502999",
-          "title": "Lagoon Blue / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79125,
-          "sku": "17603380212654415072",
-          "title": "Chili / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79113,
-          "sku": "60616096225716341752",
-          "title": "Berry / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79149,
-          "sku": "19593060166983610749",
-          "title": "Moss / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79140,
-          "sku": "27148028330385988090",
-          "title": "Ice Blue / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79122,
-          "sku": "16216922596956758904",
-          "title": "Butter / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79165,
-          "sku": "29642314365379016950",
-          "title": "Vineyard / 3XL",
-          "price": 2261,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79141,
-          "sku": "19148176859969558467",
-          "title": "Island Reef / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79138,
-          "sku": "25251429451413915980",
-          "title": "Heliconia / 3XL",
-          "price": 2261,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79132,
-          "sku": "29431786331883600181",
-          "title": "Seafoam / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79133,
-          "sku": "31211421030078193441",
-          "title": "Granite / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79114,
-          "sku": "14440268122623936100",
-          "title": "Black / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79142,
-          "sku": "11882590453658418493",
-          "title": "Ivory / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79157,
-          "sku": "23087304251079583454",
-          "title": "Red / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79148,
-          "sku": "29896371150399687593",
-          "title": "Midnight / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79128,
-          "sku": "26290920094459520631",
-          "title": "Crunchberry / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79117,
-          "sku": "26092330348923179020",
-          "title": "Blue Spruce / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79143,
-          "sku": "23419127257298677440",
-          "title": "Khaki / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79155,
-          "sku": "21043920631664006143",
-          "title": "Pepper / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79130,
-          "sku": "35548559415992391327",
-          "title": "Denim / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79158,
-          "sku": "61651940728483934474",
-          "title": "Royal Caribe / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79137,
-          "sku": "10962216593159242601",
-          "title": "Grey / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79111,
-          "sku": "13743700337856661341",
-          "title": "Banana / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79112,
-          "sku": "14537991434654199870",
-          "title": "Bay / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79121,
-          "sku": "31182121490557195653",
-          "title": "Burnt Orange / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79167,
-          "sku": "24819924803811798474",
-          "title": "Washed Denim / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79129,
-          "sku": "66570343625364165024",
-          "title": "Cumin / 3XL",
-          "price": 2261,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 102357,
-          "sku": "16456483109281139534",
-          "title": "Espresso / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79163,
-          "sku": "27015197053719479871",
-          "title": "Topaz Blue / 3XL",
-          "price": 2261,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79144,
-          "sku": "14534816937154314548",
-          "title": "Kiwi / 3XL",
-          "price": 2261,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79139,
-          "sku": "36646471753534973644",
-          "title": "Hemp / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79154,
-          "sku": "16769264347925695510",
-          "title": "Peony / 3XL",
-          "price": 2261,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79151,
-          "sku": "30351460179045794759",
-          "title": "Mystic Blue / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101816,
-          "sku": "24140328018885263926",
-          "title": "China Blue / 3XL",
-          "price": 2261,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73197,
-          "sku": "54916577347384582172",
-          "title": "Navy / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79048,
-          "sku": "20661734449401501124",
-          "title": "Pepper / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79077,
-          "sku": "13684238881993399696",
-          "title": "Topaz Blue / M",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78973,
-          "sku": "12963274640750865818",
-          "title": "Grey / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 102353,
-          "sku": "16457980165155920482",
-          "title": "Espresso / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78892,
-          "sku": "59201183120067340160",
-          "title": "Blue Jean / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78994,
-          "sku": "32358157251173301875",
-          "title": "Ivory / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73199,
-          "sku": "31765505507225575451",
-          "title": "White / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73984,
-          "sku": "41531159683675491342",
-          "title": "Lagoon Blue / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78924,
-          "sku": "20999778601600452326",
-          "title": "Chambray / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78979,
-          "sku": "96734250809676321313",
-          "title": "Heliconia / XL",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73204,
-          "sku": "20674711915186236384",
-          "title": "Black / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79094,
-          "sku": "24097184443316254572",
-          "title": "Violet / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78928,
-          "sku": "10440366026291019613",
-          "title": "Chili / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78978,
-          "sku": "22729138485551067799",
-          "title": "Heliconia / L",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78993,
-          "sku": "73744009706332162282",
-          "title": "Ivory / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78929,
-          "sku": "15047052543332809265",
-          "title": "Chili / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79049,
-          "sku": "21367355435162800358",
-          "title": "Pepper / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78873,
-          "sku": "69431031107253493838",
-          "title": "Banana / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78887,
-          "sku": "20257835546831558618",
-          "title": "Blossom / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73966,
-          "sku": "45766258681133410211",
-          "title": "Crunchberry / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78954,
-          "sku": "31870974700069851417",
-          "title": "Seafoam / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79038,
-          "sku": "27212925369783601433",
-          "title": "Orchid / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73980,
-          "sku": "21948990237948217222",
-          "title": "Crunchberry / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78936,
-          "sku": "31936980572089127222",
-          "title": "Crimson / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73209,
-          "sku": "59622711131202462717",
-          "title": "Navy / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78894,
-          "sku": "32452030565327078691",
-          "title": "Blue Jean / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79009,
-          "sku": "12082620312177609682",
-          "title": "Light Green / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73202,
-          "sku": "30367722407489812158",
-          "title": "Red / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73969,
-          "sku": "30303149956156424727",
-          "title": "Island Reef / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78903,
-          "sku": "31193809093349477450",
-          "title": "Brick / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78962,
-          "sku": "30505278499170945814",
-          "title": "Graphite / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79078,
-          "sku": "76265780727867402047",
-          "title": "Topaz Blue / L",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78883,
-          "sku": "23767304531518744940",
-          "title": "Berry / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79017,
-          "sku": "80869844120219831635",
-          "title": "Midnight / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79046,
-          "sku": "19555046134586201688",
-          "title": "Pepper / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78888,
-          "sku": "73092072765975722187",
-          "title": "Blossom / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78947,
-          "sku": "33815550264790896301",
-          "title": "Denim / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101813,
-          "sku": "20077293500386383625",
-          "title": "China Blue / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79028,
-          "sku": "52951013990477722504",
-          "title": "Mustard / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78991,
-          "sku": "23124812708895271454",
-          "title": "Ivory / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79037,
-          "sku": "14765724770069048386",
-          "title": "Orchid / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79089,
-          "sku": "23898437317061935891",
-          "title": "Vineyard / XL",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78891,
-          "sku": "19230799587301334196",
-          "title": "Blue Jean / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78923,
-          "sku": "28580245874984633109",
-          "title": "Chambray / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78964,
-          "sku": "26174626454390633769",
-          "title": "Graphite / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79086,
-          "sku": "24001422313476294358",
-          "title": "Vineyard / S",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78972,
-          "sku": "31335663178448791015",
-          "title": "Grey / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79066,
-          "sku": "26835713394916267989",
-          "title": "Flo Blue / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79006,
-          "sku": "11452957343708905281",
-          "title": "Light Green / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79047,
-          "sku": "23099838236904393510",
-          "title": "Pepper / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78884,
-          "sku": "34979262505900960312",
-          "title": "Berry / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79012,
-          "sku": "26582194038720821291",
-          "title": "Melon / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73973,
-          "sku": "31508511432081506772",
-          "title": "Crunchberry / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78982,
-          "sku": "20227811006119534089",
-          "title": "Hemp / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78974,
-          "sku": "77260910156954732993",
-          "title": "Grey / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79013,
-          "sku": "25283530454279112577",
-          "title": "Melon / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79014,
-          "sku": "27210115560749361548",
-          "title": "Melon / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79088,
-          "sku": "16947408802239121704",
-          "title": "Vineyard / L",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73990,
-          "sku": "17602209090331558125",
-          "title": "Island Reef / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79057,
-          "sku": "11635993028696257798",
-          "title": "Royal Caribe / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79027,
-          "sku": "26552098555964736373",
-          "title": "Mustard / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 102352,
-          "sku": "30339154431579851166",
-          "title": "Espresso / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79001,
-          "sku": "25413710412023949069",
-          "title": "Kiwi / S",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78937,
-          "sku": "80096357067967362611",
-          "title": "Crimson / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78949,
-          "sku": "32617761276356902024",
-          "title": "Denim / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79106,
-          "sku": "36877666640212407951",
-          "title": "Yam / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79103,
-          "sku": "21172778365290262409",
-          "title": "Watermelon / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78961,
-          "sku": "19741687774869444738",
-          "title": "Graphite / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73208,
-          "sku": "95096031877007448698",
-          "title": "Black / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73983,
-          "sku": "16668468084412505678",
-          "title": "Island Reef / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73200,
-          "sku": "19570976222535586340",
-          "title": "Black / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78922,
-          "sku": "25588091558662891027",
-          "title": "Chambray / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79069,
-          "sku": "23400723703610185597",
-          "title": "Flo Blue / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78976,
-          "sku": "22739941190303322552",
-          "title": "Heliconia / S",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78987,
-          "sku": "26305440613229327449",
-          "title": "Ice Blue / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79033,
-          "sku": "17554467544748038311",
-          "title": "Mystic Blue / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78951,
-          "sku": "23595533281051012274",
-          "title": "Seafoam / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78963,
-          "sku": "13729480752900002593",
-          "title": "Graphite / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79044,
-          "sku": "15845201148087952600",
-          "title": "Peony / XL",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73196,
-          "sku": "74384500894781129388",
-          "title": "Black / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73203,
-          "sku": "68650308926269611138",
-          "title": "White / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79068,
-          "sku": "92831926964153367506",
-          "title": "Flo Blue / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78879,
-          "sku": "33197149800578598404",
-          "title": "Bay / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78867,
-          "sku": "59858213793591717471",
-          "title": "Butter / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78992,
-          "sku": "45270180579140119924",
-          "title": "Ivory / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73976,
-          "sku": "17221360215672872888",
-          "title": "Island Reef / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78889,
-          "sku": "15207830539613007479",
-          "title": "Blossom / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79008,
-          "sku": "44760966613123696355",
-          "title": "Light Green / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 102354,
-          "sku": "21125525109394041950",
-          "title": "Espresso / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101818,
-          "sku": "14154098694386251686",
-          "title": "Island Green / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78906,
-          "sku": "13264496797628517048",
-          "title": "Bright Salmon / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78921,
-          "sku": "19765120562894154657",
-          "title": "Chambray / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79039,
-          "sku": "23706564897100785469",
-          "title": "Orchid / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78886,
-          "sku": "12165335336698342138",
-          "title": "Blossom / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78981,
-          "sku": "21934099968702801623",
-          "title": "Hemp / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79024,
-          "sku": "13431690072415082137",
-          "title": "Moss / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79016,
-          "sku": "49155639149633321292",
-          "title": "Midnight / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78956,
-          "sku": "70112225306132144171",
-          "title": "Grape / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73198,
-          "sku": "84204994074193293704",
-          "title": "Red / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79062,
-          "sku": "20245170100110724646",
-          "title": "Sage / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73977,
-          "sku": "25075071330724832882",
-          "title": "Lagoon Blue / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79099,
-          "sku": "27963777837646155336",
-          "title": "Washed Denim / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73987,
-          "sku": "55262572414621310291",
-          "title": "Crunchberry / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78917,
-          "sku": "11674024766685619668",
-          "title": "Chalky Mint / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101811,
-          "sku": "26924209336745668687",
-          "title": "China Blue / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78907,
-          "sku": "13383633864319232875",
-          "title": "Bright Salmon / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 102355,
-          "sku": "43735170520356099456",
-          "title": "Espresso / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73982,
-          "sku": "24567700941553265877",
-          "title": "Granite / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78938,
-          "sku": "66711468228927750303",
-          "title": "Crimson / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78876,
-          "sku": "15106276228911342504",
-          "title": "Bay / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79104,
-          "sku": "67763792757562846555",
-          "title": "Watermelon / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78986,
-          "sku": "68229335458373371235",
-          "title": "Ice Blue / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73991,
-          "sku": "21304356333151738891",
-          "title": "Lagoon Blue / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73989,
-          "sku": "10249322545454040200",
-          "title": "Granite / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78934,
-          "sku": "25274744931356046966",
-          "title": "Citrus / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78998,
-          "sku": "75881592402621070271",
-          "title": "Khaki / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79092,
-          "sku": "21329571128195864391",
-          "title": "Violet / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78898,
-          "sku": "42869097163566629247",
-          "title": "Blue Spruce / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79096,
-          "sku": "11220584370795471203",
-          "title": "Washed Denim / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78939,
-          "sku": "24031884351772413413",
-          "title": "Crimson / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79074,
-          "sku": "47421046281446396031",
-          "title": "Terracotta / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73968,
-          "sku": "13528948633053119056",
-          "title": "Granite / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78941,
-          "sku": "12394713368775510745",
-          "title": "Cumin / S",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78958,
-          "sku": "74735938799846689179",
-          "title": "Grape / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73210,
-          "sku": "32708145111553843931",
-          "title": "Red / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78911,
-          "sku": "98148851754655515107",
-          "title": "Burnt Orange / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78918,
-          "sku": "17879564210863947452",
-          "title": "Chalky Mint / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79021,
-          "sku": "14396968971387598450",
-          "title": "Moss / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101814,
-          "sku": "32236052828635201776",
-          "title": "China Blue / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79007,
-          "sku": "33613190164706433613",
-          "title": "Light Green / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79067,
-          "sku": "67400887703912638386",
-          "title": "Flo Blue / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79056,
-          "sku": "11422942826266370453",
-          "title": "Royal Caribe / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78881,
-          "sku": "54144501277550613395",
-          "title": "Berry / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78909,
-          "sku": "14921250570345165634",
-          "title": "Bright Salmon / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78971,
-          "sku": "32932115210431279439",
-          "title": "Grey / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78899,
-          "sku": "19043541992930194493",
-          "title": "Blue Spruce / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101812,
-          "sku": "62483110346991257271",
-          "title": "China Blue / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79011,
-          "sku": "18806412382182573235",
-          "title": "Melon / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78896,
-          "sku": "18349847853398859336",
-          "title": "Blue Spruce / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78871,
-          "sku": "31233937042469116346",
-          "title": "Banana / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78926,
-          "sku": "99964160630399676107",
-          "title": "Chili / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79026,
-          "sku": "22953876598816368304",
-          "title": "Mustard / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78942,
-          "sku": "17387401118395061288",
-          "title": "Cumin / M",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78916,
-          "sku": "17640844128772510718",
-          "title": "Chalky Mint / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78948,
-          "sku": "21234203440231533805",
-          "title": "Denim / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79022,
-          "sku": "33186392982538035470",
-          "title": "Moss / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73211,
-          "sku": "12665306237211185239",
-          "title": "White / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79083,
-          "sku": "25518016744915022570",
-          "title": "True Navy / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78997,
-          "sku": "17739901716333473204",
-          "title": "Khaki / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78966,
-          "sku": "15337377312310987699",
-          "title": "Grass / S",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101820,
-          "sku": "29969294251568094141",
-          "title": "Island Green / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79054,
-          "sku": "22192692266070494180",
-          "title": "Periwinkle / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79072,
-          "sku": "11064976892473985062",
-          "title": "Terracotta / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79023,
-          "sku": "26077125518308030552",
-          "title": "Moss / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73975,
-          "sku": "11021348491446694510",
-          "title": "Granite / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79109,
-          "sku": "65622052278322069256",
-          "title": "Yam / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79036,
-          "sku": "31712020998454571670",
-          "title": "Orchid / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79031,
-          "sku": "12886806754019360733",
-          "title": "Mystic Blue / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79053,
-          "sku": "12764650962929124783",
-          "title": "Periwinkle / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79058,
-          "sku": "44575754998757949188",
-          "title": "Royal Caribe / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78912,
-          "sku": "12500297119184796511",
-          "title": "Burnt Orange / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78919,
-          "sku": "26649955483968068752",
-          "title": "Chalky Mint / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73206,
-          "sku": "56792634032010375121",
-          "title": "Red / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79041,
-          "sku": "23090675866331527863",
-          "title": "Peony / S",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78901,
-          "sku": "55496879473189307588",
-          "title": "Brick / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79102,
-          "sku": "30236426518017623897",
-          "title": "Watermelon / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78988,
-          "sku": "75449905675872354423",
-          "title": "Ice Blue / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73201,
-          "sku": "12689414796638668673",
-          "title": "Navy / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78893,
-          "sku": "48507017994469796909",
-          "title": "Blue Jean / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78989,
-          "sku": "20698280991481468411",
-          "title": "Ice Blue / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73970,
-          "sku": "11569000025908913305",
-          "title": "Lagoon Blue / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78904,
-          "sku": "27883260805856523727",
-          "title": "Brick / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73207,
-          "sku": "15249906937554156902",
-          "title": "White / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78932,
-          "sku": "33986903876999751683",
-          "title": "Citrus / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79079,
-          "sku": "15534050856294814508",
-          "title": "Topaz Blue / XL",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79003,
-          "sku": "20985827800028254297",
-          "title": "Kiwi / L",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79019,
-          "sku": "17559268353902096882",
-          "title": "Midnight / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78872,
-          "sku": "73126961745312309150",
-          "title": "Banana / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79091,
-          "sku": "50775140479259966184",
-          "title": "Violet / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78943,
-          "sku": "33151941742429505571",
-          "title": "Cumin / L",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78874,
-          "sku": "33067750559519777048",
-          "title": "Banana / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78968,
-          "sku": "22555154492142165840",
-          "title": "Grass / L",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79018,
-          "sku": "22330733944645227176",
-          "title": "Midnight / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78913,
-          "sku": "22095823244239462530",
-          "title": "Burnt Orange / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78959,
-          "sku": "78529739606847975539",
-          "title": "Grape / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79081,
-          "sku": "14972006806147302992",
-          "title": "True Navy / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79098,
-          "sku": "11574821599357352396",
-          "title": "Washed Denim / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79043,
-          "sku": "17163027328368523353",
-          "title": "Peony / L",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78882,
-          "sku": "14724376094394168953",
-          "title": "Berry / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78977,
-          "sku": "14529108263106904446",
-          "title": "Heliconia / M",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101821,
-          "sku": "29209139007453270305",
-          "title": "Island Green / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79076,
-          "sku": "25412547689041081200",
-          "title": "Topaz Blue / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79101,
-          "sku": "25810692690880069660",
-          "title": "Watermelon / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78914,
-          "sku": "11150976732044496718",
-          "title": "Burnt Orange / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79059,
-          "sku": "12481949378451176200",
-          "title": "Royal Caribe / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78878,
-          "sku": "86975269457407595514",
-          "title": "Bay / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78902,
-          "sku": "32730228007539550767",
-          "title": "Brick / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73205,
-          "sku": "25572341727153190583",
-          "title": "Navy / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78969,
-          "sku": "14156194403089036050",
-          "title": "Grass / XL",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101819,
-          "sku": "19214395157326459928",
-          "title": "Island Green / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78908,
-          "sku": "28756738341169744036",
-          "title": "Bright Salmon / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78927,
-          "sku": "11613699303365722008",
-          "title": "Chili / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78897,
-          "sku": "27830747998536447610",
-          "title": "Blue Spruce / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79052,
-          "sku": "18892905933312336079",
-          "title": "Periwinkle / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79042,
-          "sku": "29263560773347606183",
-          "title": "Peony / M",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78967,
-          "sku": "30665786448445430380",
-          "title": "Grass / M",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78944,
-          "sku": "10148641999950969855",
-          "title": "Cumin / XL",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78984,
-          "sku": "10972757059428057065",
-          "title": "Hemp / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78953,
-          "sku": "43253077739486613153",
-          "title": "Seafoam / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79082,
-          "sku": "91260367217524639894",
-          "title": "True Navy / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79002,
-          "sku": "19105924264926344594",
-          "title": "Kiwi / M",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79107,
-          "sku": "21797333181732259569",
-          "title": "Yam / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79061,
-          "sku": "25432149300606487587",
-          "title": "Sage / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79108,
-          "sku": "33014411357777135584",
-          "title": "Yam / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79073,
-          "sku": "25865145078967817154",
-          "title": "Terracotta / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78952,
-          "sku": "27798831324179665293",
-          "title": "Seafoam / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78877,
-          "sku": "15179972638325068641",
-          "title": "Bay / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78946,
-          "sku": "39542972063327257180",
-          "title": "Denim / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79034,
-          "sku": "31423289116605384170",
-          "title": "Mystic Blue / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78931,
-          "sku": "14145797165598714715",
-          "title": "Citrus / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78983,
-          "sku": "65506029063070737557",
-          "title": "Hemp / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78868,
-          "sku": "10753664163887285279",
-          "title": "Butter / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79097,
-          "sku": "94093740832134995855",
-          "title": "Washed Denim / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79004,
-          "sku": "19396749715891419563",
-          "title": "Kiwi / XL",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78957,
-          "sku": "11479754936342010349",
-          "title": "Grape / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79064,
-          "sku": "33863432001794321415",
-          "title": "Sage / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79063,
-          "sku": "32825606098109395928",
-          "title": "Sage / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79051,
-          "sku": "13345673766269197622",
-          "title": "Periwinkle / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79087,
-          "sku": "26170268367551683524",
-          "title": "Vineyard / M",
-          "price": 1786,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78933,
-          "sku": "29644270114209867699",
-          "title": "Citrus / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78866,
-          "sku": "11714627180384534113",
-          "title": "Butter / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78999,
-          "sku": "27748502290188393623",
-          "title": "Khaki / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79029,
-          "sku": "11391255950181225204",
-          "title": "Mustard / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78869,
-          "sku": "20317048036699194490",
-          "title": "Butter / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79084,
-          "sku": "13915084716782508360",
-          "title": "True Navy / XL",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78996,
-          "sku": "27748156617693768868",
-          "title": "Khaki / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79071,
-          "sku": "20369579344802013525",
-          "title": "Terracotta / S",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79093,
-          "sku": "22959230048030714000",
-          "title": "Violet / L",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79032,
-          "sku": "47009455000809103054",
-          "title": "Mystic Blue / M",
-          "price": 1786,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78960,
-          "sku": "12884457469791699528",
-          "title": "Grape / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78955,
-          "sku": "14284101716452855263",
-          "title": "Seafoam / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79070,
-          "sku": "25866129299802955505",
-          "title": "Flo Blue / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79095,
-          "sku": "33853884188123567024",
-          "title": "Violet / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78965,
-          "sku": "23870445346444136350",
-          "title": "Graphite / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79005,
-          "sku": "24383477469478200251",
-          "title": "Kiwi / 2XL",
-          "price": 1968,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79010,
-          "sku": "48001069774367894733",
-          "title": "Light Green / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73996,
-          "sku": "42245502920872795417",
-          "title": "Granite / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78910,
-          "sku": "19278909226892468721",
-          "title": "Bright Salmon / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73212,
-          "sku": "30240278712660052421",
-          "title": "Black / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78905,
-          "sku": "15468026042375596171",
-          "title": "Brick / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78945,
-          "sku": "17240190786618344488",
-          "title": "Cumin / 2XL",
-          "price": 1968,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78890,
-          "sku": "74799177843177325242",
-          "title": "Blossom / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79110,
-          "sku": "42072795688152409655",
-          "title": "Yam / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101822,
-          "sku": "29709390597422650531",
-          "title": "Island Green / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73994,
-          "sku": "17443655798178215186",
-          "title": "Crunchberry / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79065,
-          "sku": "63780359032311271018",
-          "title": "Sage / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73215,
-          "sku": "75509874373530717658",
-          "title": "White / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78880,
-          "sku": "12217360679659390714",
-          "title": "Bay / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78995,
-          "sku": "12693691353723717936",
-          "title": "Ivory / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78975,
-          "sku": "21978972499342074896",
-          "title": "Grey / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79105,
-          "sku": "26537098011374179227",
-          "title": "Watermelon / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78915,
-          "sku": "27671434705136508812",
-          "title": "Burnt Orange / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79045,
-          "sku": "28731914735508071175",
-          "title": "Peony / 2XL",
-          "price": 1968,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79040,
-          "sku": "21928402018569814687",
-          "title": "Orchid / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79020,
-          "sku": "49908550272690023186",
-          "title": "Midnight / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79050,
-          "sku": "25687950597132447187",
-          "title": "Pepper / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73214,
-          "sku": "67178778819021160774",
-          "title": "Red / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79060,
-          "sku": "30334610653823868754",
-          "title": "Royal Caribe / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78980,
-          "sku": "23855343459839169738",
-          "title": "Heliconia / 2XL",
-          "price": 1968,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78885,
-          "sku": "21301948952804590700",
-          "title": "Berry / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78920,
-          "sku": "12520713066773166036",
-          "title": "Chalky Mint / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79035,
-          "sku": "17213282251498693435",
-          "title": "Mystic Blue / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78950,
-          "sku": "74638705661866972746",
-          "title": "Denim / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79090,
-          "sku": "24856713119528696888",
-          "title": "Vineyard / 2XL",
-          "price": 1968,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73997,
-          "sku": "21080661953757132481",
-          "title": "Island Reef / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101815,
-          "sku": "26320027325356031927",
-          "title": "China Blue / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78870,
-          "sku": "18216927034460723205",
-          "title": "Butter / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79030,
-          "sku": "15905130129894955284",
-          "title": "Mustard / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78930,
-          "sku": "26258584138414144043",
-          "title": "Chili / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78970,
-          "sku": "12222179110487815384",
-          "title": "Grass / 2XL",
-          "price": 1968,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79080,
-          "sku": "32231567208700821009",
-          "title": "Topaz Blue / 2XL",
-          "price": 1968,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78990,
-          "sku": "18441918779364641203",
-          "title": "Ice Blue / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79025,
-          "sku": "15346707190139964123",
-          "title": "Moss / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78895,
-          "sku": "22246433466086166745",
-          "title": "Blue Jean / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79085,
-          "sku": "10435487028194654386",
-          "title": "True Navy / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78985,
-          "sku": "18684145970834573342",
-          "title": "Hemp / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79075,
-          "sku": "32085124810845263152",
-          "title": "Terracotta / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73998,
-          "sku": "46289972361493921742",
-          "title": "Lagoon Blue / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79015,
-          "sku": "30971855709436087642",
-          "title": "Melon / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78925,
-          "sku": "54538370909927776376",
-          "title": "Chambray / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73213,
-          "sku": "29777750315427618868",
-          "title": "Navy / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 78875,
-          "sku": "24570085122983871207",
-          "title": "Banana / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79100,
-          "sku": "23106704479852437616",
-          "title": "Washed Denim / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78900,
-          "sku": "70164373389707100052",
-          "title": "Blue Spruce / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 102356,
-          "sku": "33043773861924343944",
-          "title": "Espresso / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78940,
-          "sku": "36452894775588427273",
-          "title": "Crimson / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 78935,
-          "sku": "91810406953124505866",
-          "title": "Citrus / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79055,
-          "sku": "10932449945105434101",
-          "title": "Periwinkle / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 79000,
-          "sku": "21561835304162611169",
-          "title": "Khaki / 2XL",
-          "price": 1968,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101476,
-          "sku": "21560339767713584607",
-          "title": "White / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 101429,
-          "sku": "26989274112277928018",
-          "title": "Bright Salmon / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101426,
-          "sku": "58835522398042645713",
-          "title": "Blue Spruce / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101462,
-          "sku": "27532525348705879676",
-          "title": "Peony / 4XL",
-          "price": 2543,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101439,
-          "sku": "51991319765296474648",
-          "title": "Denim / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101477,
-          "sku": "13814422499698611727",
-          "title": "Yam / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101466,
-          "sku": "30465992387553432736",
-          "title": "Royal Caribe / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101473,
-          "sku": "75430610928590136460",
-          "title": "Violet / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101437,
-          "sku": "19330177981561059939",
-          "title": "Crunchberry / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101445,
-          "sku": "18314753892512003259",
-          "title": "Grey / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 101452,
-          "sku": "62270355931917162420",
-          "title": "Kiwi / 4XL",
-          "price": 2543,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101463,
-          "sku": "25843691998533144911",
-          "title": "Pepper / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101465,
-          "sku": "13089143968687033969",
-          "title": "Red / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101424,
-          "sku": "76679662578194386124",
-          "title": "Blossom / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101471,
-          "sku": "30040125328781407674",
-          "title": "True Navy / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101464,
-          "sku": "31713381001487317095",
-          "title": "Periwinkle / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101467,
-          "sku": "28963129560286060127",
-          "title": "Sage / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101434,
-          "sku": "29662944959405795860",
-          "title": "Chili / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101460,
-          "sku": "29318437311342009969",
-          "title": "Navy / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 101432,
-          "sku": "84033803245236418980",
-          "title": "Chalky Mint / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101425,
-          "sku": "42716547951642295103",
-          "title": "Blue Jean / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101470,
-          "sku": "28651272152100301390",
-          "title": "Topaz Blue / 4XL",
-          "price": 2543,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101435,
-          "sku": "16357281644395578407",
-          "title": "Citrus / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101469,
-          "sku": "28598950443631549346",
-          "title": "Terracotta / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101474,
-          "sku": "11842363779000265121",
-          "title": "Washed Denim / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101443,
-          "sku": "15969249834746116284",
-          "title": "Graphite / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 101459,
-          "sku": "22458799356630943785",
-          "title": "Mystic Blue / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101455,
-          "sku": "11282403791245227153",
-          "title": "Melon / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101430,
-          "sku": "20954594475203023439",
-          "title": "Burnt Orange / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101458,
-          "sku": "30219828127145621926",
-          "title": "Mustard / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101433,
-          "sku": "90725959185233307750",
-          "title": "Chambray / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 101431,
-          "sku": "70625453286431082842",
-          "title": "Butter / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101457,
-          "sku": "29869974284880091251",
-          "title": "Moss / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101446,
-          "sku": "14196895497487979756",
-          "title": "Heliconia / 4XL",
-          "price": 2543,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101441,
-          "sku": "10753692950871096714",
-          "title": "Granite / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101456,
-          "sku": "17134606021189841837",
-          "title": "Midnight / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101451,
-          "sku": "20413910181949925011",
-          "title": "Khaki / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 101444,
-          "sku": "29448150766070646592",
-          "title": "Grass / 4XL",
-          "price": 2543,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101475,
-          "sku": "14265300614767939520",
-          "title": "Watermelon / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101442,
-          "sku": "26294573194309830258",
-          "title": "Grape / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101449,
-          "sku": "17538407613160549482",
-          "title": "Island Reef / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101421,
-          "sku": "22868848582576088041",
-          "title": "Bay / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101423,
-          "sku": "12206003221210617596",
-          "title": "Black / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 101440,
-          "sku": "42908602207422938720",
-          "title": "Flo Blue / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101428,
-          "sku": "21078045297978422716",
-          "title": "Brick / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101422,
-          "sku": "20343335746483743780",
-          "title": "Berry / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101438,
-          "sku": "11857545002517510727",
-          "title": "Cumin / 4XL",
-          "price": 2543,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101454,
-          "sku": "29704250483472716006",
-          "title": "Light Green / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 102358,
-          "sku": "32344913101984061539",
-          "title": "Espresso / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101468,
-          "sku": "53736992005361758806",
-          "title": "Seafoam / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 101448,
-          "sku": "16769649229756911340",
-          "title": "Ice Blue / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 101420,
-          "sku": "30773766931803135929",
-          "title": "Banana / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101453,
-          "sku": "30774970494228068176",
-          "title": "Lagoon Blue / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 101461,
-          "sku": "19266358233413960419",
-          "title": "Orchid / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101436,
-          "sku": "12510613935648327806",
-          "title": "Crimson / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101447,
-          "sku": "50353284103951238744",
-          "title": "Hemp / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101472,
-          "sku": "29415533737753300723",
-          "title": "Vineyard / 4XL",
-          "price": 2543,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 101450,
-          "sku": "29477319711665890791",
-          "title": "Ivory / 4XL",
-          "price": 2543,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 73965,
-          "sku": "29283237829262479670",
-          "title": "Boysenberry / S",
-          "price": 1855,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73972,
-          "sku": "31115069443020906995",
-          "title": "Boysenberry / M",
-          "price": 1855,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73979,
-          "sku": "24031115331959396131",
-          "title": "Boysenberry / L",
-          "price": 1855,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73986,
-          "sku": "14650915085407084590",
-          "title": "Boysenberry / XL",
-          "price": 1855,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 73993,
-          "sku": "35638013622367452394",
-          "title": "Boysenberry / 2XL",
-          "price": 2036,
-          "available": false,
-          "isEnabled": false,
-          "options": {}
-        }
-      ],
-      "images": [
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front",
-          "preview": "/images/printify/unisex-garment-dyed-t-shirt-68cfa59e08ca4dcdc40590ef-main.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73207/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back",
-          "preview": "/images/printify/unisex-garment-dyed-t-shirt-68cfa59e08ca4dcdc40590ef-angle1.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73207/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other",
-          "preview": "/images/printify/unisex-garment-dyed-t-shirt-68cfa59e08ca4dcdc40590ef-angle2.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73207/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other",
-          "preview": "/images/printify/unisex-garment-dyed-t-shirt-68cfa59e08ca4dcdc40590ef-angle3.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78993/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78993/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78993/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78993/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78998/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78998/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78998/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78998/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78973/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78973/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78973/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78973/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/101820/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/101820/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/101820/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/101820/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78953/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78953/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78953/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78953/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73984/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73984/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73984/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73984/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78923/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78923/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78923/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78923/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78988/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78988/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78988/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78988/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78963/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78963/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78963/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78963/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73204/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73204/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73204/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73204/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73205/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73205/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
-          "position": "back"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73205/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73205/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
-          "position": "other"
-        }
-      ],
-      "createdAt": "2025-09-21 07:13:34+00:00",
-      "updatedAt": "2025-09-28 05:30:53+00:00",
-      "visible": true,
-      "externalId": "23546847",
-      "printProviderId": 99,
-      "blueprintId": 706,
-      "userData": null,
-      "featuredImage": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
-      "priceRange": {
-        "min": 1786,
-        "max": 2543,
-        "currency": "USD"
-      }
-    },
-    "68cfa59c08ca4dcdc40590eb": {
-      "id": "68cfa59c08ca4dcdc40590eb",
-      "title": "AirPods and AirPods Pro Case Cover",
-      "description": "This custom AirPods cover safeguards your AirPods/AirPods Pro against bumps, scratches, and drops. With each personalized AirPod case you also get a metal carabiner for secure, effortless transportation. Compatible with the regular and wireless charging case for Airpods and AirPods Pro. Both AirPod and Airpod Pro cases are available in 5x colors: White, Navy, Pink, Mint, and Black. <br/><p>.: Material: Premium Thermoplastic Polyurethane (TPU)<br/>.: Great protection from drops and scratches<br/>.: NB! AirPods case cover is compatible with 1st and 2nd generations AirPods; AirPodsPro case cover is compatible with 1st generation AirPods Pro<br/>.: Stipple print texture<br/>.: Metal carabiner included<br/>.: The cover works with both wireless and regular charging ports</p>",
-      "tags": [],
-      "options": {
-        "Models": {
-          "name": "Models",
-          "type": "size",
-          "values": [
-            {
-              "id": 2635,
-              "title": "AirPods"
-            },
-            {
-              "id": 2636,
-              "title": "AirPods Pro"
-            }
-          ],
-          "display_in_preview": true
-        },
-        "Colors": {
-          "name": "Colors",
-          "type": "color",
-          "values": [
-            {
-              "id": 2637,
-              "title": "White",
-              "colors": [
-                "#ffffff"
-              ]
-            },
-            {
-              "id": 3101,
-              "title": "Black",
-              "colors": [
-                "#000000"
-              ]
-            },
-            {
-              "id": 3100,
-              "title": "Mint",
-              "colors": [
-                "#49bf9e"
-              ]
-            },
-            {
-              "id": 3098,
-              "title": "Navy",
-              "colors": [
-                "#23395d"
-              ]
-            },
-            {
-              "id": 3099,
-              "title": "Pink",
-              "colors": [
-                "#ffb6c1"
-              ]
-            }
-          ],
-          "display_in_preview": true
-        }
-      },
-      "variants": [
-        {
-          "id": 72110,
-          "sku": "10030821771150152188",
-          "title": "AirPods / White",
-          "price": 1099,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 72111,
-          "sku": "27057111464301944403",
-          "title": "AirPods Pro / White",
-          "price": 1203,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 76859,
-          "sku": "28296196070610087991",
-          "title": "AirPods / Black",
-          "price": 1099,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 76860,
-          "sku": "12067250326944566409",
-          "title": "AirPods / Mint",
-          "price": 1099,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 76861,
-          "sku": "66245119756595407338",
-          "title": "AirPods / Navy",
-          "price": 1099,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 76862,
-          "sku": "33864688390700113909",
-          "title": "AirPods / Pink",
-          "price": 1099,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 76863,
-          "sku": "23843035029930042440",
-          "title": "AirPods Pro / Black",
-          "price": 1203,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 76864,
-          "sku": "64885719076693569685",
-          "title": "AirPods Pro / Mint",
-          "price": 1203,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 76865,
-          "sku": "18577411745363185273",
-          "title": "AirPods Pro / Navy",
-          "price": 1203,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 76866,
-          "sku": "11401763680856963181",
-          "title": "AirPods Pro / Pink",
-          "price": 1203,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        }
-      ],
-      "images": [
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/72110/24319/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
-          "position": "front",
-          "preview": "/images/printify/airpods-and-airpods-pro-case-cover-68cfa59c08ca4dcdc40590eb-main.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/72110/24263/airpods-and-airpods-pro-case-cover.jpg?camera_label=back",
-          "position": "other",
-          "preview": "/images/printify/airpods-and-airpods-pro-case-cover-68cfa59c08ca4dcdc40590eb-angle1.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/72110/24267/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-1",
-          "position": "other",
-          "preview": "/images/printify/airpods-and-airpods-pro-case-cover-68cfa59c08ca4dcdc40590eb-angle2.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/72110/24273/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-2",
-          "position": "other",
-          "preview": "/images/printify/airpods-and-airpods-pro-case-cover-68cfa59c08ca4dcdc40590eb-angle3.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76859/24321/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76859/24259/airpods-and-airpods-pro-case-cover.jpg?camera_label=back",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76859/24268/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76859/24269/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-2",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76860/24322/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76860/24260/airpods-and-airpods-pro-case-cover.jpg?camera_label=back",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76860/24264/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76860/24270/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-2",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76861/24317/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76861/24261/airpods-and-airpods-pro-case-cover.jpg?camera_label=back",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76861/24265/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76861/24271/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-2",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76862/24318/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
-          "position": "front"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76862/24262/airpods-and-airpods-pro-case-cover.jpg?camera_label=back",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76862/24266/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76862/24272/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-2",
-          "position": "other"
-        }
-      ],
-      "createdAt": "2025-09-21 07:13:32+00:00",
-      "updatedAt": "2025-10-10 00:50:55+00:00",
-      "visible": true,
-      "externalId": "23954997",
-      "printProviderId": 23,
-      "blueprintId": 619,
-      "userData": null,
-      "featuredImage": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/72110/24319/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
-      "priceRange": {
-        "min": 1099,
-        "max": 1203,
-        "currency": "USD"
-      }
-    },
-    "68cfa59008ca4dcdc40590e6": {
-      "id": "68cfa59008ca4dcdc40590e6",
-      "title": "Galactic Adventure Men's Tank Top - AOP, Cosmic Apparel, Festival Wear, Summer Outing, Space Lover Gift",
-      "description": "<p data-start=\"1626\" data-end=\"2072\">Step into the cosmos with this Galactic Adventure men&rsquo;s tank top, featuring all‑over print (AOP) artwork that wraps around front, back, and sides. Crafted for both comfort and statement, this tank is perfect for summer performances, gym wear, festival heat, or layered under open shirts. Lightweight fabric ensures breathability without sacrificing visual impact. If you want bold style and comfort in one, this piece delivers.</p>\n<p data-start=\"2074\" data-end=\"2090\"><strong data-start=\"2074\" data-end=\"2090\">Key Details:</strong></p>\n<ul data-start=\"2092\" data-end=\"2260\">\n<li data-start=\"2092\" data-end=\"2141\">\n<p data-start=\"2094\" data-end=\"2141\">All‑over print (AOP) for full‑coverage design</p>\n</li>\n<li data-start=\"2142\" data-end=\"2182\">\n<p data-start=\"2144\" data-end=\"2182\">Lightweight, moisture‑wicking fabric</p>\n</li>\n<li data-start=\"2183\" data-end=\"2221\">\n<p data-start=\"2185\" data-end=\"2221\">Classic men&rsquo;s cut with relaxed fit</p>\n</li>\n<li data-start=\"2222\" data-end=\"2260\">\n<p data-start=\"2224\" data-end=\"2260\">Vibrant colors and sharp detailing</p>\n</li>\n</ul>\n<p data-start=\"2262\" data-end=\"2364\"><strong data-start=\"2262\" data-end=\"2275\">Best For:</strong><br data-start=\"2275\" data-end=\"2278\" />Festival fashion, gym or workout wear, summer layers, gifts for cosmic‑graphics lovers</p>\n<p>&nbsp;</p>\n<p data-start=\"2366\" data-end=\"2473\"><strong data-start=\"2366\" data-end=\"2388\">Care Instructions:</strong><br data-start=\"2388\" data-end=\"2391\" />Machine wash cold, dry low, turn inside out, avoid harsh detergents, do not bleach</p>\n<p data-start=\"2366\" data-end=\"2473\">&nbsp;</p>\n<table id=\"size-guide\" style=\"min-width: 360px;\">\n<thead>\n<tr>\n<th style=\"padding: 10px;\">&nbsp;</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">S</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">M</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">L</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">XL</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">2XL</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">3XL</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Length, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">27.95</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">29.13</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">29.92</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">31.10</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">31.89</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">33.07</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Width, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">18.11</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">20.08</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">22.05</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">24.02</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">25.98</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">27.95</td>\n</tr>\n</tbody>\n</table>\n<p data-start=\"2366\" data-end=\"2473\">&nbsp;</p>",
-      "tags": [
-        "AOP",
-        "All Over Print",
-        "AOP Clothing",
-        "Sublimation",
-        "Sports",
-        "Men's Clothing",
-        "Regular fit",
-        "Tops",
-        "Tank Tops",
-        "Summer Challenge Picks"
-      ],
-      "options": {
-        "Sizes": {
-          "name": "Sizes",
-          "type": "size",
-          "values": [
-            {
-              "id": 1546,
-              "title": "S"
-            },
-            {
-              "id": 1547,
-              "title": "M"
-            },
-            {
-              "id": 1548,
-              "title": "L"
-            },
-            {
-              "id": 1549,
-              "title": "XL"
-            },
-            {
-              "id": 18,
-              "title": "2XL"
-            },
-            {
-              "id": 19,
-              "title": "3XL"
-            }
-          ],
-          "display_in_preview": false
-        },
-        "Seam color": {
-          "name": "Seam color",
-          "type": "color",
-          "values": [
-            {
-              "id": 2669,
-              "title": "Seam thread color automatically matched to design",
-              "colors": [
-                "#ffffff"
-              ]
-            }
-          ],
-          "display_in_preview": true
-        }
-      },
-      "variants": [
-        {
-          "id": 79352,
-          "sku": "32818198253234999580",
-          "title": "S / Seam thread color automatically matched to design",
-          "price": 1780,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79353,
-          "sku": "28690180447123636193",
-          "title": "M / Seam thread color automatically matched to design",
-          "price": 1780,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79354,
-          "sku": "16472537120028215495",
-          "title": "L / Seam thread color automatically matched to design",
-          "price": 1780,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79355,
-          "sku": "78540714236492641651",
-          "title": "XL / Seam thread color automatically matched to design",
-          "price": 1780,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79356,
-          "sku": "11803206637998821528",
-          "title": "2XL / Seam thread color automatically matched to design",
-          "price": 1780,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 79357,
-          "sku": "11359593447735278082",
-          "title": "3XL / Seam thread color automatically matched to design",
-          "price": 1780,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        }
-      ],
-      "images": [
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59008ca4dcdc40590e6/79354/110529/galactic-adventure-mens-tank-top-aop-cosmic-apparel-festival-wear-summer-outing-space-lover-gift.jpg?camera_label=on-person-left",
-          "position": "other",
-          "preview": "/images/printify/galactic-adventure-men-s-tank-top-aop-cosmic-apparel-festiva-68cfa59008ca4dcdc40590e6-main.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59008ca4dcdc40590e6/79354/110525/galactic-adventure-mens-tank-top-aop-cosmic-apparel-festival-wear-summer-outing-space-lover-gift.jpg?camera_label=flat-back",
-          "position": "other",
-          "preview": "/images/printify/galactic-adventure-men-s-tank-top-aop-cosmic-apparel-festiva-68cfa59008ca4dcdc40590e6-angle1.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59008ca4dcdc40590e6/79354/110526/galactic-adventure-mens-tank-top-aop-cosmic-apparel-festival-wear-summer-outing-space-lover-gift.jpg?camera_label=on-person-front",
-          "position": "other",
-          "preview": "/images/printify/galactic-adventure-men-s-tank-top-aop-cosmic-apparel-festiva-68cfa59008ca4dcdc40590e6-angle2.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa59008ca4dcdc40590e6/79354/110527/galactic-adventure-mens-tank-top-aop-cosmic-apparel-festival-wear-summer-outing-space-lover-gift.jpg?camera_label=on-person-back",
-          "position": "other",
-          "preview": "/images/printify/galactic-adventure-men-s-tank-top-aop-cosmic-apparel-festiva-68cfa59008ca4dcdc40590e6-angle3.jpg"
-        }
-      ],
-      "createdAt": "2025-09-21 07:13:20+00:00",
-      "updatedAt": "2025-10-10 09:30:53+00:00",
-      "visible": true,
-      "externalId": "23367828",
-      "printProviderId": 90,
-      "blueprintId": 997,
-      "userData": null,
-      "featuredImage": "https://images-api.printify.com/mockup/68cfa59008ca4dcdc40590e6/79354/110529/galactic-adventure-mens-tank-top-aop-cosmic-apparel-festival-wear-summer-outing-space-lover-gift.jpg?camera_label=on-person-left",
-      "priceRange": {
-        "min": 1780,
-        "max": 1780,
-        "currency": "USD"
-      }
-    },
-    "68cfa58f08ca4dcdc40590e5": {
-      "id": "68cfa58f08ca4dcdc40590e5",
-      "title": "Elevate Your Style with Our 3I-ATLAS Feature Series- Alien Print Tote Bag (AOP)",
-      "description": "<p><strong id=\"docs-internal-guid-68069fe7-7fff-ae3d-e65d-157447487315\" style=\"font-weight: normal;\"></strong><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Discover the perfect blend of functionality and fashion with our stunning custom-printed tote bags. our alien-themed series is inspired by the cosmic phenomena, '3I-ATLAS,' so these products are available for a limited time only!</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"text-decoration: underline;\"><strong><span style=\"font-size: 11pt; font-family: Arial, sans-serif; color: #000000; background-color: transparent; font-style: normal; font-variant: normal; text-decoration: underline; vertical-align: baseline; white-space: pre-wrap;\">Key Features:</span></strong></span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">- Durable Design- Crafted from 100% spun polyester, our medium-weight fabric (6.49 oz/yd&sup2;) ensures your tote bag withstands daily wear and tear while maintaining its vibrant appearance.</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">-<strong> Customizable Options </strong></span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Choose from five eye-catching handle colors to perfectly complement your personalized designs. Stand out in any crowd!</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">- <strong>Spacious &amp; Practical</strong></span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Available in three sizes, each featuring a large storage compartment, these totes provide ample space for all your essentials- whether it's groceries, gym gear, or beach day must-haves, this limited-time printed piece is sure to stand out.</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">- <strong>High-End Finishing Touches</strong></span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Enjoy the luxury of double-stitched seams and cotton webbing straps that enhance durability while offering comfort. Plus, the nonwoven laminate lining inside adds an extra layer of protection against spills and messes.</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">- <strong>Vivid Visuals</strong></span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Our all-over print is created using advanced dye sublimation technology, ensuring that your designs pop with rich colors and high-definition details.</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><strong><span style=\"font-size: 11pt; font-family: Arial, sans-serif; color: #000000; background-color: transparent; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Why Choose Us?</span></strong></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">With size tolerance at &plusmn;0.75\" (1.9 cm), you can trust that our tote bags are designed for real-world use without compromising on style or quality.</span></p>\n<p><strong style=\"font-weight: normal;\">&nbsp;</strong></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Ready to Make a Statement?</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Don't miss out on this opportunity to <strong>elevate your everyday</strong> <strong>carry</strong>! Click now to explore our range of <strong>customizable</strong> tote bags and find the perfect match for your lifestyle.</span></p>\n<p>&nbsp;</p>\n<table id=\"size-guide\" style=\"min-width: 360px;\">\n<thead>\n<tr>\n<th style=\"padding: 10px;\">&nbsp;</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">13\" &times; 13''</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Height, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">13.00</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Length, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">13.00</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Width, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">3.00</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Handle length, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">28.74</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Handle width, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">1.00</td>\n</tr>\n</tbody>\n</table>",
-      "tags": [],
-      "options": {
-        "Sizes": {
-          "name": "Sizes",
-          "type": "size",
-          "values": [
-            {
-              "id": 3575,
-              "title": "13\" × 13''"
-            },
-            {
-              "id": 3576,
-              "title": "16\" × 16''"
-            },
-            {
-              "id": 3577,
-              "title": "18\" × 18''"
-            }
-          ],
-          "display_in_preview": true
-        },
-        "Handle Color": {
-          "name": "Handle Color",
-          "type": "color",
-          "values": [
-            {
-              "id": 4629,
-              "title": "White",
-              "colors": [
-                "#ffffff"
-              ]
-            },
-            {
-              "id": 4630,
-              "title": "Beige",
-              "colors": [
-                "#f6e2c4"
-              ]
-            },
-            {
-              "id": 4631,
-              "title": "Navy",
-              "colors": [
-                "#235589"
-              ]
-            },
-            {
-              "id": 3162,
-              "title": "Black",
-              "colors": [
-                "#212226"
-              ]
-            },
-            {
-              "id": 4632,
-              "title": "Red",
-              "colors": [
-                "#c8102e"
-              ]
-            }
-          ],
-          "display_in_preview": true
-        }
-      },
-      "variants": [
-        {
-          "id": 103599,
-          "sku": "26054665856926390096",
-          "title": "13\" × 13'' / Black",
-          "price": 1423,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 103600,
-          "sku": "32505776035229835631",
-          "title": "16\" × 16'' / Black",
-          "price": 1728,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 103601,
-          "sku": "20450011615767906486",
-          "title": "18\" × 18'' / Black",
-          "price": 1953,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 103602,
-          "sku": "72438187719728561255",
-          "title": "13\" × 13'' / Red",
-          "price": 1423,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 103603,
-          "sku": "23478804408751906903",
-          "title": "16\" × 16'' / Red",
-          "price": 1728,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 103604,
-          "sku": "15350143580483697642",
-          "title": "18\" × 18'' / Red",
-          "price": 1953,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 103605,
-          "sku": "27906175388270270698",
-          "title": "13\" × 13'' / White",
-          "price": 1423,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 103606,
-          "sku": "10858546181272136283",
-          "title": "16\" × 16'' / White",
-          "price": 1728,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 103607,
-          "sku": "27616542851544153826",
-          "title": "18\" × 18'' / White",
-          "price": 1953,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 103608,
-          "sku": "11996416766553611168",
-          "title": "13\" × 13'' / Beige",
-          "price": 1423,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 103609,
-          "sku": "69298002715865834500",
-          "title": "16\" × 16'' / Beige",
-          "price": 1728,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 103610,
-          "sku": "21844089194187828682",
-          "title": "18\" × 18'' / Beige",
-          "price": 1953,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 103611,
-          "sku": "31717694944854276227",
-          "title": "13\" × 13'' / Navy",
-          "price": 1423,
-          "available": true,
-          "isEnabled": true,
-          "options": {}
-        },
-        {
-          "id": 103612,
-          "sku": "20870710459351221663",
-          "title": "16\" × 16'' / Navy",
-          "price": 1728,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        },
-        {
-          "id": 103613,
-          "sku": "22708017896271440687",
-          "title": "18\" × 18'' / Navy",
-          "price": 1953,
-          "available": true,
-          "isEnabled": false,
-          "options": {}
-        }
-      ],
-      "images": [
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103599/100877/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
-          "position": "other",
-          "preview": "/images/printify/elevate-your-style-with-our-3i-atlas-feature-series-alien-pr-68cfa58f08ca4dcdc40590e5-main.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103599/100933/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=back",
-          "position": "other",
-          "preview": "/images/printify/elevate-your-style-with-our-3i-atlas-feature-series-alien-pr-68cfa58f08ca4dcdc40590e5-angle1.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103599/100963/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-1",
-          "position": "other",
-          "preview": "/images/printify/elevate-your-style-with-our-3i-atlas-feature-series-alien-pr-68cfa58f08ca4dcdc40590e5-angle2.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103599/100985/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-2",
-          "position": "other",
-          "preview": "/images/printify/elevate-your-style-with-our-3i-atlas-feature-series-alien-pr-68cfa58f08ca4dcdc40590e5-angle3.jpg"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103602/100888/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103602/100942/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=back",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103602/100968/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103602/100989/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-2",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103605/100880/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103605/100939/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=back",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103605/100964/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103605/100986/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-2",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103608/100885/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103608/100936/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=back",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103608/100965/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103608/100987/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-2",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103611/100891/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103611/100945/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=back",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103611/100990/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-1",
-          "position": "other"
-        },
-        {
-          "id": "undefined",
-          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103611/100988/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-2",
-          "position": "other"
-        }
-      ],
-      "createdAt": "2025-09-21 07:13:19+00:00",
-      "updatedAt": "2025-09-24 04:17:07+00:00",
-      "visible": true,
-      "externalId": "23442430",
-      "printProviderId": 10,
-      "blueprintId": 1389,
-      "userData": null,
-      "featuredImage": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103599/100877/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
-      "priceRange": {
-        "min": 1423,
-        "max": 1953,
         "currency": "USD"
       }
     },
@@ -8578,6 +3037,5547 @@ export const PRINTIFY_CATALOG: PrintifyCatalog = {
       "priceRange": {
         "min": 2207,
         "max": 4674,
+        "currency": "USD"
+      }
+    },
+    "68cfa59008ca4dcdc40590e6": {
+      "id": "68cfa59008ca4dcdc40590e6",
+      "title": "Galactic Adventure Men's Tank Top - AOP, Cosmic Apparel, Festival Wear, Summer Outing, Space Lover Gift",
+      "description": "<p data-start=\"1626\" data-end=\"2072\">Step into the cosmos with this Galactic Adventure men&rsquo;s tank top, featuring all‑over print (AOP) artwork that wraps around front, back, and sides. Crafted for both comfort and statement, this tank is perfect for summer performances, gym wear, festival heat, or layered under open shirts. Lightweight fabric ensures breathability without sacrificing visual impact. If you want bold style and comfort in one, this piece delivers.</p>\n<p data-start=\"2074\" data-end=\"2090\"><strong data-start=\"2074\" data-end=\"2090\">Key Details:</strong></p>\n<ul data-start=\"2092\" data-end=\"2260\">\n<li data-start=\"2092\" data-end=\"2141\">\n<p data-start=\"2094\" data-end=\"2141\">All‑over print (AOP) for full‑coverage design</p>\n</li>\n<li data-start=\"2142\" data-end=\"2182\">\n<p data-start=\"2144\" data-end=\"2182\">Lightweight, moisture‑wicking fabric</p>\n</li>\n<li data-start=\"2183\" data-end=\"2221\">\n<p data-start=\"2185\" data-end=\"2221\">Classic men&rsquo;s cut with relaxed fit</p>\n</li>\n<li data-start=\"2222\" data-end=\"2260\">\n<p data-start=\"2224\" data-end=\"2260\">Vibrant colors and sharp detailing</p>\n</li>\n</ul>\n<p data-start=\"2262\" data-end=\"2364\"><strong data-start=\"2262\" data-end=\"2275\">Best For:</strong><br data-start=\"2275\" data-end=\"2278\" />Festival fashion, gym or workout wear, summer layers, gifts for cosmic‑graphics lovers</p>\n<p>&nbsp;</p>\n<p data-start=\"2366\" data-end=\"2473\"><strong data-start=\"2366\" data-end=\"2388\">Care Instructions:</strong><br data-start=\"2388\" data-end=\"2391\" />Machine wash cold, dry low, turn inside out, avoid harsh detergents, do not bleach</p>\n<p data-start=\"2366\" data-end=\"2473\">&nbsp;</p>\n<table id=\"size-guide\" style=\"min-width: 360px;\">\n<thead>\n<tr>\n<th style=\"padding: 10px;\">&nbsp;</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">S</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">M</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">L</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">XL</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">2XL</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">3XL</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Length, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">27.95</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">29.13</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">29.92</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">31.10</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">31.89</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">33.07</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Width, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">18.11</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">20.08</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">22.05</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">24.02</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">25.98</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">27.95</td>\n</tr>\n</tbody>\n</table>\n<p data-start=\"2366\" data-end=\"2473\">&nbsp;</p>",
+      "tags": [
+        "AOP",
+        "All Over Print",
+        "AOP Clothing",
+        "Sublimation",
+        "Sports",
+        "Men's Clothing",
+        "Regular fit",
+        "Tops",
+        "Tank Tops",
+        "Summer Challenge Picks"
+      ],
+      "options": {
+        "Sizes": {
+          "name": "Sizes",
+          "type": "size",
+          "values": [
+            {
+              "id": 1546,
+              "title": "S"
+            },
+            {
+              "id": 1547,
+              "title": "M"
+            },
+            {
+              "id": 1548,
+              "title": "L"
+            },
+            {
+              "id": 1549,
+              "title": "XL"
+            },
+            {
+              "id": 18,
+              "title": "2XL"
+            },
+            {
+              "id": 19,
+              "title": "3XL"
+            }
+          ],
+          "display_in_preview": false
+        },
+        "Seam color": {
+          "name": "Seam color",
+          "type": "color",
+          "values": [
+            {
+              "id": 2669,
+              "title": "Seam thread color automatically matched to design",
+              "colors": [
+                "#ffffff"
+              ]
+            }
+          ],
+          "display_in_preview": true
+        }
+      },
+      "variants": [
+        {
+          "id": 79352,
+          "sku": "32818198253234999580",
+          "title": "S / Seam thread color automatically matched to design",
+          "price": 1780,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79353,
+          "sku": "28690180447123636193",
+          "title": "M / Seam thread color automatically matched to design",
+          "price": 1780,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79354,
+          "sku": "16472537120028215495",
+          "title": "L / Seam thread color automatically matched to design",
+          "price": 1780,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79355,
+          "sku": "78540714236492641651",
+          "title": "XL / Seam thread color automatically matched to design",
+          "price": 1780,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79356,
+          "sku": "11803206637998821528",
+          "title": "2XL / Seam thread color automatically matched to design",
+          "price": 1780,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79357,
+          "sku": "11359593447735278082",
+          "title": "3XL / Seam thread color automatically matched to design",
+          "price": 1780,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        }
+      ],
+      "images": [
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59008ca4dcdc40590e6/79354/110529/galactic-adventure-mens-tank-top-aop-cosmic-apparel-festival-wear-summer-outing-space-lover-gift.jpg?camera_label=on-person-left",
+          "position": "other",
+          "preview": "/images/printify/galactic-adventure-men-s-tank-top-aop-cosmic-apparel-festiva-68cfa59008ca4dcdc40590e6-main.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59008ca4dcdc40590e6/79354/110525/galactic-adventure-mens-tank-top-aop-cosmic-apparel-festival-wear-summer-outing-space-lover-gift.jpg?camera_label=flat-back",
+          "position": "other",
+          "preview": "/images/printify/galactic-adventure-men-s-tank-top-aop-cosmic-apparel-festiva-68cfa59008ca4dcdc40590e6-angle1.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59008ca4dcdc40590e6/79354/110526/galactic-adventure-mens-tank-top-aop-cosmic-apparel-festival-wear-summer-outing-space-lover-gift.jpg?camera_label=on-person-front",
+          "position": "other",
+          "preview": "/images/printify/galactic-adventure-men-s-tank-top-aop-cosmic-apparel-festiva-68cfa59008ca4dcdc40590e6-angle2.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59008ca4dcdc40590e6/79354/110527/galactic-adventure-mens-tank-top-aop-cosmic-apparel-festival-wear-summer-outing-space-lover-gift.jpg?camera_label=on-person-back",
+          "position": "other",
+          "preview": "/images/printify/galactic-adventure-men-s-tank-top-aop-cosmic-apparel-festiva-68cfa59008ca4dcdc40590e6-angle3.jpg"
+        }
+      ],
+      "createdAt": "2025-09-21 07:13:20+00:00",
+      "updatedAt": "2025-10-10 09:30:53+00:00",
+      "visible": true,
+      "externalId": "23367828",
+      "printProviderId": 90,
+      "blueprintId": 997,
+      "userData": null,
+      "featuredImage": "https://images-api.printify.com/mockup/68cfa59008ca4dcdc40590e6/79354/110529/galactic-adventure-mens-tank-top-aop-cosmic-apparel-festival-wear-summer-outing-space-lover-gift.jpg?camera_label=on-person-left",
+      "priceRange": {
+        "min": 1780,
+        "max": 1780,
+        "currency": "USD"
+      }
+    },
+    "68cfa59c08ca4dcdc40590eb": {
+      "id": "68cfa59c08ca4dcdc40590eb",
+      "title": "AirPods and AirPods Pro Case Cover",
+      "description": "This custom AirPods cover safeguards your AirPods/AirPods Pro against bumps, scratches, and drops. With each personalized AirPod case you also get a metal carabiner for secure, effortless transportation. Compatible with the regular and wireless charging case for Airpods and AirPods Pro. Both AirPod and Airpod Pro cases are available in 5x colors: White, Navy, Pink, Mint, and Black. <br/><p>.: Material: Premium Thermoplastic Polyurethane (TPU)<br/>.: Great protection from drops and scratches<br/>.: NB! AirPods case cover is compatible with 1st and 2nd generations AirPods; AirPodsPro case cover is compatible with 1st generation AirPods Pro<br/>.: Stipple print texture<br/>.: Metal carabiner included<br/>.: The cover works with both wireless and regular charging ports</p>",
+      "tags": [],
+      "options": {
+        "Models": {
+          "name": "Models",
+          "type": "size",
+          "values": [
+            {
+              "id": 2635,
+              "title": "AirPods"
+            },
+            {
+              "id": 2636,
+              "title": "AirPods Pro"
+            }
+          ],
+          "display_in_preview": true
+        },
+        "Colors": {
+          "name": "Colors",
+          "type": "color",
+          "values": [
+            {
+              "id": 2637,
+              "title": "White",
+              "colors": [
+                "#ffffff"
+              ]
+            },
+            {
+              "id": 3101,
+              "title": "Black",
+              "colors": [
+                "#000000"
+              ]
+            },
+            {
+              "id": 3100,
+              "title": "Mint",
+              "colors": [
+                "#49bf9e"
+              ]
+            },
+            {
+              "id": 3098,
+              "title": "Navy",
+              "colors": [
+                "#23395d"
+              ]
+            },
+            {
+              "id": 3099,
+              "title": "Pink",
+              "colors": [
+                "#ffb6c1"
+              ]
+            }
+          ],
+          "display_in_preview": true
+        }
+      },
+      "variants": [
+        {
+          "id": 72110,
+          "sku": "10030821771150152188",
+          "title": "AirPods / White",
+          "price": 1099,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 72111,
+          "sku": "27057111464301944403",
+          "title": "AirPods Pro / White",
+          "price": 1203,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 76859,
+          "sku": "28296196070610087991",
+          "title": "AirPods / Black",
+          "price": 1099,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 76860,
+          "sku": "12067250326944566409",
+          "title": "AirPods / Mint",
+          "price": 1099,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 76861,
+          "sku": "66245119756595407338",
+          "title": "AirPods / Navy",
+          "price": 1099,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 76862,
+          "sku": "33864688390700113909",
+          "title": "AirPods / Pink",
+          "price": 1099,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 76863,
+          "sku": "23843035029930042440",
+          "title": "AirPods Pro / Black",
+          "price": 1203,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 76864,
+          "sku": "64885719076693569685",
+          "title": "AirPods Pro / Mint",
+          "price": 1203,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 76865,
+          "sku": "18577411745363185273",
+          "title": "AirPods Pro / Navy",
+          "price": 1203,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 76866,
+          "sku": "11401763680856963181",
+          "title": "AirPods Pro / Pink",
+          "price": 1203,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        }
+      ],
+      "images": [
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/72110/24319/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
+          "position": "front",
+          "preview": "/images/printify/airpods-and-airpods-pro-case-cover-68cfa59c08ca4dcdc40590eb-main.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/72110/24263/airpods-and-airpods-pro-case-cover.jpg?camera_label=back",
+          "position": "other",
+          "preview": "/images/printify/airpods-and-airpods-pro-case-cover-68cfa59c08ca4dcdc40590eb-angle1.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/72110/24267/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-1",
+          "position": "other",
+          "preview": "/images/printify/airpods-and-airpods-pro-case-cover-68cfa59c08ca4dcdc40590eb-angle2.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/72110/24273/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-2",
+          "position": "other",
+          "preview": "/images/printify/airpods-and-airpods-pro-case-cover-68cfa59c08ca4dcdc40590eb-angle3.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76859/24321/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76859/24259/airpods-and-airpods-pro-case-cover.jpg?camera_label=back",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76859/24268/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76859/24269/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-2",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76860/24322/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76860/24260/airpods-and-airpods-pro-case-cover.jpg?camera_label=back",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76860/24264/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76860/24270/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-2",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76861/24317/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76861/24261/airpods-and-airpods-pro-case-cover.jpg?camera_label=back",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76861/24265/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76861/24271/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-2",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76862/24318/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76862/24262/airpods-and-airpods-pro-case-cover.jpg?camera_label=back",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76862/24266/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/76862/24272/airpods-and-airpods-pro-case-cover.jpg?camera_label=context-2",
+          "position": "other"
+        }
+      ],
+      "createdAt": "2025-09-21 07:13:32+00:00",
+      "updatedAt": "2025-10-10 00:50:55+00:00",
+      "visible": true,
+      "externalId": "23954997",
+      "printProviderId": 23,
+      "blueprintId": 619,
+      "userData": null,
+      "featuredImage": "https://images-api.printify.com/mockup/68cfa59c08ca4dcdc40590eb/72110/24319/airpods-and-airpods-pro-case-cover.jpg?camera_label=front",
+      "priceRange": {
+        "min": 1099,
+        "max": 1203,
+        "currency": "USD"
+      }
+    },
+    "68cfa59e08ca4dcdc40590ef": {
+      "id": "68cfa59e08ca4dcdc40590ef",
+      "title": "Unisex Garment-Dyed T-shirt",
+      "description": "Comfort Colors introduces the “Comfort Colors 1717” garment-dyed t-shirt; a fully customizable tee made 100% with ring-spun cotton. The soft-washed, garment-dyed fabric brings extra coziness to your wardrobe while the relaxed fit makes it an excellent daily choice. The double-needle stitching throughout the tee makes it highly durable while the lack of side-seams helps the shirt retain its tubular shape. Discover all 58 colors in our Comfort Colors 1717 color charts below.<br/><p>.: The Comfort Colors 1717 tee is made with medium fabric (6.1 oz/yd² (206.8 g/m²)) consisting of high quality, 100% ring-spun US cotton for long-lasting comfort.<br/>.: The relaxed fit keeps the wearer comfy in both casual and semi-formal settings while the crew neckline delivers that classic, neat style which makes it perfect for accessorizing. <br/>.: The pre-shrunk fabric ensures a consistently great fit. Check all available sizes in our Comfort Colors 1717 size chart. <br/>.: All Comfort Colors 1717 shirts feature pre-shrunk cotton for size retention and a signature sewn-in twill label.<br/>.: Made using 100% US cotton that is ethically grown and harvested. Gildan is also a proud member of the US Cotton Trust Protocol ensuring ethical and sustainable means of production.<br/>.: Available in 58 colors. Check all available colors in our Comfort Colors 1717 color charts</p>",
+      "tags": [],
+      "options": {
+        "Colors": {
+          "name": "Colors",
+          "type": "color",
+          "values": [
+            {
+              "id": 2766,
+              "title": "White",
+              "colors": [
+                "#ffffff"
+              ]
+            },
+            {
+              "id": 3348,
+              "title": "Melon",
+              "colors": [
+                "#FF9A5F"
+              ]
+            },
+            {
+              "id": 3343,
+              "title": "Terracotta",
+              "colors": [
+                "#DB8C76"
+              ]
+            },
+            {
+              "id": 3326,
+              "title": "Bright Salmon",
+              "colors": [
+                "#FF796C"
+              ]
+            },
+            {
+              "id": 3325,
+              "title": "Brick",
+              "colors": [
+                "#915C5C"
+              ]
+            },
+            {
+              "id": 3344,
+              "title": "Ivory",
+              "colors": [
+                "#FFF7E7"
+              ]
+            },
+            {
+              "id": 3319,
+              "title": "Banana",
+              "colors": [
+                "#FFECB9"
+              ]
+            },
+            {
+              "id": 3331,
+              "title": "Citrus",
+              "colors": [
+                "#FFC86E"
+              ]
+            },
+            {
+              "id": 3351,
+              "title": "Mustard",
+              "colors": [
+                "#D0AE6E"
+              ]
+            },
+            {
+              "id": 3327,
+              "title": "Burnt Orange",
+              "colors": [
+                "#E27C4B"
+              ]
+            },
+            {
+              "id": 3366,
+              "title": "Yam",
+              "colors": [
+                "#C9814F"
+              ]
+            },
+            {
+              "id": 3345,
+              "title": "Khaki",
+              "colors": [
+                "#AEA583"
+              ]
+            },
+            {
+              "id": 4549,
+              "title": "Espresso",
+              "colors": [
+                "#846b5b"
+              ]
+            },
+            {
+              "id": 2763,
+              "title": "Butter",
+              "colors": [
+                "#F5E1A4"
+              ]
+            },
+            {
+              "id": 3355,
+              "title": "Pepper",
+              "colors": [
+                "#5F605B"
+              ]
+            },
+            {
+              "id": 3346,
+              "title": "Kiwi",
+              "colors": [
+                "#C9DB77"
+              ]
+            },
+            {
+              "id": 3339,
+              "title": "Grey",
+              "colors": [
+                "#7A7F79"
+              ]
+            },
+            {
+              "id": 3358,
+              "title": "Sage",
+              "colors": [
+                "#6D775C"
+              ]
+            },
+            {
+              "id": 3341,
+              "title": "Hemp",
+              "colors": [
+                "#676A4A"
+              ]
+            },
+            {
+              "id": 3320,
+              "title": "Bay",
+              "colors": [
+                "#C3CFC1"
+              ]
+            },
+            {
+              "id": 3350,
+              "title": "Moss",
+              "colors": [
+                "#747F66"
+              ]
+            },
+            {
+              "id": 2819,
+              "title": "Island Reef",
+              "colors": [
+                "#A2D8C2"
+              ]
+            },
+            {
+              "id": 3338,
+              "title": "Grass",
+              "colors": [
+                "#488B6F"
+              ]
+            },
+            {
+              "id": 4510,
+              "title": "Island Green",
+              "colors": [
+                "#5AB98F"
+              ]
+            },
+            {
+              "id": 3328,
+              "title": "Chalky Mint",
+              "colors": [
+                "#A7D9D4"
+              ]
+            },
+            {
+              "id": 3347,
+              "title": "Light Green",
+              "colors": [
+                "#738874"
+              ]
+            },
+            {
+              "id": 3324,
+              "title": "Blue Spruce",
+              "colors": [
+                "#536758"
+              ]
+            },
+            {
+              "id": 3335,
+              "title": "Seafoam",
+              "colors": [
+                "#609A95"
+              ]
+            },
+            {
+              "id": 3360,
+              "title": "Topaz Blue",
+              "colors": [
+                "#1F5D71"
+              ]
+            },
+            {
+              "id": 2818,
+              "title": "Lagoon Blue",
+              "colors": [
+                "#89E4ED"
+              ]
+            },
+            {
+              "id": 3329,
+              "title": "Chambray",
+              "colors": [
+                "#D9EDF5"
+              ]
+            },
+            {
+              "id": 3364,
+              "title": "Washed Denim",
+              "colors": [
+                "#8595B8"
+              ]
+            },
+            {
+              "id": 3359,
+              "title": "Flo Blue",
+              "colors": [
+                "#7682C2"
+              ]
+            },
+            {
+              "id": 3356,
+              "title": "Periwinkle",
+              "colors": [
+                "#6570AF"
+              ]
+            },
+            {
+              "id": 3323,
+              "title": "Blue Jean",
+              "colors": [
+                "#788CA1"
+              ]
+            },
+            {
+              "id": 3352,
+              "title": "Mystic Blue",
+              "colors": [
+                "#647CA3"
+              ]
+            },
+            {
+              "id": 2820,
+              "title": "Granite",
+              "colors": [
+                "#8A8E90"
+              ]
+            },
+            {
+              "id": 3342,
+              "title": "Ice Blue",
+              "colors": [
+                "#7B8E95"
+              ]
+            },
+            {
+              "id": 3357,
+              "title": "Royal Caribe",
+              "colors": [
+                "#5D8AC7"
+              ]
+            },
+            {
+              "id": 3349,
+              "title": "Midnight",
+              "colors": [
+                "#3F485B"
+              ]
+            },
+            {
+              "id": 3334,
+              "title": "Denim",
+              "colors": [
+                "#4E5064"
+              ]
+            },
+            {
+              "id": 3361,
+              "title": "True Navy",
+              "colors": [
+                "#183047"
+              ]
+            },
+            {
+              "id": 4509,
+              "title": "China Blue",
+              "colors": [
+                "#43516E"
+              ]
+            },
+            {
+              "id": 3337,
+              "title": "Graphite",
+              "colors": [
+                "#373231"
+              ]
+            },
+            {
+              "id": 2767,
+              "title": "Black",
+              "colors": [
+                "#000000"
+              ]
+            },
+            {
+              "id": 2765,
+              "title": "Navy",
+              "colors": [
+                "#263040"
+              ]
+            },
+            {
+              "id": 3363,
+              "title": "Violet",
+              "colors": [
+                "#A88FD7"
+              ]
+            },
+            {
+              "id": 3336,
+              "title": "Grape",
+              "colors": [
+                "#645C81"
+              ]
+            },
+            {
+              "id": 3353,
+              "title": "Orchid",
+              "colors": [
+                "#CBB3CC"
+              ]
+            },
+            {
+              "id": 3322,
+              "title": "Blossom",
+              "colors": [
+                "#F8D1E2"
+              ]
+            },
+            {
+              "id": 3354,
+              "title": "Peony",
+              "colors": [
+                "#EB979B"
+              ]
+            },
+            {
+              "id": 3340,
+              "title": "Heliconia",
+              "colors": [
+                "#E37699"
+              ]
+            },
+            {
+              "id": 2815,
+              "title": "Crunchberry",
+              "colors": [
+                "#EB7CA2"
+              ]
+            },
+            {
+              "id": 3321,
+              "title": "Berry",
+              "colors": [
+                "#775568"
+              ]
+            },
+            {
+              "id": 3362,
+              "title": "Vineyard",
+              "colors": [
+                "#65403B"
+              ]
+            },
+            {
+              "id": 2814,
+              "title": "Boysenberry",
+              "colors": [
+                "#72265B"
+              ]
+            },
+            {
+              "id": 3365,
+              "title": "Watermelon",
+              "colors": [
+                "#DA807B"
+              ]
+            },
+            {
+              "id": 3330,
+              "title": "Chili",
+              "colors": [
+                "#853F44"
+              ]
+            },
+            {
+              "id": 3332,
+              "title": "Crimson",
+              "colors": [
+                "#B66A74"
+              ]
+            },
+            {
+              "id": 3333,
+              "title": "Cumin",
+              "colors": [
+                "#B06C62"
+              ]
+            },
+            {
+              "id": 2764,
+              "title": "Red",
+              "colors": [
+                "#A80D27"
+              ]
+            }
+          ],
+          "display_in_preview": true
+        },
+        "Sizes": {
+          "name": "Sizes",
+          "type": "size",
+          "values": [
+            {
+              "id": 14,
+              "title": "S"
+            },
+            {
+              "id": 1547,
+              "title": "M"
+            },
+            {
+              "id": 1548,
+              "title": "L"
+            },
+            {
+              "id": 1549,
+              "title": "XL"
+            },
+            {
+              "id": 18,
+              "title": "2XL"
+            },
+            {
+              "id": 19,
+              "title": "3XL"
+            },
+            {
+              "id": 20,
+              "title": "4XL"
+            }
+          ],
+          "display_in_preview": false
+        }
+      },
+      "variants": [
+        {
+          "id": 79153,
+          "sku": "25748398722405805492",
+          "title": "Orchid / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79127,
+          "sku": "25672626911864990079",
+          "title": "Crimson / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79135,
+          "sku": "38182600770564556347",
+          "title": "Graphite / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79136,
+          "sku": "79185992012621312473",
+          "title": "Grass / 3XL",
+          "price": 2261,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79116,
+          "sku": "13608753028735808675",
+          "title": "Blue Jean / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79150,
+          "sku": "28076491970617237175",
+          "title": "Mustard / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79119,
+          "sku": "23219061008413893856",
+          "title": "Brick / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79160,
+          "sku": "18648065793628069074",
+          "title": "Flo Blue / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79168,
+          "sku": "55821473844721201396",
+          "title": "Watermelon / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79124,
+          "sku": "27816062380396890092",
+          "title": "Chambray / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79147,
+          "sku": "77918369337584618147",
+          "title": "Melon / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79123,
+          "sku": "21840063678757705964",
+          "title": "Chalky Mint / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79159,
+          "sku": "19561998024110366204",
+          "title": "Sage / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79166,
+          "sku": "30520218455340928607",
+          "title": "Violet / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79164,
+          "sku": "24494541429191124830",
+          "title": "True Navy / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79134,
+          "sku": "31133019133587005986",
+          "title": "Grape / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79115,
+          "sku": "49002742608217008533",
+          "title": "Blossom / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79170,
+          "sku": "17403333743406092046",
+          "title": "Yam / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79146,
+          "sku": "51994077203872066037",
+          "title": "Light Green / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79120,
+          "sku": "18973513298466372948",
+          "title": "Bright Salmon / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79126,
+          "sku": "19925501502192937137",
+          "title": "Citrus / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79162,
+          "sku": "17125670093972364133",
+          "title": "Terracotta / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79156,
+          "sku": "30742067538606084846",
+          "title": "Periwinkle / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101823,
+          "sku": "26332058632684599150",
+          "title": "Island Green / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79169,
+          "sku": "10714798631235385514",
+          "title": "White / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79152,
+          "sku": "15806494569467980124",
+          "title": "Navy / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79145,
+          "sku": "16708749812569502999",
+          "title": "Lagoon Blue / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79125,
+          "sku": "17603380212654415072",
+          "title": "Chili / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79113,
+          "sku": "60616096225716341752",
+          "title": "Berry / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79149,
+          "sku": "19593060166983610749",
+          "title": "Moss / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79140,
+          "sku": "27148028330385988090",
+          "title": "Ice Blue / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79122,
+          "sku": "16216922596956758904",
+          "title": "Butter / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79165,
+          "sku": "29642314365379016950",
+          "title": "Vineyard / 3XL",
+          "price": 2261,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79141,
+          "sku": "19148176859969558467",
+          "title": "Island Reef / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79138,
+          "sku": "25251429451413915980",
+          "title": "Heliconia / 3XL",
+          "price": 2261,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79132,
+          "sku": "29431786331883600181",
+          "title": "Seafoam / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79133,
+          "sku": "31211421030078193441",
+          "title": "Granite / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79114,
+          "sku": "14440268122623936100",
+          "title": "Black / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79142,
+          "sku": "11882590453658418493",
+          "title": "Ivory / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79157,
+          "sku": "23087304251079583454",
+          "title": "Red / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79148,
+          "sku": "29896371150399687593",
+          "title": "Midnight / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79128,
+          "sku": "26290920094459520631",
+          "title": "Crunchberry / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79117,
+          "sku": "26092330348923179020",
+          "title": "Blue Spruce / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79143,
+          "sku": "23419127257298677440",
+          "title": "Khaki / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79155,
+          "sku": "21043920631664006143",
+          "title": "Pepper / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79130,
+          "sku": "35548559415992391327",
+          "title": "Denim / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79158,
+          "sku": "61651940728483934474",
+          "title": "Royal Caribe / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79137,
+          "sku": "10962216593159242601",
+          "title": "Grey / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79111,
+          "sku": "13743700337856661341",
+          "title": "Banana / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79112,
+          "sku": "14537991434654199870",
+          "title": "Bay / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79121,
+          "sku": "31182121490557195653",
+          "title": "Burnt Orange / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79167,
+          "sku": "24819924803811798474",
+          "title": "Washed Denim / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79129,
+          "sku": "66570343625364165024",
+          "title": "Cumin / 3XL",
+          "price": 2261,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 102357,
+          "sku": "16456483109281139534",
+          "title": "Espresso / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79163,
+          "sku": "27015197053719479871",
+          "title": "Topaz Blue / 3XL",
+          "price": 2261,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79144,
+          "sku": "14534816937154314548",
+          "title": "Kiwi / 3XL",
+          "price": 2261,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79139,
+          "sku": "36646471753534973644",
+          "title": "Hemp / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79154,
+          "sku": "16769264347925695510",
+          "title": "Peony / 3XL",
+          "price": 2261,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79151,
+          "sku": "30351460179045794759",
+          "title": "Mystic Blue / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101816,
+          "sku": "24140328018885263926",
+          "title": "China Blue / 3XL",
+          "price": 2261,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73197,
+          "sku": "54916577347384582172",
+          "title": "Navy / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79048,
+          "sku": "20661734449401501124",
+          "title": "Pepper / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79077,
+          "sku": "13684238881993399696",
+          "title": "Topaz Blue / M",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78973,
+          "sku": "12963274640750865818",
+          "title": "Grey / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 102353,
+          "sku": "16457980165155920482",
+          "title": "Espresso / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78892,
+          "sku": "59201183120067340160",
+          "title": "Blue Jean / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78994,
+          "sku": "32358157251173301875",
+          "title": "Ivory / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73199,
+          "sku": "31765505507225575451",
+          "title": "White / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73984,
+          "sku": "41531159683675491342",
+          "title": "Lagoon Blue / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78924,
+          "sku": "20999778601600452326",
+          "title": "Chambray / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78979,
+          "sku": "96734250809676321313",
+          "title": "Heliconia / XL",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73204,
+          "sku": "20674711915186236384",
+          "title": "Black / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79094,
+          "sku": "24097184443316254572",
+          "title": "Violet / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78928,
+          "sku": "10440366026291019613",
+          "title": "Chili / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78978,
+          "sku": "22729138485551067799",
+          "title": "Heliconia / L",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78993,
+          "sku": "73744009706332162282",
+          "title": "Ivory / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78929,
+          "sku": "15047052543332809265",
+          "title": "Chili / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79049,
+          "sku": "21367355435162800358",
+          "title": "Pepper / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78873,
+          "sku": "69431031107253493838",
+          "title": "Banana / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78887,
+          "sku": "20257835546831558618",
+          "title": "Blossom / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73966,
+          "sku": "45766258681133410211",
+          "title": "Crunchberry / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78954,
+          "sku": "31870974700069851417",
+          "title": "Seafoam / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79038,
+          "sku": "27212925369783601433",
+          "title": "Orchid / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73980,
+          "sku": "21948990237948217222",
+          "title": "Crunchberry / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78936,
+          "sku": "31936980572089127222",
+          "title": "Crimson / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73209,
+          "sku": "59622711131202462717",
+          "title": "Navy / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78894,
+          "sku": "32452030565327078691",
+          "title": "Blue Jean / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79009,
+          "sku": "12082620312177609682",
+          "title": "Light Green / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73202,
+          "sku": "30367722407489812158",
+          "title": "Red / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73969,
+          "sku": "30303149956156424727",
+          "title": "Island Reef / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78903,
+          "sku": "31193809093349477450",
+          "title": "Brick / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78962,
+          "sku": "30505278499170945814",
+          "title": "Graphite / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79078,
+          "sku": "76265780727867402047",
+          "title": "Topaz Blue / L",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78883,
+          "sku": "23767304531518744940",
+          "title": "Berry / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79017,
+          "sku": "80869844120219831635",
+          "title": "Midnight / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79046,
+          "sku": "19555046134586201688",
+          "title": "Pepper / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78888,
+          "sku": "73092072765975722187",
+          "title": "Blossom / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78947,
+          "sku": "33815550264790896301",
+          "title": "Denim / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101813,
+          "sku": "20077293500386383625",
+          "title": "China Blue / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79028,
+          "sku": "52951013990477722504",
+          "title": "Mustard / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78991,
+          "sku": "23124812708895271454",
+          "title": "Ivory / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79037,
+          "sku": "14765724770069048386",
+          "title": "Orchid / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79089,
+          "sku": "23898437317061935891",
+          "title": "Vineyard / XL",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78891,
+          "sku": "19230799587301334196",
+          "title": "Blue Jean / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78923,
+          "sku": "28580245874984633109",
+          "title": "Chambray / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78964,
+          "sku": "26174626454390633769",
+          "title": "Graphite / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79086,
+          "sku": "24001422313476294358",
+          "title": "Vineyard / S",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78972,
+          "sku": "31335663178448791015",
+          "title": "Grey / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79066,
+          "sku": "26835713394916267989",
+          "title": "Flo Blue / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79006,
+          "sku": "11452957343708905281",
+          "title": "Light Green / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79047,
+          "sku": "23099838236904393510",
+          "title": "Pepper / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78884,
+          "sku": "34979262505900960312",
+          "title": "Berry / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79012,
+          "sku": "26582194038720821291",
+          "title": "Melon / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73973,
+          "sku": "31508511432081506772",
+          "title": "Crunchberry / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78982,
+          "sku": "20227811006119534089",
+          "title": "Hemp / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78974,
+          "sku": "77260910156954732993",
+          "title": "Grey / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79013,
+          "sku": "25283530454279112577",
+          "title": "Melon / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79014,
+          "sku": "27210115560749361548",
+          "title": "Melon / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79088,
+          "sku": "16947408802239121704",
+          "title": "Vineyard / L",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73990,
+          "sku": "17602209090331558125",
+          "title": "Island Reef / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79057,
+          "sku": "11635993028696257798",
+          "title": "Royal Caribe / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79027,
+          "sku": "26552098555964736373",
+          "title": "Mustard / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 102352,
+          "sku": "30339154431579851166",
+          "title": "Espresso / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79001,
+          "sku": "25413710412023949069",
+          "title": "Kiwi / S",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78937,
+          "sku": "80096357067967362611",
+          "title": "Crimson / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78949,
+          "sku": "32617761276356902024",
+          "title": "Denim / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79106,
+          "sku": "36877666640212407951",
+          "title": "Yam / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79103,
+          "sku": "21172778365290262409",
+          "title": "Watermelon / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78961,
+          "sku": "19741687774869444738",
+          "title": "Graphite / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73208,
+          "sku": "95096031877007448698",
+          "title": "Black / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73983,
+          "sku": "16668468084412505678",
+          "title": "Island Reef / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73200,
+          "sku": "19570976222535586340",
+          "title": "Black / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78922,
+          "sku": "25588091558662891027",
+          "title": "Chambray / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79069,
+          "sku": "23400723703610185597",
+          "title": "Flo Blue / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78976,
+          "sku": "22739941190303322552",
+          "title": "Heliconia / S",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78987,
+          "sku": "26305440613229327449",
+          "title": "Ice Blue / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79033,
+          "sku": "17554467544748038311",
+          "title": "Mystic Blue / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78951,
+          "sku": "23595533281051012274",
+          "title": "Seafoam / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78963,
+          "sku": "13729480752900002593",
+          "title": "Graphite / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79044,
+          "sku": "15845201148087952600",
+          "title": "Peony / XL",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73196,
+          "sku": "74384500894781129388",
+          "title": "Black / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73203,
+          "sku": "68650308926269611138",
+          "title": "White / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79068,
+          "sku": "92831926964153367506",
+          "title": "Flo Blue / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78879,
+          "sku": "33197149800578598404",
+          "title": "Bay / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78867,
+          "sku": "59858213793591717471",
+          "title": "Butter / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78992,
+          "sku": "45270180579140119924",
+          "title": "Ivory / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73976,
+          "sku": "17221360215672872888",
+          "title": "Island Reef / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78889,
+          "sku": "15207830539613007479",
+          "title": "Blossom / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79008,
+          "sku": "44760966613123696355",
+          "title": "Light Green / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 102354,
+          "sku": "21125525109394041950",
+          "title": "Espresso / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101818,
+          "sku": "14154098694386251686",
+          "title": "Island Green / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78906,
+          "sku": "13264496797628517048",
+          "title": "Bright Salmon / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78921,
+          "sku": "19765120562894154657",
+          "title": "Chambray / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79039,
+          "sku": "23706564897100785469",
+          "title": "Orchid / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78886,
+          "sku": "12165335336698342138",
+          "title": "Blossom / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78981,
+          "sku": "21934099968702801623",
+          "title": "Hemp / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79024,
+          "sku": "13431690072415082137",
+          "title": "Moss / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79016,
+          "sku": "49155639149633321292",
+          "title": "Midnight / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78956,
+          "sku": "70112225306132144171",
+          "title": "Grape / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73198,
+          "sku": "84204994074193293704",
+          "title": "Red / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79062,
+          "sku": "20245170100110724646",
+          "title": "Sage / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73977,
+          "sku": "25075071330724832882",
+          "title": "Lagoon Blue / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79099,
+          "sku": "27963777837646155336",
+          "title": "Washed Denim / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73987,
+          "sku": "55262572414621310291",
+          "title": "Crunchberry / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78917,
+          "sku": "11674024766685619668",
+          "title": "Chalky Mint / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101811,
+          "sku": "26924209336745668687",
+          "title": "China Blue / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78907,
+          "sku": "13383633864319232875",
+          "title": "Bright Salmon / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 102355,
+          "sku": "43735170520356099456",
+          "title": "Espresso / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73982,
+          "sku": "24567700941553265877",
+          "title": "Granite / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78938,
+          "sku": "66711468228927750303",
+          "title": "Crimson / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78876,
+          "sku": "15106276228911342504",
+          "title": "Bay / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79104,
+          "sku": "67763792757562846555",
+          "title": "Watermelon / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78986,
+          "sku": "68229335458373371235",
+          "title": "Ice Blue / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73991,
+          "sku": "21304356333151738891",
+          "title": "Lagoon Blue / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73989,
+          "sku": "10249322545454040200",
+          "title": "Granite / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78934,
+          "sku": "25274744931356046966",
+          "title": "Citrus / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78998,
+          "sku": "75881592402621070271",
+          "title": "Khaki / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79092,
+          "sku": "21329571128195864391",
+          "title": "Violet / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78898,
+          "sku": "42869097163566629247",
+          "title": "Blue Spruce / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79096,
+          "sku": "11220584370795471203",
+          "title": "Washed Denim / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78939,
+          "sku": "24031884351772413413",
+          "title": "Crimson / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79074,
+          "sku": "47421046281446396031",
+          "title": "Terracotta / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73968,
+          "sku": "13528948633053119056",
+          "title": "Granite / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78941,
+          "sku": "12394713368775510745",
+          "title": "Cumin / S",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78958,
+          "sku": "74735938799846689179",
+          "title": "Grape / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73210,
+          "sku": "32708145111553843931",
+          "title": "Red / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78911,
+          "sku": "98148851754655515107",
+          "title": "Burnt Orange / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78918,
+          "sku": "17879564210863947452",
+          "title": "Chalky Mint / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79021,
+          "sku": "14396968971387598450",
+          "title": "Moss / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101814,
+          "sku": "32236052828635201776",
+          "title": "China Blue / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79007,
+          "sku": "33613190164706433613",
+          "title": "Light Green / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79067,
+          "sku": "67400887703912638386",
+          "title": "Flo Blue / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79056,
+          "sku": "11422942826266370453",
+          "title": "Royal Caribe / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78881,
+          "sku": "54144501277550613395",
+          "title": "Berry / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78909,
+          "sku": "14921250570345165634",
+          "title": "Bright Salmon / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78971,
+          "sku": "32932115210431279439",
+          "title": "Grey / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78899,
+          "sku": "19043541992930194493",
+          "title": "Blue Spruce / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101812,
+          "sku": "62483110346991257271",
+          "title": "China Blue / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79011,
+          "sku": "18806412382182573235",
+          "title": "Melon / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78896,
+          "sku": "18349847853398859336",
+          "title": "Blue Spruce / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78871,
+          "sku": "31233937042469116346",
+          "title": "Banana / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78926,
+          "sku": "99964160630399676107",
+          "title": "Chili / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79026,
+          "sku": "22953876598816368304",
+          "title": "Mustard / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78942,
+          "sku": "17387401118395061288",
+          "title": "Cumin / M",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78916,
+          "sku": "17640844128772510718",
+          "title": "Chalky Mint / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78948,
+          "sku": "21234203440231533805",
+          "title": "Denim / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79022,
+          "sku": "33186392982538035470",
+          "title": "Moss / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73211,
+          "sku": "12665306237211185239",
+          "title": "White / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79083,
+          "sku": "25518016744915022570",
+          "title": "True Navy / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78997,
+          "sku": "17739901716333473204",
+          "title": "Khaki / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78966,
+          "sku": "15337377312310987699",
+          "title": "Grass / S",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101820,
+          "sku": "29969294251568094141",
+          "title": "Island Green / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79054,
+          "sku": "22192692266070494180",
+          "title": "Periwinkle / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79072,
+          "sku": "11064976892473985062",
+          "title": "Terracotta / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79023,
+          "sku": "26077125518308030552",
+          "title": "Moss / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73975,
+          "sku": "11021348491446694510",
+          "title": "Granite / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79109,
+          "sku": "65622052278322069256",
+          "title": "Yam / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79036,
+          "sku": "31712020998454571670",
+          "title": "Orchid / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79031,
+          "sku": "12886806754019360733",
+          "title": "Mystic Blue / S",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79053,
+          "sku": "12764650962929124783",
+          "title": "Periwinkle / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79058,
+          "sku": "44575754998757949188",
+          "title": "Royal Caribe / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78912,
+          "sku": "12500297119184796511",
+          "title": "Burnt Orange / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78919,
+          "sku": "26649955483968068752",
+          "title": "Chalky Mint / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73206,
+          "sku": "56792634032010375121",
+          "title": "Red / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79041,
+          "sku": "23090675866331527863",
+          "title": "Peony / S",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78901,
+          "sku": "55496879473189307588",
+          "title": "Brick / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79102,
+          "sku": "30236426518017623897",
+          "title": "Watermelon / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78988,
+          "sku": "75449905675872354423",
+          "title": "Ice Blue / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73201,
+          "sku": "12689414796638668673",
+          "title": "Navy / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78893,
+          "sku": "48507017994469796909",
+          "title": "Blue Jean / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78989,
+          "sku": "20698280991481468411",
+          "title": "Ice Blue / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73970,
+          "sku": "11569000025908913305",
+          "title": "Lagoon Blue / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78904,
+          "sku": "27883260805856523727",
+          "title": "Brick / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73207,
+          "sku": "15249906937554156902",
+          "title": "White / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78932,
+          "sku": "33986903876999751683",
+          "title": "Citrus / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79079,
+          "sku": "15534050856294814508",
+          "title": "Topaz Blue / XL",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79003,
+          "sku": "20985827800028254297",
+          "title": "Kiwi / L",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79019,
+          "sku": "17559268353902096882",
+          "title": "Midnight / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78872,
+          "sku": "73126961745312309150",
+          "title": "Banana / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79091,
+          "sku": "50775140479259966184",
+          "title": "Violet / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78943,
+          "sku": "33151941742429505571",
+          "title": "Cumin / L",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78874,
+          "sku": "33067750559519777048",
+          "title": "Banana / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78968,
+          "sku": "22555154492142165840",
+          "title": "Grass / L",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79018,
+          "sku": "22330733944645227176",
+          "title": "Midnight / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78913,
+          "sku": "22095823244239462530",
+          "title": "Burnt Orange / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78959,
+          "sku": "78529739606847975539",
+          "title": "Grape / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79081,
+          "sku": "14972006806147302992",
+          "title": "True Navy / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79098,
+          "sku": "11574821599357352396",
+          "title": "Washed Denim / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79043,
+          "sku": "17163027328368523353",
+          "title": "Peony / L",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78882,
+          "sku": "14724376094394168953",
+          "title": "Berry / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78977,
+          "sku": "14529108263106904446",
+          "title": "Heliconia / M",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101821,
+          "sku": "29209139007453270305",
+          "title": "Island Green / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79076,
+          "sku": "25412547689041081200",
+          "title": "Topaz Blue / S",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79101,
+          "sku": "25810692690880069660",
+          "title": "Watermelon / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78914,
+          "sku": "11150976732044496718",
+          "title": "Burnt Orange / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79059,
+          "sku": "12481949378451176200",
+          "title": "Royal Caribe / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78878,
+          "sku": "86975269457407595514",
+          "title": "Bay / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78902,
+          "sku": "32730228007539550767",
+          "title": "Brick / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73205,
+          "sku": "25572341727153190583",
+          "title": "Navy / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78969,
+          "sku": "14156194403089036050",
+          "title": "Grass / XL",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101819,
+          "sku": "19214395157326459928",
+          "title": "Island Green / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78908,
+          "sku": "28756738341169744036",
+          "title": "Bright Salmon / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78927,
+          "sku": "11613699303365722008",
+          "title": "Chili / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78897,
+          "sku": "27830747998536447610",
+          "title": "Blue Spruce / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79052,
+          "sku": "18892905933312336079",
+          "title": "Periwinkle / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79042,
+          "sku": "29263560773347606183",
+          "title": "Peony / M",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78967,
+          "sku": "30665786448445430380",
+          "title": "Grass / M",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78944,
+          "sku": "10148641999950969855",
+          "title": "Cumin / XL",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78984,
+          "sku": "10972757059428057065",
+          "title": "Hemp / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78953,
+          "sku": "43253077739486613153",
+          "title": "Seafoam / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79082,
+          "sku": "91260367217524639894",
+          "title": "True Navy / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79002,
+          "sku": "19105924264926344594",
+          "title": "Kiwi / M",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79107,
+          "sku": "21797333181732259569",
+          "title": "Yam / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79061,
+          "sku": "25432149300606487587",
+          "title": "Sage / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79108,
+          "sku": "33014411357777135584",
+          "title": "Yam / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79073,
+          "sku": "25865145078967817154",
+          "title": "Terracotta / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78952,
+          "sku": "27798831324179665293",
+          "title": "Seafoam / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78877,
+          "sku": "15179972638325068641",
+          "title": "Bay / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78946,
+          "sku": "39542972063327257180",
+          "title": "Denim / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79034,
+          "sku": "31423289116605384170",
+          "title": "Mystic Blue / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78931,
+          "sku": "14145797165598714715",
+          "title": "Citrus / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78983,
+          "sku": "65506029063070737557",
+          "title": "Hemp / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78868,
+          "sku": "10753664163887285279",
+          "title": "Butter / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79097,
+          "sku": "94093740832134995855",
+          "title": "Washed Denim / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79004,
+          "sku": "19396749715891419563",
+          "title": "Kiwi / XL",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78957,
+          "sku": "11479754936342010349",
+          "title": "Grape / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79064,
+          "sku": "33863432001794321415",
+          "title": "Sage / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79063,
+          "sku": "32825606098109395928",
+          "title": "Sage / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79051,
+          "sku": "13345673766269197622",
+          "title": "Periwinkle / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79087,
+          "sku": "26170268367551683524",
+          "title": "Vineyard / M",
+          "price": 1786,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78933,
+          "sku": "29644270114209867699",
+          "title": "Citrus / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78866,
+          "sku": "11714627180384534113",
+          "title": "Butter / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78999,
+          "sku": "27748502290188393623",
+          "title": "Khaki / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79029,
+          "sku": "11391255950181225204",
+          "title": "Mustard / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78869,
+          "sku": "20317048036699194490",
+          "title": "Butter / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79084,
+          "sku": "13915084716782508360",
+          "title": "True Navy / XL",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78996,
+          "sku": "27748156617693768868",
+          "title": "Khaki / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79071,
+          "sku": "20369579344802013525",
+          "title": "Terracotta / S",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79093,
+          "sku": "22959230048030714000",
+          "title": "Violet / L",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79032,
+          "sku": "47009455000809103054",
+          "title": "Mystic Blue / M",
+          "price": 1786,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78960,
+          "sku": "12884457469791699528",
+          "title": "Grape / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78955,
+          "sku": "14284101716452855263",
+          "title": "Seafoam / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79070,
+          "sku": "25866129299802955505",
+          "title": "Flo Blue / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79095,
+          "sku": "33853884188123567024",
+          "title": "Violet / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78965,
+          "sku": "23870445346444136350",
+          "title": "Graphite / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79005,
+          "sku": "24383477469478200251",
+          "title": "Kiwi / 2XL",
+          "price": 1968,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79010,
+          "sku": "48001069774367894733",
+          "title": "Light Green / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73996,
+          "sku": "42245502920872795417",
+          "title": "Granite / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78910,
+          "sku": "19278909226892468721",
+          "title": "Bright Salmon / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73212,
+          "sku": "30240278712660052421",
+          "title": "Black / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78905,
+          "sku": "15468026042375596171",
+          "title": "Brick / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78945,
+          "sku": "17240190786618344488",
+          "title": "Cumin / 2XL",
+          "price": 1968,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78890,
+          "sku": "74799177843177325242",
+          "title": "Blossom / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79110,
+          "sku": "42072795688152409655",
+          "title": "Yam / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101822,
+          "sku": "29709390597422650531",
+          "title": "Island Green / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73994,
+          "sku": "17443655798178215186",
+          "title": "Crunchberry / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79065,
+          "sku": "63780359032311271018",
+          "title": "Sage / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73215,
+          "sku": "75509874373530717658",
+          "title": "White / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78880,
+          "sku": "12217360679659390714",
+          "title": "Bay / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78995,
+          "sku": "12693691353723717936",
+          "title": "Ivory / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78975,
+          "sku": "21978972499342074896",
+          "title": "Grey / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79105,
+          "sku": "26537098011374179227",
+          "title": "Watermelon / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78915,
+          "sku": "27671434705136508812",
+          "title": "Burnt Orange / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79045,
+          "sku": "28731914735508071175",
+          "title": "Peony / 2XL",
+          "price": 1968,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79040,
+          "sku": "21928402018569814687",
+          "title": "Orchid / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79020,
+          "sku": "49908550272690023186",
+          "title": "Midnight / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79050,
+          "sku": "25687950597132447187",
+          "title": "Pepper / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73214,
+          "sku": "67178778819021160774",
+          "title": "Red / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79060,
+          "sku": "30334610653823868754",
+          "title": "Royal Caribe / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78980,
+          "sku": "23855343459839169738",
+          "title": "Heliconia / 2XL",
+          "price": 1968,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78885,
+          "sku": "21301948952804590700",
+          "title": "Berry / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78920,
+          "sku": "12520713066773166036",
+          "title": "Chalky Mint / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79035,
+          "sku": "17213282251498693435",
+          "title": "Mystic Blue / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78950,
+          "sku": "74638705661866972746",
+          "title": "Denim / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79090,
+          "sku": "24856713119528696888",
+          "title": "Vineyard / 2XL",
+          "price": 1968,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73997,
+          "sku": "21080661953757132481",
+          "title": "Island Reef / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101815,
+          "sku": "26320027325356031927",
+          "title": "China Blue / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78870,
+          "sku": "18216927034460723205",
+          "title": "Butter / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79030,
+          "sku": "15905130129894955284",
+          "title": "Mustard / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78930,
+          "sku": "26258584138414144043",
+          "title": "Chili / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78970,
+          "sku": "12222179110487815384",
+          "title": "Grass / 2XL",
+          "price": 1968,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79080,
+          "sku": "32231567208700821009",
+          "title": "Topaz Blue / 2XL",
+          "price": 1968,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78990,
+          "sku": "18441918779364641203",
+          "title": "Ice Blue / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79025,
+          "sku": "15346707190139964123",
+          "title": "Moss / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78895,
+          "sku": "22246433466086166745",
+          "title": "Blue Jean / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79085,
+          "sku": "10435487028194654386",
+          "title": "True Navy / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78985,
+          "sku": "18684145970834573342",
+          "title": "Hemp / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79075,
+          "sku": "32085124810845263152",
+          "title": "Terracotta / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73998,
+          "sku": "46289972361493921742",
+          "title": "Lagoon Blue / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 79015,
+          "sku": "30971855709436087642",
+          "title": "Melon / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78925,
+          "sku": "54538370909927776376",
+          "title": "Chambray / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73213,
+          "sku": "29777750315427618868",
+          "title": "Navy / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 78875,
+          "sku": "24570085122983871207",
+          "title": "Banana / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79100,
+          "sku": "23106704479852437616",
+          "title": "Washed Denim / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78900,
+          "sku": "70164373389707100052",
+          "title": "Blue Spruce / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 102356,
+          "sku": "33043773861924343944",
+          "title": "Espresso / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78940,
+          "sku": "36452894775588427273",
+          "title": "Crimson / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 78935,
+          "sku": "91810406953124505866",
+          "title": "Citrus / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79055,
+          "sku": "10932449945105434101",
+          "title": "Periwinkle / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 79000,
+          "sku": "21561835304162611169",
+          "title": "Khaki / 2XL",
+          "price": 1968,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101476,
+          "sku": "21560339767713584607",
+          "title": "White / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 101429,
+          "sku": "26989274112277928018",
+          "title": "Bright Salmon / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101426,
+          "sku": "58835522398042645713",
+          "title": "Blue Spruce / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101462,
+          "sku": "27532525348705879676",
+          "title": "Peony / 4XL",
+          "price": 2543,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101439,
+          "sku": "51991319765296474648",
+          "title": "Denim / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101477,
+          "sku": "13814422499698611727",
+          "title": "Yam / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101466,
+          "sku": "30465992387553432736",
+          "title": "Royal Caribe / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101473,
+          "sku": "75430610928590136460",
+          "title": "Violet / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101437,
+          "sku": "19330177981561059939",
+          "title": "Crunchberry / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101445,
+          "sku": "18314753892512003259",
+          "title": "Grey / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 101452,
+          "sku": "62270355931917162420",
+          "title": "Kiwi / 4XL",
+          "price": 2543,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101463,
+          "sku": "25843691998533144911",
+          "title": "Pepper / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101465,
+          "sku": "13089143968687033969",
+          "title": "Red / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101424,
+          "sku": "76679662578194386124",
+          "title": "Blossom / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101471,
+          "sku": "30040125328781407674",
+          "title": "True Navy / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101464,
+          "sku": "31713381001487317095",
+          "title": "Periwinkle / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101467,
+          "sku": "28963129560286060127",
+          "title": "Sage / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101434,
+          "sku": "29662944959405795860",
+          "title": "Chili / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101460,
+          "sku": "29318437311342009969",
+          "title": "Navy / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 101432,
+          "sku": "84033803245236418980",
+          "title": "Chalky Mint / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101425,
+          "sku": "42716547951642295103",
+          "title": "Blue Jean / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101470,
+          "sku": "28651272152100301390",
+          "title": "Topaz Blue / 4XL",
+          "price": 2543,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101435,
+          "sku": "16357281644395578407",
+          "title": "Citrus / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101469,
+          "sku": "28598950443631549346",
+          "title": "Terracotta / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101474,
+          "sku": "11842363779000265121",
+          "title": "Washed Denim / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101443,
+          "sku": "15969249834746116284",
+          "title": "Graphite / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 101459,
+          "sku": "22458799356630943785",
+          "title": "Mystic Blue / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101455,
+          "sku": "11282403791245227153",
+          "title": "Melon / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101430,
+          "sku": "20954594475203023439",
+          "title": "Burnt Orange / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101458,
+          "sku": "30219828127145621926",
+          "title": "Mustard / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101433,
+          "sku": "90725959185233307750",
+          "title": "Chambray / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 101431,
+          "sku": "70625453286431082842",
+          "title": "Butter / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101457,
+          "sku": "29869974284880091251",
+          "title": "Moss / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101446,
+          "sku": "14196895497487979756",
+          "title": "Heliconia / 4XL",
+          "price": 2543,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101441,
+          "sku": "10753692950871096714",
+          "title": "Granite / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101456,
+          "sku": "17134606021189841837",
+          "title": "Midnight / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101451,
+          "sku": "20413910181949925011",
+          "title": "Khaki / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 101444,
+          "sku": "29448150766070646592",
+          "title": "Grass / 4XL",
+          "price": 2543,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101475,
+          "sku": "14265300614767939520",
+          "title": "Watermelon / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101442,
+          "sku": "26294573194309830258",
+          "title": "Grape / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101449,
+          "sku": "17538407613160549482",
+          "title": "Island Reef / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101421,
+          "sku": "22868848582576088041",
+          "title": "Bay / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101423,
+          "sku": "12206003221210617596",
+          "title": "Black / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 101440,
+          "sku": "42908602207422938720",
+          "title": "Flo Blue / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101428,
+          "sku": "21078045297978422716",
+          "title": "Brick / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101422,
+          "sku": "20343335746483743780",
+          "title": "Berry / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101438,
+          "sku": "11857545002517510727",
+          "title": "Cumin / 4XL",
+          "price": 2543,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101454,
+          "sku": "29704250483472716006",
+          "title": "Light Green / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 102358,
+          "sku": "32344913101984061539",
+          "title": "Espresso / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101468,
+          "sku": "53736992005361758806",
+          "title": "Seafoam / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 101448,
+          "sku": "16769649229756911340",
+          "title": "Ice Blue / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 101420,
+          "sku": "30773766931803135929",
+          "title": "Banana / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101453,
+          "sku": "30774970494228068176",
+          "title": "Lagoon Blue / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 101461,
+          "sku": "19266358233413960419",
+          "title": "Orchid / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101436,
+          "sku": "12510613935648327806",
+          "title": "Crimson / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101447,
+          "sku": "50353284103951238744",
+          "title": "Hemp / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101472,
+          "sku": "29415533737753300723",
+          "title": "Vineyard / 4XL",
+          "price": 2543,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101450,
+          "sku": "29477319711665890791",
+          "title": "Ivory / 4XL",
+          "price": 2543,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 73965,
+          "sku": "29283237829262479670",
+          "title": "Boysenberry / S",
+          "price": 1855,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73972,
+          "sku": "31115069443020906995",
+          "title": "Boysenberry / M",
+          "price": 1855,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73979,
+          "sku": "24031115331959396131",
+          "title": "Boysenberry / L",
+          "price": 1855,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73986,
+          "sku": "14650915085407084590",
+          "title": "Boysenberry / XL",
+          "price": 1855,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 73993,
+          "sku": "35638013622367452394",
+          "title": "Boysenberry / 2XL",
+          "price": 2036,
+          "available": false,
+          "isEnabled": false,
+          "options": {}
+        }
+      ],
+      "images": [
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front",
+          "preview": "/images/printify/unisex-garment-dyed-t-shirt-68cfa59e08ca4dcdc40590ef-main.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73207/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back",
+          "preview": "/images/printify/unisex-garment-dyed-t-shirt-68cfa59e08ca4dcdc40590ef-angle1.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73207/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other",
+          "preview": "/images/printify/unisex-garment-dyed-t-shirt-68cfa59e08ca4dcdc40590ef-angle2.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73207/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other",
+          "preview": "/images/printify/unisex-garment-dyed-t-shirt-68cfa59e08ca4dcdc40590ef-angle3.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78993/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78993/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78993/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78993/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78998/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78998/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78998/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78998/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78973/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78973/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78973/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78973/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/101820/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/101820/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/101820/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/101820/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78953/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78953/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78953/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78953/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73984/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73984/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73984/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73984/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78923/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78923/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78923/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78923/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78988/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78988/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78988/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78988/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78963/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78963/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78963/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/78963/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73204/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73204/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73204/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73204/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73205/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+          "position": "front"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73205/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+          "position": "back"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73205/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73205/98447/unisex-garment-dyed-t-shirt.jpg?camera_label=person-1",
+          "position": "other"
+        }
+      ],
+      "createdAt": "2025-09-21 07:13:34+00:00",
+      "updatedAt": "2025-09-28 05:30:53+00:00",
+      "visible": true,
+      "externalId": "23546847",
+      "printProviderId": 99,
+      "blueprintId": 706,
+      "userData": null,
+      "featuredImage": "https://images-api.printify.com/mockup/68cfa59e08ca4dcdc40590ef/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+      "priceRange": {
+        "min": 1786,
+        "max": 2543,
+        "currency": "USD"
+      }
+    },
+    "68cfa58f08ca4dcdc40590e5": {
+      "id": "68cfa58f08ca4dcdc40590e5",
+      "title": "Elevate Your Style with Our 3I-ATLAS Feature Series- Alien Print Tote Bag (AOP)",
+      "description": "<p><strong id=\"docs-internal-guid-68069fe7-7fff-ae3d-e65d-157447487315\" style=\"font-weight: normal;\"></strong><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Discover the perfect blend of functionality and fashion with our stunning custom-printed tote bags. our alien-themed series is inspired by the cosmic phenomena, '3I-ATLAS,' so these products are available for a limited time only!</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"text-decoration: underline;\"><strong><span style=\"font-size: 11pt; font-family: Arial, sans-serif; color: #000000; background-color: transparent; font-style: normal; font-variant: normal; text-decoration: underline; vertical-align: baseline; white-space: pre-wrap;\">Key Features:</span></strong></span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">- Durable Design- Crafted from 100% spun polyester, our medium-weight fabric (6.49 oz/yd&sup2;) ensures your tote bag withstands daily wear and tear while maintaining its vibrant appearance.</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">-<strong> Customizable Options </strong></span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Choose from five eye-catching handle colors to perfectly complement your personalized designs. Stand out in any crowd!</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">- <strong>Spacious &amp; Practical</strong></span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Available in three sizes, each featuring a large storage compartment, these totes provide ample space for all your essentials- whether it's groceries, gym gear, or beach day must-haves, this limited-time printed piece is sure to stand out.</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">- <strong>High-End Finishing Touches</strong></span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Enjoy the luxury of double-stitched seams and cotton webbing straps that enhance durability while offering comfort. Plus, the nonwoven laminate lining inside adds an extra layer of protection against spills and messes.</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">- <strong>Vivid Visuals</strong></span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Our all-over print is created using advanced dye sublimation technology, ensuring that your designs pop with rich colors and high-definition details.</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><strong><span style=\"font-size: 11pt; font-family: Arial, sans-serif; color: #000000; background-color: transparent; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Why Choose Us?</span></strong></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">With size tolerance at &plusmn;0.75\" (1.9 cm), you can trust that our tote bags are designed for real-world use without compromising on style or quality.</span></p>\n<p><strong style=\"font-weight: normal;\">&nbsp;</strong></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Ready to Make a Statement?</span></p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\">&nbsp;</p>\n<p dir=\"ltr\" style=\"line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;\"><span style=\"font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;\">Don't miss out on this opportunity to <strong>elevate your everyday</strong> <strong>carry</strong>! Click now to explore our range of <strong>customizable</strong> tote bags and find the perfect match for your lifestyle.</span></p>\n<p>&nbsp;</p>\n<table id=\"size-guide\" style=\"min-width: 360px;\">\n<thead>\n<tr>\n<th style=\"padding: 10px;\">&nbsp;</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">13\" &times; 13''</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Height, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">13.00</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Length, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">13.00</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Width, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">3.00</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Handle length, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">28.74</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Handle width, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">1.00</td>\n</tr>\n</tbody>\n</table>",
+      "tags": [],
+      "options": {
+        "Sizes": {
+          "name": "Sizes",
+          "type": "size",
+          "values": [
+            {
+              "id": 3575,
+              "title": "13\" × 13''"
+            },
+            {
+              "id": 3576,
+              "title": "16\" × 16''"
+            },
+            {
+              "id": 3577,
+              "title": "18\" × 18''"
+            }
+          ],
+          "display_in_preview": true
+        },
+        "Handle Color": {
+          "name": "Handle Color",
+          "type": "color",
+          "values": [
+            {
+              "id": 4629,
+              "title": "White",
+              "colors": [
+                "#ffffff"
+              ]
+            },
+            {
+              "id": 4630,
+              "title": "Beige",
+              "colors": [
+                "#f6e2c4"
+              ]
+            },
+            {
+              "id": 4631,
+              "title": "Navy",
+              "colors": [
+                "#235589"
+              ]
+            },
+            {
+              "id": 3162,
+              "title": "Black",
+              "colors": [
+                "#212226"
+              ]
+            },
+            {
+              "id": 4632,
+              "title": "Red",
+              "colors": [
+                "#c8102e"
+              ]
+            }
+          ],
+          "display_in_preview": true
+        }
+      },
+      "variants": [
+        {
+          "id": 103599,
+          "sku": "26054665856926390096",
+          "title": "13\" × 13'' / Black",
+          "price": 1423,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 103600,
+          "sku": "32505776035229835631",
+          "title": "16\" × 16'' / Black",
+          "price": 1728,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 103601,
+          "sku": "20450011615767906486",
+          "title": "18\" × 18'' / Black",
+          "price": 1953,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 103602,
+          "sku": "72438187719728561255",
+          "title": "13\" × 13'' / Red",
+          "price": 1423,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 103603,
+          "sku": "23478804408751906903",
+          "title": "16\" × 16'' / Red",
+          "price": 1728,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 103604,
+          "sku": "15350143580483697642",
+          "title": "18\" × 18'' / Red",
+          "price": 1953,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 103605,
+          "sku": "27906175388270270698",
+          "title": "13\" × 13'' / White",
+          "price": 1423,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 103606,
+          "sku": "10858546181272136283",
+          "title": "16\" × 16'' / White",
+          "price": 1728,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 103607,
+          "sku": "27616542851544153826",
+          "title": "18\" × 18'' / White",
+          "price": 1953,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 103608,
+          "sku": "11996416766553611168",
+          "title": "13\" × 13'' / Beige",
+          "price": 1423,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 103609,
+          "sku": "69298002715865834500",
+          "title": "16\" × 16'' / Beige",
+          "price": 1728,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 103610,
+          "sku": "21844089194187828682",
+          "title": "18\" × 18'' / Beige",
+          "price": 1953,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 103611,
+          "sku": "31717694944854276227",
+          "title": "13\" × 13'' / Navy",
+          "price": 1423,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 103612,
+          "sku": "20870710459351221663",
+          "title": "16\" × 16'' / Navy",
+          "price": 1728,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 103613,
+          "sku": "22708017896271440687",
+          "title": "18\" × 18'' / Navy",
+          "price": 1953,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        }
+      ],
+      "images": [
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103599/100877/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
+          "position": "other",
+          "preview": "/images/printify/elevate-your-style-with-our-3i-atlas-feature-series-alien-pr-68cfa58f08ca4dcdc40590e5-main.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103599/100933/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=back",
+          "position": "other",
+          "preview": "/images/printify/elevate-your-style-with-our-3i-atlas-feature-series-alien-pr-68cfa58f08ca4dcdc40590e5-angle1.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103599/100963/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-1",
+          "position": "other",
+          "preview": "/images/printify/elevate-your-style-with-our-3i-atlas-feature-series-alien-pr-68cfa58f08ca4dcdc40590e5-angle2.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103599/100985/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-2",
+          "position": "other",
+          "preview": "/images/printify/elevate-your-style-with-our-3i-atlas-feature-series-alien-pr-68cfa58f08ca4dcdc40590e5-angle3.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103602/100888/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103602/100942/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=back",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103602/100968/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103602/100989/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-2",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103605/100880/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103605/100939/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=back",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103605/100964/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103605/100986/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-2",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103608/100885/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103608/100936/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=back",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103608/100965/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103608/100987/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-2",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103611/100891/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103611/100945/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=back",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103611/100990/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-1",
+          "position": "other"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103611/100988/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=person-2",
+          "position": "other"
+        }
+      ],
+      "createdAt": "2025-09-21 07:13:19+00:00",
+      "updatedAt": "2025-09-24 04:17:07+00:00",
+      "visible": true,
+      "externalId": "23442430",
+      "printProviderId": 10,
+      "blueprintId": 1389,
+      "userData": null,
+      "featuredImage": "https://images-api.printify.com/mockup/68cfa58f08ca4dcdc40590e5/103599/100877/elevate-your-style-with-our-3i-atlas-feature-series-alien-print-tote-bag-aop.jpg?camera_label=front",
+      "priceRange": {
+        "min": 1423,
+        "max": 1953,
+        "currency": "USD"
+      }
+    },
+    "68cfa5a108ca4dcdc40590f0": {
+      "id": "68cfa5a108ca4dcdc40590f0",
+      "title": "Cosmic 'Astral Voyager'- Sci-Fi Art Poster",
+      "description": "<p><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\">Bring cosmic wonder into your space with </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-style: italic; vertical-align: baseline;\">The Astral Voyager</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\"> matte poster, a </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-weight: bold; vertical-align: baseline;\">psychedelic wall art</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\"> print that blends fantasy, sci-fi, and spiritual symbolism. Featuring a multi-limbed voyager with a radiant third eye surrounded by swirling galaxies, vibrant planets, and electric hues of blue, magenta, and purple, this </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-weight: bold; vertical-align: baseline;\">cosmic art print</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\"> makes a bold statement in any setting&mdash;whether it&rsquo;s home decor, dorm room style, a creative studio, or a wellness space. Perfect for </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-weight: bold; vertical-align: baseline;\">sci-fi fans</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\">, spiritual seekers, and lovers of </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-weight: bold; vertical-align: baseline;\">galaxy wall decor</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\">, </span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; font-style: italic; vertical-align: baseline;\">The Astral Voyager</span><span style=\"font-size: 12pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve; font-family: Arial, sans-serif; vertical-align: baseline;\"> ignites imagination, sparks conversation, and transforms any room into a portal of discovery.</span></p>\n<p>.: Made with museum-grade archival paper for excellent printing fidelity and vibrant color reproduction<br />.: Paper weight: 175 g/m&sup2; (Sensaria and Prodigi), 189 g/m&sup2; (Printify Choice)<br />.: Find the perfect match to your customers' needs with 46 available sizes<br />.: For indoor use only<br />.: Please note: Due to the production process of these posters, please allow for slight size deviations with a tolerance +/- 1/16</p>\n<p>&nbsp;</p>\n<table id=\"size-guide\" style=\"min-width: 360px;\">\n<thead>\n<tr>\n<th style=\"padding: 10px;\">&nbsp;</th>\n<th style=\"color: #000000; font-weight: 500; text-align: left; font-size: 15px; padding: 10px;\">8\" x 10\"</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Width, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">8.00</td>\n</tr>\n<tr>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">Length, in</td>\n<td style=\"padding: 10px; color: #525252; font-size: 15px; border-top: 1px solid #ededed; word-break: break-word;\">10.00</td>\n</tr>\n</tbody>\n</table>\n<p>&nbsp;</p>",
+      "tags": [],
+      "options": {
+        "Sizes": {
+          "name": "Sizes",
+          "type": "size",
+          "values": [
+            {
+              "id": 5374,
+              "title": "8\" x 10\""
+            },
+            {
+              "id": 1078,
+              "title": "11″ x 14″"
+            },
+            {
+              "id": 3223,
+              "title": "12\" x 16\""
+            },
+            {
+              "id": 1085,
+              "title": "12″ x 18″"
+            },
+            {
+              "id": 1087,
+              "title": "16″ x 20″"
+            },
+            {
+              "id": 1089,
+              "title": "18″ x 24″"
+            },
+            {
+              "id": 1080,
+              "title": "20″ x 30″"
+            },
+            {
+              "id": 1091,
+              "title": "24″ x 36″"
+            },
+            {
+              "id": 1197,
+              "title": "10″ x 10″"
+            },
+            {
+              "id": 4393,
+              "title": "12\" x 12\""
+            },
+            {
+              "id": 3224,
+              "title": "14\" x 14\""
+            },
+            {
+              "id": 1201,
+              "title": "16″ x 16″"
+            },
+            {
+              "id": 4399,
+              "title": "18\" x 18\""
+            }
+          ],
+          "display_in_preview": true
+        },
+        "Paper finish": {
+          "name": "Paper finish",
+          "type": "paper",
+          "values": [
+            {
+              "id": 1932,
+              "title": "Matte"
+            }
+          ],
+          "display_in_preview": false
+        }
+      },
+      "variants": [
+        {
+          "id": 114557,
+          "sku": "89936835589861124106",
+          "title": "8\" x 10\" / Matte",
+          "price": 1002,
+          "available": true,
+          "isEnabled": true,
+          "options": {}
+        },
+        {
+          "id": 112749,
+          "sku": "21418331389116138902",
+          "title": "14\" x 14\" / Matte",
+          "price": 1525,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101133,
+          "sku": "26536081046505406727",
+          "title": "18\" x 18\" / Matte",
+          "price": 1295,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101127,
+          "sku": "19933815776757927927",
+          "title": "12\" x 12\" / Matte",
+          "price": 975,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101120,
+          "sku": "23850655067947064842",
+          "title": "16″ x 16″ / Matte",
+          "price": 1295,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101119,
+          "sku": "15607652683282692364",
+          "title": "10″ x 10″ / Matte",
+          "price": 855,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 101110,
+          "sku": "42596678901562696897",
+          "title": "12\" x 16\" / Matte",
+          "price": 1212,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 43150,
+          "sku": "21997118137804243032",
+          "title": "24″ x 36″ / Matte",
+          "price": 1925,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 43147,
+          "sku": "13248203534696330413",
+          "title": "20″ x 30″ / Matte",
+          "price": 1507,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 43144,
+          "sku": "18730131718937278200",
+          "title": "18″ x 24″ / Matte",
+          "price": 1292,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 43141,
+          "sku": "23885994362377916979",
+          "title": "16″ x 20″ / Matte",
+          "price": 1308,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 43138,
+          "sku": "32437156905302784539",
+          "title": "12″ x 18″ / Matte",
+          "price": 1128,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        },
+        {
+          "id": 43135,
+          "sku": "32744200584494393320",
+          "title": "11″ x 14″ / Matte",
+          "price": 718,
+          "available": true,
+          "isEnabled": false,
+          "options": {}
+        }
+      ],
+      "images": [
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa5a108ca4dcdc40590f0/114557/106501/cosmic-astral-voyager-sci-fi-art-poster.jpg?camera_label=front",
+          "position": "other",
+          "preview": "/images/printify/cosmic-astral-voyager-sci-fi-art-poster-68cfa5a108ca4dcdc40590f0-main.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa5a108ca4dcdc40590f0/114557/106530/cosmic-astral-voyager-sci-fi-art-poster.jpg?camera_label=front-2",
+          "position": "other",
+          "preview": "/images/printify/cosmic-astral-voyager-sci-fi-art-poster-68cfa5a108ca4dcdc40590f0-angle1.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa5a108ca4dcdc40590f0/114557/106613/cosmic-astral-voyager-sci-fi-art-poster.jpg?camera_label=close-up",
+          "position": "other",
+          "preview": "/images/printify/cosmic-astral-voyager-sci-fi-art-poster-68cfa5a108ca4dcdc40590f0-angle2.jpg"
+        },
+        {
+          "id": "undefined",
+          "src": "https://images-api.printify.com/mockup/68cfa5a108ca4dcdc40590f0/114557/106562/cosmic-astral-voyager-sci-fi-art-poster.jpg?camera_label=context-1",
+          "position": "other",
+          "preview": "/images/printify/cosmic-astral-voyager-sci-fi-art-poster-68cfa5a108ca4dcdc40590f0-angle3.jpg"
+        }
+      ],
+      "createdAt": "2025-09-21 07:13:37+00:00",
+      "updatedAt": "2025-09-21 07:46:59+00:00",
+      "visible": true,
+      "externalId": "23367696",
+      "printProviderId": 99,
+      "blueprintId": 282,
+      "userData": null,
+      "featuredImage": "https://images-api.printify.com/mockup/68cfa5a108ca4dcdc40590f0/114557/106501/cosmic-astral-voyager-sci-fi-art-poster.jpg?camera_label=front",
+      "priceRange": {
+        "min": 718,
+        "max": 1925,
         "currency": "USD"
       }
     }

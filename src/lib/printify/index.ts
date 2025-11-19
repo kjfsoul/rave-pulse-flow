@@ -5,7 +5,7 @@ export interface PrintifyRuntimeProduct extends PrintifyProduct {
   source: "static" | "live"
 }
 
-export const PRINTIFY_STORE_BASE = "https://edm-shuffle.printify.me"
+export const PRINTIFY_STORE_BASE = "https://edm-shuffle-pop-up.printify.me"
 
 export function getStaticCatalogProducts(): PrintifyProduct[] {
   return Object.values(PRINTIFY_CATALOG.products || {})

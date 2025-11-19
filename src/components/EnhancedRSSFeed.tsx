@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 import EnhancedFeedCard from "./EnhancedFeedCard";
 
 // Types
@@ -264,7 +265,37 @@ const EnhancedRSSFeed: React.FC = () => {
     [mapStaticFeedItem]
   );
 
+  // Fetch RSS feed via proxy to avoid CORS issues
+  const fetchRSSViaProxy = useCallback(async (rssUrl: string): Promise<string> => {
+    try {
+      const { data, error } = await supabase.functions.invoke('rss-proxy', {
+        body: { url: rssUrl },
+      });
+
+      if (error) {
+        throw new Error(error.message || 'Failed to fetch RSS feed');
+      }
+
+      if (typeof data !== 'string') {
+        throw new Error('Invalid response format from RSS proxy');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('[RSS Proxy] Error:', error);
+      throw error;
+    }
+  }, []);
+
   const fetchJson = useCallback(async (url: string) => {
+    // Check if this is an RSS feed URL (should use proxy)
+    if (url.match(/\.(xml|rss|atom)$/i) || url.includes('/feed')) {
+      const xmlContent = await fetchRSSViaProxy(url);
+      // Parse XML would go here if needed
+      // For now, we'll still use JSON files from /data
+      throw new Error('RSS XML parsing not yet implemented - using JSON fallback');
+    }
+
     const response = await fetch(url, {
       cache: "no-store",
     });
@@ -272,7 +303,7 @@ const EnhancedRSSFeed: React.FC = () => {
       throw new Error(`Request failed with status ${response.status}`);
     }
     return (await response.json()) as StaticFeedResponse;
-  }, []);
+  }, [fetchRSSViaProxy]);
 
   const fetchFeedItems = useCallback(
     async ({
@@ -404,7 +435,7 @@ const EnhancedRSSFeed: React.FC = () => {
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentItems = filteredItems.slice(startIndex, endIndex);
 
-  const goToNextPage = () => {
+  const goToNextPage = useCallback(() => {
     if (currentPage < totalPages) {
       setIsChangingPage(true);
       setTimeout(() => {
@@ -416,9 +447,9 @@ const EnhancedRSSFeed: React.FC = () => {
         });
       }, 150);
     }
-  };
+  }, [currentPage, totalPages]);
 
-  const goToPrevPage = () => {
+  const goToPrevPage = useCallback(() => {
     if (currentPage > 1) {
       setIsChangingPage(true);
       setTimeout(() => {
@@ -430,7 +461,7 @@ const EnhancedRSSFeed: React.FC = () => {
         });
       }, 150);
     }
-  };
+  }, [currentPage]);
 
   // Add this to your component
   const handleDragEnd = (
@@ -484,7 +515,7 @@ const EnhancedRSSFeed: React.FC = () => {
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [currentPage, totalPages]);
+  }, [currentPage, totalPages, goToPrevPage, goToNextPage]);
 
   const StatusIndicator = () => {
     const indicatorMap = {

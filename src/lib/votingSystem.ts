@@ -324,7 +324,7 @@ class VotingSystem {
 
       // Aggregate votes by artist
       const artistStats = new Map<string, { totalVotes: number; totalWeight: number }>()
-      
+
       data?.forEach(vote => {
         const current = artistStats.get(vote.artist_id) || { totalVotes: 0, totalWeight: 0 }
         artistStats.set(vote.artist_id, {
@@ -390,22 +390,6 @@ class VotingSystem {
       remainingVotes: rateLimit.remainingVotes,
       nextVoteTime: rateLimit.nextVoteTime,
       minutesUntilNextVote
-    }
-  }
-
-  /**
-   * Update rate limit after successful vote
-   */
-  private updateRateLimit(userId: string): void {
-    const now = Date.now()
-    const userData = rateLimitStore.get(userId)
-
-    if (userData) {
-      rateLimitStore.set(userId, {
-        userId,
-        lastVoteTime: now,
-        voteCount: userData.voteCount + 1
-      })
     }
   }
 

@@ -37,13 +37,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.warn('Auth initialization timed out, setting loading to false')
       setLoading(false)
     }, 5000) // 5 second timeout
-    
+
     // Get initial session
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       clearTimeout(loadingTimeout) // Clear timeout on success
       setSession(session)
       setUser(session?.user ?? null)
-      
+
       if (session?.user) {
         try {
           await fetchProfile(session.user.id)
@@ -52,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           // Continue anyway, don't block loading
         }
       }
-      
+
       setLoading(false)
     }).catch((error) => {
       clearTimeout(loadingTimeout) // Clear timeout on error
@@ -66,7 +66,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } = supabase.auth.onAuthStateChange(async (event: AuthChangeEvent, session: Session | null) => {
       setSession(session)
       setUser(session?.user ?? null)
-      
+
       if (session?.user) {
         try {
           await fetchProfile(session.user.id)
@@ -77,7 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else {
         setProfile(null)
       }
-      
+
       setLoading(false)
     })
 
@@ -148,11 +148,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           },
         },
       })
-      
+
       if (error) {
         // Convert Supabase errors to user-friendly messages
         let userMessage = error.message
-        
+
         if (error.message.includes('email')) {
           userMessage = 'Please enter a valid email address'
         } else if (error.message.includes('password') || error.message.includes('Password')) {
@@ -162,7 +162,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } else if (error.message.includes('already registered') || error.message.includes('already exists')) {
           userMessage = 'An account with this email already exists. Try signing in instead'
         }
-        
+
         const friendlyError = new Error(userMessage)
         friendlyError.name = 'AuthError'
         throw friendlyError
@@ -174,7 +174,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(data.user)
         // Profile will be created automatically via auth state change listener
       }
-      
+
     } catch (error: unknown) {
       console.error('Error signing up:', error)
       throw error
@@ -190,11 +190,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email,
         password,
       })
-      
+
       if (error) {
         // Convert Supabase errors to user-friendly messages
         let userMessage = error.message
-        
+
         if (error.message.includes('Invalid login credentials') || error.message.includes('invalid_grant')) {
           userMessage = 'Incorrect email or password. Please check your credentials and try again'
         } else if (error.message.includes('email not confirmed') || error.message.includes('not verified')) {
@@ -206,7 +206,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } else if (error.message.includes('email')) {
           userMessage = 'Please enter a valid email address'
         }
-        
+
         const friendlyError = new Error(userMessage)
         friendlyError.name = 'AuthError'
         throw friendlyError
@@ -219,7 +219,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Profile will be fetched via auth state change listener
         console.log('Successfully signed in:', data.user.email)
       }
-      
+
     } catch (error: unknown) {
       console.error('Error signing in:', error)
       throw error
@@ -243,7 +243,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const updateProfile = async (updates: Partial<Profile>) => {
     if (!user) throw new Error('No user logged in')
-    
+
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -271,31 +271,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signInWithGoogle = async () => {
     setLoading(true)
     try {
+      // Ensure redirect uses current origin (localhost in dev, production in prod)
+      const redirectUrl = `${window.location.origin}/`
+
+      // Log for debugging
+      console.log('[Auth] Google OAuth redirect URL:', redirectUrl)
+      console.log('[Auth] Current origin:', window.location.origin)
+      console.log('[Auth] Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/`,
+          redirectTo: redirectUrl,
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
           },
         },
       })
-      
+
       if (error) {
         let userMessage = 'Failed to sign in with Google'
-        
+
         if (error.message.includes('rate limit')) {
           userMessage = 'Too many attempts. Please wait a moment and try again'
         } else if (error.message.includes('network')) {
           userMessage = 'Connection error. Please check your internet and try again'
         }
-        
+
         const friendlyError = new Error(userMessage)
         friendlyError.name = 'AuthError'
         throw friendlyError
       }
-      
+
       // Google OAuth will redirect, so we don't need to handle the response here
     } catch (error: unknown) {
       console.error('Error signing in with Google:', error)
