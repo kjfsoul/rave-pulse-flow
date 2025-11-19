@@ -1,13 +1,13 @@
 # Memory Procedures Guide
 
-**Last Updated:** 2025-11-04
+**Last Updated:** 2025-11-19
 **Purpose:** Complete guide to memory/knowledge storage and retrieval procedures
 
 ---
 
 ## Overview
 
-The BirthdayGen.com project uses a multi-layered memory system for knowledge persistence, session management, and agent coordination. The primary memory system is **Beads** (`.beads`), which solves the agent amnesia problem by storing all tasks, issues, and discoveries outside of context windows.
+The Rave Pulse Flow (EDM Shuffle) project uses a multi-layered memory system for knowledge persistence, session management, and agent coordination. The primary memory system is **Beads** (`.beads`), which solves the agent amnesia problem by storing all tasks, issues, and discoveries outside of context windows.
 
 ---
 
@@ -230,9 +230,9 @@ memory/
 ├── sessions/
 │   └── [session-specific]/      # Session memory
 └── component/
-    ├── tarot-memory.json         # Component-specific
-    ├── astrology-memory.json
-    └── agent-memory.json
+    ├── dj-station-memory.json    # Component-specific memory
+    ├── pro-station-memory.json   # vFLX-10 Pro Station memory
+    └── agent-memory.json         # Agent system memory
 ```
 
 ---
@@ -324,7 +324,7 @@ node scripts/memory/validate-session.mjs memory/persistent/session-$(date +%Y-%m
 
 3. **Component Memory** (`memory/component/*.json`)
    - Component-specific knowledge
-   - Tarot, Astrology, Agent system memory
+   - DJ Station, Pro Station, Agent system memory
 
 ---
 
@@ -487,5 +487,5 @@ bd show <id> --json
 
 **Document Created:** 2025-11-04
 **Maintained By:** AI Agents
-**Last Validated:** 2025-11-04
+**Last Validated:** 2025-11-19
 **Primary Memory System:** Beads (`.beads`)

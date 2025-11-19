@@ -111,15 +111,15 @@ export function Mixer({
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full bg-slate-900 border-slate-700">
       <CardHeader>
-        <CardTitle>Mixer</CardTitle>
+        <CardTitle className="text-white">Mixer</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Master Transport */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label className="text-sm font-semibold">Master Transport</Label>
+            <Label className="text-sm font-semibold text-white">Master Transport</Label>
             <Button
               size="lg"
               onClick={handlePlayPause}
@@ -134,9 +134,9 @@ export function Mixer({
           </div>
 
           <div className="space-y-2">
-            <Label className="text-xs">Master BPM</Label>
+            <Label className="text-xs text-slate-300">Master BPM</Label>
             <div className="flex gap-2 items-center">
-              <Input
+              <Input className="bg-slate-800 border-slate-600 text-white"
                 type="number"
                 value={masterBPM}
                 onChange={handleBPMChange}
@@ -156,7 +156,7 @@ export function Mixer({
           </div>
 
           <div className="space-y-2">
-            <Label className="text-xs">Master Volume: {masterVolume}%</Label>
+            <Label className="text-xs text-slate-300">Master Volume: {masterVolume}%</Label>
             <Slider
               value={[masterVolume]}
               onValueChange={([value]) => handleMasterVolumeChange(value)}
@@ -169,10 +169,10 @@ export function Mixer({
 
         {/* Channel Faders */}
         <div className="space-y-4">
-          <Label className="text-sm font-semibold">Channel Faders</Label>
+          <Label className="text-sm font-semibold text-white">Channel Faders</Label>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label className="text-xs">Deck A: {(deckAVolume * 100).toFixed(0)}%</Label>
+              <Label className="text-xs text-slate-300">Deck A: {(deckAVolume * 100).toFixed(0)}%</Label>
               <Slider
                 value={[deckAVolume * 100]}
                 onValueChange={([value]) => handleDeckAVolumeChange(value)}
@@ -183,7 +183,7 @@ export function Mixer({
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-xs">Deck B: {(deckBVolume * 100).toFixed(0)}%</Label>
+              <Label className="text-xs text-slate-300">Deck B: {(deckBVolume * 100).toFixed(0)}%</Label>
               <Slider
                 value={[deckBVolume * 100]}
                 onValueChange={([value]) => handleDeckBVolumeChange(value)}
@@ -198,9 +198,9 @@ export function Mixer({
 
         {/* Crossfader */}
         <div className="space-y-2">
-          <Label className="text-sm font-semibold">Crossfader</Label>
+          <Label className="text-sm font-semibold text-white">Crossfader</Label>
           <div className="flex items-center gap-4">
-            <span className="text-xs font-medium">A</span>
+            <span className="text-xs font-medium text-slate-300">A</span>
             <Slider
               value={[crossfader * 100]}
               onValueChange={([value]) => handleCrossfaderChange(value)}
@@ -208,9 +208,9 @@ export function Mixer({
               step={1}
               className="flex-1"
             />
-            <span className="text-xs font-medium">B</span>
+            <span className="text-xs font-medium text-slate-300">B</span>
           </div>
-          <p className="text-xs text-center text-muted-foreground">
+          <p className="text-xs text-center text-slate-400">
             {crossfader < 0.45 ? 'Deck A' : crossfader > 0.55 ? 'Deck B' : 'Center'}
           </p>
         </div>

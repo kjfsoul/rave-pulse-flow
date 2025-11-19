@@ -287,13 +287,169 @@ const EnhancedRSSFeed: React.FC = () => {
     }
   }, []);
 
+  // Parse RSS XML content using native browser DOMParser and convert to StaticFeedResponse format
+  const parseRSSXML = useCallback((xmlText: string, sourceUrl: string): StaticFeedResponse => {
+    try {
+      // Extract source name from URL
+      const urlObj = new URL(sourceUrl);
+      const sourceName = urlObj.hostname.replace('www.', '').split('.')[0]
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ') || 'RSS Feed';
+
+      // Parse XML using native browser API
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+
+      // Check for parsing errors
+      const parseError = xmlDoc.querySelector('parsererror');
+      if (parseError) {
+        throw new Error('Failed to parse XML: ' + parseError.textContent);
+      }
+
+      // Get all items (RSS 2.0) or entries (Atom)
+      const items = Array.from(xmlDoc.querySelectorAll('item, entry'));
+
+      // Extract feed image if available
+      const feedImage = xmlDoc.querySelector('image url, image url')?.textContent ||
+                        xmlDoc.querySelector('itunes\\:image, itunes:image')?.getAttribute('href') || null;
+
+      // Analyze content for category and sentiment
+      const analyzeContent = (text: string): { category: 'music' | 'festival' | 'news'; sentiment: 'positive' | 'negative' | 'neutral' } => {
+        const lowerText = text.toLowerCase();
+        let category: 'music' | 'festival' | 'news' = 'news';
+        let sentiment: 'positive' | 'negative' | 'neutral' = 'neutral';
+
+        if (lowerText.includes('festival') || lowerText.includes('concert') || lowerText.includes('event')) {
+          category = 'festival';
+        } else if (lowerText.includes('release') || lowerText.includes('album') || lowerText.includes('single')) {
+          category = 'music';
+        }
+
+        const positiveWords = ['amazing', 'incredible', 'epic', 'best', 'awesome', 'legendary', 'winner', 'success'];
+        const negativeWords = ['canceled', 'delay', 'problem', 'issue', 'criticism', 'controversy'];
+
+        const positiveCount = positiveWords.filter(word => lowerText.includes(word)).length;
+        const negativeCount = negativeWords.filter(word => lowerText.includes(word)).length;
+
+        if (positiveCount > negativeCount) sentiment = 'positive';
+        else if (negativeCount > positiveCount) sentiment = 'negative';
+
+        return { category, sentiment };
+      };
+
+      // Extract image from item
+      const extractImage = (item: Element): string | null => {
+        // Try media:content (RSS Media extension)
+        const mediaContent = item.querySelector('media\\:content, media:content');
+        if (mediaContent?.getAttribute('url')) {
+          return mediaContent.getAttribute('url');
+        }
+
+        // Try media:thumbnail
+        const mediaThumbnail = item.querySelector('media\\:thumbnail, media:thumbnail');
+        if (mediaThumbnail?.getAttribute('url')) {
+          return mediaThumbnail.getAttribute('url');
+        }
+
+        // Try enclosure (RSS 2.0)
+        const enclosure = item.querySelector('enclosure');
+        if (enclosure?.getAttribute('type')?.startsWith('image/')) {
+          return enclosure.getAttribute('url');
+        }
+
+        // Try to extract from description/content HTML
+        const description = item.querySelector('description, content, summary')?.textContent || '';
+        const imgMatch = description.match(/<img[^>]+src=["']([^"']+)["']/i);
+        if (imgMatch?.[1]) return imgMatch[1];
+
+        return feedImage;
+      };
+
+      // Convert RSS items to StaticFeedItem format
+      const convertedItems: StaticFeedItem[] = items.map((item, index) => {
+        const title = item.querySelector('title')?.textContent?.trim() || 'Untitled';
+        const link = item.querySelector('link')?.textContent?.trim() ||
+                     item.querySelector('link')?.getAttribute('href') ||
+                     item.querySelector('id')?.textContent?.trim() ||
+                     '#';
+        const description = item.querySelector('description, content, summary')?.textContent?.trim() || '';
+        const pubDate = item.querySelector('pubDate, published, updated')?.textContent?.trim() ||
+                        item.querySelector('pubDate, published, updated')?.getAttribute('dateTime') ||
+                        new Date().toISOString();
+
+        const guid = item.querySelector('guid, id')?.textContent?.trim() || link;
+        const image = extractImage(item);
+        const analysis = analyzeContent(`${title} ${description}`);
+
+        // Calculate priority based on recency and content
+        const pubDateObj = new Date(pubDate);
+        const hoursSincePub = (Date.now() - pubDateObj.getTime()) / (1000 * 60 * 60);
+        let priority = 50;
+        if (hoursSincePub < 24) priority = 90;
+        else if (hoursSincePub < 48) priority = 70;
+        else if (hoursSincePub < 72) priority = 50;
+        else priority = 30;
+
+        if (analysis.sentiment === 'positive') priority += 10;
+        if (image) priority += 5;
+
+        // Strip HTML from description
+        const cleanDescription = description.replace(/<[^>]*>/g, '').trim().slice(0, 350);
+
+        return {
+          id: guid || `rss-${index}`,
+          title,
+          description: cleanDescription,
+          fullContent: item.querySelector('content\\:encoded, content:encoded, content')?.textContent || null,
+          link,
+          pubDate,
+          source: sourceName,
+          feedCategory: analysis.category,
+          contentCategory: analysis.category,
+          sentiment: analysis.sentiment,
+          priority: Math.min(100, Math.max(0, priority)),
+          image,
+          hasFullContent: Boolean(item.querySelector('content\\:encoded, content:encoded')),
+          tags: [analysis.category, analysis.sentiment].filter(Boolean),
+        };
+      });
+
+      // Filter items from last 48 hours
+      const now = Date.now();
+      const fortyEightHoursAgo = now - (48 * 60 * 60 * 1000);
+      const recentItems = convertedItems.filter(item => {
+        const itemDate = new Date(item.pubDate).getTime();
+        return itemDate >= fortyEightHoursAgo;
+      });
+
+      return {
+        metadata: {
+          generated: new Date().toISOString(),
+          totalItems: recentItems.length,
+          totalSources: 1,
+          activeSources: 1,
+          sources: [sourceName],
+        },
+        featured: recentItems.filter(item => item.priority >= 80).slice(0, 3),
+        items: recentItems.sort((a, b) => {
+          // Sort by priority first, then by date
+          if (b.priority !== a.priority) return b.priority - a.priority;
+          return new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime();
+        }),
+      };
+    } catch (error) {
+      console.error('[RSS Parser] Error parsing XML:', error);
+      throw new Error(`Failed to parse RSS feed: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }, []);
+
   const fetchJson = useCallback(async (url: string) => {
     // Check if this is an RSS feed URL (should use proxy)
     if (url.match(/\.(xml|rss|atom)$/i) || url.includes('/feed')) {
       const xmlContent = await fetchRSSViaProxy(url);
-      // Parse XML would go here if needed
-      // For now, we'll still use JSON files from /data
-      throw new Error('RSS XML parsing not yet implemented - using JSON fallback');
+      const parsedFeed = parseRSSXML(xmlContent, url);
+      return parsedFeed;
     }
 
     const response = await fetch(url, {
@@ -303,7 +459,7 @@ const EnhancedRSSFeed: React.FC = () => {
       throw new Error(`Request failed with status ${response.status}`);
     }
     return (await response.json()) as StaticFeedResponse;
-  }, [fetchRSSViaProxy]);
+  }, [fetchRSSViaProxy, parseRSSXML]);
 
   const fetchFeedItems = useCallback(
     async ({

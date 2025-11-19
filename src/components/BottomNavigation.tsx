@@ -19,12 +19,12 @@ const BottomNavigation = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-bass-dark/95 backdrop-blur-lg border-t border-neon-purple/20 z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-bass-dark/95 backdrop-blur-lg border-t border-neon-purple/20 z-50 md:hidden">
       <div className="flex justify-around items-center py-3 px-2">
         {navItems.map((item, index) => {
           const isActive = location.pathname === item.path;
           const Icon = item.icon;
-          
+
           return (
             <motion.button
               key={item.path}
@@ -34,20 +34,20 @@ const BottomNavigation = () => {
             >
               <motion.div
                 className={`p-2 rounded-lg transition-all duration-300 ${
-                  isActive 
-                    ? "bg-neon-purple/20 neon-glow" 
+                  isActive
+                    ? "bg-neon-purple/20 neon-glow"
                     : "hover:bg-neon-purple/10"
                 }`}
                 animate={{
-                  boxShadow: isActive 
-                    ? "0 0 20px rgba(191, 90, 242, 0.5)" 
+                  boxShadow: isActive
+                    ? "0 0 20px rgba(191, 90, 242, 0.5)"
                     : "0 0 0px rgba(191, 90, 242, 0)"
                 }}
               >
-                <Icon 
+                <Icon
                   className={`w-5 h-5 transition-colors duration-300 ${
-                    isActive 
-                      ? "text-neon-purple" 
+                    isActive
+                      ? "text-neon-purple"
                       : "text-slate-400 hover:text-neon-cyan"
                   }`}
                 />
@@ -60,10 +60,10 @@ const BottomNavigation = () => {
                   />
                 )}
               </motion.div>
-              <span 
+              <span
                 className={`text-xs transition-colors duration-300 ${
-                  isActive 
-                    ? "text-neon-purple font-medium" 
+                  isActive
+                    ? "text-neon-purple font-medium"
                     : "text-slate-500"
                 }`}
               >

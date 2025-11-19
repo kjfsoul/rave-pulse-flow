@@ -89,17 +89,50 @@ async function resolveStoreId(): Promise<number> {
     throw new Error(`Printify API error (${response.status}): ${text}`)
   }
 
-  const payload = (await response.json()) as { data: PrintifyShopSummary[] }
-  const matches = payload.data.filter((shop) => shop.title.toLowerCase().includes(STORE_TITLE_KEYWORD))
+  const payload = (await response.json()) as { data?: PrintifyShopSummary[] } | PrintifyShopSummary[]
+
+  // Handle different response structures from Printify API
+  // Sometimes it's { data: [...] }, sometimes it's just [...]
+  let shops: PrintifyShopSummary[] = []
+
+  if (Array.isArray(payload)) {
+    // Direct array response
+    shops = payload
+  } else if (payload && typeof payload === 'object' && 'data' in payload) {
+    // Object with data property
+    shops = payload.data || []
+  } else {
+    console.error('Unexpected Printify shops response structure:', payload)
+    throw new Error('Invalid response structure from Printify shops API')
+  }
+
+  if (!Array.isArray(shops) || shops.length === 0) {
+    console.warn('No shops found in Printify response, using default store ID')
+    return DEFAULT_STORE_ID
+  }
+
+  const matches = shops.filter((shop) =>
+    shop && shop.title && shop.title.toLowerCase().includes(STORE_TITLE_KEYWORD)
+  )
 
   if (matches.length === 0) {
-    throw new Error(`No Printify shops found with title containing "${STORE_TITLE_KEYWORD}"`)
-  }
-  if (matches.length > 1) {
     console.warn(
-      `Multiple Printify shops matched keyword "${STORE_TITLE_KEYWORD}". Falling back to EDM Shuffle store (${DEFAULT_STORE_ID}).`
+      `No Printify shops found with title containing "${STORE_TITLE_KEYWORD}". Using default store ID (${DEFAULT_STORE_ID}).`
     )
     return DEFAULT_STORE_ID
+  }
+  if (matches.length > 1) {
+    // Prefer shop with "pop-up" in the name if multiple matches
+    const popUpShop = matches.find((shop) =>
+      shop.title.toLowerCase().includes('pop-up') || shop.title.toLowerCase().includes('popup')
+    )
+    if (popUpShop) {
+      return popUpShop.id
+    }
+
+    console.warn(
+      `Multiple Printify shops matched keyword "${STORE_TITLE_KEYWORD}". Using first match (${matches[0].id}).`
+    )
   }
 
   return matches[0].id
@@ -128,12 +161,30 @@ async function fetchProducts(
       throw new Error(`Printify API error (${response.status}): ${text}`)
     }
 
-    const payload = (await response.json()) as PrintifyListResponse<PrintifyProduct>
-    if (!payload?.data?.length) break
+    const payload = (await response.json()) as PrintifyListResponse<PrintifyProduct> | { data?: PrintifyProduct[] }
 
-    results.push(...payload.data)
+    // Handle different response structures
+    let products: PrintifyProduct[] = []
+    if (Array.isArray(payload)) {
+      products = payload
+    } else if (payload && typeof payload === 'object' && 'data' in payload) {
+      products = payload.data || []
+    } else {
+      console.error('Unexpected Printify products response structure:', payload)
+      break
+    }
 
-    if (payload.current_page >= payload.last_page) break
+    if (!products || products.length === 0) break
+
+    results.push(...products)
+
+    // Check if there are more pages (only if payload has pagination info)
+    if (payload && typeof payload === 'object' && 'current_page' in payload && 'last_page' in payload) {
+      if (payload.current_page >= payload.last_page) break
+    } else {
+      // If no pagination info, assume single page
+      break
+    }
     page += 1
   }
 

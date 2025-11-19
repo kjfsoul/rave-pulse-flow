@@ -20,6 +20,7 @@ import ShuffleChallengePage from "./pages/ShuffleChallengePage";
 import ProfessionalDJStationPage from "./pages/ProfessionalDJStationPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ProStationTest from "./pages/ProStationTest";
+import SystemCheck from "./pages/SystemCheck";
 import ScrollToTop from "./components/ScrollToTop";
 import { FF_AUDIO_ENGINE } from "./config/features";
 import { RecordingControls } from "./components/audio-ui/RecordingControls";
@@ -50,6 +51,7 @@ const App = () => (
               <Route path="/news" element={<NewsPage />} /> {/* Add NewsPage Route */}
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/pro-station-test" element={<ProStationTest />} /> {/* vFLX-10 Pro Station Test Page */}
+              <Route path="/system-check" element={<SystemCheck />} /> {/* System Health Dashboard */}
               {/* <Route path="/audio-test" element={<AudioTestComponent />} /> */}
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

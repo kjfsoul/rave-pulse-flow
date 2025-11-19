@@ -143,7 +143,7 @@ class VotingSystem {
         .from('festival_votes')
         .select('id, vote_weight')
         .eq('user_id', userId)
-        .eq('artist_id', artistId)
+        .eq('dj_id', artistId)
         .single()
 
       if (existingVote) {
@@ -177,7 +177,7 @@ class VotingSystem {
           .from('festival_votes')
           .insert({
             user_id: userId,
-            artist_id: artistId,
+            dj_id: artistId,
             vote_weight: weight,
             created_at: new Date().toISOString()
           })
@@ -216,7 +216,7 @@ class VotingSystem {
         .from('festival_votes')
         .delete()
         .eq('user_id', userId)
-        .eq('artist_id', artistId)
+        .eq('dj_id', artistId)
 
       if (error) {
         console.error('Error removing vote:', error)
@@ -258,10 +258,11 @@ class VotingSystem {
    */
   async getVotingStats(artistId: string): Promise<VotingStats> {
     try {
+      // Use explicit column selection without spaces to avoid PostgREST parsing issues
       const { data, error } = await supabase
         .from('festival_votes')
-        .select('vote_weight, created_at, user_id, artist_id')
-        .eq('artist_id', artistId)
+        .select('vote_weight,created_at,user_id,dj_id')
+        .eq('dj_id', artistId)
 
       if (error) {
         console.error('Error fetching voting stats:', error)
@@ -281,7 +282,7 @@ class VotingSystem {
         ?.filter(vote => new Date(vote.created_at) > new Date(twentyFourHoursAgo))
         .map(vote => ({
           userId: vote.user_id,
-          artistId: vote.artist_id,
+          artistId: vote.dj_id,
           voteWeight: vote.vote_weight,
           timestamp: vote.created_at
         })) || []
@@ -313,12 +314,14 @@ class VotingSystem {
   }>> {
     try {
       // Get all votes aggregated by artist
+      // Use explicit column selection without spaces to avoid PostgREST parsing issues
       const { data, error } = await supabase
         .from('festival_votes')
-        .select('artist_id, vote_weight')
+        .select('dj_id,vote_weight')
 
       if (error) {
         console.error('Error fetching leaderboard data:', error)
+        console.error('Error details:', error.message, error.details, error.hint)
         return []
       }
 
@@ -326,8 +329,8 @@ class VotingSystem {
       const artistStats = new Map<string, { totalVotes: number; totalWeight: number }>()
 
       data?.forEach(vote => {
-        const current = artistStats.get(vote.artist_id) || { totalVotes: 0, totalWeight: 0 }
-        artistStats.set(vote.artist_id, {
+        const current = artistStats.get(vote.dj_id) || { totalVotes: 0, totalWeight: 0 }
+        artistStats.set(vote.dj_id, {
           totalVotes: current.totalVotes + 1,
           totalWeight: current.totalWeight + vote.vote_weight
         })
@@ -364,7 +367,7 @@ class VotingSystem {
         .from('festival_votes')
         .select('id')
         .eq('user_id', userId)
-        .eq('artist_id', artistId)
+        .eq('dj_id', artistId)
         .single()
 
       return !!data
@@ -415,6 +418,3 @@ class VotingSystem {
 
 // Export singleton instance
 export const votingSystem = new VotingSystem()
-
-// Export types for use in other components
-export type { VotingStats, VoteResult }

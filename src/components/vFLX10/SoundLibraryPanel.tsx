@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,30 +13,23 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Upload, Music, Sparkles, Loader2 } from 'lucide-react';
+import { Upload, Music, Sparkles, Loader2, Play, Pause, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useProStationStore } from '@/hooks/useProStationStore';
+import { useUserTracks, useUploadTrack, type Track } from '@/hooks/vFLX10/useTracks';
+import { useFreesoundSearch } from '@/hooks/vFLX10/useFreesound';
+import { supabase } from '@/lib/supabase';
 // TODO: Import BeatDetector when wiring audio detection
 // import * as BeatDetector from 'web-audio-beat-detector';
 
 /**
  * Sound Library Panel Component (Adapted from vFLX-10)
  *
- * TODO: Wire to Supabase for track management
- * - Replace trpc.tracks.list with Supabase query
- * - Replace trpc.tracks.create with Supabase storage + database
- * - Replace trpc.freesound.search with Supabase Edge Function
- * - Replace trpc.user.getAICredits with Supabase query
+ * Wired to Supabase for track management:
+ * - Uses useUserTracks hook for fetching tracks
+ * - Uses useUploadTrack hook for uploading to Supabase Storage
+ * - Uses useFreesoundSearch hook for Freesound API integration
  */
-
-interface Track {
-  id: number;
-  name: string;
-  url: string;
-  bpmDetected?: number | null;
-  bpmAccurate?: number | null;
-  source: string;
-}
 
 export function SoundLibraryPanel() {
   const [activeTab, setActiveTab] = useState('my-tracks');
@@ -87,16 +80,17 @@ export function SoundLibraryPanel() {
 }
 
 function MyTracksTab() {
-  const [uploading, setUploading] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [broadcastRights, setBroadcastRights] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // TODO: Replace with Supabase query
-  const [tracks, setTracks] = useState<Track[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // Use hooks for track management
+  const { tracks, isLoading, refetch } = useUserTracks();
+  const { uploadTrack, isUploading } = useUploadTrack();
 
   const validateFile = (file: File): boolean => {
     const validMimeTypes = [
@@ -152,17 +146,38 @@ function MyTracksTab() {
     }
 
     setIsDialogOpen(false);
-    setUploading(true);
 
     try {
-      // TODO: Wire to Supabase storage and tracks table
-      // 1. Upload file to Supabase storage
-      // 2. Detect BPM using web-audio-beat-detector
-      // 3. Create track record in database
+      // TODO: Add BPM detection using web-audio-beat-detector
+      // For now, we'll upload without BPM detection
+      let bpmDetected: number | undefined;
+      let duration: number | undefined;
 
-      toast.info('Upload Pending', {
-        description: 'TODO: Wire to Supabase storage',
+      // Attempt to get duration from audio file
+      try {
+        const audio = new Audio();
+        audio.src = URL.createObjectURL(pendingFile);
+        await new Promise((resolve, reject) => {
+          audio.onloadedmetadata = () => {
+            duration = Math.round(audio.duration);
+            URL.revokeObjectURL(audio.src);
+            resolve(true);
+          };
+          audio.onerror = reject;
+        });
+      } catch (err) {
+        console.warn('Could not detect audio duration:', err);
+      }
+
+      // Upload track to Supabase
+      await uploadTrack(pendingFile, {
+        broadcastRightsConfirmed: broadcastRights,
+        bpmDetected,
+        duration,
       });
+
+      // Refresh tracks list
+      await refetch();
 
       // Clear pending file and reset
       setPendingFile(null);
@@ -172,13 +187,87 @@ function MyTracksTab() {
       }
     } catch (error) {
       console.error('[Upload Error]', error);
-      toast.error('Upload Failed', {
-        description: error instanceof Error ? error.message : 'Failed to upload track',
-      });
-    } finally {
-      setUploading(false);
+      // Error is already handled by useUploadTrack hook
     }
   };
+
+  const handleDeleteTrack = async (trackId: string) => {
+    if (!confirm('Are you sure you want to delete this track?')) {
+      return;
+    }
+
+    try {
+      // Get track to find file_key
+      const track = tracks.find((t) => t.id === trackId);
+      if (!track) return;
+
+      // Delete from storage
+      const { error: storageError } = await supabase.storage
+        .from('tracks')
+        .remove([track.file_key]);
+
+      if (storageError) {
+        console.error('Storage delete error:', storageError);
+      }
+
+      // Delete from database
+      const { error: dbError } = await supabase
+        .from('tracks')
+        .delete()
+        .eq('id', trackId);
+
+      if (dbError) {
+        throw dbError;
+      }
+
+      toast.success('Track deleted');
+      await refetch();
+    } catch (error) {
+      console.error('[Delete Error]', error);
+      toast.error('Failed to delete track', {
+        description: error instanceof Error ? error.message : 'Unknown error',
+      });
+    }
+  };
+
+  const handlePlayPause = (track: Track) => {
+    if (playingTrackId === track.id) {
+      // Stop playing
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      setPlayingTrackId(null);
+    } else {
+      // Start playing new track
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      const audio = new Audio(track.url);
+      audioRef.current = audio;
+      setPlayingTrackId(track.id);
+      audio.play();
+      audio.onended = () => {
+        setPlayingTrackId(null);
+        audioRef.current = null;
+      };
+      audio.onerror = () => {
+        toast.error('Failed to play track');
+        setPlayingTrackId(null);
+        audioRef.current = null;
+      };
+    }
+  };
+
+  // Cleanup audio on unmount
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   const handleCancelUpload = () => {
     // Reset everything if user cancels
@@ -221,7 +310,7 @@ function MyTracksTab() {
           isDragOver
             ? 'border-primary bg-primary/10 scale-105'
             : 'border-muted hover:border-primary/50 hover:bg-muted/50'
-        } ${uploading ? 'opacity-50 pointer-events-none' : 'cursor-pointer'}`}
+        } ${isUploading ? 'opacity-50 pointer-events-none' : 'cursor-pointer'}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -232,12 +321,12 @@ function MyTracksTab() {
           type="file"
           accept=".mp3,.wav,.ogg,.m4a,.flac,.mid,.midi,audio/mpeg,audio/wav,audio/ogg,audio/mp4,audio/flac,audio/midi"
           onChange={handleFileUpload}
-          disabled={uploading}
+          disabled={isUploading}
           className="hidden"
           id="file-upload"
         />
         <div className="flex flex-col items-center gap-3">
-          {uploading ? (
+          {isUploading ? (
             <>
               <Loader2 className="w-12 h-12 animate-spin text-primary" />
               <p className="text-base font-semibold">Uploading track...</p>
@@ -321,7 +410,59 @@ function MyTracksTab() {
         ) : tracks.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-8">No tracks uploaded yet</p>
         ) : (
-          <p className="text-sm text-muted-foreground text-center py-8">TODO: Render track list</p>
+          <div className="space-y-2">
+            {tracks.map((track) => (
+              <Card key={track.id} className="p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-sm truncate">{track.name}</h4>
+                    <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                      <span className={`px-2 py-0.5 rounded-full ${
+                        track.source === 'upload' ? 'bg-blue-500/20 text-blue-400' :
+                        track.source === 'freesound' ? 'bg-green-500/20 text-green-400' :
+                        'bg-purple-500/20 text-purple-400'
+                      }`}>
+                        {track.source === 'upload' ? 'Upload' : track.source === 'freesound' ? 'Sample' : 'AI'}
+                      </span>
+                      {(track.bpm_accurate || track.bpm_detected) && (
+                        <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                          {Math.round(track.bpm_accurate || track.bpm_detected || 0)} BPM
+                        </span>
+                      )}
+                      {track.duration && (
+                        <span>{Math.floor(track.duration / 60)}:{(track.duration % 60).toFixed(0).padStart(2, '0')}</span>
+                      )}
+                      <span className="text-xs">
+                        {new Date(track.created_at).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => handlePlayPause(track)}
+                    >
+                      {playingTrackId === track.id ? (
+                        <Pause className="h-4 w-4" />
+                      ) : (
+                        <Play className="h-4 w-4" />
+                      )}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => handleDeleteTrack(track.id)}
+                    >
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
         )}
       </div>
     </div>
@@ -330,11 +471,12 @@ function MyTracksTab() {
 
 function SamplePacksTab() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searching, setSearching] = useState(false);
   const { addAttributionCredit } = useProStationStore();
+  const { search, results, isSearching } = useFreesoundSearch();
+  const { uploadTrack, isUploading } = useUploadTrack();
+  const { refetch } = useUserTracks();
 
-  // TODO: Replace with Supabase Edge Function for Freesound API
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (!searchQuery.trim()) {
       toast.error('Search Required', {
         description: 'Please enter a search term',
@@ -342,11 +484,74 @@ function SamplePacksTab() {
       return;
     }
 
-    setSearching(true);
-    toast.info('Freesound Search', {
-      description: 'TODO: Wire to Supabase Edge Function',
-    });
-    setSearching(false);
+    await search(searchQuery.trim());
+  };
+
+  const handleAddSample = async (sample: import('@/hooks/vFLX10/useFreesound').FreesoundSample) => {
+    try {
+      // Add attribution credit to global store
+      addAttributionCredit({
+        source: 'Freesound',
+        artist: sample.username,
+        license: sample.license,
+        url: sample.url,
+      });
+
+      // For Freesound samples, we store the preview URL directly
+      // (Freesound previews are licensed for our use)
+      if (!sample.previewUrl) {
+        toast.error('No preview available', {
+          description: 'This sample does not have a preview URL',
+        });
+        return;
+      }
+
+      // Create a track record pointing to the Freesound preview URL
+      // Note: We're storing the preview URL, not re-hosting the file
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error('Not authenticated', {
+          description: 'Please log in to add samples',
+        });
+        return;
+      }
+
+      const { data: trackData, error: insertError } = await supabase
+        .from('tracks')
+        .insert({
+          user_id: user.id,
+          name: sample.name,
+          url: sample.previewUrl,
+          file_key: `freesound/${sample.id}`, // Store Freesound ID as file key
+          mime_type: 'audio/mpeg', // Freesound previews are MP3
+          source: 'freesound',
+          broadcast_rights_confirmed: true, // Freesound samples are pre-licensed
+          attribution_credits: JSON.stringify([{
+            source: 'Freesound',
+            artist: sample.username,
+            license: sample.license,
+            url: sample.url,
+          }]),
+        })
+        .select()
+        .single();
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      toast.success('Sample added to library', {
+        description: sample.name,
+      });
+
+      // Refresh tracks list
+      await refetch();
+    } catch (error) {
+      console.error('[Add Sample Error]', error);
+      toast.error('Failed to add sample', {
+        description: error instanceof Error ? error.message : 'Unknown error',
+      });
+    }
   };
 
   return (
@@ -358,8 +563,8 @@ function SamplePacksTab() {
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
         />
-        <Button onClick={handleSearch} disabled={searching}>
-          {searching ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Search'}
+        <Button onClick={handleSearch} disabled={isSearching}>
+          {isSearching ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Search'}
         </Button>
       </div>
 
@@ -368,9 +573,48 @@ function SamplePacksTab() {
         <p className="text-xs mt-1">Only CC0 (Public Domain) and CC-BY (Attribution) licenses</p>
       </div>
 
-      <p className="text-sm text-muted-foreground text-center py-8">
-        TODO: Wire to Supabase Edge Function for Freesound API integration
-      </p>
+      {results.length > 0 && (
+        <div className="space-y-2">
+          {results.map((sample) => (
+            <Card key={sample.id} className="p-3">
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-medium text-sm">{sample.name}</h4>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    by {sample.username} • {sample.license}
+                  </p>
+                  {sample.description && (
+                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                      {sample.description}
+                    </p>
+                  )}
+                </div>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleAddSample(sample)}
+                  disabled={isUploading}
+                >
+                  <Music className="w-4 h-4 mr-2" />
+                  Add
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {!isSearching && results.length === 0 && searchQuery && (
+        <p className="text-sm text-muted-foreground text-center py-8">
+          No results found. Try a different search term.
+        </p>
+      )}
+
+      {!searchQuery && results.length === 0 && (
+        <p className="text-sm text-muted-foreground text-center py-8">
+          Enter a search term to find royalty-free samples
+        </p>
+      )}
     </div>
   );
 }

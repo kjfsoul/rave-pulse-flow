@@ -1,22 +1,32 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Check for local Supabase first (dev mode)
-const isLocalDev = import.meta.env.DEV && window.location.hostname === 'localhost'
-const supabaseUrl = isLocalDev
-  ? (import.meta.env.VITE_SUPABASE_URL || 'http://localhost:54321')
-  : (import.meta.env.VITE_SUPABASE_URL as string)
+// Supabase configuration - prioritize environment variables
+// Remote project ID: uzudveyglwouuofiaapq
+// Remote URL format: https://uzudveyglwouuofiaapq.supabase.co
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables')
+  throw new Error(
+    'Missing Supabase environment variables. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local'
+  )
 }
 
-// Log Supabase configuration in dev mode
-if (isLocalDev) {
-  console.log('[Supabase] Using local Supabase instance:', supabaseUrl)
-} else {
-  console.log('[Supabase] Using production Supabase instance:', supabaseUrl)
+// Verify we're using the correct remote instance
+const expectedProjectId = 'uzudveyglwouuofiaapq'
+const isRemoteInstance = supabaseUrl.includes(expectedProjectId) || supabaseUrl.includes('supabase.co')
+
+if (!isRemoteInstance && import.meta.env.DEV) {
+  console.warn(
+    `[Supabase] Warning: VITE_SUPABASE_URL (${supabaseUrl}) does not match expected remote project ID (${expectedProjectId})`
+  )
+  console.warn('[Supabase] Expected format: https://uzudveyglwouuofiaapq.supabase.co')
 }
+
+// Log Supabase configuration
+console.log('[Supabase] Connected to:', supabaseUrl)
+console.log('[Supabase] Project ID:', isRemoteInstance ? expectedProjectId : 'unknown/local')
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
@@ -178,6 +188,106 @@ export type Database = {
           download_url?: string | null
         }
       }
+      tracks: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          url: string
+          file_key: string
+          mime_type: string | null
+          file_size: number | null
+          duration: number | null
+          bpm_detected: number | null
+          bpm_accurate: number | null
+          musical_key: string | null
+          source: 'upload' | 'freesound' | 'loudly'
+          broadcast_rights_confirmed: boolean
+          attribution_credits: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          url: string
+          file_key: string
+          mime_type?: string | null
+          file_size?: number | null
+          duration?: number | null
+          bpm_detected?: number | null
+          bpm_accurate?: number | null
+          musical_key?: string | null
+          source: 'upload' | 'freesound' | 'loudly'
+          broadcast_rights_confirmed?: boolean
+          attribution_credits?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          name?: string
+          url?: string
+          file_key?: string
+          mime_type?: string | null
+          file_size?: number | null
+          duration?: number | null
+          bpm_detected?: number | null
+          bpm_accurate?: number | null
+          musical_key?: string | null
+          source?: 'upload' | 'freesound' | 'loudly'
+          broadcast_rights_confirmed?: boolean
+          attribution_credits?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      festival_submissions: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          artist_name: string
+          file_key: string
+          url: string
+          attribution_credits: string | null
+          festival_scene: string | null
+          status: 'pending' | 'approved' | 'rejected'
+          votes: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title: string
+          artist_name: string
+          file_key: string
+          url: string
+          attribution_credits?: string | null
+          festival_scene?: string | null
+          status?: 'pending' | 'approved' | 'rejected'
+          votes?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          title?: string
+          artist_name?: string
+          file_key?: string
+          url?: string
+          attribution_credits?: string | null
+          festival_scene?: string | null
+          status?: 'pending' | 'approved' | 'rejected'
+          votes?: number
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
   }
 }
@@ -187,3 +297,5 @@ export type FestivalVote = Database['public']['Tables']['festival_votes']['Row']
 export type Challenge = Database['public']['Tables']['challenges']['Row']
 export type DjSettings = Database['public']['Tables']['dj_settings']['Row']
 export type MarketplacePurchase = Database['public']['Tables']['marketplace_purchases']['Row']
+export type Track = Database['public']['Tables']['tracks']['Row']
+export type FestivalSubmission = Database['public']['Tables']['festival_submissions']['Row']

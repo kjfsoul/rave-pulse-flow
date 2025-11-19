@@ -13,11 +13,9 @@ DROP INDEX IF EXISTS idx_festival_votes_artist_id;
 CREATE INDEX IF NOT EXISTS idx_festival_votes_dj_id ON festival_votes(dj_id);
 
 -- Add a compound index for efficient anti-spam queries
+-- Standard index allows efficient querying of recent votes without the volatile WHERE clause restriction
+-- Queries can filter by created_at in the WHERE clause at query time for optimal performance
 CREATE INDEX IF NOT EXISTS idx_festival_votes_user_dj_time ON festival_votes(user_id, dj_id, created_at);
 
 -- Update the existing RLS policies to use dj_id
 -- Note: The policies already use user_id which is correct for the security model
-
--- Add a partial index for recent votes (last 24 hours) to optimize anti-spam checks
-CREATE INDEX IF NOT EXISTS idx_festival_votes_recent ON festival_votes(user_id, dj_id, created_at) 
-WHERE created_at > NOW() - INTERVAL '24 hours';

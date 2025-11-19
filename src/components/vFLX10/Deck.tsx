@@ -336,36 +336,36 @@ export function Deck({ deckId, trackUrl, trackName, trackBpm, onTrackDrop, audio
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`transition-all ${isDragOver ? 'ring-2 ring-primary shadow-lg' : ''}`}
+      className={`transition-all bg-slate-900 border-slate-700 ${isDragOver ? 'ring-2 ring-cyan-400 shadow-lg' : ''}`}
     >
       <CardContent className="p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">Deck {deckId}</h3>
+          <h3 className="text-lg font-semibold text-white">Deck {deckId}</h3>
           <div className="flex gap-2">
-            <Button size="sm" variant="outline" onClick={handleStop}>
+            <Button size="sm" variant="outline" onClick={handleStop} className="border-slate-700 bg-slate-800 text-white hover:bg-slate-700">
               <SkipBack className="w-4 h-4" />
             </Button>
-            <Button size="sm" onClick={handlePlayPause}>
+            <Button size="sm" onClick={handlePlayPause} className="bg-cyan-600 hover:bg-cyan-700 text-white">
               {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
             </Button>
           </div>
         </div>
 
         <div className="space-y-2">
-          <p className="text-sm font-medium truncate">
+          <p className="text-sm font-medium truncate text-white">
             {trackName || (
               <span className="text-muted-foreground">
                 Click 'Deck {deckId}' button in Track Library to load
               </span>
             )}
           </p>
-          <div ref={waveformRef} className="bg-muted rounded min-h-[80px]" />
+          <div ref={waveformRef} className="bg-slate-800 rounded min-h-[80px] border border-slate-600" />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label className="text-xs">Pitch: {pitch.toFixed(2)}x</Label>
+              <Label className="text-xs text-slate-300">Pitch: {pitch.toFixed(2)}x</Label>
               {trackBpm && otherDeckBpm && onSync && (
                 <Button
                   size="sm"
@@ -394,7 +394,7 @@ export function Deck({ deckId, trackUrl, trackName, trackBpm, onTrackDrop, audio
           </div>
 
           <div className="space-y-2">
-            <Label className="text-xs">Volume: {(volume * 100).toFixed(0)}%</Label>
+            <Label className="text-xs text-slate-300">Volume: {(volume * 100).toFixed(0)}%</Label>
             <Slider
               value={[volume * 100]}
               onValueChange={([value]) => setVolume(value / 100)}
@@ -406,10 +406,10 @@ export function Deck({ deckId, trackUrl, trackName, trackBpm, onTrackDrop, audio
         </div>
 
         <div className="space-y-2">
-          <Label className="text-xs font-semibold">3-Band EQ</Label>
+          <Label className="text-xs font-semibold text-white">3-Band EQ</Label>
           <div className="grid grid-cols-3 gap-2">
             <div className="space-y-1">
-              <Label className="text-xs">Low</Label>
+              <Label className="text-xs text-slate-300">Low</Label>
               <Slider
                 value={[eqLow]}
                 onValueChange={([value]) => setEqLow(value)}
@@ -419,10 +419,10 @@ export function Deck({ deckId, trackUrl, trackName, trackBpm, onTrackDrop, audio
                 orientation="vertical"
                 className="h-24"
               />
-              <p className="text-xs text-center">{eqLow.toFixed(0)}dB</p>
+              <p className="text-xs text-center text-slate-300">{eqLow.toFixed(0)}dB</p>
             </div>
             <div className="space-y-1">
-              <Label className="text-xs">Mid</Label>
+              <Label className="text-xs text-slate-300">Mid</Label>
               <Slider
                 value={[eqMid]}
                 onValueChange={([value]) => setEqMid(value)}
@@ -432,10 +432,10 @@ export function Deck({ deckId, trackUrl, trackName, trackBpm, onTrackDrop, audio
                 orientation="vertical"
                 className="h-24"
               />
-              <p className="text-xs text-center">{eqMid.toFixed(0)}dB</p>
+              <p className="text-xs text-center text-slate-300">{eqMid.toFixed(0)}dB</p>
             </div>
             <div className="space-y-1">
-              <Label className="text-xs">High</Label>
+              <Label className="text-xs text-slate-300">High</Label>
               <Slider
                 value={[eqHigh]}
                 onValueChange={([value]) => setEqHigh(value)}
@@ -445,7 +445,7 @@ export function Deck({ deckId, trackUrl, trackName, trackBpm, onTrackDrop, audio
                 orientation="vertical"
                 className="h-24"
               />
-              <p className="text-xs text-center">{eqHigh.toFixed(0)}dB</p>
+              <p className="text-xs text-center text-slate-300">{eqHigh.toFixed(0)}dB</p>
             </div>
           </div>
         </div>

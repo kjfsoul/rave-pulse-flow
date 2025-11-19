@@ -18,7 +18,7 @@ interface ProStationState {
   activeScene: string;
 
   // Attribution tracking for CC-BY samples
-  attributionCredits: string[];
+  attributionCredits: (string | { source: string; artist: string; license: string; url: string })[];
 
   // DJ Station controls (for MIDI integration)
   // Deck A controls
@@ -50,7 +50,7 @@ interface ProStationState {
   setIsPlaying: (playing: boolean) => void;
   setMasterVolume: (volume: number) => void;
   setActiveScene: (scene: string) => void;
-  addAttributionCredit: (credit: string) => void;
+  addAttributionCredit: (credit: { source: string; artist: string; license: string; url: string } | string) => void;
   clearAttributionCredits: () => void;
 
   // DJ Station actions
@@ -109,7 +109,7 @@ export const useProStationStore = create<ProStationState>((set) => ({
   setMasterVolume: (volume) => set({ masterVolume: Math.max(0, Math.min(100, volume)) }),
   setActiveScene: (scene) => set({ activeScene: scene }),
   addAttributionCredit: (credit) => set((state) => ({
-    attributionCredits: [...state.attributionCredits, credit]
+    attributionCredits: [...state.attributionCredits, typeof credit === 'string' ? credit : credit]
   })),
   clearAttributionCredits: () => set({ attributionCredits: [] }),
 

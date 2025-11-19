@@ -323,10 +323,10 @@ const Index = () => {
                   rel="noopener noreferrer"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+              viewport={{ once: true }}
                   transition={{ delay: index * 0.08 }}
                   className="flex-shrink-0 w-64 snap-start"
-                >
+            >
                   <Card className="bg-bass-medium/80 border-neon-cyan/20 hover:border-neon-cyan/50 hover:shadow-lg hover:shadow-neon-cyan/20 transition-all duration-300 h-full">
                     <CardContent className="p-0 flex flex-col h-full">
                       <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-bass-dark/60">
@@ -344,13 +344,13 @@ const Index = () => {
                         )}
                         <Badge className="absolute top-3 left-3 bg-neon-purple/20 text-neon-purple border-neon-purple/30">
                           {product.source === "live" ? "Live" : "Catalog"}
-                        </Badge>
+                  </Badge>
                       </div>
                       <div className="flex flex-1 flex-col p-4 space-y-3">
                         <div>
                           <h3 className="text-white text-lg font-semibold leading-tight line-clamp-2">
                             {product.title}
-                          </h3>
+                  </h3>
                           <p className="text-sm text-slate-400 mt-1 line-clamp-2">
                             {product.description?.replace(/<[^>]*>/g, "") || "Limited edition EDM Shuffle drop"}
                           </p>
@@ -365,12 +365,12 @@ const Index = () => {
                           </Badge>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                </CardContent>
+              </Card>
                 </motion.a>
               );
             })}
-          </div>
+        </div>
         )}
 
         {printifyLoading && featuredPrintifyProducts.length > 0 && (
@@ -389,7 +389,7 @@ const Index = () => {
               <span className="text-xl font-bold text-white">EDM Shuffle</span>
             </div>
 
-          <div className="flex items-center gap-6 text-sm">
+            <div className="flex items-center gap-6 text-sm">
               <Link
                 to="/privacy-policy"
                 className="text-slate-400 hover:text-neon-cyan transition-colors duration-200 flex items-center gap-1"

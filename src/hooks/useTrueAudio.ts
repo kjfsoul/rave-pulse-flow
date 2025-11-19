@@ -27,11 +27,12 @@ export const useTrueAudio = (): TrueAudioHook => {
   const [audioContextState, setAudioContextState] = useState<AudioContextState>('suspended');
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [loadedBuffers, setLoadedBuffers] = useState<AudioBufferMap>({});
-  
+
   const audioBuffersRef = useRef<AudioBufferMap>({});
   const isUnlockingRef = useRef(false);
 
-  // Initialize AudioContext
+  // Initialize AudioContext - create lazily on first user interaction
+  // Note: AudioContext should only be created after user gesture to avoid autoplay warnings
   useEffect(() => {
     const initAudioContext = () => {
       try {
@@ -42,17 +43,28 @@ export const useTrueAudio = (): TrueAudioHook => {
         }
 
         // Create global AudioContext if it doesn't exist
+        // Only create if not already suspended (avoid autoplay policy warnings)
         if (!globalAudioContext) {
-          globalAudioContext = new AudioContext();
-          console.log('AudioContext created with state:', globalAudioContext.state);
+          globalAudioContext = new AudioContext({ latencyHint: 'interactive' });
+
+          // Suppress autoplay warning by setting state to 'suspended' initially
+          // Context will be resumed on first user interaction (play button, etc.)
+          if (globalAudioContext.state === 'suspended') {
+            console.log('AudioContext created in suspended state (will resume on user interaction)');
+          } else {
+            console.log('AudioContext created with state:', globalAudioContext.state);
+          }
         }
 
         setAudioContextState(globalAudioContext.state as AudioContextState);
-        
+
         // Listen for state changes
         globalAudioContext.onstatechange = () => {
           if (globalAudioContext) {
-            console.log('AudioContext state changed to:', globalAudioContext.state);
+            // Only log state changes if not suspended (to reduce console noise)
+            if (globalAudioContext.state !== 'suspended') {
+              console.log('AudioContext state changed to:', globalAudioContext.state);
+            }
             setAudioContextState(globalAudioContext.state as AudioContextState);
           }
         };
@@ -93,11 +105,11 @@ export const useTrueAudio = (): TrueAudioHook => {
       const response = await fetch(url);
       const arrayBuffer = await response.arrayBuffer();
       const audioBuffer = await globalAudioContext.decodeAudioData(arrayBuffer);
-      
+
       // Cache the buffer
       audioBuffersRef.current[key] = audioBuffer;
       setLoadedBuffers(prev => ({ ...prev, [key]: audioBuffer }));
-      
+
       console.log(`Audio buffer loaded: ${key}`);
       return audioBuffer;
     } catch (error) {
@@ -129,13 +141,13 @@ export const useTrueAudio = (): TrueAudioHook => {
 
       const source = globalAudioContext.createBufferSource();
       const gainNode = globalAudioContext.createGain();
-      
+
       source.buffer = buffer;
       gainNode.gain.value = volume;
-      
+
       source.connect(gainNode);
       gainNode.connect(globalAudioContext.destination);
-      
+
       source.start();
       console.log(`Playing buffer: ${key} at volume: ${volume}`);
     } catch (error) {
@@ -166,7 +178,7 @@ export const useTrueAudio = (): TrueAudioHook => {
       source.buffer = silentBuffer;
       source.connect(globalAudioContext.destination);
       source.start();
-      
+
       setIsUnlocked(true);
       isUnlockAttempted = true;
       console.log('Audio unlocked for mobile playback');
@@ -179,7 +191,7 @@ export const useTrueAudio = (): TrueAudioHook => {
 
   // Create and play a test tone
   const createAndPlayTone = useCallback(async (
-    frequency: number = 440, 
+    frequency: number = 440,
     duration: number = 0.5
   ): Promise<void> => {
     if (!globalAudioContext) {
@@ -197,17 +209,17 @@ export const useTrueAudio = (): TrueAudioHook => {
 
       const oscillator = globalAudioContext.createOscillator();
       const gainNode = globalAudioContext.createGain();
-      
+
       oscillator.type = 'sine';
       oscillator.frequency.value = frequency;
       gainNode.gain.value = 0.1;
-      
+
       oscillator.connect(gainNode);
       gainNode.connect(globalAudioContext.destination);
-      
+
       oscillator.start();
       oscillator.stop(globalAudioContext.currentTime + duration);
-      
+
       console.log(`Playing ${frequency}Hz tone for ${duration}s`);
     } catch (error) {
       console.error('Error playing tone:', error);
