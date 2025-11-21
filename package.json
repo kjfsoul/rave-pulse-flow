@@ -17,7 +17,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "generate-feed": "node scripts/generate-feed.js",
-    "sync:printify": "tsx scripts/sync-printify.ts"
+    "sync:printify": "tsx scripts/sync-printify.ts",
+    "postinstall": "pnpm rebuild supabase || true"
   },
   "dependencies": {
     "@genkit-ai/mcp": "^1.22.0",
@@ -103,12 +104,17 @@
     "jsdom": "^26.1.0",
     "playwright": "^1.54.2",
     "postcss": "^8.4.47",
-    "supabase": "^2.34.3",
+    "supabase": "^2.58.5",
     "tailwindcss": "^3.4.11",
     "tsx": "^4.20.6",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^7.0.6",
     "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "supabase"
+    ]
   }
 }

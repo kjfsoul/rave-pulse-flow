@@ -6,10 +6,13 @@ import { useProStationStore } from '@/hooks/useProStationStore';
  * Centralized DJ audio routing hook
  * Manages audio context, mixer routing, and master EQ for DJ Station
  *
- * This hook reads from the global Zustand store (useProStationStore) and applies changes to Tone.js audio nodes.
+ * This hook reads from global Zustand store (useProStationStore) and applies changes to Tone.js audio nodes.
  * This enables two-way synchronization: Hardware MIDI → Global Store → Audio Engine
  *
- * Adapted from vFLX-10 Pro Station to use useProStationStore instead of useGlobalStore.
+ * TODO: Initialize Tone.Recorder connected to master output
+ * TODO: Replace recording save logic with Supabase storage
+ * TODO: Connect to tracks table
+ * TODO: Initialize Tone.Recorder connected to master output
  */
 export function useDJAudio() {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -79,11 +82,8 @@ export function useDJAudio() {
     if (isInitialized && deckAGainRef.current && deckBGainRef.current) {
       // Crossfader: 0 = full A, 0.5 = center, 1 = full B
       // Calculate gain curves for smooth crossfade
-      // When crossfader = 0: aNormalized = 1, bNormalized = 0 (full A)
-      // When crossfader = 0.5: aNormalized = 0, bNormalized = 0 (center, both muted for smooth transition)
-      // When crossfader = 1: aNormalized = 0, bNormalized = 1 (full B)
-      const aNormalized = Math.max(0, Math.min(1, 1 - (crossfader * 2))); // 1 → 0 as crossfader goes 0 → 0.5
-      const bNormalized = Math.max(0, Math.min(1, (crossfader - 0.5) * 2)); // 0 → 1 as crossfader goes 0.5 → 1
+      const aNormalized = Math.max(0, (100 - crossfader) / 50);
+      const bNormalized = Math.max(0, (crossfader - 50) / 50);
 
       deckAGainRef.current.gain.rampTo(aNormalized * deckAVolume, 0.05);
       deckBGainRef.current.gain.rampTo(bNormalized * deckBVolume, 0.05);
@@ -100,31 +100,34 @@ export function useDJAudio() {
     }
   }, [masterVolume, isInitialized]);
 
-  // Legacy methods for backward compatibility (now deprecated, use global store instead)
-  const setChannelVolume = (deck: 'A' | 'B', volume: number) => {
-    console.warn('[useDJAudio] setChannelVolume is deprecated. Use global store instead.');
-    const gain = deck === 'A' ? deckAGainRef.current : deckBGainRef.current;
-    if (gain) {
-      gain.gain.rampTo(volume / 100, 0.05);
-    }
-  };
+  // Load and play track with caching and Tone.js context initialization
+  const loadTrack = async (audioBuffer: AudioBuffer, url: string, deckId: string) => {
+    try {
+      // First ensure Tone.js context is initialized
+      if (Tone.context.state !== 'running') {
+        await Tone.start();
+        await Tone.context.resume();
+      }
 
-  const setCrossfader = (position: number) => {
-    console.warn('[useDJAudio] setCrossfader is deprecated. Use global store instead.');
-    // position: 0 = full A, 50 = center, 100 = full B
-    if (deckAGainRef.current && deckBGainRef.current) {
-      const aNormalized = Math.max(0, (100 - position) / 50);
-      const bNormalized = Math.max(0, (position - 50) / 50);
+      const response = await fetch(url);
+      const arrayBuffer = await response.arrayBuffer();
+      const audioBuffer = await Tone.context.decodeAudioData(arrayBuffer);
 
-      deckAGainRef.current.gain.rampTo(aNormalized * 0.8, 0.05);
-      deckBGainRef.current.gain.rampTo(bNormalized * 0.8, 0.05);
-    }
-  };
+      // Store track in deck-specific state
+      const trackKey = `vflx10-deck${deckId}`;
+      localStorage.setItem(trackKey, JSON.stringify({
+        url,
+        name: url.split('/').pop(),
+        buffer: audioBuffer,
+        deckId,
+        isLoaded: true
+      }));
 
-  const setMasterVolume = (volume: number) => {
-    console.warn('[useDJAudio] setMasterVolume is deprecated. Use global store instead.');
-    if (masterGainRef.current) {
-      masterGainRef.current.gain.rampTo(volume / 100, 0.05);
+      console.log(`[Audio Engine] Track loaded for deck ${deckId}:`, url);
+      return audioBuffer;
+    } catch (error) {
+      console.error(`[Audio Engine] Failed to load track for deck ${deckId}:`, error);
+      return null;
     }
   };
 
@@ -134,8 +137,29 @@ export function useDJAudio() {
     deckBGain: deckBGainRef.current,
     masterGain: masterGainRef.current,
     // Legacy methods (deprecated)
-    setChannelVolume,
-    setCrossfader,
-    setMasterVolume,
+    setChannelVolume: (deck: 'A' | 'B', volume: number) => {
+      console.warn('[useDJAudio] setChannelVolume is deprecated. Use global store instead.');
+      const gain = deck === 'A' ? deckAGainRef.current : deckBGainRef.current;
+      if (gain) {
+        gain.gain.rampTo(volume / 100, 0.05);
+      }
+    },
+    setCrossfader: (position: number) => {
+      console.warn('[useDJAudio] setCrossfader is deprecated. Use global store instead.');
+      // position: 0 = full A, 50 = center, 100 = full B
+      if (deckAGainRef.current && deckBGainRef.current) {
+        const aNormalized = Math.max(0, (100 - position) / 50);
+        const bNormalized = Math.max(0, (position - 50) / 50);
+
+        deckAGainRef.current.gain.rampTo(aNormalized * 0.8, 0.05);
+        deckBGainRef.current.gain.rampTo(bNormalized * 0.8, 0.05);
+      }
+    },
+    setMasterVolume: (volume: number) => {
+      console.warn('[useDJAudio] setMasterVolume is deprecated. Use global store instead.');
+      if (masterGainRef.current) {
+        masterGainRef.current.gain.rampTo(volume / 100, 0.05);
+      }
+    },
   };
 }

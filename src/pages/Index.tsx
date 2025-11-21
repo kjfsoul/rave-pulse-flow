@@ -1,20 +1,17 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useMemo, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
-import BottomNavigation from "@/components/BottomNavigation";
+import EnhancedRSSFeed from "@/components/EnhancedRSSFeed";
 import EqualizerBars from "@/components/EqualizerBars";
 import LaserRaveBackground from "@/components/LaserRaveBackground";
+import Layout from "@/components/Layout";
 import ShuffleDancers from "@/components/ShuffleDancers";
-import VibePreview from "@/components/VibePreview";
-import ScrollHintArrow from "@/components/ScrollHintArrow";
-import EnhancedRSSFeed from "@/components/EnhancedRSSFeed";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { LogIn, UserPlus, Trophy, ShoppingBag, ExternalLink } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { useAuth } from "@/contexts/AuthContext";
 import { usePrintifyProducts } from "@/hooks/usePrintifyProducts";
 import { formatCurrency, getProductUrl } from "@/lib/printify";
+import { motion } from "framer-motion";
+import { ExternalLink, ShoppingBag } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Archetype {
   id: string;
@@ -30,7 +27,9 @@ const Index = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [showDancers, setShowDancers] = useState(false);
-  const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null);
+  const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(
+    null
+  );
   const [showVibePreview, setShowVibePreview] = useState(false);
   const [audioStarted, setAudioStarted] = useState(false);
 
@@ -46,7 +45,7 @@ const Index = () => {
 
   const handleLockFlow = () => {
     // Navigate to shuffle feed with selected archetype
-    navigate('/shuffle-feed');
+    navigate("/shuffle-feed");
   };
 
   const handleExploreMore = () => {
@@ -55,21 +54,41 @@ const Index = () => {
     // Could add reshuffle logic here
   };
 
-  const { mergedProducts: mergedPrintifyProducts, loading: printifyLoading } = usePrintifyProducts({ fetchLimit: 16 });
+  const { mergedProducts: mergedPrintifyProducts, loading: printifyLoading } =
+    usePrintifyProducts({ fetchLimit: 16 });
 
-  const featuredPrintifyProducts = useMemo(() => mergedPrintifyProducts.slice(0, 7), [mergedPrintifyProducts]);
+  const featuredPrintifyProducts = useMemo(
+    () => mergedPrintifyProducts.slice(0, 7),
+    [mergedPrintifyProducts]
+  );
 
-  const getPrimaryImage = (images?: { preview?: string | null; src: string; isDefault?: boolean }[]) => {
+  const getPrimaryImage = (
+    images?: { preview?: string | null; src: string; isDefault?: boolean }[]
+  ) => {
     if (!images || images.length === 0) return null;
     const preferred = images.find((image) => image.isDefault);
-    return (preferred?.preview || preferred?.src || images[0].preview || images[0].src || null) ?? null;
+    return (
+      (preferred?.preview ||
+        preferred?.src ||
+        images[0].preview ||
+        images[0].src ||
+        null) ??
+      null
+    );
   };
 
-  const getDisplayPrice = (product: (typeof mergedPrintifyProducts)[number]) => {
+  const getDisplayPrice = (
+    product: (typeof mergedPrintifyProducts)[number]
+  ) => {
     if (product.priceRange) {
-      return formatCurrency(product.priceRange.min, product.priceRange.currency || "USD");
+      return formatCurrency(
+        product.priceRange.min,
+        product.priceRange.currency || "USD"
+      );
     }
-    const variantPrices = product.variants?.map((variant) => variant.price).filter((price) => typeof price === "number" && !Number.isNaN(price));
+    const variantPrices = product.variants
+      ?.map((variant) => variant.price)
+      .filter((price) => typeof price === "number" && !Number.isNaN(price));
     if (variantPrices && variantPrices.length > 0) {
       const minPrice = Math.min(...variantPrices);
       return formatCurrency(minPrice);
@@ -78,7 +97,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-bass-dark relative pb-20">
+    <Layout title="EDM Shuffle" showHeader={true}>
       {/* Enhanced Hero Section with Rave Drop */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
         {/* Laser Rave Background */}
@@ -91,7 +110,7 @@ const Index = () => {
             background: [
               "radial-gradient(circle at 20% 50%, rgba(191, 90, 242, 0.4) 0%, rgba(30, 64, 175, 0.2) 50%, rgba(2, 6, 23, 1) 100%)",
               "radial-gradient(circle at 80% 50%, rgba(6, 255, 165, 0.4) 0%, rgba(191, 90, 242, 0.2) 50%, rgba(2, 6, 23, 1) 100%)",
-            ]
+            ],
           }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -113,9 +132,13 @@ const Index = () => {
                     "0 0 20px rgba(191, 90, 242, 0.8)",
                     "0 0 40px rgba(6, 255, 165, 0.8)",
                     "0 0 20px rgba(191, 90, 242, 0.8)",
-                  ]
+                  ],
                 }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
               >
                 <span className="text-white">EDM</span>
                 <span className="text-transparent bg-gradient-to-r from-neon-purple via-neon-cyan to-neon-purple bg-clip-text animate-shimmer">
@@ -133,7 +156,7 @@ const Index = () => {
                 }}
                 transition={{
                   opacity: { delay: 0.5, duration: 1 },
-                  x: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                  x: { duration: 3, repeat: Infinity, ease: "easeInOut" },
                 }}
               >
                 🔥 Enter The Rave. Your Flow Will Find You.
@@ -179,14 +202,14 @@ const Index = () => {
                       duration: 3,
                       repeat: Infinity,
                       repeatDelay: 2,
-                      ease: "easeInOut"
+                      ease: "easeInOut",
                     }}
                   />
                 </motion.button>
 
                 {/* Pro Studio Button */}
                 <motion.button
-                  onClick={() => navigate('/pro-dj-station')}
+                  onClick={() => navigate("/pro-dj-station")}
                   className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xl px-12 py-6 rounded-full font-bold hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 relative overflow-hidden group"
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -213,7 +236,7 @@ const Index = () => {
                       duration: 3,
                       repeat: Infinity,
                       repeatDelay: 3,
-                      ease: "easeInOut"
+                      ease: "easeInOut",
                     }}
                   />
                 </motion.button>
@@ -259,7 +282,9 @@ const Index = () => {
                     animate={{ opacity: [0.5, 1, 0.5] }}
                     transition={{ duration: 1, repeat: Infinity }}
                   />
-                  <span className="text-sm text-slate-300">Beat Drop Active</span>
+                  <span className="text-sm text-slate-300">
+                    Beat Drop Active
+                  </span>
                 </motion.div>
               )}
 
@@ -298,7 +323,8 @@ const Index = () => {
             🔥 Live Merch Drops
           </h2>
           <p className="text-slate-400">
-            Fresh from the EDM Shuffle Printify store — only published products, updated live.
+            Fresh from the EDM Shuffle Printify store — only published products,
+            updated live.
           </p>
         </motion.div>
 
@@ -308,8 +334,11 @@ const Index = () => {
           </div>
         ) : featuredPrintifyProducts.length === 0 ? (
           <div className="bg-bass-medium/40 border border-neon-cyan/20 rounded-2xl py-12 text-center text-slate-400">
-            No merch drops are live yet. Run <code className="px-2 py-1 bg-bass-medium rounded">npm run sync:printify</code> once products
-            are published.
+            No merch drops are live yet. Run{" "}
+            <code className="px-2 py-1 bg-bass-medium rounded">
+              npm run sync:printify
+            </code>{" "}
+            once products are published.
           </div>
         ) : (
           <div className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide snap-x snap-mandatory">
@@ -323,10 +352,10 @@ const Index = () => {
                   rel="noopener noreferrer"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+                  viewport={{ once: true }}
                   transition={{ delay: index * 0.08 }}
                   className="flex-shrink-0 w-64 snap-start"
-            >
+                >
                   <Card className="bg-bass-medium/80 border-neon-cyan/20 hover:border-neon-cyan/50 hover:shadow-lg hover:shadow-neon-cyan/20 transition-all duration-300 h-full">
                     <CardContent className="p-0 flex flex-col h-full">
                       <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-bass-dark/60">
@@ -344,15 +373,16 @@ const Index = () => {
                         )}
                         <Badge className="absolute top-3 left-3 bg-neon-purple/20 text-neon-purple border-neon-purple/30">
                           {product.source === "live" ? "Live" : "Catalog"}
-                  </Badge>
+                        </Badge>
                       </div>
                       <div className="flex flex-1 flex-col p-4 space-y-3">
                         <div>
                           <h3 className="text-white text-lg font-semibold leading-tight line-clamp-2">
                             {product.title}
-                  </h3>
+                          </h3>
                           <p className="text-sm text-slate-400 mt-1 line-clamp-2">
-                            {product.description?.replace(/<[^>]*>/g, "") || "Limited edition EDM Shuffle drop"}
+                            {product.description?.replace(/<[^>]*>/g, "") ||
+                              "Limited edition EDM Shuffle drop"}
                           </p>
                         </div>
                         <div className="mt-auto flex items-center justify-between text-sm">
@@ -365,12 +395,12 @@ const Index = () => {
                           </Badge>
                         </div>
                       </div>
-                </CardContent>
-              </Card>
+                    </CardContent>
+                  </Card>
                 </motion.a>
               );
             })}
-        </div>
+          </div>
         )}
 
         {printifyLoading && featuredPrintifyProducts.length > 0 && (
@@ -381,36 +411,8 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-bass-medium/50 border-t border-neon-purple/20 py-8 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">🕺</span>
-              <span className="text-xl font-bold text-white">EDM Shuffle</span>
-            </div>
-
-            <div className="flex items-center gap-6 text-sm">
-              <Link
-                to="/privacy-policy"
-                className="text-slate-400 hover:text-neon-cyan transition-colors duration-200 flex items-center gap-1"
-              >
-                🔒 Privacy Policy
-              </Link>
-              <span className="text-slate-600">|</span>
-              <span className="text-slate-500">© 2025 EDM Shuffle</span>
-            </div>
-          </div>
-
-          <div className="mt-4 pt-4 border-t border-slate-700/50 text-center">
-            <p className="text-xs text-slate-500">
-              Your privacy is our priority. We respect your dance floor and your data.
-            </p>
-          </div>
-        </div>
-      </footer>
-
-      <BottomNavigation />
-    </div>
+      {/* Footer removed - now in header */}
+    </Layout>
   );
 };
 

@@ -30,63 +30,60 @@ serve(async (req: Request): Promise<Response> => {
   }
 
   try {
-    if (req.method !== 'POST') {
-      return new Response(
-        JSON.stringify({ error: 'Method Not Allowed' }),
-        {
-          status: 405,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+    if (req.method !== "POST") {
+      return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
+        status: 405,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const { query } = await req.json();
 
-    if (!query || typeof query !== 'string' || query.trim().length === 0) {
-      return new Response(
-        JSON.stringify({ error: 'Query is required' }),
-        {
-          status: 400,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+    if (!query || typeof query !== "string" || query.trim().length === 0) {
+      return new Response(JSON.stringify({ error: "Query is required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    const FREESOUND_API_KEY = Deno.env.get('FREESOUND_API_KEY');
+    const FREESOUND_API_KEY = Deno.env.get("FREESOUND_API_KEY");
 
     if (!FREESOUND_API_KEY) {
-      console.error('FREESOUND_API_KEY environment variable not set');
+      console.error("FREESOUND_API_KEY environment variable not set");
       return new Response(
-        JSON.stringify({ error: 'Freesound API not configured' }),
+        JSON.stringify({ error: "Freesound API not configured" }),
         {
           status: 500,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         }
       );
     }
 
     // Build Freesound API URL with filters for CC0 and CC-BY licenses
+    // Freesound filter syntax: Use OR operator for multiple license values
     const searchParams = new URLSearchParams({
       query: query.trim(),
       filter: 'license:("Attribution" OR "CC0")', // Only CC0 and CC-BY licenses
-      fields: 'id,name,url,previews,license,username,description',
-      page_size: '20',
+      fields: "id,name,url,previews,license,username,description",
+      page_size: "20",
     });
 
     const freesoundUrl = `https://freesound.org/apiv2/search/text/?${searchParams.toString()}`;
 
     // Fetch from Freesound API
     const response = await fetch(freesoundUrl, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Authorization': `Token ${FREESOUND_API_KEY}`,
+        Authorization: `Token ${FREESOUND_API_KEY}`,
       },
     });
 
     if (!response.ok) {
       const errorText = await response.text().catch(() => response.statusText);
-      console.error('Freesound API error:', response.status, errorText);
-      throw new Error(`Freesound API error: ${response.status} ${response.statusText}`);
+      console.error("Freesound API error:", response.status, errorText);
+      throw new Error(
+        `Freesound API error: ${response.status} ${response.statusText}`
+      );
     }
 
     const data: FreesoundResponse = await response.json();
@@ -95,14 +92,22 @@ serve(async (req: Request): Promise<Response> => {
     const sanitizedResults = data.results
       .filter((result) => {
         // Double-check license (API should filter, but verify)
-        const license = result.license?.toLowerCase() || '';
-        return license.includes('cc0') || license.includes('attribution');
+        const license = result.license?.toLowerCase() || "";
+        // Check for CC0 or any Attribution license (CC-BY, CC-BY-SA, etc.)
+        return (
+          license.includes("cc0") ||
+          license.includes("attribution") ||
+          license.includes("cc-by")
+        );
       })
       .map((result) => ({
         id: result.id,
         name: result.name,
         url: result.url,
-        previewUrl: result.previews?.['preview-hq-mp3'] || result.previews?.['preview-lq-mp3'] || null,
+        previewUrl:
+          result.previews?.["preview-hq-mp3"] ||
+          result.previews?.["preview-lq-mp3"] ||
+          null,
         license: result.license,
         username: result.username,
         description: result.description || null,
@@ -119,8 +124,8 @@ serve(async (req: Request): Promise<Response> => {
         status: 200,
         headers: {
           ...corsHeaders,
-          'Content-Type': 'application/json',
-          'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
+          "Content-Type": "application/json",
+          "Cache-Control": "public, max-age=3600", // Cache for 1 hour
         },
       }
     );

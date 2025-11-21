@@ -272,11 +272,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true)
     try {
       // Ensure redirect uses current origin (localhost in dev, production in prod)
-      const redirectUrl = `${window.location.origin}/`
+      // Use window.location.origin + window.location.pathname to preserve current path
+      const redirectUrl = `${window.location.origin}${window.location.pathname}${window.location.search}`
 
       // Log for debugging
       console.log('[Auth] Google OAuth redirect URL:', redirectUrl)
       console.log('[Auth] Current origin:', window.location.origin)
+      console.log('[Auth] Current pathname:', window.location.pathname)
+      console.log('[Auth] Full URL:', window.location.href)
       console.log('[Auth] Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
 
       const { data, error } = await supabase.auth.signInWithOAuth({

@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Loader2, CheckCircle2, XCircle, AlertCircle, Database, Zap, FolderOpen, RefreshCw } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
+import Layout from '@/components/Layout';
 
 interface CheckResult {
   name: string;
@@ -93,7 +94,7 @@ export default function SystemCheck() {
       if (accessError) {
         // Check if it's a permissions error vs bucket doesn't exist
         const errorMessage = accessError.message?.toLowerCase() || '';
-        const errorCode = String(accessError.code || '').toLowerCase();
+        const errorCode = String((accessError as any).code || '').toLowerCase();
 
         if (
           errorMessage.includes('bucket not found') ||
@@ -390,8 +391,9 @@ export default function SystemCheck() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 p-4 md:p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <Layout title="System Health">
+      <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 p-4 md:p-8">
+        <div className="max-w-4xl mx-auto space-y-6">
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -454,7 +456,8 @@ export default function SystemCheck() {
             </div>
           </CardContent>
         </Card>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }

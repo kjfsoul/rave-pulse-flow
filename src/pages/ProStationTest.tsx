@@ -5,6 +5,7 @@ import { ProductionStation } from '@/components/vFLX10/ProductionStation';
 import { DJStation } from '@/components/vFLX10/DJStation';
 import { FestivalScenery } from '@/components/vFLX10/FestivalScenery';
 import { SoundLibraryPanel } from '@/components/vFLX10/SoundLibraryPanel';
+import Layout from '@/components/Layout';
 
 /**
  * Pro Station Test Page
@@ -14,12 +15,13 @@ import { SoundLibraryPanel } from '@/components/vFLX10/SoundLibraryPanel';
  */
 const ProStationTest: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 p-4 md:p-8">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-7xl mx-auto space-y-6"
-      >
+    <Layout title="Pro Station Test">
+      <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 p-4 md:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-7xl mx-auto space-y-6"
+        >
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="text-2xl md:text-3xl">vFLX-10 Pro Station - UI Test</CardTitle>
@@ -107,8 +109,9 @@ const ProStationTest: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-      </motion.div>
-    </div>
+        </motion.div>
+      </div>
+    </Layout>
   );
 };
 

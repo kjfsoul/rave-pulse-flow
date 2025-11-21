@@ -1,317 +1,141 @@
-# Agent Instructions
+# AGENTS.md
 
-## Issue Tracking with Beads (bd)
+This file provides guidance to agents when working with code in this repository.
 
-Use the `bd` command-line tool for ALL task and issue management instead of markdown files.
+## Project Overview
 
-### 🚨 MANDATORY: Session Startup Workflow
+Rave Pulse Flow (EDM Shuffle) is a React/TypeScript audio application with DJ mixing capabilities, built with Vite and styled with Tailwind CSS. The project features professional DJ stations, festival voting, and audio production tools.
 
-**At the start of EVERY session, you MUST:**
+## Critical Non-Obvious Information
 
-1. **Check available work**:
+### Audio System Architecture (DISCOVERED PATTERN)
 
-   ```bash
-   bd ready --json
-   ```
+**Global AudioContext Management:**
+- `useTrueAudio` hook manages a SINGLE global AudioContext instance (prevents browser audio conflicts)
+- AudioContext is created lazily on first user interaction to avoid autoplay policy warnings
+- Mobile audio unlocking requires specific gesture handling with silent buffer playback
 
-2. **Review project health**:
+**Dual Audio Engines:**
+- `useTrueAudio` (Web Audio API) for basic audio playback and buffer management
+- `useDJAudio` (Tone.js) for professional DJ station features with crossfading
+- These systems operate independently - choose based on feature requirements
 
-   ```bash
-   bd stats
-   ```
+**Tone.js Integration:**
+- Professional DJ station uses Tone.js for real-time audio effects and crossfading
+- Audio routing goes through Zustand global store for state synchronization
+- Deprecated methods in `useDJAudio` log warnings - use global store instead
 
-3. **Check blocked issues**:
+### Feature Flags (NON-STANDARD)
 
-   ```bash
-   bd blocked --json
-   ```
+- Audio engine features controlled by `VITE_FF_AUDIO_ENGINE` environment variable
+- Check `src/config/features.ts` for current feature flag status
+- Some components render conditionally based on these flags
 
-4. **Select work from ready issues** - Always start with unblocked work
+### Database Patterns (SUPABASE-SPECIFIC)
 
-### Core Workflow
+**Project ID Validation:**
+- Supabase client validates against expected project ID: `uzudveyglwouuofiaapq`
+- Local development shows warnings if using wrong instance
+- Database types are auto-generated in `src/lib/supabase.ts`
 
-#### 1. **Finding Work**
+**Real-time Voting System:**
+- Festival voting uses 24-hour anti-spam protection via PostgreSQL queries
+- Vote weights range 1-10 with user-specific rate limiting
+- Edge functions handle authentication and abuse prevention
 
-- `bd ready --json` - Get issues with no blockers (START HERE)
-- `bd list --json` - See all issues
-- `bd blocked --json` - Issues that need attention
-- `bd stats` - Project overview
+### Testing Setup (PROJECT-SPECIFIC)
 
-#### 2. **Creating Issues**
+**Comprehensive Web Audio API Mocking:**
+- Vitest setup includes complete AudioContext, GainNode, OscillatorNode mocks
+- Test files must be in same directory as source (Vite path resolution requirement)
+- Playwright tests run against localhost:5173 (not default Vite port 8081)
 
-   ```bash
-   bd create "Issue title" -d "Description" -p 1 -t bug --json
-   ```
+**Mock Requirements:**
+- All Web Audio API nodes are mocked in `src/__tests__/setup.ts`
+- IntersectionObserver and matchMedia pre-mocked for consistent test environment
+- MediaRecorder mocked with blob URL generation
 
-- Types: `bug`, `feature`, `task`, `epic`, `chore`
-- Priority: `0` (highest) to `4` (lowest)
-- **ALWAYS use `--json` flag** for programmatic access
+### Development Server Configuration (NON-STANDARD)
 
-#### 3. **Managing Dependencies**
+**Port Configuration:**
+- Development server runs on port 8081 (vite.config.ts)
+- Playwright expects port 5173 (playwright.config.ts) - ensure consistency
+- IPv6 binding (`::`) enabled for network accessibility
 
-   ```bash
-   bd dep add <dependent-id> <blocker-id> --type blocks
-   ```
+**Path Aliases:**
+- `@/*` imports resolve to `src/*` in both Vite and Vitest
+- TypeScript path matching required in multiple config files
 
-- Types: `blocks`, `related`, `parent-child`, `discovered-from`
-- Only `blocks` dependencies affect ready work detection
+### Component Architecture (DISCOVERED PATTERN)
 
-#### 4. **Updating Status**
+**Context Providers Pattern:**
+- App wraps in specific order: QueryClient → AuthProvider → VotingProvider → AudioProvider → TooltipProvider
+- Missing providers cause specific error messages (check context hooks for requirements)
 
-   ```bash
-   bd update <issue-id> --status in_progress --json
-   ```
+**LocalStorage Usage:**
+- DJ station deck state persists to localStorage with keys: `vflx10-deckA`, `vflx10-deckB`
+- Track metadata includes BPM, source (upload/freesound/loudly), and broadcast rights
 
-- Statuses: `open`, `in_progress`, `blocked`, `closed`
-- **Always update status when starting work**
+### Style System (TAILWIND-SPECIFIC)
 
-#### 5. **Completing Work**
+**Custom Animations:**
+- EDM-themed animations: `glow-pulse`, `float`, `equalizer`, `shimmer`
+- Neon color palette: `neon-purple`, `neon-cyan`, `neon-blue`, etc.
+- Custom fonts: `orbitron`, `rajdhani`, `audiowide` for electronic music aesthetic
 
-   ```bash
-   bd close <issue-id> --reason "Implemented feature X" --json
-   ```
+**Dark Mode:**
+- Uses class-based dark mode: `darkMode: ["class"]`
+- Custom CSS variables for theming (check tailwind.config.ts for color system)
 
-- Always provide a reason describing what was accomplished
-- Verify dependencies are resolved before closing
+### Package Management (NON-OBVIOUS)
 
-#### 6. **Discovering New Work**
+**Dual Lock Files:**
+- Both `package-lock.json` and `bun.lockb` present - project supports npm and bun
+- Bun preferred for performance but npm fully supported
+- Install commands work with either package manager
 
-- Create issue: `bd create "New bug discovered" -t bug -p 0 --json`
-- Link back: `bd dep add <new-id> <parent-id> --type discovered-from`
-- **File issues automatically for problems noticed during work**
+### Edge Functions (SUPABASE-SPECIFIC)
 
-### During Development Workflow
+**Freesound Integration:**
+- `supabase/functions/freesound-search/index.ts` provides audio search API
+- Requires attribution credits for downloaded sounds
+- Broadcast rights confirmation required for track uploads
 
-**As you work, you MUST:**
-
-1. **Update status when starting**: `bd update <id> --status in_progress --json`
-
-2. **Create issues for discovered problems**:
-
-   ```bash
-   bd create "Bug found: <description>" -t bug -p 0 --json
-   ```
-
-3. **Link new issues to parent work**:
-
-   ```bash
-   bd dep add <new-id> <parent-id> --type discovered-from
-   ```
-
-4. **Add labels for organization**:
-
-   ```bash
-   bd label add <id> backend,urgent
-   ```
-
-5. **Query issue details when needed**:
-
-   ```bash
-   bd show <id> --json
-   ```
-
-### Completing Work Workflow
-
-**To properly close out tasks:**
-
-1. **Close with description**:
-
-   ```bash
-   bd close <id> --reason "Implemented feature X with tests" --json
-   ```
-
-2. **Verify dependencies are resolved** - Check if any blocked issues are now ready
-
-3. **Update related issues** - If completing work unblocks other issues, note it
-
-### Critical Guidelines for Agents
-
-**Agents using Beads MUST:**
-
-- ✅ **ALWAYS use `--json` flag** for programmatic access
-- ✅ **File issues instead of storing plans in context** - solves amnesia problem
-- ✅ **Use dependency tracking** for complex task chains
-- ✅ **Keep descriptions clear and actionable**
-- ✅ **Automatically file issues** for problems noticed during work
-- ✅ **Query ready work at start of each session**
-- ✅ **Link discovered work back to parent issues** for audit trail
-
-### Dependency System
-
-Beads provides four types of dependencies:
-
-1. **`blocks`**: Hard blocker - issue cannot start until blocker is resolved
-
-   ```bash
-   bd dep add bd-2 bd-1 --type blocks
-   ```
-
-2. **`related`**: Soft relationship - issues are connected but not blocking
-
-   ```bash
-   bd dep add bd-3 bd-2 --type related
-   ```
-
-3. **`parent-child`**: Hierarchical relationship (child depends on parent)
-
-   ```bash
-   bd dep add bd-4 bd-3 --type parent-child
-   ```
-
-4. **`discovered-from`**: Issue discovered during work on another issue
-
-   ```bash
-   bd dep add bd-5 bd-4 --type discovered-from
-   ```
-
-**Note**: Only `blocks` dependencies affect ready work detection.
-
-### Visualizing Dependencies
+## Essential Commands
 
 ```bash
-# Show full dependency tree
-bd dep tree <id>
+# Development
+npm run dev              # Start dev server (port 8081)
+npm run build            # Production build
+npm run build:dev        # Development build
 
-# Detect circular dependencies
-bd dep cycles
+# Testing
+npm run test             # Run Vitest unit tests
+npm run test:watch       # Watch mode
+npm run test:e2e         # Playwright end-to-end tests
+npm run test:e2e:ui      # Playwright UI mode
+
+# Utilities
+npm run generate-feed     # Update EDM news from RSS
+npm run sync:printify     # Sync Printify products
 ```
 
-### Labels and Filtering
+## Critical Gotchas
 
-```bash
-# Add labels during creation
-bd create "Fix auth bug" -t bug -p 1 -l auth,backend,urgent --json
+1. **Port Mismatch:** Vite dev (8081) vs Playwright (5173) - update configs consistently
+2. **Audio Context:** Always use `useTrueAudio` for basic playback, `useDJAudio` for DJ features
+3. **Feature Flags:** Check `src/config/features.ts` before implementing new audio features
+4. **Database Types:** Use auto-generated types from `src/lib/supabase.ts`, not manual interfaces
+5. **Test Location:** Vitest requires test files in source directories for path resolution
+6. **LocalStorage:** DJ station uses specific keys - check `vflx10-deckA/B` patterns
 
-# Add/remove labels
-bd label add <id> security
-bd label remove <id> urgent
+## Beads Integration (MANDATORY)
 
-# Filter by labels (AND - must have ALL)
-bd list --label backend,auth --json
+This project uses Beads for issue tracking and memory management. All agents MUST:
 
-# Filter by labels (OR - must have AT LEAST ONE)
-bd list --label-any frontend,ui --json
+- Query `bd ready --json` at session start
+- File issues for discovered problems immediately
+- Use `--json` flag for all programmatic access
+- Link discovered work back to parent issues
 
-# List all labels with counts
-bd label list-all
-```
-
-### Batch Operations
-
-```bash
-# Create multiple issues from markdown file
-bd create -f feature-plan.md
-
-# Close multiple issues at once
-bd close bd-1 bd-2 bd-3 --force --json
-```
-
-### Memory Compaction
-
-Beads uses AI to compress old closed issues:
-
-```bash
-# Preview what would be compacted
-bd compact --dry-run --all
-
-# Compact closed issues older than 90 days
-bd compact --days 90
-```
-
-### Quick Reference
-
-```bash
-# Session Startup (MANDATORY)
-bd ready --json          # Find work to do
-bd stats                  # Project statistics
-bd blocked --json         # Issues needing attention
-
-# Issue Management
-bd create "Title" --json  # Create new issue
-bd show <id> --json       # Get issue details
-bd update <id> --status in_progress --json  # Update status
-bd close <id> --reason "Done" --json  # Close issue
-
-# Dependencies
-bd dep add <dep> <blocker> --type blocks  # Add dependency
-bd dep tree <id>           # View dependencies
-bd dep cycles              # Detect circular deps
-
-# Lists and Filters
-bd list --status open --json      # List open issues
-bd list --label backend --json    # Filter by label
-bd list --label-any frontend,ui --json  # OR filter
-```
-
-### Troubleshooting
-
-**"bd: command not found"**
-
-- Verify Go bin is in PATH: `echo $PATH`
-- Check bd location: `which bd`
-- Manually add to PATH: `export PATH="$PATH:/Users/kfitz/go/bin"`
-
-**Permission Denied**
-
-```bash
-chmod +x /Users/kfitz/go/bin/bd
-```
-
-**Cursor Agent Not Using bd**
-
-- Ensure AGENTS.md exists in project root ✅
-- Verify AGENTS.md contains bd instructions ✅
-- Restart Cursor IDE completely
-- Explicitly tell agent: "Please use bd for all issue tracking"
-
-### Why Beads Transforms Agent Workflows
-
-Beads solves critical problems with AI coding agents:
-
-- **Amnesia Problem**: Agents lose context across sessions. Beads provides persistent memory through its issue tracker.
-- **Lost Work**: Problems agents notice but can't address immediately are often forgotten. With Beads, agents automatically file issues for discovered work.
-- **Context Limits**: Complex plans consume valuable context space. Beads moves planning to a structured database, freeing up context for actual code.
-- **Multi-Agent Coordination**: Multiple agents or machines share the same logical database through Git sync, enabling true distributed development.
-- **Audit Trail**: Every change is logged, allowing reconstruction of complex operations spanning multiple sessions.
-
-### Multi-Machine Setup
-
-Because Beads syncs through Git:
-
-- Install `bd` on each machine
-- Clone the project repo
-- The `.beads/issues.jsonl` file syncs automatically via git
-- Each machine maintains its own local SQLite cache
-- Changes sync bidirectionally through normal git operations
-
-**Best Practices:**
-
-- Always use `--json` flag when agents interact with bd programmatically
-- Install git hooks when prompted during `bd init` - they handle auto-sync
-- Let agents file issues automatically - this is the key to solving amnesia
-- Use appropriate dependency types - `blocks` for hard dependencies, `discovered-from` for new work found during tasks
-- Review `bd stats` regularly to understand project health
-- Commit `.beads/issues.jsonl` but gitignore `.beads/*.db` files
-- Use labels liberally for better organization and filtering
-- Link discovered work back to parent issues for full audit trail
-
-[byterover-mcp]
-
-[byterover-mcp]
-
-You are given two tools from Byterover MCP server, including
-## 1. `byterover-store-knowledge`
-You `MUST` always use this tool when:
-
-+ Learning new patterns, APIs, or architectural decisions from the codebase
-+ Encountering error solutions or debugging techniques
-+ Finding reusable code patterns or utility functions
-+ Completing any significant task or plan implementation
-
-## 2. `byterover-retrieve-knowledge`
-You `MUST` always use this tool when:
-
-+ Starting any new task or implementation to gather relevant context
-+ Before making architectural decisions to understand existing patterns
-+ When debugging issues to check for previous solutions
-+ Working with unfamiliar parts of the codebase
+See existing AGENTS.md for complete Beads workflow documentation.

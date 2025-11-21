@@ -131,7 +131,12 @@ function MyTracksTab() {
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file) {
+      toast.error('No file selected', {
+        description: 'Please select an audio file to upload',
+      });
+      return;
+    }
     handleFileSelect(file);
   };
 
@@ -170,7 +175,7 @@ function MyTracksTab() {
       }
 
       // Upload track to Supabase
-      await uploadTrack(pendingFile, {
+      const uploadedTrack = await uploadTrack(pendingFile, {
         broadcastRightsConfirmed: broadcastRights,
         bpmDetected,
         duration,
@@ -178,6 +183,26 @@ function MyTracksTab() {
 
       // Refresh tracks list
       await refetch();
+
+      // Auto-play uploaded track if available
+      if (uploadedTrack && uploadedTrack.url) {
+        try {
+          const audio = new Audio(uploadedTrack.url);
+          audioRef.current = audio;
+          setPlayingTrackId(uploadedTrack.id);
+          await audio.play();
+          audio.onended = () => {
+            setPlayingTrackId(null);
+            audioRef.current = null;
+          };
+          audio.onerror = () => {
+            setPlayingTrackId(null);
+            audioRef.current = null;
+          };
+        } catch (playError) {
+          console.warn('Could not auto-play track:', playError);
+        }
+      }
 
       // Clear pending file and reset
       setPendingFile(null);
@@ -187,7 +212,13 @@ function MyTracksTab() {
       }
     } catch (error) {
       console.error('[Upload Error]', error);
-      // Error is already handled by useUploadTrack hook
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      toast.error('Upload failed', {
+        description: errorMessage,
+      });
+    } finally {
+      // Dismiss any loading toasts and ensure UI state is clean
+      toast.dismiss();
     }
   };
 

@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { supabase } from "@/lib/supabase";
 import { AnimatePresence, motion, PanInfo } from "framer-motion";
 import {
   AlertCircle,
@@ -27,7 +28,6 @@ import {
 } from "lucide-react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { supabase } from "@/lib/supabase";
 import EnhancedFeedCard from "./EnhancedFeedCard";
 
 // Types
@@ -792,7 +792,8 @@ const EnhancedRSSFeed: React.FC = () => {
                 Enhanced EDM Feed <Zap className="w-5 h-5 text-neon-cyan" />
               </h2>
               <p className="text-sm text-slate-400">
-                AI-powered EDM news — last 48 hours from {metadata?.sources?.length ?? uniqueSources.length} sources
+                AI-powered EDM news — last 48 hours from{" "}
+                {metadata?.sources?.length ?? uniqueSources.length} sources
               </p>
             </div>
           </div>
@@ -937,7 +938,11 @@ const EnhancedRSSFeed: React.FC = () => {
                 >
                   <motion.div
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                   >
                     <Rss className="w-8 h-8 text-neon-purple" />
                   </motion.div>
@@ -959,7 +964,7 @@ const EnhancedRSSFeed: React.FC = () => {
               >
                 {currentItems.map((item, index) => (
                   <EnhancedFeedCard
-                    key={`${item.id}-${currentPage}-${index}`}
+                    key={`${item.source}-${item.id}-${currentPage}-${index}`}
                     item={item}
                     index={index}
                     isHovered={false}
@@ -970,158 +975,167 @@ const EnhancedRSSFeed: React.FC = () => {
               </motion.div>
             </div>
 
-                {/* Mobile Pagination - Simplified */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-neon-purple/20">
-                  <Button
-                    onClick={goToPrevPage}
-                    disabled={currentPage === 1}
-                    variant="outline"
-                    size="lg"
-                    aria-label="Go to previous page"
-                    aria-disabled={currentPage === 1}
-                        className={`
+            {/* Mobile Pagination - Simplified */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-neon-purple/20">
+              <Button
+                onClick={goToPrevPage}
+                disabled={currentPage === 1}
+                variant="outline"
+                size="lg"
+                aria-label="Go to previous page"
+                aria-disabled={currentPage === 1}
+                className={`
                       w-full sm:w-auto
                       border-neon-purple/30 text-white
-                      ${currentPage === 1
-                        ? 'opacity-30 cursor-not-allowed'
-                        : 'hover:bg-neon-purple/20 hover:border-neon-purple'
+                      ${
+                        currentPage === 1
+                          ? "opacity-30 cursor-not-allowed"
+                          : "hover:bg-neon-purple/20 hover:border-neon-purple"
                       }
                     `}
-                  >
-                    <ChevronLeft className="w-5 h-5 mr-2" />
-                    Previous
-                  </Button>
+              >
+                <ChevronLeft className="w-5 h-5 mr-2" />
+                Previous
+              </Button>
 
-                  {/* Page Indicator - Stacked on Mobile */}
-                  <div className="flex flex-col items-center gap-2">
-                    <p className="text-sm text-slate-400">
-                      Page {currentPage} of {totalPages}
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of {filteredItems.length} stories
-                    </p>
+              {/* Page Indicator - Stacked on Mobile */}
+              <div className="flex flex-col items-center gap-2">
+                <p className="text-sm text-slate-400">
+                  Page {currentPage} of {totalPages}
+                </p>
+                <p className="text-xs text-slate-500">
+                  {startIndex + 1}-{Math.min(endIndex, filteredItems.length)} of{" "}
+                  {filteredItems.length} stories
+                </p>
 
-                    {/* Mobile Page Dots - Show only on tablet+ */}
-                    {totalPages <= 10 && (
-                      <div className="hidden sm:flex items-center gap-2 mt-2">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                          <button
-                            key={page}
-                            onClick={() => {
-                              setCurrentPage(page);
-                              document.getElementById('rss-feed-top')?.scrollIntoView({
-                                behavior: 'smooth'
+                {/* Mobile Page Dots - Show only on tablet+ */}
+                {totalPages <= 10 && (
+                  <div className="hidden sm:flex items-center gap-2 mt-2">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (page) => (
+                        <button
+                          key={page}
+                          onClick={() => {
+                            setCurrentPage(page);
+                            document
+                              .getElementById("rss-feed-top")
+                              ?.scrollIntoView({
+                                behavior: "smooth",
                               });
-                            }}
-                            className={`
+                          }}
+                          className={`
                               w-2 h-2 rounded-full transition-all
-                              ${page === currentPage
-                                ? 'bg-neon-purple w-8'
-                                : 'bg-slate-600 hover:bg-slate-500'
+                              ${
+                                page === currentPage
+                                  ? "bg-neon-purple w-8"
+                                  : "bg-slate-600 hover:bg-slate-500"
                               }
                             `}
-                            aria-label={`Go to page ${page}`}
-                          />
-                        ))}
-                      </div>
+                          aria-label={`Go to page ${page}`}
+                        />
+                      )
                     )}
                   </div>
+                )}
+              </div>
 
-                  <Button
-                    onClick={goToNextPage}
-                    disabled={currentPage === totalPages}
-                    variant="outline"
-                    size="lg"
-                    aria-label="Go to next page"
-                    aria-disabled={currentPage === totalPages}
-                    className={`
+              <Button
+                onClick={goToNextPage}
+                disabled={currentPage === totalPages}
+                variant="outline"
+                size="lg"
+                aria-label="Go to next page"
+                aria-disabled={currentPage === totalPages}
+                className={`
                       w-full sm:w-auto
                       border-neon-purple/30 text-white
-                      ${currentPage === totalPages
-                        ? 'opacity-30 cursor-not-allowed'
-                        : 'hover:bg-neon-purple/20 hover:border-neon-purple'
+                      ${
+                        currentPage === totalPages
+                          ? "opacity-30 cursor-not-allowed"
+                          : "hover:bg-neon-purple/20 hover:border-neon-purple"
                       }
                     `}
-                  >
-                    Next
-                    <ChevronRight className="w-5 h-5 ml-2" />
-                  </Button>
-                            </div>
+              >
+                Next
+                <ChevronRight className="w-5 h-5 ml-2" />
+              </Button>
+            </div>
 
-                            {/* Live region for screen readers */}
-                            <div
-                              role="status"
-                              aria-live="polite"
-                              aria-atomic="true"
-                              className="sr-only"
-                            >
-                              Page {currentPage} of {totalPages}, showing {currentItems.length} articles
-                            </div>
+            {/* Live region for screen readers */}
+            <div
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              className="sr-only"
+            >
+              Page {currentPage} of {totalPages}, showing {currentItems.length}{" "}
+              articles
+            </div>
 
-                            {/* Quick Jump (optional - for many pages) */}
-                            {totalPages > 10 && (
-                              <div className="flex items-center justify-center gap-2 pt-4">
-                                <span className="text-sm text-slate-400">Jump to page:</span>
-                                <Input
-                                  type="number"
-                                  min={1}
-                                  max={totalPages}
-                                  value={currentPage}
-                                  onChange={(e) => {
-                                    const page = parseInt(e.target.value);
-                                    if (page >= 1 && page <= totalPages) {
-                                      setCurrentPage(page);
-                                      document.getElementById('rss-feed-top')?.scrollIntoView({
-                                        behavior: 'smooth'
-                                      });
-                                    }
-                                  }}
-                                  className="w-20 bg-bass-dark/50 border-slate-600/30 text-white text-center"
-                                />
-                              </div>
-                            )}
-                          </div>
-                        ) : (
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="text-center py-12"
-                          >
-                            <Rss className="w-12 h-12 mx-auto text-slate-500" />
-                            <h3 className="mt-4 text-xl font-bold text-white">
-                              No Articles Found in Last 48 Hours
-                            </h3>
-                            <p className="mt-2 text-slate-400">
-                              Try adjusting your filters or check back later for fresh content.
-                            </p>
-                            <Button
-                              onClick={refreshFeed}
-                              variant="outline"
-                              className="mt-6 border-neon-purple/30 text-neon-purple"
-                            >
-                              <RefreshCw className="w-4 h-4 mr-2" />
-                              Refresh Feed
-                            </Button>
-                          </motion.div>
-                        )}
+            {/* Quick Jump (optional - for many pages) */}
+            {totalPages > 10 && (
+              <div className="flex items-center justify-center gap-2 pt-4">
+                <span className="text-sm text-slate-400">Jump to page:</span>
+                <Input
+                  type="number"
+                  min={1}
+                  max={totalPages}
+                  value={currentPage}
+                  onChange={(e) => {
+                    const page = parseInt(e.target.value);
+                    if (page >= 1 && page <= totalPages) {
+                      setCurrentPage(page);
+                      document.getElementById("rss-feed-top")?.scrollIntoView({
+                        behavior: "smooth",
+                      });
+                    }
+                  }}
+                  className="w-20 bg-bass-dark/50 border-slate-600/30 text-white text-center"
+                />
+              </div>
+            )}
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center py-12"
+          >
+            <Rss className="w-12 h-12 mx-auto text-slate-500" />
+            <h3 className="mt-4 text-xl font-bold text-white">
+              No Articles Found in Last 48 Hours
+            </h3>
+            <p className="mt-2 text-slate-400">
+              Try adjusting your filters or check back later for fresh content.
+            </p>
+            <Button
+              onClick={refreshFeed}
+              variant="outline"
+              className="mt-6 border-neon-purple/30 text-neon-purple"
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Refresh Feed
+            </Button>
+          </motion.div>
+        )}
 
-                        {/* View All Stories Link */}
-                        <div className="text-center pt-6">
-                          <Button
-                            variant="ghost"
-                            size="lg"
-                            className="text-neon-cyan hover:text-neon-purple transition-colors"
-                            onClick={() => window.location.href = '/news'}
-                          >
-                            View All {filteredItems.length} Stories from Last 48 Hours
-                            <ChevronRight className="w-4 h-4 ml-2" />
-                          </Button>
-                        </div>
+        {/* View All Stories Link */}
+        <div className="text-center pt-6">
+          <Button
+            variant="ghost"
+            size="lg"
+            className="text-neon-cyan hover:text-neon-purple transition-colors"
+            onClick={() => (window.location.href = "/news")}
+          >
+            View All {filteredItems.length} Stories from Last 48 Hours
+            <ChevronRight className="w-4 h-4 ml-2" />
+          </Button>
+        </div>
 
-                        <StatusIndicator />
-                      </div>
-                    </div>
-                  );
+        <StatusIndicator />
+      </div>
+    </div>
+  );
                 };
 
 export default EnhancedRSSFeed;

@@ -1,16 +1,9 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDJAudio } from "@/hooks/vFLX10/useDJAudio";
-import { useUserTracks } from "@/hooks/vFLX10/useTracks";
-import { Loader2, Music } from "lucide-react";
+import { Power } from "lucide-react";
 import { useEffect, useState } from "react";
+import * as Tone from "tone";
 import { Deck } from "./Deck";
 import { Mixer } from "./Mixer";
 
@@ -22,15 +15,8 @@ interface LoadedTrack {
   source: string;
 }
 
-/**
- * DJ Station Component (Adapted from vFLX-10)
- *
- * TODO: Wire to Supabase for track loading
- * - Replace trpc.tracks.list with Supabase query
- * - Wire useDJAudio hook for audio routing
- */
 export function DJStation() {
-  // Load persisted deck state from localStorage
+  const [audioStarted, setAudioStarted] = useState(false);
   const [deckATrack, setDeckATrack] = useState<LoadedTrack | null>(() => {
     const saved = localStorage.getItem("vflx10-deckA");
     return saved ? JSON.parse(saved) : null;
@@ -57,18 +43,12 @@ export function DJStation() {
     }
   }, [deckBTrack]);
 
-  // Use hook for track management from Supabase
-  const { tracks, isLoading } = useUserTracks();
-
   // Initialize audio routing with useDJAudio hook
   const djAudio = useDJAudio();
 
-  const handleLoadToDeckA = (track: LoadedTrack) => {
-    setDeckATrack(track);
-  };
-
-  const handleLoadToDeckB = (track: LoadedTrack) => {
-    setDeckBTrack(track);
+  const startAudioEngine = async () => {
+    await Tone.start();
+    setAudioStarted(true);
   };
 
   const handleDeckADrop = (track: LoadedTrack) => {
@@ -94,139 +74,125 @@ export function DJStation() {
     }
   };
 
-  return (
-    <div className="w-full">
-      {/* Responsive Grid: Mobile = stacked, Desktop = sidebar + decks */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        {/* Track Library Sidebar - Hidden on mobile when in studio view */}
-        <Card className="lg:col-span-1 bg-slate-900/90 border-slate-700/50">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-white">
-              <Music className="h-4 w-4 md:h-5 md:w-5 text-cyan-400" />
-              <span className="text-sm md:text-base">Track Library</span>
-            </CardTitle>
-            <CardDescription className="text-slate-400 text-xs md:text-sm">
-              Load tracks to decks
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[400px] md:h-[600px]">
-              {isLoading ? (
-                <div className="flex items-center justify-center py-8">
-                  <Loader2 className="h-6 w-6 animate-spin text-cyan-400" />
-                </div>
-              ) : tracks.length > 0 ? (
-                <div className="space-y-2">
-                  {tracks.map((track) => (
-                    <Card
-                      key={track.id}
-                      className="p-3 bg-slate-800 border-slate-600"
-                    >
-                      <div className="space-y-2">
-                        <div
-                          className="font-medium text-sm truncate text-white"
-                          title={track.name}
-                        >
-                          {track.name}
-                        </div>
-                        <div className="flex gap-1">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="flex-1 text-xs !border-slate-700 !bg-slate-800 !text-white hover:!bg-slate-700 hover:!text-white"
-                            onClick={() =>
-                              handleLoadToDeckA({
-                                id: track.id,
-                                name: track.name,
-                                url: track.url,
-                                bpm:
-                                  track.bpm_accurate ||
-                                  track.bpm_detected ||
-                                  undefined,
-                                source: track.source,
-                              })
-                            }
-                          >
-                            Deck A
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="flex-1 text-xs !border-slate-700 !bg-slate-800 !text-white hover:!bg-slate-700 hover:!text-white"
-                            onClick={() =>
-                              handleLoadToDeckB({
-                                id: track.id,
-                                name: track.name,
-                                url: track.url,
-                                bpm:
-                                  track.bpm_accurate ||
-                                  track.bpm_detected ||
-                                  undefined,
-                                source: track.source,
-                              })
-                            }
-                          >
-                            Deck B
-                          </Button>
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-sm text-slate-400">
-                  <Music className="h-12 w-12 mx-auto mb-2 opacity-20" />
-                  <p className="text-white">No tracks available</p>
-                  <p className="text-xs mt-1 text-slate-500">
-                    Upload tracks in the Library tab
-                  </p>
-                </div>
-              )}
-            </ScrollArea>
-          </CardContent>
-        </Card>
-
-        {/* DJ Interface */}
-        <div className="lg:col-span-3 space-y-4">
-          <Card className="bg-slate-900/90 border-slate-700/50">
-            <CardHeader>
-              <CardTitle className="text-white text-base md:text-lg">
-                DJ Station
-              </CardTitle>
-              <CardDescription className="text-slate-400 text-xs md:text-sm">
-                Mix and perform with the vFLX-10 interface
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Decks A & B - Responsive: 1 column on mobile, 2 columns on desktop */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Deck
-                  deckId="A"
-                  trackUrl={deckATrack?.url}
-                  trackName={deckATrack?.name}
-                  trackBpm={deckATrack?.bpm}
-                  onTrackDrop={handleDeckADrop}
-                  audioOutput={djAudio.deckAGain}
-                  onSync={handleSyncDeckA}
-                  otherDeckBpm={deckBTrack?.bpm}
-                />
-                <Deck
-                  deckId="B"
-                  trackUrl={deckBTrack?.url}
-                  trackName={deckBTrack?.name}
-                  trackBpm={deckBTrack?.bpm}
-                  onTrackDrop={handleDeckBDrop}
-                  audioOutput={djAudio.deckBGain}
-                  onSync={handleSyncDeckB}
-                  otherDeckBpm={deckATrack?.bpm}
-                />
-              </div>
-
-              {/* Mixer */}
-              <Mixer />
-            </CardContent>
-          </Card>
+  if (!audioStarted) {
+    return (
+      <div className="h-full flex flex-col items-center justify-center bg-zinc-950 space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-3xl font-bold text-white">Ready to Mix?</h2>
+          <p className="text-zinc-400">Initialize the audio engine to begin.</p>
         </div>
+        <Button
+          size="lg"
+          onClick={startAudioEngine}
+          className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold px-8 py-6 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all hover:scale-105"
+        >
+          <Power className="w-6 h-6 mr-2" />
+          POWER ON FLX-10
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-full bg-zinc-950 p-2 lg:p-4">
+      {/* Desktop Grid Layout */}
+      <div className="hidden lg:grid grid-cols-12 gap-4 h-full max-h-[800px] mx-auto max-w-[1600px]">
+        {/* DECK A */}
+        <div className="col-span-5 bg-zinc-900/50 rounded-xl border border-zinc-800 p-4 shadow-inner">
+          <Deck
+            deckId="A"
+            trackUrl={deckATrack?.url}
+            trackName={deckATrack?.name}
+            trackBpm={deckATrack?.bpm}
+            onTrackDrop={handleDeckADrop}
+            audioOutput={djAudio.deckAGain}
+            onSync={handleSyncDeckA}
+            otherDeckBpm={deckBTrack?.bpm}
+          />
+        </div>
+
+        {/* MIXER */}
+        <div className="col-span-2 bg-zinc-950 rounded-xl border border-zinc-800 p-2 shadow-xl flex flex-col">
+          <Mixer />
+        </div>
+
+        {/* DECK B */}
+        <div className="col-span-5 bg-zinc-900/50 rounded-xl border border-zinc-800 p-4 shadow-inner">
+          <Deck
+            deckId="B"
+            trackUrl={deckBTrack?.url}
+            trackName={deckBTrack?.name}
+            trackBpm={deckBTrack?.bpm}
+            onTrackDrop={handleDeckBDrop}
+            audioOutput={djAudio.deckBGain}
+            onSync={handleSyncDeckB}
+            otherDeckBpm={deckATrack?.bpm}
+          />
+        </div>
+      </div>
+
+      {/* Mobile Tabbed Layout */}
+      <div className="lg:hidden h-full flex flex-col">
+        <Tabs defaultValue="mixer" className="flex-1 flex flex-col">
+          <div className="flex-1 overflow-hidden relative">
+            <TabsContent
+              value="deck-a"
+              className="h-full m-0 p-2 data-[state=active]:flex"
+            >
+              <Deck
+                deckId="A"
+                trackUrl={deckATrack?.url}
+                trackName={deckATrack?.name}
+                trackBpm={deckATrack?.bpm}
+                onTrackDrop={handleDeckADrop}
+                audioOutput={djAudio.deckAGain}
+                onSync={handleSyncDeckA}
+                otherDeckBpm={deckBTrack?.bpm}
+              />
+            </TabsContent>
+            <TabsContent
+              value="mixer"
+              className="h-full m-0 p-2 data-[state=active]:flex"
+            >
+              <Mixer />
+            </TabsContent>
+            <TabsContent
+              value="deck-b"
+              className="h-full m-0 p-2 data-[state=active]:flex"
+            >
+              <Deck
+                deckId="B"
+                trackUrl={deckBTrack?.url}
+                trackName={deckBTrack?.name}
+                trackBpm={deckBTrack?.bpm}
+                onTrackDrop={handleDeckBDrop}
+                audioOutput={djAudio.deckBGain}
+                onSync={handleSyncDeckB}
+                otherDeckBpm={deckATrack?.bpm}
+              />
+            </TabsContent>
+          </div>
+          <TabsList className="grid grid-cols-3 bg-zinc-900 border-t border-zinc-800 h-16 rounded-none">
+            <TabsTrigger
+              value="deck-a"
+              className="data-[state=active]:text-cyan-400 data-[state=active]:bg-zinc-800"
+            >
+              DECK A
+            </TabsTrigger>
+            <TabsTrigger
+              value="mixer"
+              className="data-[state=active]:text-white data-[state=active]:bg-zinc-800"
+            >
+              MIXER
+            </TabsTrigger>
+            <TabsTrigger
+              value="deck-b"
+              className="data-[state=active]:text-purple-400 data-[state=active]:bg-zinc-800"
+            >
+              DECK B
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
       </div>
     </div>
   );

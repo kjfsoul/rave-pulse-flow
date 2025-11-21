@@ -1,45 +1,61 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useMemo } from "react";
-import { useAuth } from "@/contexts/AuthContext";
-import { marketplaceOperations } from "@/lib/database";
-import { toast } from "sonner";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import BottomNavigation from "@/components/BottomNavigation";
-import { Card, CardContent } from "@/components/ui/card";
+import Layout from "@/components/Layout";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ShoppingBag, ExternalLink } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { useAuth } from "@/contexts/AuthContext";
 import { usePrintifyProducts } from "@/hooks/usePrintifyProducts";
+import { marketplaceOperations } from "@/lib/database";
 import { formatCurrency, getProductUrl } from "@/lib/printify";
+import { motion } from "framer-motion";
+import { ExternalLink, ShoppingBag } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 
 const MarketplaceGrid = () => {
   const { user, profile } = useAuth();
   const [userPurchases, setUserPurchases] = useState<string[]>([]);
-  const { mergedProducts: mergedPrintifyProducts, loading: printifyLoading } = usePrintifyProducts({ fetchLimit: 30 });
+  const { mergedProducts: mergedPrintifyProducts, loading: printifyLoading } =
+    usePrintifyProducts({ fetchLimit: 30 });
 
-  const printifyCatalog = useMemo(() => mergedPrintifyProducts, [mergedPrintifyProducts]);
+  const printifyCatalog = useMemo(
+    () => mergedPrintifyProducts,
+    [mergedPrintifyProducts]
+  );
 
   const getPrintifyImage = (
     images?: { preview?: string | null; src: string; isDefault?: boolean }[]
   ) => {
     if (!images || images.length === 0) return null;
     const preferred = images.find((image) => image.isDefault);
-    return preferred?.preview || preferred?.src || images[0].preview || images[0].src || null;
+    return (
+      preferred?.preview ||
+      preferred?.src ||
+      images[0].preview ||
+      images[0].src ||
+      null
+    );
   };
 
-  const getPrintifyPrice = (product: (typeof mergedPrintifyProducts)[number]) => {
+  const getPrintifyPrice = (
+    product: (typeof mergedPrintifyProducts)[number]
+  ) => {
     if (product.priceRange) {
-      return formatCurrency(product.priceRange.min, product.priceRange.currency || "USD");
+      return formatCurrency(
+        product.priceRange.min,
+        product.priceRange.currency || "USD"
+      );
     }
     const variantPrices = product.variants
       ?.map((variant) => variant.price)
-      .filter((price): price is number => typeof price === "number" && !Number.isNaN(price));
+      .filter(
+        (price): price is number =>
+          typeof price === "number" && !Number.isNaN(price)
+      );
     if (variantPrices && variantPrices.length > 0) {
       return formatCurrency(Math.min(...variantPrices));
     }
     return "See details";
   };
-
 
   // Load user's purchase history (for Printify products if needed)
   useEffect(() => {
@@ -48,9 +64,9 @@ const MarketplaceGrid = () => {
 
       try {
         const purchases = await marketplaceOperations.getUserPurchases(user.id);
-        setUserPurchases(purchases.map(p => p.item_id));
+        setUserPurchases(purchases.map((p) => p.item_id));
       } catch (error) {
-        console.error('Error loading purchases:', error);
+        console.error("Error loading purchases:", error);
       }
     };
 
@@ -59,7 +75,7 @@ const MarketplaceGrid = () => {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-bass-dark relative pb-20">
+      <Layout title="Rave Marketplace">
         {/* User Profile Corner */}
         {profile && (
           <motion.div
@@ -69,16 +85,20 @@ const MarketplaceGrid = () => {
           >
             <div className="flex items-center gap-2">
               <div className="text-xl">
-                {profile.archetype === 'Firestorm' ? '🔥' :
-                 profile.archetype === 'FrostPulse' ? '❄️' :
-                 profile.archetype === 'MoonWaver' ? '🌙' : '🎭'}
+                {profile.archetype === "Firestorm"
+                  ? "🔥"
+                  : profile.archetype === "FrostPulse"
+                  ? "❄️"
+                  : profile.archetype === "MoonWaver"
+                  ? "🌙"
+                  : "🎭"}
               </div>
               <div>
                 <div className="text-sm font-semibold text-neon-cyan">
                   {profile.plur_points || 0} PLUR
                 </div>
                 <div className="text-xs text-slate-400">
-                  {profile.archetype || 'Unassigned'}
+                  {profile.archetype || "Unassigned"}
                 </div>
               </div>
             </div>
@@ -94,7 +114,9 @@ const MarketplaceGrid = () => {
             <h1 className="text-3xl font-bold text-neon-purple mb-2">
               🛍️ Rave Marketplace
             </h1>
-            <p className="text-slate-400">Fresh merch drops from our Printify store</p>
+            <p className="text-slate-400">
+              Fresh merch drops from our Printify store
+            </p>
           </motion.div>
 
           <section className="mb-12">
@@ -110,7 +132,8 @@ const MarketplaceGrid = () => {
                   Printify Merch Catalog
                 </h2>
                 <p className="text-slate-400">
-                  Live products synced from the EDM Shuffle Printify storefront. Only visible, published merch appears here.
+                  Live products synced from the EDM Shuffle Printify storefront.
+                  Only visible, published merch appears here.
                 </p>
               </div>
               {printifyLoading && (
@@ -127,7 +150,10 @@ const MarketplaceGrid = () => {
             ) : printifyCatalog.length === 0 ? (
               <div className="bg-bass-medium/40 border border-dashed border-neon-cyan/30 rounded-3xl py-12 text-center text-slate-400">
                 No live merch available yet. Run{" "}
-                <code className="px-2 py-1 bg-bass-medium rounded">npm run sync:printify</code> after publishing products.
+                <code className="px-2 py-1 bg-bass-medium rounded">
+                  npm run sync:printify
+                </code>{" "}
+                after publishing products.
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -172,14 +198,16 @@ const MarketplaceGrid = () => {
                               {product.title}
                             </h3>
                             <p className="text-sm text-slate-400 mt-2 line-clamp-3">
-                              {product.description?.replace(/<[^>]*>/g, "") || "Limited edition EDM Shuffle drop"}
+                              {product.description?.replace(/<[^>]*>/g, "") ||
+                                "Limited edition EDM Shuffle drop"}
                             </p>
                             <div className="mt-auto flex items-center justify-between pt-4 text-sm">
                               <span className="text-neon-cyan text-xl font-bold">
                                 {getPrintifyPrice(product)}
                               </span>
                               <Badge className="bg-bass-dark/80 border-neon-cyan/40 text-neon-cyan">
-                                {product.variants?.length || 1} variant{(product.variants?.length || 1) > 1 ? "s" : ""}
+                                {product.variants?.length || 1} variant
+                                {(product.variants?.length || 1) > 1 ? "s" : ""}
                               </Badge>
                             </div>
                           </div>
@@ -194,7 +222,7 @@ const MarketplaceGrid = () => {
         </div>
 
         <BottomNavigation />
-      </div>
+      </Layout>
     </ProtectedRoute>
   );
 };
