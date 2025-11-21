@@ -358,9 +358,12 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                     value={formData.password}
                     onChange={handleInputChange}
                     className="pl-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400"
-                    placeholder="Choose a password (min. 6 chars, must include uppercase, lowercase, and number)"
+                    placeholder="Choose a password"
                   />
                 </div>
+                <p className="text-xs text-gray-400 mt-1 px-1">
+                  Must be 6+ characters with uppercase, lowercase, and a number
+                </p>
               </div>
 
               {error && (

@@ -172,7 +172,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         // Check for specific password errors by code first (most reliable)
         const errorCode = (error as any).code
-        
+
         if (errorCode === 'weak_password') {
           // Supabase password strength requirement
           userMessage = 'Password must contain at least one lowercase letter, one uppercase letter, and one number'
@@ -180,8 +180,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           // Password length error
           userMessage = 'Password must be at least 6 characters long'
         } else if (errorLower.includes('password') && (
-          (errorLower.includes('at least') && errorLower.includes('6')) || 
-          (errorLower.includes('minimum') && errorLower.includes('6')) || 
+          (errorLower.includes('at least') && errorLower.includes('6')) ||
+          (errorLower.includes('minimum') && errorLower.includes('6')) ||
           (errorLower.includes('too short')) ||
           (errorLower.includes('6 characters'))
         )) {
@@ -189,8 +189,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           userMessage = 'Password must be at least 6 characters long'
         } else if (errorLower.includes('email') && (errorLower.includes('invalid') || errorLower.includes('format'))) {
           userMessage = 'Please enter a valid email address'
+        } else if (errorCode === 'over_email_send_rate_limit') {
+          // Email send rate limit - different from signup attempts
+          userMessage = 'Email sending rate limit exceeded. Please wait a few minutes before trying again'
         } else if (errorLower.includes('rate limit') || errorLower.includes('too many')) {
-          userMessage = 'Too many attempts. Please wait a few minutes before trying again'
+          userMessage = 'Too many signup attempts. Please wait a few minutes before trying again'
         } else if (errorLower.includes('already registered') || errorLower.includes('already exists') || errorLower.includes('user already')) {
           userMessage = 'An account with this email already exists. Try signing in instead'
         } else if (errorLower.includes('email not confirmed') || errorLower.includes('not verified')) {

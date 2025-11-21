@@ -105,7 +105,7 @@ const Layout: React.FC<LayoutProps> = ({
                       size="sm"
                       className="text-white hover:bg-white/10"
                     >
-                      Sign In
+                      Sign In / Sign Up
                     </Button>
                     <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
                       <DialogContent className="sm:max-w-md">

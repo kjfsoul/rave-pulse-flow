@@ -963,8 +963,11 @@ const EnhancedRSSFeed: React.FC = () => {
                 onDragEnd={handleDragEnd}
               >
                 {currentItems.map((item, index) => {
-                  // Create a unique key using multiple identifiers to prevent duplicates
-                  const uniqueKey = `${item.source}-${item.id}-${item.link || ''}-${currentPage}-${index}-${item.pub_date || Date.now()}-${item.title?.substring(0, 10) || ''}`
+                  // Create a truly unique key - use link as primary identifier since it should be unique
+                  // Fallback to a combination of multiple fields + index to ensure uniqueness
+                  const uniqueKey = item.link 
+                    ? `${item.link}-${currentPage}-${index}` 
+                    : `${item.source}-${item.title?.substring(0, 20) || 'item'}-${item.pub_date || Date.now()}-${currentPage}-${index}`
                   return (
                     <EnhancedFeedCard
                       key={uniqueKey}
