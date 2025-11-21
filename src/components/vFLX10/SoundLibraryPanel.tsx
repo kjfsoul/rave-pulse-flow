@@ -158,31 +158,54 @@ function MyTracksTab() {
       let bpmDetected: number | undefined;
       let duration: number | undefined;
 
-      // Attempt to get duration from audio file
+      // Attempt to get duration from audio file (with timeout to prevent hanging)
+      console.log('[SoundLibraryPanel] Attempting to detect audio duration...')
       try {
         const audio = new Audio();
-        audio.src = URL.createObjectURL(pendingFile);
-        await new Promise((resolve, reject) => {
+        const objectUrl = URL.createObjectURL(pendingFile);
+        audio.src = objectUrl;
+
+        const durationPromise = new Promise<void>((resolve, reject) => {
           audio.onloadedmetadata = () => {
             duration = Math.round(audio.duration);
-            URL.revokeObjectURL(audio.src);
-            resolve(true);
+            URL.revokeObjectURL(objectUrl);
+            console.log('[SoundLibraryPanel] Duration detected:', duration, 'seconds')
+            resolve();
           };
-          audio.onerror = reject;
+          audio.onerror = (err) => {
+            URL.revokeObjectURL(objectUrl);
+            reject(err);
+          };
         });
+
+        // Add 5-second timeout for duration detection
+        const timeoutPromise = new Promise<void>((_, reject) => {
+          setTimeout(() => {
+            URL.revokeObjectURL(objectUrl);
+            reject(new Error('Duration detection timed out'));
+          }, 5000);
+        });
+
+        await Promise.race([durationPromise, timeoutPromise]);
       } catch (err) {
-        console.warn('Could not detect audio duration:', err);
+        console.warn('[SoundLibraryPanel] Could not detect audio duration:', err);
+        // Continue without duration - it's optional
       }
 
+      console.log('[SoundLibraryPanel] Starting upload...')
+
       // Upload track to Supabase
+      console.log('[SoundLibraryPanel] Calling uploadTrack...')
       const uploadedTrack = await uploadTrack(pendingFile, {
         broadcastRightsConfirmed: broadcastRights,
         bpmDetected,
         duration,
       });
 
+      console.log('[SoundLibraryPanel] Upload complete, refreshing tracks list...')
       // Refresh tracks list
       await refetch();
+      console.log('[SoundLibraryPanel] Tracks list refreshed')
 
       // Auto-play uploaded track if available
       if (uploadedTrack && uploadedTrack.url) {

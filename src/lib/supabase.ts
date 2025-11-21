@@ -37,6 +37,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     // Persist session in localStorage
     persistSession: true,
   },
+  // Removed custom fetch wrapper - it was causing abort errors
+  // Supabase client handles timeouts internally
 })
 
 // Database types

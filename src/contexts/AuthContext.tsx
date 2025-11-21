@@ -139,6 +139,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string, username?: string) => {
     setLoading(true)
     try {
+      // CRITICAL: DO NOT pass emailRedirectTo - it causes 504 timeouts if the URL isn't in Supabase's allowed list
+      // The browser may have cached old code that was setting emailRedirectTo
+      // This version explicitly does NOT set emailRedirectTo to prevent timeout issues
+      console.log('[Auth] Signup called - NOT setting emailRedirectTo to prevent timeout')
+
+      // Make the signup request - Supabase will use Site URL for email confirmation
+      // Note: With "Confirm email" enabled, Supabase must send an email, which can cause delays
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -146,6 +153,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           data: {
             username,
           },
+          // Intentionally NOT setting emailRedirectTo - Supabase will use Site URL from dashboard
+          // This prevents timeout issues from redirect URL validation
         },
       })
 
@@ -166,42 +175,74 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
 
         // Convert Supabase errors to user-friendly messages
-        let userMessage = error.message
-        const errorLower = error.message.toLowerCase()
-        const errorMsg = error.message
+        // Handle empty error messages (504 timeouts often have empty messages)
+        let userMessage = error.message || ''
+        const errorLower = (error.message || '').toLowerCase()
+        const errorMsg = error.message || ''
 
         // Check for specific password errors by code first (most reliable)
         const errorCode = (error as any).code
+        const errorStatus = error.status
 
-        if (errorCode === 'weak_password') {
+        // Handle HTTP status codes first
+        if (errorStatus === 504) {
+          userMessage = 'Signup timed out. With "Confirm email" enabled, Supabase must send a confirmation email. This timeout usually means:\n\n• Supabase email service is slow or overloaded\n• Database trigger (handle_new_user) is hanging\n• Supabase server is under heavy load\n\nTry:\n1. Wait a few minutes and try again\n2. Check Supabase status: status.supabase.com\n3. Check Supabase dashboard logs for errors\n4. Temporarily disable email confirmation for testing'
+        } else if (errorStatus === 502 || errorStatus === 503) {
+          userMessage = 'Service temporarily unavailable. Please try again in a moment.'
+        } else if (errorStatus === 429) {
+          if (errorCode === 'over_email_send_rate_limit') {
+            userMessage = 'Email sending rate limit exceeded. Please wait a few minutes before trying again'
+          } else {
+            userMessage = 'Too many requests. Please wait a few minutes before trying again'
+          }
+        } else if (errorStatus === 422) {
+          // Validation errors
+          if (errorCode === 'weak_password') {
+            userMessage = 'Password must contain at least one lowercase letter, one uppercase letter, and one number'
+          } else if (errorCode === 'password_too_short' || errorMsg === 'Password should be at least 6 characters') {
+            userMessage = 'Password must be at least 6 characters long'
+          } else if (errorLower.includes('password') && (
+            (errorLower.includes('at least') && errorLower.includes('6')) ||
+            (errorLower.includes('minimum') && errorLower.includes('6')) ||
+            (errorLower.includes('too short')) ||
+            (errorLower.includes('6 characters'))
+          )) {
+            userMessage = 'Password must be at least 6 characters long'
+          } else {
+            userMessage = errorMsg || 'Invalid input. Please check your email and password.'
+          }
+        } else if (errorStatus === 400) {
+          if (errorLower.includes('email') && (errorLower.includes('invalid') || errorLower.includes('format'))) {
+            userMessage = 'Please enter a valid email address'
+          } else if (errorLower.includes('already registered') || errorLower.includes('already exists') || errorLower.includes('user already')) {
+            userMessage = 'An account with this email already exists. Try signing in instead'
+          } else {
+            userMessage = errorMsg || 'Invalid request. Please check your input.'
+          }
+        } else if (errorCode === 'weak_password') {
           // Supabase password strength requirement
           userMessage = 'Password must contain at least one lowercase letter, one uppercase letter, and one number'
-        } else if (errorCode === 'password_too_short' || errorMsg === 'Password should be at least 6 characters') {
-          // Password length error
-          userMessage = 'Password must be at least 6 characters long'
-        } else if (errorLower.includes('password') && (
-          (errorLower.includes('at least') && errorLower.includes('6')) ||
-          (errorLower.includes('minimum') && errorLower.includes('6')) ||
-          (errorLower.includes('too short')) ||
-          (errorLower.includes('6 characters'))
-        )) {
-          // Fallback for length errors without code
-          userMessage = 'Password must be at least 6 characters long'
         } else if (errorLower.includes('email') && (errorLower.includes('invalid') || errorLower.includes('format'))) {
           userMessage = 'Please enter a valid email address'
-        } else if (errorCode === 'over_email_send_rate_limit') {
-          // Email send rate limit - different from signup attempts
-          userMessage = 'Email sending rate limit exceeded. Please wait a few minutes before trying again'
-        } else if (errorLower.includes('rate limit') || errorLower.includes('too many')) {
-          userMessage = 'Too many signup attempts. Please wait a few minutes before trying again'
         } else if (errorLower.includes('already registered') || errorLower.includes('already exists') || errorLower.includes('user already')) {
           userMessage = 'An account with this email already exists. Try signing in instead'
         } else if (errorLower.includes('email not confirmed') || errorLower.includes('not verified')) {
           userMessage = 'Please check your email and click the confirmation link before signing in'
-        } else if (errorLower.includes('network') || errorLower.includes('connection')) {
+        } else if (errorLower.includes('network') || errorLower.includes('connection') || errorLower.includes('timeout')) {
           userMessage = 'Connection error. Please check your internet connection and try again'
+        } else if (errorMsg.includes('signal is aborted') || errorMsg.includes('aborted without reason')) {
+          userMessage = 'Request was cancelled. This might be due to network issues or the request taking too long. Please try again.'
+        } else if (!errorMsg || errorMsg === '{}' || errorMsg.trim() === '') {
+          // Handle empty error messages
+          if (errorStatus) {
+            userMessage = `Request failed with status ${errorStatus}. Please try again.`
+          } else {
+            userMessage = 'An unexpected error occurred. Please try again.'
+          }
+        } else {
+          // Use the original error message if we have one
+          userMessage = errorMsg
         }
-        // If none of the above, use the original error message
 
         console.log('[AuthContext] Translated error:', userMessage)
         const friendlyError = new Error(userMessage)

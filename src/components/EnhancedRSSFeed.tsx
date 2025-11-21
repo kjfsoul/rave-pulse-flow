@@ -378,7 +378,13 @@ const EnhancedRSSFeed: React.FC = () => {
                         item.querySelector('pubDate, published, updated')?.getAttribute('dateTime') ||
                         new Date().toISOString();
 
-        const guid = item.querySelector('guid, id')?.textContent?.trim() || link;
+        // Generate a truly unique ID using guid, link, title, and timestamp
+        const guid = item.querySelector('guid, id')?.textContent?.trim();
+        const linkHash = link.substring(0, 50).replace(/[^a-zA-Z0-9]/g, '');
+        const titleHash = title.substring(0, 30).replace(/[^a-zA-Z0-9]/g, '');
+        const dateHash = new Date(pubDate).getTime().toString().slice(-8);
+        const uniqueId = guid || `${sourceName}-${linkHash}-${titleHash}-${dateHash}-${index}`;
+
         const image = extractImage(item);
         const analysis = analyzeContent(`${title} ${description}`);
 
@@ -398,7 +404,7 @@ const EnhancedRSSFeed: React.FC = () => {
         const cleanDescription = description.replace(/<[^>]*>/g, '').trim().slice(0, 350);
 
         return {
-          id: guid || `rss-${index}`,
+          id: uniqueId,
           title,
           description: cleanDescription,
           fullContent: item.querySelector('content\\:encoded, content:encoded, content')?.textContent || null,
@@ -963,11 +969,15 @@ const EnhancedRSSFeed: React.FC = () => {
                 onDragEnd={handleDragEnd}
               >
                 {currentItems.map((item, index) => {
-                  // Create a truly unique key - use link as primary identifier since it should be unique
-                  // Fallback to a combination of multiple fields + index to ensure uniqueness
-                  const uniqueKey = item.link 
-                    ? `${item.link}-${currentPage}-${index}` 
-                    : `${item.source}-${item.title?.substring(0, 20) || 'item'}-${item.pub_date || Date.now()}-${currentPage}-${index}`
+                  // Create a truly unique key using multiple identifiers
+                  // Ensure we NEVER use category names like "news" or "releases" as keys
+                  // Combine ID + link + source + timestamp + index to guarantee uniqueness
+                  const safeId = item.id && item.id !== 'news' && item.id !== 'releases' ? item.id : `id-${index}`
+                  const linkHash = item.link ? btoa(item.link).substring(0, 16).replace(/[^a-zA-Z0-9]/g, '') : `link-${index}`
+                  const sourceHash = item.source ? item.source.substring(0, 10).replace(/[^a-zA-Z0-9]/g, '') : `src-${index}`
+                  const titleHash = item.title ? item.title.substring(0, 20).replace(/[^a-zA-Z0-9]/g, '') : `title-${index}`
+                  const pubDateHash = item.pub_date ? new Date(item.pub_date).getTime() : Date.now()
+                  const uniqueKey = `feed-${safeId}-${linkHash}-${sourceHash}-${titleHash}-${pubDateHash}-p${currentPage}-i${index}`
                   return (
                     <EnhancedFeedCard
                       key={uniqueKey}
