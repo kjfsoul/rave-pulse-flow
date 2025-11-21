@@ -273,7 +273,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       // CRITICAL: Use current origin to ensure redirect goes to localhost in dev
       // If Supabase dashboard has a hardcoded redirect URL, that will override this
-      // You must add localhost URLs to Supabase Dashboard > Authentication > URL Configuration
+      // You must add localhost URLs (including port 8084, 8081, 5173, etc.) to Supabase Dashboard > Authentication > URL Configuration
       const redirectUrl = window.location.href; // Use full current URL including path and search
 
       // Log for debugging
@@ -283,7 +283,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.log('[Auth] Full URL:', window.location.href)
       console.log('[Auth] Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
       console.log('[Auth] Is development:', import.meta.env.DEV)
-      console.warn('[Auth] NOTE: If redirect goes to production, check Supabase Dashboard > Authentication > URL Configuration and add:', window.location.origin)
+      
+      // Warn if redirect might go wrong
+      if (window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')) {
+        console.warn('[Auth] NOTE: If redirect goes to production (edmshuffle.com), you must add these URLs to Supabase Dashboard > Authentication > URL Configuration:')
+        console.warn('[Auth]   -', window.location.origin)
+        console.warn('[Auth]   -', window.location.origin + '/')
+        console.warn('[Auth]   -', window.location.origin + '/#')
+      }
 
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
