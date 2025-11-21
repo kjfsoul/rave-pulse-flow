@@ -964,7 +964,7 @@ const EnhancedRSSFeed: React.FC = () => {
               >
                 {currentItems.map((item, index) => (
                   <EnhancedFeedCard
-                    key={`${item.source}-${item.id}-${currentPage}-${index}`}
+                    key={`${item.source}-${item.id}-${item.link || ''}-${currentPage}-${index}-${item.pub_date || ''}`}
                     item={item}
                     index={index}
                     isHovered={false}

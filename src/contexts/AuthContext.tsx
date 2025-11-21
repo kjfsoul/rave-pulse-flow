@@ -150,25 +150,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       })
 
       if (error) {
-        // Log the raw error for debugging
-        console.error('[AuthContext] Raw Supabase error:', {
-          message: error.message,
-          status: error.status,
-          name: error.name
-        })
+        // Log the full error object for debugging
+        console.error('[AuthContext] Raw Supabase error:', error)
+        console.error('[AuthContext] Error message:', error.message)
+        console.error('[AuthContext] Error status:', error.status)
+        console.error('[AuthContext] Error name:', error.name)
+        if ((error as any).code) console.error('[AuthContext] Error code:', (error as any).code)
         
+        // Try to log the full error structure
+        try {
+          console.error('[AuthContext] Full error JSON:', JSON.stringify(error, null, 2))
+        } catch (e) {
+          console.error('[AuthContext] Error object keys:', Object.keys(error))
+          console.error('[AuthContext] Error object:', error)
+        }
+
         // Convert Supabase errors to user-friendly messages
         let userMessage = error.message
         const errorLower = error.message.toLowerCase()
+        const errorMsg = error.message
 
-        // Only show password length error if it's specifically about length
-        if (errorLower.includes('password') && (
-          errorLower.includes('at least') || 
-          errorLower.includes('minimum') || 
-          errorLower.includes('too short') || 
-          errorLower.includes('6 characters') ||
-          errorLower.includes('length')
-        )) {
+        // Only show password length error if it's EXACTLY about length
+        // Supabase typically returns: "Password should be at least 6 characters"
+        const isPasswordLengthError = (
+          (errorMsg === 'Password should be at least 6 characters') ||
+          (errorLower.includes('password') && (
+            (errorLower.includes('at least') && errorLower.includes('6')) || 
+            (errorLower.includes('minimum') && errorLower.includes('6')) || 
+            (errorLower.includes('too short')) ||
+            (errorLower.includes('6 characters'))
+          ))
+        )
+        
+        if (isPasswordLengthError) {
           userMessage = 'Password must be at least 6 characters long'
         } else if (errorLower.includes('email') && (errorLower.includes('invalid') || errorLower.includes('format'))) {
           userMessage = 'Please enter a valid email address'
