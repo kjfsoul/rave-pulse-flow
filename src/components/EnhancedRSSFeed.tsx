@@ -962,16 +962,20 @@ const EnhancedRSSFeed: React.FC = () => {
                 dragElastic={0.2}
                 onDragEnd={handleDragEnd}
               >
-                {currentItems.map((item, index) => (
-                  <EnhancedFeedCard
-                    key={`${item.source}-${item.id}-${item.link || ''}-${currentPage}-${index}-${item.pub_date || ''}`}
-                    item={item}
-                    index={index}
-                    isHovered={false}
-                    onHoverStart={() => {}}
-                    onHoverEnd={() => {}}
-                  />
-                ))}
+                {currentItems.map((item, index) => {
+                  // Create a unique key using multiple identifiers to prevent duplicates
+                  const uniqueKey = `${item.source}-${item.id}-${item.link || ''}-${currentPage}-${index}-${item.pub_date || Date.now()}-${item.title?.substring(0, 10) || ''}`
+                  return (
+                    <EnhancedFeedCard
+                      key={uniqueKey}
+                      item={item}
+                      index={index}
+                      isHovered={false}
+                      onHoverStart={() => {}}
+                      onHoverEnd={() => {}}
+                    />
+                  )
+                })}
               </motion.div>
             </div>
 
