@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 const LaserRaveBackground = () => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [hasTriggered, setHasTriggered] = useState(false);
   const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const lasers = Array.from({ length: 8 }).map((_, index) => ({
@@ -22,17 +23,20 @@ const LaserRaveBackground = () => {
     delay: Math.random() * 4,
   }));
 
-  // Start animation on user interaction (scroll or click)
+  // Start animation only on first user interaction (scroll or click)
   useEffect(() => {
     const handleUserInteraction = () => {
-      // Clear existing timeout if any
-      if (animationTimeoutRef.current) {
-        clearTimeout(animationTimeoutRef.current);
+      // Only trigger on first interaction
+      if (hasTriggered) {
+        return;
       }
+
+      // Mark as triggered
+      setHasTriggered(true);
 
       // Start animation
       setIsAnimating(true);
-
+      
       // Stop animation after 5 seconds
       animationTimeoutRef.current = setTimeout(() => {
         setIsAnimating(false);
@@ -40,10 +44,10 @@ const LaserRaveBackground = () => {
       }, 5000);
     };
 
-    // Listen for user interactions
-    window.addEventListener('scroll', handleUserInteraction, { passive: true });
-    window.addEventListener('click', handleUserInteraction);
-    window.addEventListener('touchstart', handleUserInteraction, { passive: true });
+    // Listen for user interactions (only once)
+    window.addEventListener('scroll', handleUserInteraction, { passive: true, once: true });
+    window.addEventListener('click', handleUserInteraction, { once: true });
+    window.addEventListener('touchstart', handleUserInteraction, { passive: true, once: true });
 
     // Cleanup
     return () => {
@@ -54,7 +58,7 @@ const LaserRaveBackground = () => {
         clearTimeout(animationTimeoutRef.current);
       }
     };
-  }, []);
+  }, [hasTriggered]);
 
   return (
     <div className="absolute inset-0 overflow-hidden">
