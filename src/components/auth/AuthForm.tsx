@@ -39,35 +39,39 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
     // Trim whitespace from inputs
     const email = formData.email?.trim() || ''
     const password = formData.password?.trim() || ''
-    
+
+    // Reset error state before validation
+    setError(null)
+
     if (!email || !password) {
       setError('Please fill in all required fields')
       return false
     }
-    
-    // Check password length (after trimming)
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long')
+
+    // Check password length (after trimming) - must be exactly 6 or more
+    const passwordLength = password.length
+    if (passwordLength < 6) {
+      setError(`Password must be at least 6 characters long (current: ${passwordLength})`)
       return false
     }
-    
+
     // Basic email validation
     if (!email.includes('@') || !email.includes('.')) {
       setError('Please enter a valid email address')
       return false
     }
-    
+
     return true
   }
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!validateForm()) return
-    
+
     // Trim inputs before sending
     const email = formData.email.trim()
     const password = formData.password.trim()
-    
+
     try {
       await signIn(email, password)
       setSuccess('Successfully signed in! Redirecting...')
@@ -87,13 +91,31 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!validateForm()) return
     
+    // Clear any previous errors first
+    setError(null)
+    
+    // Validate form before submission
+    if (!validateForm()) {
+      console.log('[AuthForm] Validation failed:', {
+        email: formData.email?.trim() || '',
+        passwordLength: formData.password?.trim()?.length || 0,
+        password: formData.password ? '***' : ''
+      })
+      return
+    }
+
     // Trim inputs before sending
     const email = formData.email.trim()
     const password = formData.password.trim()
     const username = formData.username?.trim() || undefined
-    
+
+    console.log('[AuthForm] Submitting signup:', {
+      email,
+      passwordLength: password.length,
+      username: username || 'none'
+    })
+
     try {
       await signUp(email, password, username)
       setSuccess('Account created successfully! Welcome to EDM Shuffle!')
@@ -105,8 +127,10 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
         navigate('/')
       }
     } catch (error: unknown) {
-      console.error('Sign up error:', error)
-      setError(error instanceof Error ? error.message : 'Failed to sign up')
+      console.error('[AuthForm] Sign up error:', error)
+      const errorMessage = error instanceof Error ? error.message : 'Failed to sign up'
+      console.error('[AuthForm] Error message:', errorMessage)
+      setError(errorMessage)
       setSuccess(null)
     }
   }
@@ -156,7 +180,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
               Sign Up
             </TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="signin" className="space-y-4">
             <form onSubmit={handleSignIn} className="space-y-4">
               <div className="space-y-2">
@@ -177,7 +201,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-gray-200">
                   Password
@@ -193,22 +217,26 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                     onChange={handleInputChange}
                     className="pl-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400"
                     placeholder="Enter your password"
+                    onInvalid={(e) => {
+                      e.preventDefault()
+                      // Let our custom validation handle this
+                    }}
                   />
                 </div>
               </div>
-              
+
               {error && (
                 <Alert className="bg-red-900/50 border-red-500 text-red-200">
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              
+
               {success && (
                 <Alert className="bg-green-900/50 border-green-500 text-green-200">
                   <AlertDescription>{success}</AlertDescription>
                 </Alert>
               )}
-              
+
               <Button
                 type="submit"
                 disabled={loading}
@@ -224,7 +252,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                 )}
               </Button>
             </form>
-            
+
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t border-gray-600" />
@@ -233,7 +261,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                 <span className="bg-black px-2 text-gray-400">Or continue with</span>
               </div>
             </div>
-            
+
             <Button
               onClick={handleGoogleSignIn}
               disabled={loading}
@@ -261,7 +289,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
               Continue with Google
             </Button>
           </TabsContent>
-          
+
           <TabsContent value="signup" className="space-y-4">
             <form onSubmit={handleSignUp} className="space-y-4">
               <div className="space-y-2">
@@ -281,7 +309,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="signup-email" className="text-gray-200">
                   Email
@@ -300,7 +328,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="signup-password" className="text-gray-200">
                   Password
@@ -312,26 +340,27 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                     name="password"
                     type="password"
                     required
+                    minLength={6}
                     value={formData.password}
                     onChange={handleInputChange}
                     className="pl-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400"
-                    placeholder="Choose a password"
+                    placeholder="Choose a password (min. 6 characters)"
                   />
                 </div>
               </div>
-              
+
               {error && (
                 <Alert className="bg-red-900/50 border-red-500 text-red-200">
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              
+
               {success && (
                 <Alert className="bg-green-900/50 border-green-500 text-green-200">
                   <AlertDescription>{success}</AlertDescription>
                 </Alert>
               )}
-              
+
               <Button
                 type="submit"
                 disabled={loading}
@@ -347,7 +376,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                 )}
               </Button>
             </form>
-            
+
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t border-gray-600" />
@@ -356,7 +385,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
                 <span className="bg-black px-2 text-gray-400">Or continue with</span>
               </div>
             </div>
-            
+
             <Button
               onClick={handleGoogleSignIn}
               disabled={loading}
