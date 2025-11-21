@@ -36,9 +36,13 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
   }
 
   const validateForm = () => {
-    // Trim whitespace from inputs
-    const email = formData.email?.trim() || ''
-    const password = formData.password?.trim() || ''
+    // Get raw values (don't trim yet - we'll trim when sending)
+    const rawEmail = formData.email || ''
+    const rawPassword = formData.password || ''
+    
+    // Trim for validation checks
+    const email = rawEmail.trim()
+    const password = rawPassword.trim()
 
     // Reset error state before validation
     setError(null)
@@ -48,10 +52,18 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
       return false
     }
 
-    // Check password length (after trimming) - must be exactly 6 or more
+    // Check password length (after trimming) - must be 6 or more
     const passwordLength = password.length
+    console.log('[AuthForm] Password validation:', {
+      rawLength: rawPassword.length,
+      trimmedLength: passwordLength,
+      password: rawPassword ? `${rawPassword.substring(0, 3)}***` : 'empty'
+    })
+    
     if (passwordLength < 6) {
-      setError(`Password must be at least 6 characters long (current: ${passwordLength})`)
+      const errorMsg = `Password must be at least 6 characters long (current: ${passwordLength})`
+      console.error('[AuthForm] Password too short:', errorMsg)
+      setError(errorMsg)
       return false
     }
 
@@ -61,6 +73,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
       return false
     }
 
+    console.log('[AuthForm] Validation passed')
     return true
   }
 
