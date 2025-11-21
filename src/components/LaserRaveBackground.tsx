@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 const LaserRaveBackground = () => {
   const [isAnimating, setIsAnimating] = useState(false);
-  const [hasTriggered, setHasTriggered] = useState(false);
+  const hasTriggeredRef = useRef(false);
   const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const lasers = Array.from({ length: 8 }).map((_, index) => ({
@@ -27,16 +27,16 @@ const LaserRaveBackground = () => {
   useEffect(() => {
     const handleUserInteraction = () => {
       // Only trigger on first interaction
-      if (hasTriggered) {
+      if (hasTriggeredRef.current) {
         return;
       }
 
-      // Mark as triggered
-      setHasTriggered(true);
+      // Mark as triggered immediately
+      hasTriggeredRef.current = true;
 
       // Start animation
       setIsAnimating(true);
-      
+
       // Stop animation after 5 seconds
       animationTimeoutRef.current = setTimeout(() => {
         setIsAnimating(false);
@@ -58,7 +58,7 @@ const LaserRaveBackground = () => {
         clearTimeout(animationTimeoutRef.current);
       }
     };
-  }, [hasTriggered]);
+  }, []); // Empty dependency array - only run once on mount
 
   return (
     <div className="absolute inset-0 overflow-hidden">

@@ -271,9 +271,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signInWithGoogle = async () => {
     setLoading(true)
     try {
-      // Ensure redirect uses current origin (localhost in dev, production in prod)
-      // Use window.location.origin + window.location.pathname to preserve current path
-      const redirectUrl = `${window.location.origin}${window.location.pathname}${window.location.search}`
+      // CRITICAL: Use current origin to ensure redirect goes to localhost in dev
+      // If Supabase dashboard has a hardcoded redirect URL, that will override this
+      // You must add localhost URLs to Supabase Dashboard > Authentication > URL Configuration
+      const redirectUrl = window.location.href; // Use full current URL including path and search
 
       // Log for debugging
       console.log('[Auth] Google OAuth redirect URL:', redirectUrl)
@@ -281,6 +282,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.log('[Auth] Current pathname:', window.location.pathname)
       console.log('[Auth] Full URL:', window.location.href)
       console.log('[Auth] Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
+      console.log('[Auth] Is development:', import.meta.env.DEV)
+      console.warn('[Auth] NOTE: If redirect goes to production, check Supabase Dashboard > Authentication > URL Configuration and add:', window.location.origin)
 
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
