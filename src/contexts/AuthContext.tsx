@@ -150,12 +150,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       })
 
       if (error) {
+        // Log the raw error for debugging
+        console.error('[AuthContext] Raw Supabase error:', {
+          message: error.message,
+          status: error.status,
+          name: error.name
+        })
+        
         // Convert Supabase errors to user-friendly messages
         let userMessage = error.message
         const errorLower = error.message.toLowerCase()
 
-        // Check for specific password length errors only
-        if (errorLower.includes('password') && (errorLower.includes('at least') || errorLower.includes('minimum') || errorLower.includes('too short') || errorLower.includes('6'))) {
+        // Only show password length error if it's specifically about length
+        if (errorLower.includes('password') && (
+          errorLower.includes('at least') || 
+          errorLower.includes('minimum') || 
+          errorLower.includes('too short') || 
+          errorLower.includes('6 characters') ||
+          errorLower.includes('length')
+        )) {
           userMessage = 'Password must be at least 6 characters long'
         } else if (errorLower.includes('email') && (errorLower.includes('invalid') || errorLower.includes('format'))) {
           userMessage = 'Please enter a valid email address'
@@ -168,7 +181,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } else if (errorLower.includes('network') || errorLower.includes('connection')) {
           userMessage = 'Connection error. Please check your internet connection and try again'
         }
+        // If none of the above, use the original error message
 
+        console.log('[AuthContext] Translated error:', userMessage)
         const friendlyError = new Error(userMessage)
         friendlyError.name = 'AuthError'
         throw friendlyError
