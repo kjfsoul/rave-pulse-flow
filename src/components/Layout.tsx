@@ -110,7 +110,7 @@ const Layout: React.FC<LayoutProps> = ({
                     <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
                       <DialogContent className="sm:max-w-md">
                         <DialogHeader>
-                          <DialogTitle>Sign In to EDM Shuffle</DialogTitle>
+                          <DialogTitle>Sign In / Sign Up to EDM Shuffle</DialogTitle>
                           <DialogDescription>
                             Access your profile, tracks, and more
                           </DialogDescription>
