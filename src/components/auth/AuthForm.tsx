@@ -36,17 +36,23 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
   }
 
   const validateForm = () => {
-    if (!formData.email || !formData.password) {
+    // Trim whitespace from inputs
+    const email = formData.email?.trim() || ''
+    const password = formData.password?.trim() || ''
+    
+    if (!email || !password) {
       setError('Please fill in all required fields')
       return false
     }
     
-    if (formData.password.length < 6) {
+    // Check password length (after trimming)
+    if (password.length < 6) {
       setError('Password must be at least 6 characters long')
       return false
     }
     
-    if (!formData.email.includes('@')) {
+    // Basic email validation
+    if (!email.includes('@') || !email.includes('.')) {
       setError('Please enter a valid email address')
       return false
     }
@@ -58,8 +64,12 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
     e.preventDefault()
     if (!validateForm()) return
     
+    // Trim inputs before sending
+    const email = formData.email.trim()
+    const password = formData.password.trim()
+    
     try {
-      await signIn(formData.email, formData.password)
+      await signIn(email, password)
       setSuccess('Successfully signed in! Redirecting...')
       setError(null)
       // Immediate navigation after successful sign in
@@ -79,8 +89,13 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
     e.preventDefault()
     if (!validateForm()) return
     
+    // Trim inputs before sending
+    const email = formData.email.trim()
+    const password = formData.password.trim()
+    const username = formData.username?.trim() || undefined
+    
     try {
-      await signUp(formData.email, formData.password, formData.username)
+      await signUp(email, password, username)
       setSuccess('Account created successfully! Welcome to EDM Shuffle!')
       setError(null)
       // Navigate immediately after successful signup

@@ -152,15 +152,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (error) {
         // Convert Supabase errors to user-friendly messages
         let userMessage = error.message
+        const errorLower = error.message.toLowerCase()
 
-        if (error.message.includes('email')) {
-          userMessage = 'Please enter a valid email address'
-        } else if (error.message.includes('password') || error.message.includes('Password')) {
+        // Check for specific password length errors only
+        if (errorLower.includes('password') && (errorLower.includes('at least') || errorLower.includes('minimum') || errorLower.includes('too short') || errorLower.includes('6'))) {
           userMessage = 'Password must be at least 6 characters long'
-        } else if (error.message.includes('rate limit') || error.message.includes('too many')) {
+        } else if (errorLower.includes('email') && (errorLower.includes('invalid') || errorLower.includes('format'))) {
+          userMessage = 'Please enter a valid email address'
+        } else if (errorLower.includes('rate limit') || errorLower.includes('too many')) {
           userMessage = 'Too many attempts. Please wait a few minutes before trying again'
-        } else if (error.message.includes('already registered') || error.message.includes('already exists')) {
+        } else if (errorLower.includes('already registered') || errorLower.includes('already exists') || errorLower.includes('user already')) {
           userMessage = 'An account with this email already exists. Try signing in instead'
+        } else if (errorLower.includes('email not confirmed') || errorLower.includes('not verified')) {
+          userMessage = 'Please check your email and click the confirmation link before signing in'
+        } else if (errorLower.includes('network') || errorLower.includes('connection')) {
+          userMessage = 'Connection error. Please check your internet connection and try again'
         }
 
         const friendlyError = new Error(userMessage)
@@ -283,7 +289,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.log('[Auth] Full URL:', window.location.href)
       console.log('[Auth] Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
       console.log('[Auth] Is development:', import.meta.env.DEV)
-      
+
       // Warn if redirect might go wrong
       if (window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')) {
         console.warn('[Auth] NOTE: If redirect goes to production (edmshuffle.com), you must add these URLs to Supabase Dashboard > Authentication > URL Configuration:')
